@@ -373,7 +373,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         )}
           {/* Hartbeeps-specific content */}
-          {item.featuredHartbeeps && (
+          {item.name && item.name.toLowerCase().includes("hartbeeps") && (
             <>
               {/* Trust + Perfect for + Credit */}
               <div style={{ fontSize: 13, fontWeight: 600, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>A favourite baby class for families across West London.</div>
