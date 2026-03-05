@@ -372,60 +372,65 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
           </div>
         )}
-          {/* Trust + Perfect for + Credit */}
-          <div style={{ fontSize: 13, fontWeight: 600, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>A favourite baby class for families across West London.</div>
-          <div style={{ marginBottom: 14 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Perfect for:</div>
-            <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8 }}>Newborn babies · Babies learning to sit or crawl · Toddlers who love music and movement</div>
-          </div>
-          <div style={{ marginBottom: 16 }}>
-            <a href={item.website || "https://www.hartbeeps.com"} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", padding: "12px 20px", borderRadius: 12, background: "#6B4EFF", color: "white", fontSize: 14, fontWeight: 700, textDecoration: "none", fontFamily: "inherit" }}>Visit provider website ↗</a>
-          </div>
-          <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 16 }}>Provider photos and videos supplied by Kimmy and Sophie from Hartbeeps West & SW London.</div>
+          {/* Hartbeeps-specific content */}
+          {item.featuredHartbeeps && (
+            <>
+              {/* Trust + Perfect for + Credit */}
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>A favourite baby class for families across West London.</div>
+              <div style={{ marginBottom: 14 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Perfect for:</div>
+                <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8 }}>Newborn babies · Babies learning to sit or crawl · Toddlers who love music and movement</div>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <a href={item.website || "https://www.hartbeeps.com"} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", padding: "12px 20px", borderRadius: 12, background: "#6B4EFF", color: "white", fontSize: 14, fontWeight: 700, textDecoration: "none", fontFamily: "inherit" }}>Visit provider website ↗</a>
+              </div>
+              <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 16 }}>Provider photos and videos supplied by Kimmy and Sophie from Hartbeeps West & SW London.</div>
 
-          {/* Photo gallery */}
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>Photos from class</div>
-            <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
-              {["/hartbeeps-hero.png", "/hartbeeps-bells.jpg", "/hartbeeps-happy.png"].map((src, i) => (
-                <img key={i} src={src} alt="Hartbeeps class" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
-              ))}
-            </div>
-          </div>
-
-          {/* Videos */}
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See the classes in action</div>
-            {[
-              { id: "Vk9_6vlvQkc", label: "Baby Bells — for young babies" },
-              { id: "F2JHBDsST40", label: "Baby Beeps — sitting to standing babies" },
-              { id: "uNYsjYMNNN4", label: "Happy House — toddler classes" },
-              { id: "waBu8jQMEOA", label: "Hartbeeps Birthday Parties" },
-            ].map(v => (
-              <div key={v.id} style={{ marginBottom: 12 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>{v.label}</div>
-                <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
-                  <iframe src={"https://www.youtube.com/embed/" + v.id} title={v.label} frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 12 }} />
+              {/* Photo gallery */}
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>Photos from class</div>
+                <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
+                  {["/hartbeeps-hero.png", "/hartbeeps-bells.jpg", "/hartbeeps-happy.png"].map((src, i) => (
+                    <img key={i} src={src} alt="Hartbeeps class" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Weekly timetable */}
-          {(() => {
-            const [ttOpen, setTtOpen] = React.useState(false);
-            return (
-            <div style={{ marginBottom: 20 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
-              <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
-              <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
-                <img src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
-                {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
+              {/* Videos */}
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See the classes in action</div>
+                {[
+                  { id: "Vk9_6vlvQkc", label: "Baby Bells — for young babies" },
+                  { id: "F2JHBDsST40", label: "Baby Beeps — sitting to standing babies" },
+                  { id: "uNYsjYMNNN4", label: "Happy House — toddler classes" },
+                  { id: "waBu8jQMEOA", label: "Hartbeeps Birthday Parties" },
+                ].map(v => (
+                  <div key={v.id} style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>{v.label}</div>
+                    <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
+                      <iframe src={"https://www.youtube.com/embed/" + v.id} title={v.label} frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 12 }} />
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
-            </div>
-            );
-          })()}
+
+              {/* Weekly timetable */}
+              {(() => {
+                const [ttOpen, setTtOpen] = React.useState(false);
+                return (
+                  <div style={{ marginBottom: 20 }}>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
+                    <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
+                    <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
+                      <img src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
+                      {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
+                    </div>
+                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                  </div>
+                );
+              })()}
+            </>
+          )}
 
         {/* Featured provider schedule + CTAs */}
         {item.featuredProvider && (
