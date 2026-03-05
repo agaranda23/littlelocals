@@ -190,9 +190,9 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         <div onClick={handleClick} style={{ width: 64, height: 64, borderRadius: 14, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0, position: "relative", overflow: "hidden" }}>
           <SceneBg type={item.type} w={64} h={64} />
           <span style={{ position: "relative", zIndex: 2, fontSize: 22, fontWeight: 800, color: tc.color || "#333" }}>{(item.type || "A").charAt(0)}</span>
-          {(item.images && item.images.length > 0 ? item.images[0] : item.imageUrl) && (
+          {(item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)) && (
           <img
-            src={item.images && item.images.length > 0 ? item.images[0] : item.imageUrl}
+            src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)}
             alt=""
             style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", zIndex: 4, borderRadius: "50%" }}
             onError={(e) => { e.target.style.display = "none"; }}
@@ -372,22 +372,6 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
           </div>
         )}
-
-        {/* Generic photo gallery from listing_images */}
-        {item.images && item.images.length > 0 && (
-          <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>📸 Photos</div>
-            <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
-              {item.images.map((src, i) => (
-                <img key={i} src={src} alt="" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} onError={(e) => { e.target.style.display = "none"; }} />
-              ))}
-            </div>
-            <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
-          </div>
-        )}
-
-        {/* Hartbeeps premium content — gallery, videos, timetable */}
-        {item.name && item.name.toLowerCase().includes("hartbeeps") && (<>
           {/* Trust + Perfect for + Credit */}
           <div style={{ fontSize: 13, fontWeight: 600, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>A favourite baby class for families across West London.</div>
           <div style={{ marginBottom: 14 }}>
@@ -442,7 +426,6 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </div>
             );
           })()}
-        </>)}
 
         {/* Featured provider schedule + CTAs */}
         {item.featuredProvider && (
