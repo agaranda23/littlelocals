@@ -617,7 +617,23 @@ function getSearchScore(item, query) {
     } else if (sortBy === "outdoor") {
       results.sort((a, b) => (a.indoor ? 1 : 0) - (b.indoor ? 1 : 0));
     } else {
-      // "mixed" — ensure variety of types on each page
+      // Priority score — quality listings surface first
+      const BOOSTED = ["sing and sign", "hartbeeps", "little gym", "tumble tots"];
+      const FAVOURITES = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
+      const score = (l) => {
+        let s = 0;
+        if ((l.images && l.images.length > 0) || l.logo) s += 3;
+        if (l.description && l.description.length > 30) s += 2;
+        if (l.time && l.time.length > 3) s += 1;
+        if (l.website || l.trialLink) s += 1;
+        const n = (l.name || "").toLowerCase();
+        if (FAVOURITES.some(f => n.includes(f))) s += 1;
+        if (BOOSTED.some(p => n.includes(p))) s += 1;
+        return s;
+      };
+      results.sort((a, b) => score(b) - score(a));
+
+      // Mix by type so first page has variety
       const types = [...new Set(results.map(r => r.type))];
       const buckets = {};
       types.forEach(t => { buckets[t] = results.filter(r => r.type === t); });
@@ -630,12 +646,33 @@ function getSearchScore(item, query) {
       }
       results = mixed;
     }
-    // Prioritise Sing and Sign Ealing towards the top (but not pinned first)
+
+    // Deduplicate providers on first page — only show one listing per provider
+    if (!search) {
+      const PAGE_SIZE = 10;
+      const seenProviders = new Set();
+      const firstPage = [];
+      const rest = [];
+      for (const r of results) {
+        // Use first 2 words as provider key to catch "Baby Sensory Ealing" vs "Baby Sensory Hanwell"
+        const key = (r.name || "").toLowerCase().trim().split(/\s+/).slice(0, 2).join(" ");
+        const isDupe = [...seenProviders].some(seen => seen === key || seen.startsWith(key) || key.startsWith(seen));
+        if (firstPage.length < PAGE_SIZE && !isDupe) {
+          seenProviders.add(key);
+          firstPage.push(r);
+        } else {
+          rest.push(r);
+        }
+      }
+      results = [...firstPage, ...rest];
+    }
+
+    // Place Sing and Sign in positions 3–5
     if (!search) {
       const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
-      if (singIdx > 2) {
+      if (singIdx > 4) {
         const [singItem] = results.splice(singIdx, 1);
-        results.splice(2, 0, singItem);
+        results.splice(3, 0, singItem);
       }
     }
     return results;
