@@ -73,6 +73,7 @@ function WestLondonListings() {
   const [ageFilter, setAgeFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [showAllToday, setShowAllToday] = useState(false);
+  const [tips, setTips] = useState({}); // { [activityId]: [tip, ...] }
   const [mapView, setMapView] = useState(false);
   const [sortBy, setSortBy] = useState("mixed");
   const ITEMS_PER_PAGE = 6;
@@ -192,6 +193,15 @@ function WestLondonListings() {
         // Load suggestions
         const { data: sd } = await supabase.from("suggestions").select("*").order("created_at", { ascending: false });
         if (sd) setSuggestedActivities(sd.map(s => ({ ...s, submitterName: s.submitter_name, submittedAt: new Date(s.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })));
+        const { data: tipsData } = await supabase.from("parent_tips").select("*").order("created_at", { ascending: true });
+        if (tipsData) {
+          const tipsMap = {};
+          tipsData.forEach(t => {
+            if (!tipsMap[t.activity_id]) tipsMap[t.activity_id] = [];
+            tipsMap[t.activity_id].push(t);
+          });
+          setTips(tipsMap);
+        }
       } catch(e) {
         console.log("Supabase unavailable, trying local cache");
         try {
@@ -359,6 +369,20 @@ function WestLondonListings() {
     try {
       const { data } = await supabase.from("reviews").insert({ listing_id: review.listingId, reviewer_name: review.name, rating: review.rating, review_text: review.text, photos: review.images || review.photos || [] }).select().single();
       if (data) setReviews(prev => prev.map(r => r.id === temp.id ? { id: data.id, listingId: data.listing_id, name: data.reviewer_name, rating: data.rating, text: data.review_text, photos: data.photos || [], date: new Date(data.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) } : r));
+    } catch(e) {}
+  };
+
+  const addTip = async (activityId, tipText) => {
+    const trimmed = tipText.trim().slice(0, 120);
+    if (!trimmed) return;
+    const temp = { id: "tmp-" + Date.now(), activity_id: activityId, tip_text: trimmed, created_at: new Date().toISOString() };
+    setTips(prev => ({ ...prev, [activityId]: [...(prev[activityId] || []), temp] }));
+    try {
+      const { data } = await supabase.from("parent_tips").insert({ activity_id: activityId, tip_text: trimmed }).select().single();
+      if (data) setTips(prev => ({
+        ...prev,
+        [activityId]: (prev[activityId] || []).map(t => t.id === temp.id ? data : t)
+      }));
     } catch(e) {}
   };
 
@@ -617,23 +641,7 @@ function getSearchScore(item, query) {
     } else if (sortBy === "outdoor") {
       results.sort((a, b) => (a.indoor ? 1 : 0) - (b.indoor ? 1 : 0));
     } else {
-      // Priority score — quality listings surface first
-      const BOOSTED = ["sing and sign", "hartbeeps", "little gym", "tumble tots"];
-      const FAVOURITES = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
-      const score = (l) => {
-        let s = 0;
-        if ((l.images && l.images.length > 0) || l.logo) s += 3;
-        if (l.description && l.description.length > 30) s += 2;
-        if (l.time && l.time.length > 3) s += 1;
-        if (l.website || l.trialLink) s += 1;
-        const n = (l.name || "").toLowerCase();
-        if (FAVOURITES.some(f => n.includes(f))) s += 1;
-        if (BOOSTED.some(p => n.includes(p))) s += 1;
-        return s;
-      };
-      results.sort((a, b) => score(b) - score(a));
-
-      // Mix by type so first page has variety
+      // "mixed" — ensure variety of types on each page
       const types = [...new Set(results.map(r => r.type))];
       const buckets = {};
       types.forEach(t => { buckets[t] = results.filter(r => r.type === t); });
@@ -646,33 +654,12 @@ function getSearchScore(item, query) {
       }
       results = mixed;
     }
-
-    // Deduplicate providers on first page — only show one listing per provider
-    if (!search) {
-      const PAGE_SIZE = 10;
-      const seenProviders = new Set();
-      const firstPage = [];
-      const rest = [];
-      for (const r of results) {
-        // Use first 2 words as provider key to catch "Baby Sensory Ealing" vs "Baby Sensory Hanwell"
-        const key = (r.name || "").toLowerCase().trim().split(/\s+/).slice(0, 2).join(" ");
-        const isDupe = [...seenProviders].some(seen => seen === key || seen.startsWith(key) || key.startsWith(seen));
-        if (firstPage.length < PAGE_SIZE && !isDupe) {
-          seenProviders.add(key);
-          firstPage.push(r);
-        } else {
-          rest.push(r);
-        }
-      }
-      results = [...firstPage, ...rest];
-    }
-
-    // Place Sing and Sign in positions 3–5
+    // Prioritise Sing and Sign Ealing towards the top (but not pinned first)
     if (!search) {
       const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
-      if (singIdx > 4) {
+      if (singIdx > 2) {
         const [singItem] = results.splice(singIdx, 1);
-        results.splice(3, 0, singItem);
+        results.splice(2, 0, singItem);
       }
     }
     return results;
@@ -903,7 +890,7 @@ function getSearchScore(item, query) {
   if (selected) {
     return (
       <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden" }}>
-        <DetailView item={selected} onBack={closeDetail} userLoc={userLoc} reviews={reviews} onAddReview={addReview} isFav={favourites.includes(selected.id)} onToggleFav={toggleFavourite} onAddToCalendar={addToCalendar} onRemoveFromCalendar={removeFromCalendar} calendarPlan={calendarPlan} isVisited={passport.includes(selected.id)} onToggleVisited={togglePassport} />
+        <DetailView item={selected} onBack={closeDetail} userLoc={userLoc} reviews={reviews} onAddReview={addReview} isFav={favourites.includes(selected.id)} onToggleFav={toggleFavourite} onAddToCalendar={addToCalendar} onRemoveFromCalendar={removeFromCalendar} calendarPlan={calendarPlan} isVisited={passport.includes(selected.id)} onToggleVisited={togglePassport} tips={tips[selected.id] || []} onAddTip={addTip} />
       </div>
     );
   }
