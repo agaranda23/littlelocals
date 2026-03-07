@@ -313,8 +313,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
       <div style={{ height: 190, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd, white)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 64, position: "relative", overflow: "hidden" }}>
         <SceneBg type={item.type} w={500} h={190} />
         <span style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))", fontSize: 36, fontWeight: 800, color: "white" }}>{(item.type || "A").charAt(0)}</span>
-        {(item.images && item.images.length > 0 ? item.images[0] : item.imageUrl) && (
-        <img src={item.images && item.images.length > 0 ? item.images[0] : item.imageUrl} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
+        {(item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)) && (
+        <img src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
         )}
         <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
         <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
@@ -431,6 +431,26 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               })()}
             </>
           )}
+
+        {/* Sing and Sign timetable */}
+        {item.name && item.name.toLowerCase().includes("sing and sign") && (
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Winter to Spring 2026 Timetable</div>
+            <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 8 }}>5 January – 27 March 2026 (half term break 9–20 Feb)</div>
+            {(() => {
+              const [ttOpen, setTtOpen] = React.useState(false);
+              return (
+                <div>
+                  <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
+                    <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/winter%20to%20spring%202026-2.png" alt="Sing and Sign Timetable" style={{ width: "100%", display: "block" }} />
+                    {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
+                  </div>
+                  <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                </div>
+              );
+            })()}
+          </div>
+        )}
 
         {/* Featured provider schedule + CTAs */}
         {item.featuredProvider && (
