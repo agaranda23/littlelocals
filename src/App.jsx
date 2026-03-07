@@ -167,7 +167,7 @@ function WestLondonListings() {
             bring: l.bring || [], sen: l.sen,
             cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
             photos: l.photos, verified: l.verified, parking: l.parking,
-            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by, dbImages: l.images,
+            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
           };}));
 
         // Fetch listing_images and attach to listings
@@ -178,7 +178,7 @@ function WestLondonListings() {
             if (!imgMap[img.listing_id]) imgMap[img.listing_id] = [];
             imgMap[img.listing_id].push(img.url);
           });
-          setListings(prev => prev.map(l => ({ ...l, images: (imgMap[l.id] && imgMap[l.id].length > 0) ? imgMap[l.id] : (l.dbImages || []) })));
+          setListings(prev => prev.map(l => ({ ...l, images: imgMap[l.id] || [] })));
         }
           try { localStorage.setItem("ll_listings_cache", JSON.stringify(ld)); } catch(e) {}
         }
@@ -207,7 +207,7 @@ function WestLondonListings() {
               bring: l.bring || [], sen: l.sen,
               cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
               photos: l.photos, verified: l.verified, parking: l.parking,
-              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by, dbImages: l.images,
+              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
             };}));
           }
         } catch(e2) {}
@@ -279,7 +279,7 @@ function WestLondonListings() {
           bring: l.bring || [], sen: l.sen,
           cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
           photos: l.photos, verified: l.verified, parking: l.parking,
-          timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by, dbImages: l.images,
+          timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
         };}));
       }
       // Refresh listing_images
@@ -290,7 +290,7 @@ function WestLondonListings() {
           if (!imgMap2[img.listing_id]) imgMap2[img.listing_id] = [];
           imgMap2[img.listing_id].push(img.url);
         });
-        setListings(prev => prev.map(l => ({ ...l, images: (imgMap2[l.id] && imgMap2[l.id].length > 0) ? imgMap2[l.id] : (l.dbImages || []) })));
+        setListings(prev => prev.map(l => ({ ...l, images: imgMap2[l.id] || [] })));
       }
             const { data: rd } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
       if (rd) setReviews(rd.map(r => ({ id: r.id, listingId: r.listing_id, name: r.reviewer_name, rating: r.rating, text: r.review_text, photos: r.photos || [], date: new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })));
@@ -628,6 +628,14 @@ function getSearchScore(item, query) {
         }
       }
       results = mixed;
+    }
+    // Prioritise Sing and Sign Ealing towards the top (but not pinned first)
+    if (!search) {
+      const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
+      if (singIdx > 2) {
+        const [singItem] = results.splice(singIdx, 1);
+        results.splice(2, 0, singItem);
+      }
     }
     return results;
   }, [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, search, userLoc, dayFilter, weatherMode, napFilter, sortBy]);
