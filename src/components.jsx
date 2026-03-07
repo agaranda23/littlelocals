@@ -484,7 +484,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </div>
             <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
               {item.trialLink && <a href={item.trialLink} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "12px 0", textAlign: "center", background: "#6B4EFF", color: "white", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", boxShadow: "0 2px 8px rgba(107,78,255,0.25)" }}>Book free trial</a>}
-              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6B4EFF", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6B4EFF" }}>Visit website ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
+              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6B4EFF", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6B4EFF" }}>Book class ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
             </div>
           </>
         )}
@@ -639,7 +639,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             Share with a parent
           </button>
           <button onClick={(e) => { e.stopPropagation(); const url = item.website || (item.cta && item.cta.url) || ""; openExternalWebsite(url); }} style={{ flex: 1.2, padding: 12, borderRadius: 12, border: "none", background: item.cta.type === "phone" ? "#42A5F5" : item.cta.type === "facebook" ? "#1877F2" : item.cta.type === "email" ? "#7B68EE" : "#F97316", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
-            {item.cta.type === "phone" ? "Phone:" : item.cta.type === "facebook" ? "Facebook:" : item.cta.type === "email" ? "Email:" : "Web:"} {item.cta.label}
+            {item.cta.type === "phone" ? "Phone:" : item.cta.type === "facebook" ? "Facebook:" : item.cta.type === "email" ? "Email:" : "Book class"} {item.cta.label}
           </button>
         </div>
 
