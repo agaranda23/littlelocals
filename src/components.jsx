@@ -313,8 +313,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
       <div style={{ height: 190, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd, white)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 64, position: "relative", overflow: "hidden" }}>
         <SceneBg type={item.type} w={500} h={190} />
         <span style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))", fontSize: 36, fontWeight: 800, color: "white" }}>{(item.type || "A").charAt(0)}</span>
-        {(item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)) && (
-        <img src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
+        {(item.logo || item.imageUrl) && (
+        <img src={item.logo || item.imageUrl} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
         )}
         <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
         <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
@@ -484,7 +484,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </div>
             <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
               {item.trialLink && <a href={item.trialLink} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "12px 0", textAlign: "center", background: "#6B4EFF", color: "white", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", boxShadow: "0 2px 8px rgba(107,78,255,0.25)" }}>Book free trial</a>}
-              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6B4EFF", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6B4EFF" }}>Book class ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
+              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6B4EFF", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6B4EFF" }}>Visit website ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
             </div>
           </>
         )}
@@ -639,7 +639,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             Share with a parent
           </button>
           <button onClick={(e) => { e.stopPropagation(); const url = item.website || (item.cta && item.cta.url) || ""; openExternalWebsite(url); }} style={{ flex: 1.2, padding: 12, borderRadius: 12, border: "none", background: item.cta.type === "phone" ? "#42A5F5" : item.cta.type === "facebook" ? "#1877F2" : item.cta.type === "email" ? "#7B68EE" : "#F97316", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
-            {item.cta.type === "phone" ? "Phone:" : item.cta.type === "facebook" ? "Facebook:" : item.cta.type === "email" ? "Email:" : "Book class"} {item.cta.label}
+            {item.cta.type === "phone" ? "Phone:" : item.cta.type === "facebook" ? "Facebook:" : item.cta.type === "email" ? "Email:" : "Web:"} {item.cta.label}
           </button>
         </div>
 
