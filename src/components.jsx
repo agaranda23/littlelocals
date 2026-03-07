@@ -184,85 +184,70 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const status = getStatus();
   
   const handleClick = () => { if (onTrackClick) onTrackClick(item.id); onSelect(item); };
+
+  // ONE standardised trust label — 3 variants only
+  const getTrustLabel = () => {
+    if (todaySignal) return todaySignal;
+    const clicks = clickCount || 0;
+    if (item.popular || clicks >= 8) return "⭐ Popular with parents";
+    if (clicks >= 3 || item.verified) return "🔥 Trending today";
+    const saveCount = clicks + (item.popular ? 4 : 1);
+    if (saveCount >= 4) return "❤️ Saved by parents";
+    return null;
+  };
+  const trustLabel = getTrustLabel();
+
   return (
-    <div style={{ background: "white", borderRadius: 16, padding: 18, marginBottom: 18, cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03)", border: "1px solid #E5E7EB", transition: "box-shadow 0.18s ease" }}>
+    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, padding: "16px 16px 14px", marginBottom: 12, cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,0.06)", border: "1px solid #EFEFEF" }}>
       <div style={{ display: "flex", gap: 14 }}>
-        <div onClick={handleClick} style={{ width: 64, height: 64, borderRadius: 14, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 28, flexShrink: 0, position: "relative", overflow: "hidden" }}>
-          <SceneBg type={item.type} w={64} h={64} />
-          <span style={{ position: "relative", zIndex: 2, fontSize: 22, fontWeight: 800, color: tc.color || "#333" }}>{(item.type || "A").charAt(0)}</span>
+        {/* Thumb */}
+        <div style={{ width: 60, height: 60, borderRadius: 14, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative", overflow: "hidden" }}>
+          <SceneBg type={item.type} w={60} h={60} />
+          <span style={{ position: "relative", zIndex: 2, fontSize: 20, fontWeight: 800, color: tc.color || "#333" }}>{(item.type || "A").charAt(0)}</span>
           {(item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)) && (
-          <img
-            src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)}
-            alt=""
-            style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", zIndex: 4, borderRadius: "50%" }}
-            onError={(e) => { e.target.style.display = "none"; }}
-          />
-        )}
-        {item.images && item.images.length > 1 && (
-          <div style={{ position: "absolute", bottom: 2, right: 2, background: "rgba(0,0,0,0.55)", color: "white", fontSize: 7, fontWeight: 700, padding: "1px 4px", borderRadius: 4, zIndex: 6 }}>
-            +{item.images.length - 1}
-          </div>
-        )}
-          {onToday && <div style={{ position: "absolute", top: 0, right: 0, width: 14, height: 14, background: "#166534", borderRadius: "0 12px 0 6px", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 5 }}><span style={{ fontSize: 7, color: "white" }}>✓</span></div>}
+            <img src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)} alt="" style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", zIndex: 4, borderRadius: "50%" }} onError={(e) => { e.target.style.display = "none"; }} />
+          )}
+          {onToday && <div style={{ position: "absolute", top: 0, right: 0, width: 13, height: 13, background: "#166534", borderRadius: "0 12px 0 6px", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 5 }}><span style={{ fontSize: 7, color: "white" }}>✓</span></div>}
         </div>
-        <div onClick={handleClick} style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#222222", lineHeight: 1.3 }}>{item.name}</span>
-            {isNew && <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: "#F97316", color: "white", flexShrink: 0, letterSpacing: 0.3 }}>NEW</span>}
+
+        {/* Content */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 4, marginBottom: 3 }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}</span>
+            <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 20, cursor: "pointer", color: isFav ? "#6B4EFF" : "#D1D5DB", flexShrink: 0, lineHeight: 1, paddingLeft: 6 }}>{isFav ? "♥" : "♡"}</span>
           </div>
-          <div style={{ fontSize: 13, color: "#4B5563", lineHeight: 1.4, marginBottom: 3 }}>{item.type} · {item.ages} · {item.day}</div>
-          <div style={{ fontSize: 13, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
-            {item.venue.split(",")[0]}, {item.location}
-            {areaFilter && areaFilter !== "All Areas" && !item.location.includes(areaFilter) && <span style={{ fontSize: 10, fontWeight: 600, color: "#6B4EFF", background: "#F3F0FF", padding: "1px 6px", borderRadius: 4, marginLeft: 4 }}>{item.location}</span>}
-            {walkMin !== null && walkMin < 60 && <span style={{ color: "#F97316", fontWeight: 600 }}>· {walkMin < 2 ? "Nearby" : "" + walkMin + " min walk"}</span>}
+          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: walkMin !== null && walkMin < 60 ? 3 : 4 }}>
+            {item.type}{item.ages ? " · " + item.ages : ""}{item.day ? " · " + item.day : ""}
           </div>
-          {status && <span style={{ display: "inline-block", fontSize: 11, fontWeight: 600, marginTop: 4, padding: "2px 8px", borderRadius: 6, color: status.includes("Open now") ? "#166534" : status.includes("Closes") ? "#92400E" : status.includes("Opens") || status.includes("Starts") ? "#92400E" : "#4B5563", background: status.includes("Open now") ? "#DCFCE7" : status.includes("Closes") ? "#FEF3C7" : status.includes("Opens") || status.includes("Starts") ? "#FEF3C7" : "transparent" }}>{status}</span>}
-          {item.freeTrial && <span style={{ display: "inline-block", fontSize: 11, fontWeight: 600, marginTop: 4, padding: "2px 8px", borderRadius: 6, color: "#166534", background: "#DCFCE7" }}>Free trial available</span>}
+          {walkMin !== null && walkMin < 60 && (
+            <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 4 }}>
+              📍 {walkMin < 2 ? "Nearby" : walkMin + " min walk"}
+            </div>
+          )}
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+            {status && <span style={{ fontSize: 11, fontWeight: 600, color: status.includes("Open now") ? "#166534" : status.includes("Closes") || status.includes("Opens") || status.includes("Starts") ? "#92400E" : "#4B5563", background: status.includes("Open now") ? "#DCFCE7" : status.includes("Closes") || status.includes("Opens") || status.includes("Starts") ? "#FEF3C7" : "transparent", padding: status.includes("Open now") || status.includes("Closes") || status.includes("Opens") || status.includes("Starts") ? "1px 6px" : 0, borderRadius: 5 }}>{status}</span>}
+            {item.freeTrial && <span style={{ fontSize: 11, fontWeight: 600, color: "#166534", background: "#ECFDF5", padding: "1px 6px", borderRadius: 5 }}>Free trial</span>}
+          </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 6, flexShrink: 0, paddingTop: 2 }}>
-          <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 22, cursor: "pointer", lineHeight: 1, transition: "transform 0.15s", transform: isFav ? "scale(1.1)" : "scale(1)", minHeight: 44, minWidth: 44, display: "flex", alignItems: "center", justifyContent: "center", color: isFav ? "#6B4EFF" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</span>
-          <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412" }}>{item.price}</span>
+
+        {/* Price */}
+        <div style={{ flexShrink: 0, alignSelf: "flex-start", paddingTop: 2 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap" }}>{item.price}</span>
         </div>
       </div>
-      {(() => {
-        const badges = [];
-        // "You saved this"
-        if (isFav) badges.push(<span key="saved" style={{ fontSize: 10, fontWeight: 600, padding: "2px 8px", background: "#F3F0FF", color: "#6B4EFF", borderRadius: 6 }}>Saved</span>);
-        // Activity signal — todaySignal (from curated section) takes priority
-        if (badges.length < 2) {
-          if (todaySignal) {
-            badges.push(<span key="signal" style={{ fontSize: 10, color: "#6B7280", fontWeight: 500 }}>{todaySignal}</span>);
-          } else if (item.verified) {
-            const clicks = clickCount || 0;
-            let signal;
-            if (clicks >= 8) signal = { text: "🔥 Popular with Ealing parents this week", color: "#92400E", bg: "#FEF3C7" };
-            else if (clicks >= 3) signal = { text: "👀 Parents viewed this recently", color: "#4B5563", bg: "#F3F4F6" };
-            else {
-              const saveCount = clicks + (item.popular ? 5 : 2);
-              signal = saveCount > 3
-                ? { text: `🧡 ${saveCount} parents saved this`, color: "#4B5563", bg: "#F3F4F6" }
-                : { text: "💛 Loved by local parents", color: "#4B5563", bg: "#F3F4F6" };
-            }
-            badges.push(<span key="loved" style={{ fontSize: 10, color: signal.color, fontWeight: 600, padding: "2px 8px", background: signal.bg, borderRadius: 6 }}>{signal.text}</span>);
-          }
-        }
-        // Review score
-        const reviewBadge = (() => { const r = reviews.filter(rv => rv.listingId === item.id); if (r.length === 0 || badges.length >= 2) return null; const avg = (r.reduce((s, rv) => s + rv.rating, 0) / r.length).toFixed(1); return <span key="rev" style={{ fontSize: 10, color: "#92400E" }}>★ {avg} ({r.length})</span>; })();
-        if (reviewBadge) badges.push(reviewBadge);
-        if (badges.length === 0) return null;
-        return (
-          <div style={{ display: "flex", gap: 8, marginTop: 8, paddingTop: 8, borderTop: "1px solid #F3F4F6", flexWrap: "wrap" }}>
-            {badges.slice(0, 2)}
-          </div>
-        );
-      })()}
+
+      {/* Trust label — ONE only, muted */}
+      {trustLabel && (
+        <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #F5F5F5", fontSize: 11, color: "#9CA3AF", fontWeight: 500 }}>
+          {trustLabel}
+        </div>
+      )}
     </div>
   );
 }
 
-const parkingLabels = { free: "🅿️ Free parking", "free-3hrs": "🅿️ Free (3hrs)", paid: "🅿️ Paid parking", street: "🅿️ Street parking", varies: "🅿️ Parking varies", none: "🚫 No parking" };
 
-export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav, onToggleFav, onAddToCalendar, onRemoveFromCalendar, calendarPlan, isVisited, onToggleVisited }) {
+export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav, onToggleFav, onAddToCalendar, onRemoveFromCalendar, calendarPlan, isVisited, onToggleVisited, tips = [], onAddTip }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const dist = userLoc ? getDistanceMiles(userLoc.lat, userLoc.lng, item.lat, item.lng) : null;
   const itemReviews = reviews.filter(r => r.listingId === item.id);
@@ -274,6 +259,11 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
   const [reviewImages, setReviewImages] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [savedFeedback, setSavedFeedback] = useState(false);
+  const [beenHereJustTapped, setBeenHereJustTapped] = useState(false);
+  const [showContribute, setShowContribute] = useState(false);
+  const [showTipInput, setShowTipInput] = useState(false);
+  const [tipText, setTipText] = useState("");
+  const [tipSubmitted, setTipSubmitted] = useState(false);
 
   const openExternalWebsite = (url) => { if (!url) return; let safeUrl = url.trim(); if (!safeUrl.startsWith("http://") && !safeUrl.startsWith("https://")) safeUrl = "https://" + safeUrl; window.open(safeUrl, "_blank", "noopener,noreferrer"); };
   const getHostname = (url) => { try { const safe = url.startsWith("http") ? url : "https://" + url; return new URL(safe).hostname.replace("www.", ""); } catch { return ""; } };
@@ -629,21 +619,101 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         </div>
 
-        {/* Parent Photos */}
-        <div style={{ marginBottom: 12, padding: "14px 16px", background: "white", borderRadius: 12, border: "1px dashed #E0DBD5" }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Parent photos</div>
-          <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.5, marginBottom: 10 }}>Have you visited this activity? Share a photo to help other parents see what it's like.</div>
-          <div onClick={() => {}} style={{ display: "inline-block", padding: "8px 16px", borderRadius: 10, background: "#F3F4F6", fontSize: 12, fontWeight: 600, color: "#4B5563", cursor: "pointer" }}>Add your visit photo</div>
+        {/* Parent Tips */}
+        <div id="tip-input-scroll" style={{ marginBottom: 12, padding: "14px 16px", background: "white", borderRadius: 12, border: "1px solid #F3F4F6" }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 6 }}>💡 Parent tips</div>
+          {tips.length === 0 && !showTipInput && (
+            <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>No tips yet — be the first parent to leave one!</div>
+          )}
+          {tips.map((t, i) => (
+            <div key={i} style={{ background: "#FFFBEB", borderRadius: 8, padding: "8px 10px", marginBottom: 6, fontSize: 12, color: "#4B5563", lineHeight: 1.5 }}>
+              💡 {t.tip_text}
+            </div>
+          ))}
+          {tipSubmitted ? (
+            <div style={{ fontSize: 12, color: "#166534", fontWeight: 600 }}>✓ Tip added — thanks! Your tip helps local parents ❤️</div>
+          ) : showTipInput ? (
+            <div>
+              <textarea
+                value={tipText}
+                onChange={e => setTipText(e.target.value.slice(0, 120))}
+                placeholder="e.g. Arrive early — gets busy after 10am!"
+                rows={2}
+                style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", resize: "none", outline: "none", boxSizing: "border-box", marginBottom: 4 }}
+              />
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <span style={{ fontSize: 10, color: "#9CA3AF" }}>{tipText.length}/120</span>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <span onClick={() => { setShowTipInput(false); setTipText(""); }} style={{ fontSize: 11, color: "#9CA3AF", cursor: "pointer" }}>Cancel</span>
+                  <span onClick={() => {
+                    if (tipText.trim().length < 3) return;
+                    if (onAddTip) onAddTip(item.id, tipText.trim());
+                    setTipSubmitted(true);
+                    setShowTipInput(false);
+                    setTipText("");
+                    setTimeout(() => setTipSubmitted(false), 4000);
+                  }} style={{ fontSize: 11, fontWeight: 700, color: "#F97316", cursor: "pointer" }}>Submit</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div onClick={() => setShowTipInput(true)} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 600, color: "#F97316", cursor: "pointer", marginTop: 2 }}>
+              ✏️ Add a quick tip
+            </div>
+          )}
         </div>
 
-        {/* Been There — Activity Passport */}
-        <div onClick={() => onToggleVisited(item.id)} style={{ marginBottom: 12, padding: "10px 14px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", background: isVisited ? "linear-gradient(135deg, #166534, #7BDDD5)" : "white", border: isVisited ? "none" : "1.5px dashed #E0DBD5" }}>
-          <span style={{ fontSize: 20 }}>{isVisited ? "🏆" : "✅"}</span>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: isVisited ? "white" : "#1F2937" }}>{isVisited ? "Been There!" : "Been here? Tap to collect!"}</div>
-            <div style={{ fontSize: 10, color: isVisited ? "rgba(255,255,255,0.8)" : "#6B7280" }}>{isVisited ? "Added to your Activity Passport" : "Track activities your family has tried"}</div>
+        {/* Been Here + Contribution Loop */}
+        <div style={{ marginBottom: 12 }}>
+          {/* Step 1: Been here button */}
+          <div
+            onClick={() => {
+              if (!isVisited) {
+                onToggleVisited(item.id);
+                setBeenHereJustTapped(true);
+                setShowContribute(true);
+                setTimeout(() => setBeenHereJustTapped(false), 3000);
+              } else {
+                onToggleVisited(item.id);
+                setShowContribute(false);
+              }
+            }}
+            style={{ padding: "10px 14px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", background: isVisited ? "linear-gradient(135deg, #166534, #059669)" : "white", border: isVisited ? "none" : "1.5px dashed #E0DBD5", marginBottom: 8 }}
+          >
+            <span style={{ fontSize: 20 }}>{beenHereJustTapped ? "🎉" : isVisited ? "🏆" : "✅"}</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: isVisited ? "white" : "#1F2937" }}>
+                {beenHereJustTapped ? "Added to your family activity map" : isVisited ? "Been There!" : "Been here? Tap to mark visited"}
+              </div>
+              <div style={{ fontSize: 10, color: isVisited ? "rgba(255,255,255,0.75)" : "#6B7280" }}>
+                {beenHereJustTapped ? "Track places your family has tried." : isVisited ? "Added to your Activity Passport" : "Track activities your family has tried"}
+              </div>
+            </div>
+            {isVisited && !beenHereJustTapped && <span style={{ fontSize: 11, color: "white", fontWeight: 600 }}>✕ Undo</span>}
           </div>
-          {isVisited && <span style={{ fontSize: 11, color: "white", fontWeight: 600 }}>✕ Undo</span>}
+
+          {/* Step 2: Contribution prompt — shown after tapping */}
+          {showContribute && (
+            <div style={{ background: "#FFFBF5", border: "1px solid #FED7AA", borderRadius: 12, padding: "12px 14px" }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#1F2937", marginBottom: 2 }}>Help other Ealing parents 🙌</div>
+              <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 10 }}>Add a quick photo or tip about this activity.</div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <label style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 11, fontWeight: 700, color: "#374151", cursor: "pointer", textAlign: "center" }}>
+                  📸 Add photo
+                  <input type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={(e) => {
+                    if (e.target.files[0]) {
+                      setShowContribute(false);
+                      setTimeout(() => alert("Thanks! Your photo helps local parents ❤️"), 100);
+                    }
+                  }} />
+                </label>
+                <div
+                  onClick={() => { setShowContribute(false); document.getElementById("tip-input-scroll")?.scrollIntoView({ behavior: "smooth" }); }}
+                  style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 11, fontWeight: 700, color: "#374151", cursor: "pointer", textAlign: "center" }}
+                >✏️ Add quick tip</div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div style={{ display: "flex", gap: 10 }}>
