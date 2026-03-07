@@ -1233,12 +1233,28 @@ function getSearchScore(item, query) {
             if (todayBuckets[t].length > 0) todayMixed.push(todayBuckets[t].shift());
           }
         }
-        const TODAY_LIMIT = 7;
-        const todayListFull = todayMixed.length >= 2 ? todayMixed
+        const TODAY_LIMIT = 4;
+        const todayRaw = todayMixed.length >= 2 ? todayMixed
           : [...todayMixed, ...filtered.filter(a => !todayMixed.includes(a)).sort((a, b) => getTodayScore(b) - getTodayScore(a))];
-        // showAllToday / setShowAllToday lifted to component state above
-        const todayList = showAllToday ? todayListFull : todayListFull.slice(0, TODAY_LIMIT);
+        // Deduplicate by exact name
+        const todaySeenNames = new Set();
+        const todayListFull = todayRaw.filter(a => {
+          const name = (a.name || "").toLowerCase().trim();
+          if (todaySeenNames.has(name)) return false;
+          todaySeenNames.add(name);
+          return true;
+        });
+        const todayList = todayListFull.slice(0, TODAY_LIMIT);
         todayListFull.forEach(a => shownIds.add(a.id));
+
+        // Micro-label: one signal per card
+        const getTodayMicroLabel = (item, idx) => {
+          if (userLoc && idx === 0) return { icon: "📍", text: "Closest to you" };
+          if (item.popular || item.featuredProvider) return { icon: "⭐", text: "Popular today" };
+          if ((item.images && item.images.length > 2) || item.logo) return { icon: "📸", text: "Lots of photos" };
+          if (item.verified) return { icon: "💛", text: "Saved by parents" };
+          return null;
+        };
 
         // --- SECTION 2: From your saved ---
         const savedList = favourites.length > 0
@@ -1264,22 +1280,22 @@ function getSearchScore(item, query) {
           <div style={{ marginTop: 8, padding: "0 20px" }}>
             <div style={{ fontSize: 20, fontWeight: 800, color: "#1F2937" }}>Top things to do today in {area}</div>
             <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 2, marginBottom: 8 }}>Quick ideas parents are choosing today.</div>
-            {todayList.map(item => {
-              const isPopular = item.popular || item.featuredProvider || (item.saves && item.saves >= 10);
+            {todayList.map((item, idx) => {
+              const microLabel = getTodayMicroLabel(item, idx);
               return (
-                <div key={"today-" + item.id} style={{ position: "relative" }}>
-                  {isPopular && (
-                    <div style={{ position: "absolute", top: 10, right: 50, zIndex: 10, background: "#FFF3E0", color: "#E67E22", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 8, display: "flex", alignItems: "center", gap: 3 }}>
-                      ⭐ Popular today
+                <div key={"today-" + item.id}>
+                  {microLabel && (
+                    <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 500, marginBottom: -10, paddingLeft: 4, display: "flex", alignItems: "center", gap: 3 }}>
+                      <span>{microLabel.icon}</span><span>{microLabel.text}</span>
                     </div>
                   )}
                   <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
                 </div>
               );
             })}
-            {!showAllToday && todayListFull.length > TODAY_LIMIT && (
-              <div onClick={() => setShowAllToday(true)} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
-                See all {todayListFull.length} activities today →
+            {todayListFull.length > TODAY_LIMIT && (
+              <div onClick={() => { setShowAllToday(true); setPage(1); }} style={{ textAlign: "center", padding: "12px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
+                See all {filtered.length} activities today →
               </div>
             )}
           </div>

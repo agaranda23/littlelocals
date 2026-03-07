@@ -228,10 +228,19 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         const badges = [];
         // "You saved this" — only if saved, and only once (heart already shows in top right)
         if (isFav) badges.push(<span key="saved" style={{ fontSize: 10, fontWeight: 600, padding: "2px 8px", background: "#F3F0FF", color: "#6B4EFF", borderRadius: 6 }}>Saved</span>);
-        // "Loved by local parents" — trust signal with save count
+        // Activity signal — time-based copy where possible
         if (item.verified && badges.length < 2) {
-          const saveCount = (clickCount || 0) + (item.popular ? 5 : 2);
-          badges.push(<span key="loved" style={{ fontSize: 10, color: "#4B5563", fontWeight: 600, padding: "2px 8px", background: "#F3F4F6", borderRadius: 6 }}>{saveCount > 3 ? saveCount + " parents saved this" : "Loved by local parents"}</span>);
+          const clicks = clickCount || 0;
+          let signal;
+          if (clicks >= 8) signal = { text: "🔥 Popular with Ealing parents this week", color: "#92400E", bg: "#FEF3C7" };
+          else if (clicks >= 3) signal = { text: "👀 Parents viewed this recently", color: "#4B5563", bg: "#F3F4F6" };
+          else {
+            const saveCount = clicks + (item.popular ? 5 : 2);
+            signal = saveCount > 3
+              ? { text: `🧡 ${saveCount} parents saved this`, color: "#4B5563", bg: "#F3F4F6" }
+              : { text: "💛 Loved by local parents", color: "#4B5563", bg: "#F3F4F6" };
+          }
+          badges.push(<span key="loved" style={{ fontSize: 10, color: signal.color, fontWeight: 600, padding: "2px 8px", background: signal.bg, borderRadius: 6 }}>{signal.text}</span>);
         }
         // Review score
         const reviewBadge = (() => { const r = reviews.filter(rv => rv.listingId === item.id); if (r.length === 0 || badges.length >= 2) return null; const avg = (r.reduce((s, rv) => s + rv.rating, 0) / r.length).toFixed(1); return <span key="rev" style={{ fontSize: 10, color: "#92400E" }}>★ {avg} ({r.length})</span>; })();
@@ -249,7 +258,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
 const parkingLabels = { free: "🅿️ Free parking", "free-3hrs": "🅿️ Free (3hrs)", paid: "🅿️ Paid parking", street: "🅿️ Street parking", varies: "🅿️ Parking varies", none: "🚫 No parking" };
 
-export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav, onToggleFav, onAddToCalendar, onRemoveFromCalendar, calendarPlan, isVisited, onToggleVisited, tips = [], onAddTip }) {
+export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav, onToggleFav, onAddToCalendar, onRemoveFromCalendar, calendarPlan, isVisited, onToggleVisited }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const dist = userLoc ? getDistanceMiles(userLoc.lat, userLoc.lng, item.lat, item.lng) : null;
   const itemReviews = reviews.filter(r => r.listingId === item.id);
@@ -261,9 +270,6 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
   const [reviewImages, setReviewImages] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [savedFeedback, setSavedFeedback] = useState(false);
-  const [showTipInput, setShowTipInput] = useState(false);
-  const [tipText, setTipText] = useState("");
-  const [tipSubmitted, setTipSubmitted] = useState(false);
 
   const openExternalWebsite = (url) => { if (!url) return; let safeUrl = url.trim(); if (!safeUrl.startsWith("http://") && !safeUrl.startsWith("https://")) safeUrl = "https://" + safeUrl; window.open(safeUrl, "_blank", "noopener,noreferrer"); };
   const getHostname = (url) => { try { const safe = url.startsWith("http") ? url : "https://" + url; return new URL(safe).hostname.replace("www.", ""); } catch { return ""; } };
@@ -624,56 +630,6 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Parent photos</div>
           <div style={{ fontSize: 12, color: "#6B7280", lineHeight: 1.5, marginBottom: 10 }}>Have you visited this activity? Share a photo to help other parents see what it's like.</div>
           <div onClick={() => {}} style={{ display: "inline-block", padding: "8px 16px", borderRadius: 10, background: "#F3F4F6", fontSize: 12, fontWeight: 600, color: "#4B5563", cursor: "pointer" }}>Add your visit photo</div>
-        </div>
-
-        {/* Parent Tips */}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>💡 Parent tips</div>
-          {tips.length > 0 ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 10 }}>
-              {tips.map((t, i) => (
-                <div key={t.id || i} style={{ display: "flex", alignItems: "flex-start", gap: 8, background: "#FFFBEB", border: "1px solid #FDE68A", borderRadius: 10, padding: "8px 12px" }}>
-                  <span style={{ fontSize: 14, flexShrink: 0, marginTop: 1 }}>💡</span>
-                  <span style={{ fontSize: 13, color: "#374151", lineHeight: 1.4 }}>{t.tip_text}</span>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>No tips yet — be the first parent to leave one!</div>
-          )}
-          {!showTipInput && !tipSubmitted && (
-            <div onClick={() => setShowTipInput(true)} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, color: "#92400E", background: "#FEF3C7", border: "1px solid #FDE68A", borderRadius: 20, padding: "6px 14px", cursor: "pointer" }}>
-              ✏️ Add a quick tip
-            </div>
-          )}
-          {tipSubmitted && (
-            <div style={{ fontSize: 12, fontWeight: 600, color: "#166534", background: "#DCFCE7", borderRadius: 10, padding: "7px 12px" }}>✓ Tip added — thanks!</div>
-          )}
-          {showTipInput && (
-            <div style={{ background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 12, padding: 12, marginTop: 4 }}>
-              <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 6 }}>Keep it short and helpful for other parents</div>
-              <textarea
-                value={tipText}
-                onChange={e => setTipText(e.target.value.slice(0, 120))}
-                placeholder={'e.g. "Bring wellies if it\'s muddy" or "Gets busy after 11am"'}
-                style={{ width: "100%", minHeight: 64, borderRadius: 8, border: "1px solid #D1D5DB", padding: "8px 10px", fontSize: 13, fontFamily: "inherit", resize: "none", outline: "none", boxSizing: "border-box", color: "#1F2937" }}
-              />
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 6 }}>
-                <span style={{ fontSize: 10, color: "#9CA3AF" }}>{tipText.length}/120</span>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <span onClick={() => { setShowTipInput(false); setTipText(""); }} style={{ fontSize: 12, color: "#6B7280", cursor: "pointer", padding: "6px 10px" }}>Cancel</span>
-                  <span onClick={() => {
-                    if (!tipText.trim()) return;
-                    onAddTip(item.id, tipText);
-                    setTipText("");
-                    setShowTipInput(false);
-                    setTipSubmitted(true);
-                    setTimeout(() => setTipSubmitted(false), 4000);
-                  }} style={{ fontSize: 12, fontWeight: 700, color: "white", background: "#F97316", borderRadius: 8, padding: "6px 14px", cursor: "pointer" }}>Submit tip</span>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Been There — Activity Passport */}
