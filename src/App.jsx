@@ -73,7 +73,7 @@ function WestLondonListings() {
   const [ageFilter, setAgeFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [showAllToday, setShowAllToday] = useState(false);
-  const [tips, setTips] = useState({}); // { [activityId]: [tip, ...] }
+  const [tips, setTips] = useState({});
   const [mapView, setMapView] = useState(false);
   const [sortBy, setSortBy] = useState("mixed");
   const ITEMS_PER_PAGE = 6;
@@ -196,10 +196,7 @@ function WestLondonListings() {
         const { data: tipsData } = await supabase.from("parent_tips").select("*").order("created_at", { ascending: true });
         if (tipsData) {
           const tipsMap = {};
-          tipsData.forEach(t => {
-            if (!tipsMap[t.activity_id]) tipsMap[t.activity_id] = [];
-            tipsMap[t.activity_id].push(t);
-          });
+          tipsData.forEach(t => { if (!tipsMap[t.activity_id]) tipsMap[t.activity_id] = []; tipsMap[t.activity_id].push(t); });
           setTips(tipsMap);
         }
       } catch(e) {
@@ -379,10 +376,7 @@ function WestLondonListings() {
     setTips(prev => ({ ...prev, [activityId]: [...(prev[activityId] || []), temp] }));
     try {
       const { data } = await supabase.from("parent_tips").insert({ activity_id: activityId, tip_text: trimmed }).select().single();
-      if (data) setTips(prev => ({
-        ...prev,
-        [activityId]: (prev[activityId] || []).map(t => t.id === temp.id ? data : t)
-      }));
+      if (data) setTips(prev => ({ ...prev, [activityId]: (prev[activityId] || []).map(t => t.id === temp.id ? data : t) }));
     } catch(e) {}
   };
 
@@ -641,7 +635,23 @@ function getSearchScore(item, query) {
     } else if (sortBy === "outdoor") {
       results.sort((a, b) => (a.indoor ? 1 : 0) - (b.indoor ? 1 : 0));
     } else {
-      // "mixed" — ensure variety of types on each page
+      // Priority score — quality listings surface first
+      const BOOSTED = ["sing and sign", "hartbeeps", "little gym", "tumble tots"];
+      const FAVS = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
+      const score = (l) => {
+        let s = 0;
+        if ((l.images && l.images.length > 0) || l.logo) s += 3;
+        if (l.description && l.description.length > 30) s += 2;
+        if (l.time && l.time.length > 3) s += 1;
+        if (l.website || l.trialLink) s += 1;
+        const n = (l.name || "").toLowerCase();
+        if (FAVS.some(f => n.includes(f))) s += 1;
+        if (BOOSTED.some(p => n.includes(p))) s += 1;
+        return s;
+      };
+      results.sort((a, b) => score(b) - score(a));
+
+      // Mix by type for variety
       const types = [...new Set(results.map(r => r.type))];
       const buckets = {};
       types.forEach(t => { buckets[t] = results.filter(r => r.type === t); });
@@ -654,12 +664,30 @@ function getSearchScore(item, query) {
       }
       results = mixed;
     }
-    // Prioritise Sing and Sign Ealing towards the top (but not pinned first)
+
+    // Deduplicate by exact name on first page — same name = same provider
+    if (!search) {
+      const seenNames = new Set();
+      const firstPage = [];
+      const rest = [];
+      for (const r of results) {
+        const name = (r.name || "").toLowerCase().trim();
+        if (firstPage.length < 12 && !seenNames.has(name)) {
+          seenNames.add(name);
+          firstPage.push(r);
+        } else {
+          rest.push(r);
+        }
+      }
+      results = [...firstPage, ...rest];
+    }
+
+    // Place Sing and Sign in positions 3–5
     if (!search) {
       const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
-      if (singIdx > 2) {
+      if (singIdx > 4) {
         const [singItem] = results.splice(singIdx, 1);
-        results.splice(2, 0, singItem);
+        results.splice(3, 0, singItem);
       }
     }
     return results;
