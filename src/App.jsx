@@ -167,7 +167,7 @@ function WestLondonListings() {
             bring: l.bring || [], sen: l.sen,
             cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
             photos: l.photos, verified: l.verified, parking: l.parking,
-            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
+            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by,
           };}));
 
         // Fetch listing_images and attach to listings
@@ -207,7 +207,7 @@ function WestLondonListings() {
               bring: l.bring || [], sen: l.sen,
               cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
               photos: l.photos, verified: l.verified, parking: l.parking,
-              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
+              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by,
             };}));
           }
         } catch(e2) {}
@@ -279,7 +279,7 @@ function WestLondonListings() {
           bring: l.bring || [], sen: l.sen,
           cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
           photos: l.photos, verified: l.verified, parking: l.parking,
-          timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
+          timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by,
         };}));
       }
       // Refresh listing_images
