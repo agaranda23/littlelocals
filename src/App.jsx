@@ -167,7 +167,7 @@ function WestLondonListings() {
             bring: l.bring || [], sen: l.sen,
             cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
             photos: l.photos, verified: l.verified, parking: l.parking,
-            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by,
+            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
           };}));
 
         // Fetch listing_images and attach to listings
@@ -207,7 +207,7 @@ function WestLondonListings() {
               bring: l.bring || [], sen: l.sen,
               cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
               photos: l.photos, verified: l.verified, parking: l.parking,
-              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by,
+              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
             };}));
           }
         } catch(e2) {}
@@ -279,7 +279,7 @@ function WestLondonListings() {
           bring: l.bring || [], sen: l.sen,
           cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
           photos: l.photos, verified: l.verified, parking: l.parking,
-          timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, logo: l.logo, suggestedBy: l.suggested_by,
+          timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
         };}));
       }
       // Refresh listing_images
@@ -616,7 +616,33 @@ function getSearchScore(item, query) {
     } else if (sortBy === "outdoor") {
       results.sort((a, b) => (a.indoor ? 1 : 0) - (b.indoor ? 1 : 0));
     } else {
-      // "mixed" — ensure variety of types on each page
+      // PRIORITY SCORING — rank by completeness and quality before mixing
+      const BOOSTED_PROVIDERS = ["sing and sign", "hartbeeps", "little gym", "tumble tots"];
+      const LOCAL_FAVOURITES = ["gunnersbury", "pitzhanger", "walpole", "ealing fields", "acton park", "hanwell", "golf club", "nature play", "wandsworth"];
+
+      const getPriorityScore = (l) => {
+        let s = 0;
+        // +3 if listing has real photos (from listing_images or logo)
+        if ((l.images && l.images.length > 0) || l.logo) s += 3;
+        // +2 if has a real description (>30 chars)
+        if (l.description && l.description.length > 30) s += 2;
+        // +1 if has schedule/time info
+        if (l.time && l.time.length > 3) s += 1;
+        // +1 if has a booking or website link
+        if (l.website || l.trialLink) s += 1;
+        // +1 if recognisable local favourite
+        const nameLower = (l.name || "").toLowerCase();
+        const venueLower = (l.venue || "").toLowerCase();
+        if (LOCAL_FAVOURITES.some(f => nameLower.includes(f) || venueLower.includes(f))) s += 1;
+        // +1 if provider engaged / manually boosted
+        if (BOOSTED_PROVIDERS.some(p => nameLower.includes(p))) s += 1;
+        return s;
+      };
+
+      // Sort by priority score descending, then mix by type for variety
+      results.sort((a, b) => getPriorityScore(b) - getPriorityScore(a));
+
+      // "mixed" — interleave by type, but within each type bucket items are already priority-sorted
       const types = [...new Set(results.map(r => r.type))];
       const buckets = {};
       types.forEach(t => { buckets[t] = results.filter(r => r.type === t); });
@@ -629,12 +655,36 @@ function getSearchScore(item, query) {
       }
       results = mixed;
     }
-    // Prioritise Sing and Sign Ealing towards the top (but not pinned first)
+
+    // Deduplicate providers on first page — only show one listing per provider
+    if (!search) {
+      const LISTINGS_PER_PAGE = 10;
+      const seenProviders = new Set();
+      const firstPage = [];
+      const rest = [];
+      for (const r of results) {
+        // Derive a provider key from first meaningful word(s) of name
+        const providerKey = (r.name || "").toLowerCase().split(/\s+/).slice(0, 3).join(" ");
+        // Check if this is a duplicate provider in the first page
+        const isDuplicate = [...seenProviders].some(seen =>
+          seen.includes(providerKey.split(" ")[0]) || providerKey.includes(seen.split(" ")[0])
+        );
+        if (firstPage.length < LISTINGS_PER_PAGE && !isDuplicate) {
+          seenProviders.add(providerKey);
+          firstPage.push(r);
+        } else {
+          rest.push(r);
+        }
+      }
+      results = [...firstPage, ...rest];
+    }
+
+    // Place Sing and Sign within positions 3–5 (not pinned at top)
     if (!search) {
       const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
-      if (singIdx > 2) {
+      if (singIdx > 4) {
         const [singItem] = results.splice(singIdx, 1);
-        results.splice(2, 0, singItem);
+        results.splice(3, 0, singItem);
       }
     }
     return results;
