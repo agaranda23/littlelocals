@@ -551,7 +551,14 @@ function getSearchScore(item, query) {
       if (showFavourites && !favourites.includes(l.id)) return false;
       if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
       if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
-      if (areaFilter !== "All Areas" && !l.location.includes(areaFilter)) return false;
+      if (areaFilter !== "All Areas") {
+        const ealingBorough = ["Ealing", "Hanwell", "West Ealing", "North Ealing", "South Ealing"];
+        if (areaFilter === "Ealing") {
+          if (!ealingBorough.some(a => l.location.includes(a))) return false;
+        } else {
+          if (!l.location.includes(areaFilter)) return false;
+        }
+      }
       if (freeOnly && !l.free) return false;
       if (dayFilter === "today" && !isOnToday(l)) return false;
       if (dayFilter !== "all" && dayFilter !== "today" && !isOnDay(l, parseInt(dayFilter))) return false;
