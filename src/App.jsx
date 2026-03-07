@@ -72,6 +72,7 @@ function WestLondonListings() {
   const [napFilter, setNapFilter] = useState("all");
   const [ageFilter, setAgeFilter] = useState("all");
   const [page, setPage] = useState(1);
+  const [showAllToday, setShowAllToday] = useState(false);
   const [mapView, setMapView] = useState(false);
   const [sortBy, setSortBy] = useState("mixed");
   const ITEMS_PER_PAGE = 6;
@@ -1183,7 +1184,7 @@ function getSearchScore(item, query) {
         const TODAY_LIMIT = 7;
         const todayListFull = todayMixed.length >= 2 ? todayMixed
           : [...todayMixed, ...filtered.filter(a => !todayMixed.includes(a)).sort((a, b) => getTodayScore(b) - getTodayScore(a))];
-        const [showAllToday, setShowAllToday] = React.useState(false);
+        // showAllToday / setShowAllToday lifted to component state above
         const todayList = showAllToday ? todayListFull : todayListFull.slice(0, TODAY_LIMIT);
         todayListFull.forEach(a => shownIds.add(a.id));
 
