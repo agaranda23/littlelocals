@@ -1247,12 +1247,12 @@ function getSearchScore(item, query) {
         const todayList = todayListFull.slice(0, TODAY_LIMIT);
         todayListFull.forEach(a => shownIds.add(a.id));
 
-        // Micro-label: one signal per card
-        const getTodayMicroLabel = (item, idx) => {
-          if (userLoc && idx === 0) return { icon: "📍", text: "Closest to you" };
-          if (item.popular || item.featuredProvider) return { icon: "⭐", text: "Popular today" };
-          if ((item.images && item.images.length > 2) || item.logo) return { icon: "📸", text: "Lots of photos" };
-          if (item.verified) return { icon: "💛", text: "Saved by parents" };
+        // Human-relevant signals only — photos influence ranking but not label
+        const getTodaySignal = (item, idx, clicks) => {
+          if (item.popular || item.featuredProvider) return "⭐ Popular today";
+          if (clicks >= 8) return "🔥 Popular with Ealing parents this week";
+          if (clicks >= 3) return "👀 Parents viewed this recently";
+          if (item.verified) return "💛 Saved by local parents";
           return null;
         };
 
@@ -1281,15 +1281,10 @@ function getSearchScore(item, query) {
             <div style={{ fontSize: 20, fontWeight: 800, color: "#1F2937" }}>Top things to do today in {area}</div>
             <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 2, marginBottom: 8 }}>Quick ideas parents are choosing today.</div>
             {todayList.map((item, idx) => {
-              const microLabel = getTodayMicroLabel(item, idx);
+              const signal = getTodaySignal(item, idx, clickCounts[item.id] || 0);
               return (
                 <div key={"today-" + item.id}>
-                  {microLabel && (
-                    <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 500, marginBottom: -10, paddingLeft: 4, display: "flex", alignItems: "center", gap: 3 }}>
-                      <span>{microLabel.icon}</span><span>{microLabel.text}</span>
-                    </div>
-                  )}
-                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
+                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} todaySignal={signal} />
                 </div>
               );
             })}

@@ -121,7 +121,7 @@ export function MapView({ filtered, userLoc, onSelect, areaFilter }) {
   return <div ref={mapRef} style={{ height: 380, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden" }} />;
 }
 
-export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount }) {
+export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, todaySignal }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 } };
   const locRef = userLoc || areaCenters[areaFilter] || null;
@@ -226,21 +226,25 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       </div>
       {(() => {
         const badges = [];
-        // "You saved this" — only if saved, and only once (heart already shows in top right)
+        // "You saved this"
         if (isFav) badges.push(<span key="saved" style={{ fontSize: 10, fontWeight: 600, padding: "2px 8px", background: "#F3F0FF", color: "#6B4EFF", borderRadius: 6 }}>Saved</span>);
-        // Activity signal — time-based copy where possible
-        if (item.verified && badges.length < 2) {
-          const clicks = clickCount || 0;
-          let signal;
-          if (clicks >= 8) signal = { text: "🔥 Popular with Ealing parents this week", color: "#92400E", bg: "#FEF3C7" };
-          else if (clicks >= 3) signal = { text: "👀 Parents viewed this recently", color: "#4B5563", bg: "#F3F4F6" };
-          else {
-            const saveCount = clicks + (item.popular ? 5 : 2);
-            signal = saveCount > 3
-              ? { text: `🧡 ${saveCount} parents saved this`, color: "#4B5563", bg: "#F3F4F6" }
-              : { text: "💛 Loved by local parents", color: "#4B5563", bg: "#F3F4F6" };
+        // Activity signal — todaySignal (from curated section) takes priority
+        if (badges.length < 2) {
+          if (todaySignal) {
+            badges.push(<span key="signal" style={{ fontSize: 10, color: "#6B7280", fontWeight: 500 }}>{todaySignal}</span>);
+          } else if (item.verified) {
+            const clicks = clickCount || 0;
+            let signal;
+            if (clicks >= 8) signal = { text: "🔥 Popular with Ealing parents this week", color: "#92400E", bg: "#FEF3C7" };
+            else if (clicks >= 3) signal = { text: "👀 Parents viewed this recently", color: "#4B5563", bg: "#F3F4F6" };
+            else {
+              const saveCount = clicks + (item.popular ? 5 : 2);
+              signal = saveCount > 3
+                ? { text: `🧡 ${saveCount} parents saved this`, color: "#4B5563", bg: "#F3F4F6" }
+                : { text: "💛 Loved by local parents", color: "#4B5563", bg: "#F3F4F6" };
+            }
+            badges.push(<span key="loved" style={{ fontSize: 10, color: signal.color, fontWeight: 600, padding: "2px 8px", background: signal.bg, borderRadius: 6 }}>{signal.text}</span>);
           }
-          badges.push(<span key="loved" style={{ fontSize: 10, color: signal.color, fontWeight: 600, padding: "2px 8px", background: signal.bg, borderRadius: 6 }}>{signal.text}</span>);
         }
         // Review score
         const reviewBadge = (() => { const r = reviews.filter(rv => rv.listingId === item.id); if (r.length === 0 || badges.length >= 2) return null; const avg = (r.reduce((s, rv) => s + rv.rating, 0) / r.length).toFixed(1); return <span key="rev" style={{ fontSize: 10, color: "#92400E" }}>★ {avg} ({r.length})</span>; })();
