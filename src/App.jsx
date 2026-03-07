@@ -616,33 +616,7 @@ function getSearchScore(item, query) {
     } else if (sortBy === "outdoor") {
       results.sort((a, b) => (a.indoor ? 1 : 0) - (b.indoor ? 1 : 0));
     } else {
-      // PRIORITY SCORING — rank by completeness and quality before mixing
-      const BOOSTED_PROVIDERS = ["sing and sign", "hartbeeps", "little gym", "tumble tots"];
-      const LOCAL_FAVOURITES = ["gunnersbury", "pitzhanger", "walpole", "ealing fields", "acton park", "hanwell", "golf club", "nature play", "wandsworth"];
-
-      const getPriorityScore = (l) => {
-        let s = 0;
-        // +3 if listing has real photos (from listing_images or logo)
-        if ((l.images && l.images.length > 0) || l.logo) s += 3;
-        // +2 if has a real description (>30 chars)
-        if (l.description && l.description.length > 30) s += 2;
-        // +1 if has schedule/time info
-        if (l.time && l.time.length > 3) s += 1;
-        // +1 if has a booking or website link
-        if (l.website || l.trialLink) s += 1;
-        // +1 if recognisable local favourite
-        const nameLower = (l.name || "").toLowerCase();
-        const venueLower = (l.venue || "").toLowerCase();
-        if (LOCAL_FAVOURITES.some(f => nameLower.includes(f) || venueLower.includes(f))) s += 1;
-        // +1 if provider engaged / manually boosted
-        if (BOOSTED_PROVIDERS.some(p => nameLower.includes(p))) s += 1;
-        return s;
-      };
-
-      // Sort by priority score descending, then mix by type for variety
-      results.sort((a, b) => getPriorityScore(b) - getPriorityScore(a));
-
-      // "mixed" — interleave by type, but within each type bucket items are already priority-sorted
+      // "mixed" — ensure variety of types on each page
       const types = [...new Set(results.map(r => r.type))];
       const buckets = {};
       types.forEach(t => { buckets[t] = results.filter(r => r.type === t); });
@@ -655,36 +629,12 @@ function getSearchScore(item, query) {
       }
       results = mixed;
     }
-
-    // Deduplicate providers on first page — only show one listing per provider
-    if (!search) {
-      const LISTINGS_PER_PAGE = 10;
-      const seenProviders = new Set();
-      const firstPage = [];
-      const rest = [];
-      for (const r of results) {
-        // Derive a provider key from first meaningful word(s) of name
-        const providerKey = (r.name || "").toLowerCase().split(/\s+/).slice(0, 3).join(" ");
-        // Check if this is a duplicate provider in the first page
-        const isDuplicate = [...seenProviders].some(seen =>
-          seen.includes(providerKey.split(" ")[0]) || providerKey.includes(seen.split(" ")[0])
-        );
-        if (firstPage.length < LISTINGS_PER_PAGE && !isDuplicate) {
-          seenProviders.add(providerKey);
-          firstPage.push(r);
-        } else {
-          rest.push(r);
-        }
-      }
-      results = [...firstPage, ...rest];
-    }
-
-    // Place Sing and Sign within positions 3–5 (not pinned at top)
+    // Prioritise Sing and Sign Ealing towards the top (but not pinned first)
     if (!search) {
       const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
-      if (singIdx > 4) {
+      if (singIdx > 2) {
         const [singItem] = results.splice(singIdx, 1);
-        results.splice(3, 0, singItem);
+        results.splice(2, 0, singItem);
       }
     }
     return results;
@@ -1136,13 +1086,11 @@ function getSearchScore(item, query) {
         )}
       </div>
       {!search && weatherMode === "all" && !freeOnly && typeFilter === "All Types" && (
-        <div style={{ padding: "0 20px 8px", display: "flex", gap: 4, alignItems: "center" }}>
-          <span style={{ fontSize: 11, color: "#B0B0B0" }}>Try:</span>
-          <span onClick={() => setWeatherMode("rainy")} style={{ fontSize: 11, color: "#6B7280", cursor: "pointer", textDecoration: "underline", textDecorationColor: "#E5E7EB", textUnderlineOffset: 2 }}>Indoor ideas</span>
-          <span style={{ fontSize: 11, color: "#D1D5DB" }}>·</span>
-          <span onClick={() => setWeatherMode("sunny")} style={{ fontSize: 11, color: "#6B7280", cursor: "pointer", textDecoration: "underline", textDecorationColor: "#E5E7EB", textUnderlineOffset: 2 }}>Outdoor fun</span>
-          <span style={{ fontSize: 11, color: "#D1D5DB" }}>·</span>
-          <span onClick={() => setFreeOnly(true)} style={{ fontSize: 11, color: "#6B7280", cursor: "pointer", textDecoration: "underline", textDecorationColor: "#E5E7EB", textUnderlineOffset: 2 }}>Free things</span>
+        <div style={{ padding: "0 20px 10px", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <span onClick={() => { setWeatherMode("sunny"); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#92400E", background: "#FEF3C7", border: "1px solid #FDE68A", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>☀️ Outdoor ideas</span>
+          <span onClick={() => { setWeatherMode("rainy"); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#1E40AF", background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>🌧️ Indoor ideas</span>
+          <span onClick={() => { setFreeOnly(true); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#166534", background: "#DCFCE7", border: "1px solid #BBF7D0", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>💰 Free things</span>
+          <span onClick={() => { setTypeFilter("Music"); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#6B4EFF", background: "#F3F0FF", border: "1px solid #DDD6FE", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>🎨 Classes</span>
         </div>
       )}
 
@@ -1207,10 +1155,37 @@ function getSearchScore(item, query) {
           const t = (a.type || "").toLowerCase();
           if (["park","playground","play centre","soft play","leisure"].some(k => t.includes(k))) return true;
           return false;
-        }).sort((a, b) => getDist(a) - getDist(b));
-        const todayList = todayCandidates.length >= 2 ? todayCandidates.slice(0, 3)
-          : [...todayCandidates, ...filtered.filter(a => !todayCandidates.includes(a)).sort((a, b) => getDist(a) - getDist(b))].slice(0, 3);
-        todayList.forEach(a => shownIds.add(a.id));
+        });
+
+        // Sort today candidates by quality score for curated feel
+        const getTodayScore = (a) => {
+          let s = 0;
+          if ((a.images && a.images.length > 0) || a.logo) s += 3;
+          if (a.description && a.description.length > 30) s += 2;
+          if (a.time && a.time.length > 3) s += 1;
+          if (a.website || a.trialLink) s += 1;
+          if (a.popular || a.featuredProvider) s += 1;
+          return s;
+        };
+        const sortedTodayCandidates = [...todayCandidates].sort((a, b) => getTodayScore(b) - getTodayScore(a));
+
+        // Mix by category (max 1 per type in first 6-8 slots)
+        const todayTypes = [...new Set(sortedTodayCandidates.map(a => a.type))];
+        const todayBuckets = {};
+        todayTypes.forEach(t => { todayBuckets[t] = sortedTodayCandidates.filter(a => a.type === t); });
+        const todayMixed = [];
+        let ts = sortedTodayCandidates.length + 10;
+        while (todayMixed.length < sortedTodayCandidates.length && ts-- > 0) {
+          for (const t of todayTypes) {
+            if (todayBuckets[t].length > 0) todayMixed.push(todayBuckets[t].shift());
+          }
+        }
+        const TODAY_LIMIT = 7;
+        const todayListFull = todayMixed.length >= 2 ? todayMixed
+          : [...todayMixed, ...filtered.filter(a => !todayMixed.includes(a)).sort((a, b) => getTodayScore(b) - getTodayScore(a))];
+        const [showAllToday, setShowAllToday] = React.useState(false);
+        const todayList = showAllToday ? todayListFull : todayListFull.slice(0, TODAY_LIMIT);
+        todayListFull.forEach(a => shownIds.add(a.id));
 
         // --- SECTION 2: From your saved ---
         const savedList = favourites.length > 0
@@ -1232,13 +1207,28 @@ function getSearchScore(item, query) {
         shownIdsRef.current = shownIds;
 
         return (<>
-          {/* 1. Today in {Area} */}
+          {/* 1. Top things to do today */}
           <div style={{ marginTop: 8, padding: "0 20px" }}>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#1F2937" }}>Today in {area} <span style={{ fontSize: 13, fontWeight: 500, color: "#B0B0B0" }}>— {filtered.length} activities</span></div>
-            <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 2, marginBottom: 8 }}>Used by {area} parents to find things to do today</div>
-            {todayList.map(item => (
-              <ListingCard key={"today-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
-            ))}
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#1F2937" }}>Top things to do today in {area}</div>
+            <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 2, marginBottom: 8 }}>Quick ideas parents are choosing today.</div>
+            {todayList.map(item => {
+              const isPopular = item.popular || item.featuredProvider || (item.saves && item.saves >= 10);
+              return (
+                <div key={"today-" + item.id} style={{ position: "relative" }}>
+                  {isPopular && (
+                    <div style={{ position: "absolute", top: 10, right: 50, zIndex: 10, background: "#FFF3E0", color: "#E67E22", fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 8, display: "flex", alignItems: "center", gap: 3 }}>
+                      ⭐ Popular today
+                    </div>
+                  )}
+                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
+                </div>
+              );
+            })}
+            {!showAllToday && todayListFull.length > TODAY_LIMIT && (
+              <div onClick={() => setShowAllToday(true)} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
+                See all {todayListFull.length} activities today →
+              </div>
+            )}
           </div>
 
 
