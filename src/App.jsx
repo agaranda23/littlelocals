@@ -5,6 +5,185 @@ import { typeColors } from "./typeColors.jsx";
 import { getDistanceMiles } from "./utils.jsx";
 import { BrandBear, SceneBg, isOnToday, isOnDay, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
 
+// ── SEO Landing Page ──────────────────────────────────────────────────────────
+function EalingSEOPage({ listings, onActivityClick }) {
+  const TYPE_BG = { Music:"#FEE2E2", Sensory:"#E0E7FF", "Messy Play":"#FCE7F3", Dance:"#FEF3C7", Yoga:"#D1FAE5", Outdoor:"#D1FAE5", Park:"#D1FAE5", Animals:"#D1FAE5", "Soft Play":"#EDE9FE", Play:"#EDE9FE", "Toddler Group":"#FFF7ED", Chess:"#E0E7FF", Football:"#D1FAE5", default:"#F3F4F6" };
+  const TYPE_COL = { Music:"#991B1B", Sensory:"#3730A3", "Messy Play":"#9D174D", Dance:"#92400E", Yoga:"#065F46", Outdoor:"#065F46", Park:"#065F46", Animals:"#065F46", "Soft Play":"#5B21B6", Play:"#5B21B6", "Toddler Group":"#9A3412", Chess:"#3730A3", Football:"#065F46", default:"#374151" };
+
+  const score = (l) => {
+    let s = 0;
+    if ((l.images && l.images.length > 0) || l.logo || l.imageUrl) s += 3;
+    if (l.description && l.description.length > 30) s += 2;
+    if (l.website || l.trialLink) s += 1;
+    if (l.popular) s += 2;
+    return s;
+  };
+
+  const ealingListings = useMemo(() => {
+    const ealingAreas = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Chiswick","Northfields"];
+    return listings
+      .filter(l => ealingAreas.some(a => (l.location || "").includes(a)))
+      .sort((a, b) => score(b) - score(a));
+  }, [listings]);
+
+  const outdoor = ealingListings.filter(l => {
+    const t = (l.type || "").toLowerCase(), n = (l.name || "").toLowerCase();
+    return !l.indoor || ["outdoor","park","playground","nature","animal","zoo","garden"].some(k => t.includes(k) || n.includes(k));
+  }).slice(0, 4);
+
+  const classes = ealingListings.filter(l => {
+    const t = (l.type || "").toLowerCase(), n = (l.name || "").toLowerCase(), ages = (l.ages || "").toLowerCase();
+    return ["music","sensory","messy play","dance","yoga","signing","baby","toddler","rhyme"].some(k => t.includes(k) || n.includes(k) || ages.includes(k));
+  }).slice(0, 4);
+
+  const free = ealingListings.filter(l => l.free || (l.price || "").toLowerCase().includes("free")).slice(0, 4);
+  const popular = ealingListings.filter(l => l.popular || l.verified || l.featuredProvider).slice(0, 4);
+  const popularFallback = popular.length >= 2 ? popular : ealingListings.slice(0, 4);
+
+  const Card = ({ item }) => {
+    const bg = TYPE_BG[item.type] || TYPE_BG.default;
+    const col = TYPE_COL[item.type] || TYPE_COL.default;
+    const img = item.logo || item.imageUrl || (item.images && item.images[0]);
+    const isFree = item.free || (item.price || "").toLowerCase().includes("free");
+    return (
+      <div onClick={() => onActivityClick(item)} style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:16, marginBottom:12, display:"flex", gap:14, cursor:"pointer", boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
+        <div style={{ width:64, height:64, borderRadius:12, background:`linear-gradient(135deg,${bg},${bg}dd)`, flexShrink:0, position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          {img && <img src={img} alt="" style={{ width:"78%", height:"78%", objectFit:"cover", position:"absolute", top:"11%", left:"11%", borderRadius:"50%" }} onError={e => e.target.style.display="none"} />}
+          <span style={{ fontSize:22, fontWeight:800, color:col, position:"relative", zIndex:2 }}>{(item.type||"A").charAt(0)}</span>
+        </div>
+        <div style={{ flex:1, minWidth:0 }}>
+          <div style={{ fontSize:15, fontWeight:700, color:"#111827", marginBottom:3 }}>{item.name}</div>
+          <div style={{ fontSize:12, color:"#4B5563", marginBottom:3 }}>{item.type}{item.ages ? " · " + item.ages : ""}{item.day ? " · " + item.day : ""}</div>
+          <div style={{ fontSize:12, color:"#6B7280" }}>{item.venue ? item.venue.split(",")[0] + ", " : ""}{item.location}</div>
+          {(item.freeTrial || item.popular) && (
+            <div style={{ display:"flex", gap:6, marginTop:6 }}>
+              {item.freeTrial && <span style={{ fontSize:10, fontWeight:700, padding:"2px 7px", borderRadius:6, background:"#DCFCE7", color:"#166534" }}>Free trial</span>}
+              {item.popular && <span style={{ fontSize:10, fontWeight:700, padding:"2px 7px", borderRadius:6, background:"#FEF3C7", color:"#92400E" }}>⭐ Popular</span>}
+            </div>
+          )}
+        </div>
+        <div style={{ flexShrink:0, alignSelf:"flex-start" }}>
+          {item.price && <div style={{ fontSize:12, fontWeight:700, padding:"5px 10px", borderRadius:8, background: isFree ? "#DCFCE7" : "#FFF7ED", color: isFree ? "#166534" : "#9A3412", whiteSpace:"nowrap" }}>{item.price}</div>}
+        </div>
+      </div>
+    );
+  };
+
+  const Section = ({ id, eyebrow, title, desc, items }) => (
+    <section id={id} style={{ padding:"28px 20px 8px" }}>
+      <div style={{ fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.8px", color:"#F97316", marginBottom:4 }}>{eyebrow}</div>
+      <h2 style={{ fontFamily:"Georgia,serif", fontSize:22, fontWeight:800, color:"#111827", marginBottom:6, lineHeight:1.25 }}>{title}</h2>
+      <p style={{ fontSize:14, color:"#4B5563", marginBottom:16, lineHeight:1.55 }}>{desc}</p>
+      {items.length > 0 ? items.map(item => <Card key={item.id} item={item} />) : <p style={{ fontSize:13, color:"#9CA3AF" }}>Loading activities…</p>}
+      <div onClick={() => window.location.href = "/"} style={{ textAlign:"center", padding:"8px 0 4px", fontSize:13, fontWeight:600, color:"#F97316", cursor:"pointer" }}>Browse all {eyebrow.toLowerCase()} →</div>
+    </section>
+  );
+
+  const faqItems = [
+    { q:"What are the best free things to do with kids in Ealing?", a:"Pitzhanger Park Play Centre in Walpole Park has a great free playground for under 5s. Gunnersbury Park has a nature play area, lake and miniature railway. Many local churches run free toddler groups — LITTLElocals lists all free activities with a Free filter." },
+    { q:"What baby classes are available in Ealing?", a:"Ealing has Hartbeeps (baby sensory and music), Sing and Sign (baby signing), Baby Sensory, and various toddler yoga and movement classes. Most run weekly and many offer free trial classes." },
+    { q:"Are there activities for toddlers in Ealing on weekdays?", a:"Yes — most baby and toddler classes run Monday to Friday. There are also daily soft play centres, parks with playgrounds, and toddler groups throughout the week. LITTLElocals has a Today filter so you instantly see what's on right now." },
+    { q:"Is Hanwell Zoo good for toddlers?", a:"Brent Lodge Park (Hanwell Zoo) is excellent for toddlers. Entry is £5 per person with a small zoo, miniature train, and large parkland. Open daily — one of the most popular family spots in the Ealing borough." },
+    { q:"How do I find what's on today for kids in Ealing?", a:"LITTLElocals shows Top things to do today based on your day of the week. Filter by area, age, price and type. Free to use, updated weekly by local parents." },
+  ];
+  const [openFaq, setOpenFaq] = useState(null);
+
+  return (
+    <div style={{ maxWidth:640, margin:"0 auto", background:"#FAFAF8", minHeight:"100vh", fontFamily:"'DM Sans',system-ui,sans-serif", color:"#1F2937" }}>
+      {/* Nav */}
+      <nav style={{ background:"white", borderBottom:"1px solid #E5E7EB", padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", position:"sticky", top:0, zIndex:100 }}>
+        <div onClick={() => window.location.href="/"} style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer" }}>
+          <img src="/bear-logo.png" alt="LITTLElocals" style={{ width:28, height:28, borderRadius:6 }} />
+          <span style={{ fontFamily:"Georgia,serif", fontSize:18, fontWeight:900 }}>LITTLE<span style={{ color:"#F97316" }}>locals</span></span>
+        </div>
+        <div onClick={() => window.location.href="/"} style={{ background:"#F97316", color:"white", padding:"8px 16px", borderRadius:20, fontSize:13, fontWeight:700, cursor:"pointer" }}>Browse all →</div>
+      </nav>
+
+      {/* Breadcrumb */}
+      <div style={{ padding:"10px 20px", fontSize:12, color:"#9CA3AF" }}>
+        <span onClick={() => window.location.href="/"} style={{ color:"#F97316", cursor:"pointer" }}>Home</span> › Things to do with kids in Ealing
+      </div>
+
+      {/* Hero */}
+      <header style={{ background:"linear-gradient(135deg,#FFF7ED,#FFFBF5,#F0FDF4)", padding:"32px 20px 28px", borderBottom:"1px solid #E5E7EB" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:12, fontWeight:700, color:"#F97316", background:"#FFF7ED", border:"1px solid #FED7AA", padding:"4px 12px", borderRadius:20, marginBottom:14 }}>📍 Ealing, West London</div>
+        <h1 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(26px,6vw,34px)", fontWeight:900, color:"#111827", lineHeight:1.2, marginBottom:14 }}>
+          Best Things To Do<br/>With Kids In <span style={{ color:"#F97316", fontStyle:"italic" }}>Ealing</span>
+        </h1>
+        <p style={{ fontSize:15, color:"#4B5563", lineHeight:1.65, marginBottom:12 }}>
+          LITTLElocals is built by Ealing parents, for Ealing parents. Every activity here has been found, verified, or recommended by local families — from baby sensory classes to free parks, toddler groups to weekend adventures.
+        </p>
+        <p style={{ fontSize:13, color:"#6B7280", marginBottom:16 }}>
+          70+ activities across <strong>Ealing</strong>, <strong>Hanwell</strong>, <strong>Acton</strong>, <strong>Northfields</strong> and <strong>West Ealing</strong>.
+        </p>
+        <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+          {[["#F97316", `${ealingListings.length || "70"}+ activities in Ealing`], ["#166534","Updated weekly"], ["#6B4EFF","Free to use"]].map(([col, label]) => (
+            <div key={label} style={{ display:"flex", alignItems:"center", gap:6, fontSize:13, fontWeight:600 }}>
+              <div style={{ width:8, height:8, borderRadius:"50%", background:col }}></div><span>{label}</span>
+            </div>
+          ))}
+        </div>
+      </header>
+
+      {/* Jump nav */}
+      <nav style={{ background:"white", borderBottom:"1px solid #E5E7EB", display:"flex", overflowX:"auto", padding:"0 20px", scrollbarWidth:"none" }}>
+        {[["#outdoor","☀️ Outdoor"],["#classes","🎶 Baby classes"],["#free","💰 Free things"],["#popular","⭐ Popular"],["#faq","❓ FAQ"]].map(([href, label]) => (
+          <a key={href} href={href} style={{ display:"inline-flex", alignItems:"center", gap:4, padding:"12px 14px", fontSize:13, fontWeight:600, color:"#4B5563", textDecoration:"none", whiteSpace:"nowrap", borderBottom:"2px solid transparent" }}>{label}</a>
+        ))}
+      </nav>
+
+      {/* Intro */}
+      <div style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:20, margin:"20px 20px 0" }}>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize:17, fontWeight:800, marginBottom:8 }}>Finding things to do with kids in Ealing</h3>
+        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65, marginBottom:10 }}>Whether you have a newborn, a toddler, or a school-age child, Ealing has a huge range of family-friendly activities year-round. From Walpole Park and Pitzhanger Manor to award-winning baby sensory classes near Ealing Broadway, there's something for every age and budget.</p>
+        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65 }}>LITTLElocals brings together all family activities in Ealing in one place — classes, parks, soft play, toddler groups, museums and more — so you spend less time searching and more time doing.</p>
+      </div>
+
+      <Section id="outdoor" eyebrow="Parks & outdoor fun" title="Best outdoor activities for kids in Ealing ☀️" desc="From nature play to farm animals, Ealing has some of West London's best outdoor spaces for families." items={outdoor} />
+      <div style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:20, margin:"0 20px 8px" }}>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize:16, fontWeight:800, marginBottom:8 }}>Outdoor activities for toddlers in Ealing</h3>
+        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65 }}>Pitzhanger Park Play Centre offers free play for under 5s on weekdays. Brent Lodge Park (Hanwell Zoo) is a great low-cost outing with animals and open space. Gunnersbury Park Nature Play gives children of all ages the chance to explore natural outdoor environments.</p>
+      </div>
+
+      <Section id="classes" eyebrow="Baby & toddler classes" title="Best baby & toddler classes in Ealing 🎶" desc="Structured classes for babies and toddlers — music, sensory play, signing, movement and more." items={classes} />
+      <div style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:20, margin:"0 20px 8px" }}>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize:16, fontWeight:800, marginBottom:8 }}>Baby classes in Ealing for 0–12 months</h3>
+        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65 }}>Hartbeeps runs award-winning baby sensory and music classes from Haven Green Church near Ealing Broadway. Sing and Sign Ealing offers baby signing classes at two venues on Thursdays and Fridays for babies aged 0–24 months. Many classes offer free taster sessions.</p>
+      </div>
+
+      <Section id="free" eyebrow="No budget needed" title="Free things to do with kids in Ealing 💰" desc="Great family activities that won't cost a penny — parks, play centres, toddler groups and more." items={free} />
+
+      <Section id="popular" eyebrow="Saved by local parents" title="Popular with Ealing parents ⭐" desc="Activities that Ealing parents keep coming back to — saved, reviewed and recommended by the community." items={popularFallback} />
+
+      {/* FAQ */}
+      <section id="faq" style={{ padding:"24px 20px" }}>
+        <h2 style={{ fontFamily:"Georgia,serif", fontSize:22, fontWeight:800, color:"#111827", marginBottom:16 }}>Frequently asked questions</h2>
+        {faqItems.map((item, i) => (
+          <div key={i} style={{ background:"white", border:"1px solid #E5E7EB", borderRadius:14, marginBottom:10, overflow:"hidden" }}>
+            <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding:"14px 16px", fontSize:14, fontWeight:700, color:"#111827", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", gap:12 }}>
+              {item.q}
+              <span style={{ fontSize:18, color:"#F97316", transform: openFaq===i ? "rotate(45deg)" : "none", transition:"transform 0.2s", flexShrink:0 }}>+</span>
+            </div>
+            {openFaq === i && <div style={{ padding:"0 16px 14px", fontSize:14, color:"#4B5563", lineHeight:1.65 }}>{item.a}</div>}
+          </div>
+        ))}
+      </section>
+
+      {/* CTA */}
+      <div style={{ margin:"0 20px 32px", background:"linear-gradient(135deg,#1F2937,#374151)", borderRadius:18, padding:"24px 20px", textAlign:"center" }}>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize:20, fontWeight:900, color:"white", marginBottom:8 }}>See everything happening in Ealing today</h3>
+        <p style={{ fontSize:13, color:"rgba(255,255,255,0.7)", marginBottom:16, lineHeight:1.55 }}>Browse all kids activities in Ealing — baby classes, toddler groups, soft play, parks and more. Free to use, updated weekly by local parents.</p>
+        <div onClick={() => window.location.href="/"} style={{ display:"inline-block", background:"#F97316", color:"white", fontSize:14, fontWeight:800, padding:"12px 28px", borderRadius:28, cursor:"pointer", boxShadow:"0 4px 14px rgba(249,115,22,0.4)" }}>👉 Browse all kids activities in Ealing →</div>
+      </div>
+
+      <footer style={{ background:"white", borderTop:"1px solid #E5E7EB", padding:20, textAlign:"center", fontSize:12, color:"#9CA3AF" }}>
+        <p>© 2025 LITTLElocals. Built by parents, for parents.</p>
+        <p style={{ marginTop:6 }}><span onClick={() => window.location.href="/"} style={{ color:"#F97316", cursor:"pointer" }}>Home</span> · <span style={{ color:"#F97316", cursor:"pointer" }}>Privacy</span> · <span style={{ color:"#F97316", cursor:"pointer" }}>Contact</span></p>
+      </footer>
+    </div>
+  );
+}
+
 let supabase = null;
 try {
   supabase = createClient(
@@ -580,7 +759,8 @@ function getSearchScore(item, query) {
       }
       if (freeOnly && !l.free) return false;
       if (dayFilter === "today" && !isOnToday(l)) return false;
-      if (dayFilter !== "all" && dayFilter !== "today" && !isOnDay(l, parseInt(dayFilter))) return false;
+      if (dayFilter === "weekend" && !isOnDay(l, 6) && !isOnDay(l, 0)) return false;
+      if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && !isOnDay(l, parseInt(dayFilter))) return false;
       if (weatherMode === "rainy" && !l.indoor) return false;
       if (weatherMode === "sunny" && l.indoor) return false;
       if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
@@ -703,7 +883,8 @@ function getSearchScore(item, query) {
         if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
         if (freeOnly && !l.free) return false;
         if (dayFilter === "today" && !isOnToday(l)) return false;
-        if (dayFilter !== "all" && dayFilter !== "today" && !isOnDay(l, parseInt(dayFilter))) return false;
+        if (dayFilter === "weekend" && !isOnDay(l, 6) && !isOnDay(l, 0)) return false;
+        if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && !isOnDay(l, parseInt(dayFilter))) return false;
         if (weatherMode === "rainy" && !l.indoor) return false;
         if (weatherMode === "sunny" && l.indoor) return false;
         if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
@@ -927,6 +1108,11 @@ function getSearchScore(item, query) {
     <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 13, fontWeight: 600, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease" }}>{children}</div>
   );
 
+  // SEO landing page route
+  if (window.location.pathname === "/things-to-do-with-kids-in-ealing") {
+    return <EalingSEOPage listings={listings} onActivityClick={(item) => { window.history.pushState({}, "", "/"); openDetail(item); }} />;
+  }
+
   return (
     <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden" }}>
       {/* HEADER */}
@@ -1072,6 +1258,35 @@ function getSearchScore(item, query) {
         </div>
       </div>
 
+      {/* Time filter pills — Today / This weekend / Anytime */}
+      {!search && (
+        <div style={{ padding: "0 20px 10px", display: "flex", gap: 6 }}>
+          {[
+            { label: "Today", value: "today" },
+            { label: "This weekend", value: "weekend" },
+            { label: "Anytime", value: "all" },
+          ].map(({ label, value }) => {
+            const active = dayFilter === value;
+            return (
+              <span
+                key={value}
+                onClick={() => { setDayFilter(value); setPage(1); }}
+                style={{
+                  display: "inline-flex", alignItems: "center",
+                  fontSize: 12, fontWeight: active ? 700 : 600,
+                  padding: "6px 14px", borderRadius: 20, cursor: "pointer",
+                  background: active ? "#1F2937" : "white",
+                  color: active ? "white" : "#4B5563",
+                  border: active ? "none" : "1px solid #E5E7EB",
+                  transition: "all 0.15s ease",
+                  whiteSpace: "nowrap",
+                }}
+              >{label}</span>
+            );
+          })}
+        </div>
+      )}
+
       {/* Expandable filter panel */}
       {showMoreFilters && (
         <div style={{ margin: "0 20px 10px", background: "white", borderRadius: 16, padding: 16, border: "1px solid #E5E7EB" }}>
@@ -1138,14 +1353,30 @@ function getSearchScore(item, query) {
           <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
         )}
       </div>
-      {!search && weatherMode === "all" && !freeOnly && typeFilter === "All Types" && (
-        <div style={{ padding: "0 20px 10px", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          <span onClick={() => { setWeatherMode("sunny"); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#92400E", background: "#FEF3C7", border: "1px solid #FDE68A", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>☀️ Outdoor ideas</span>
-          <span onClick={() => { setWeatherMode("rainy"); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#1E40AF", background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>🌧️ Indoor ideas</span>
-          <span onClick={() => { setFreeOnly(true); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#166534", background: "#DCFCE7", border: "1px solid #BBF7D0", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>💰 Free things</span>
-          <span onClick={() => { setTypeFilter("Music"); setPage(1); }} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600, color: "#6B4EFF", background: "#F3F0FF", border: "1px solid #DDD6FE", borderRadius: 20, padding: "5px 12px", cursor: "pointer" }}>🎨 Classes</span>
-        </div>
-      )}
+      {/* Quick filters — always visible, 4 chips, single row */}
+      <div style={{ padding: "0 20px 12px", display: "flex", gap: 8 }}>
+        {[
+          { label: "☀️ Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny" },
+          { label: "🌧️ Indoor",  action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy" },
+          { label: "💰 Free",    action: () => { setFreeOnly(!freeOnly); setPage(1); }, active: freeOnly },
+          { label: "✨ Ideas",   action: () => window.location.href = "/things-to-do-with-kids-in-ealing", active: false },
+        ].map(({ label, action, active }) => (
+          <span
+            key={label}
+            onClick={action}
+            style={{
+              flex: 1, textAlign: "center",
+              fontSize: 12, fontWeight: active ? 700 : 600,
+              padding: "7px 0", borderRadius: 20, cursor: "pointer",
+              background: active ? "#F97316" : "white",
+              color: active ? "white" : "#374151",
+              border: active ? "none" : "1px solid #E5E7EB",
+              transition: "all 0.15s ease",
+              whiteSpace: "nowrap",
+            }}
+          >{label}</span>
+        ))}
+      </div>
 
       {/* Map View */}
       {mapView && (
