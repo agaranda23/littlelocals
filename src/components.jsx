@@ -20,8 +20,10 @@ const DOW_INDEX = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
 const DOW_BY_INDEX = ["sun","mon","tue","wed","thu","fri","sat"];
 
 // Checks a single listing against a specific day number (0=Sun … 6=Sat)
+// ─── Day name helpers ──────────────────────────────────────────
+const DOW_SHORT = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]; // matches session.day format
+
 // Types that are available any day — parks, zoos, soft play etc.
-// These qualify for Today regardless of schedule data.
 const ALWAYS_AVAILABLE_TYPES = new Set([
   "Park", "Playground", "Zoo", "Animals", "Soft Play", "Play",
   "Library", "Museum", "Nature", "Outdoor", "Indoor Play", "Farm",
@@ -31,88 +33,204 @@ const ALWAYS_AVAILABLE_TYPES = new Set([
 export function isAlwaysAvailable(item) {
   if (item.isDaily === true) return true;
   if (item.type && ALWAYS_AVAILABLE_TYPES.has(item.type)) return true;
-  // Text fallback: open daily / always open wording
   const raw = (item.day || "").toLowerCase();
   return /\b(daily|every day|everyday|all week|open daily|7 days|always open)\b/.test(raw);
 }
 
+// ─── Event: is it currently active? ────────────────────────────
+function isEventActive(item) {
+  if (item.listingType !== "event") return false;
+  const now = new Date(); now.setHours(0,0,0,0);
+  if (item.eventStartDate && item.eventEndDate) {
+    const start = new Date(item.eventStartDate);
+    const end   = new Date(item.eventEndDate);
+    return now >= start && now <= end;
+  }
+  if (item.eventStartDate) return now >= new Date(item.eventStartDate);
+  return false;
+}
+
+// ─── Event: is it expired? ─────────────────────────────────────
+export function isExpiredEvent(item) {
+  if (!item.isTemporary || !item.eventEndDate) return false;
+  const now = new Date(); now.setHours(0,0,0,0);
+  return now > new Date(item.eventEndDate);
+}
+
+// ─── Session: does this item have a session on a given short day? ──
+function hasSessionOnDay(item, shortDay) {
+  if (!item.sessions || item.sessions.length === 0) return false;
+  return item.sessions.some(s => s.day === shortDay);
+}
+
+// ─── Core: is item on today? ───────────────────────────────────
 function checkOnDay(item, dayNum) {
-  // Hard exclude: schedule is "Various" with no structured data yet
-  // BUT skip this if it's an always-open venue type (parks, zoos, etc.)
-  if (item.needsScheduleUpdate && !isAlwaysAvailable(item)) return false;
+  // Never show expired events
+  if (isExpiredEvent(item)) return false;
 
-  // --- Structured fields (authoritative when present) ---
-  if (item.isDaily === true) return true;
+  // Always-available venues bypass schedule checks
+  if (isAlwaysAvailable(item)) return true;
 
+  // Events: show only while active
+  if (item.listingType === "event") return isEventActive(item);
+
+  // Sessions array (v3) — authoritative
+  const shortDay = DOW_SHORT[dayNum];
+  if (item.sessions && item.sessions.length > 0) {
+    return hasSessionOnDay(item, shortDay);
+  }
+
+  // Hard exclude unmigrated listings unless always-available
+  if (item.needsScheduleUpdate) return false;
+
+  // days_of_week array (v2)
   if (item.daysOfWeek && item.daysOfWeek.length > 0) {
     const target = DOW_BY_INDEX[dayNum];
     return target ? item.daysOfWeek.includes(target) : false;
   }
 
+  // event_dates array (v2)
   if (item.eventDates && item.eventDates.length > 0) {
     const d = new Date(); d.setHours(0,0,0,0);
-    // Build a Date for the target dayNum relative to today
     const offset = (dayNum - d.getDay() + 7) % 7;
     const target = new Date(d); target.setDate(d.getDate() + offset);
-    const iso = target.toISOString().split("T")[0];
-    return item.eventDates.includes(iso);
+    return item.eventDates.includes(target.toISOString().split("T")[0]);
   }
 
-  // --- Text fallback (for listings not yet migrated) ---
+  // Text fallback
   const raw = (item.day || "").toLowerCase().trim();
   if (!raw) return false;
   if (/\b(daily|every day|everyday|all week|open daily|7 days)\b/.test(raw)) return true;
   const name = DOW_BY_INDEX[dayNum];
   if (!name) return false;
-  // Full and 3-letter name match
   const fullNames = { sun:"sunday", mon:"monday", tue:"tuesday", wed:"wednesday", thu:"thursday", fri:"friday", sat:"saturday" };
   if (raw.includes(name) || raw.includes(fullNames[name])) return true;
-  // Mon-Fri range
   if (/\b(mon.{0,5}fri|weekdays)\b/.test(raw) && dayNum >= 1 && dayNum <= 5) return true;
-  // Weekends
   if (/\b(weekends?|sat.{0,5}sun)\b/.test(raw) && (dayNum === 0 || dayNum === 6)) return true;
-  // Explicit onToday flag from DB
   if (item.onToday === true && dayNum === new Date().getDay()) return true;
-  // Anything else (Various, Weekly, Term time, TBC…) → false
   return false;
 }
 
 export function isOnToday(item) {
-  return isAlwaysAvailable(item) || checkOnDay(item, new Date().getDay());
+  return checkOnDay(item, new Date().getDay());
 }
 
 export function isOnDay(item, dayNum) {
-  if (dayNum === -1) return true; // "All Days" — show everything
+  if (dayNum === -1) return true;
   return checkOnDay(item, dayNum);
 }
 
-// Weekend helper — Saturday or Sunday of the coming weekend
+// ─── Weekend filter ─────────────────────────────────────────────
 export function isOnWeekend(item) {
+  if (isExpiredEvent(item)) return false;
   if (isAlwaysAvailable(item)) return true;
-  if (item.needsScheduleUpdate && !isAlwaysAvailable(item)) return false;
-  const today = new Date(); today.setHours(0,0,0,0);
-  const dow = today.getDay(); // 0=Sun … 6=Sat
-  // Next Saturday and Sunday
-  const satOffset = (6 - dow + 7) % 7 || 7; // days until next Saturday (min 1)
-  const sunOffset = (0 - dow + 7) % 7 || 7;
-  const sat = new Date(today); sat.setDate(today.getDate() + satOffset);
-  const sun = new Date(today); sun.setDate(today.getDate() + sunOffset);
-  const satIso = sat.toISOString().split("T")[0];
-  const sunIso = sun.toISOString().split("T")[0];
 
+  // Events: check if event_date range overlaps coming weekend
+  if (item.listingType === "event") {
+    if (!item.eventStartDate) return false;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const dow = today.getDay();
+    const satOffset = (6 - dow + 7) % 7 || 7;
+    const sunOffset = (0 - dow + 7) % 7 || 7;
+    const sat = new Date(today); sat.setDate(today.getDate() + satOffset);
+    const sun = new Date(today); sun.setDate(today.getDate() + sunOffset);
+    const start = new Date(item.eventStartDate);
+    const end   = item.eventEndDate ? new Date(item.eventEndDate) : start;
+    return start <= sun && end >= sat;
+  }
+
+  // Sessions array (v3)
+  if (item.sessions && item.sessions.length > 0) {
+    return item.sessions.some(s => s.day === "Sat" || s.day === "Sun");
+  }
+
+  if (item.needsScheduleUpdate) return false;
+
+  // days_of_week (v2)
   if (item.daysOfWeek && item.daysOfWeek.length > 0) {
     return item.daysOfWeek.includes("sat") || item.daysOfWeek.includes("sun");
   }
+
+  // event_dates (v2)
   if (item.eventDates && item.eventDates.length > 0) {
-    return item.eventDates.includes(satIso) || item.eventDates.includes(sunIso);
+    const today = new Date(); today.setHours(0,0,0,0);
+    const dow = today.getDay();
+    const satOffset = (6 - dow + 7) % 7 || 7;
+    const sunOffset = (0 - dow + 7) % 7 || 7;
+    const sat = new Date(today); sat.setDate(today.getDate() + satOffset);
+    const sun = new Date(today); sun.setDate(today.getDate() + sunOffset);
+    return item.eventDates.includes(sat.toISOString().split("T")[0]) ||
+           item.eventDates.includes(sun.toISOString().split("T")[0]);
   }
+
   // Text fallback
   const raw = (item.day || "").toLowerCase().trim();
   if (!raw) return false;
   if (/\b(daily|every day|everyday|all week|open daily)\b/.test(raw)) return true;
-  if (/\b(sat|saturday)\b/.test(raw) || /\b(sun|sunday)\b/.test(raw)) return true;
+  if (/\b(sat|saturday|sun|sunday)\b/.test(raw)) return true;
   if (/\b(weekends?|sat.{0,5}sun)\b/.test(raw)) return true;
   return false;
+}
+
+// ─── Next session helper — for card display ─────────────────────
+export function getNextSession(item) {
+  if (!item.sessions || item.sessions.length === 0) return null;
+  const now = new Date();
+  const todayShort = DOW_SHORT[now.getDay()];
+  const nowMins = now.getHours() * 60 + now.getMinutes();
+
+  const parseMins = (t) => {
+    if (!t) return 0;
+    const m = t.match(/(\d{1,2}):(\d{2})/);
+    return m ? parseInt(m[1]) * 60 + parseInt(m[2]) : 0;
+  };
+
+  // Prioritise: sessions today that haven't started yet
+  const todaySessions = item.sessions
+    .filter(s => s.day === todayShort)
+    .sort((a, b) => parseMins(a.startTime) - parseMins(b.startTime));
+
+  const nextToday = todaySessions.find(s => parseMins(s.startTime) > nowMins);
+  if (nextToday) return { label: `Today ${nextToday.startTime}`, isToday: true, session: nextToday };
+
+  // If session is on right now
+  const onNow = todaySessions.find(s => {
+    const start = parseMins(s.startTime);
+    const end = s.endTime ? parseMins(s.endTime) : start + 60;
+    return nowMins >= start && nowMins < end;
+  });
+  if (onNow) return { label: `On now · ends ${onNow.endTime || ""}`, isToday: true, isNow: true, session: onNow };
+
+  // Next upcoming day
+  const DOW_ORDER = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const todayIdx = now.getDay();
+  for (let offset = 1; offset <= 7; offset++) {
+    const checkDay = DOW_ORDER[(todayIdx + offset) % 7];
+    const daySessions = item.sessions
+      .filter(s => s.day === checkDay)
+      .sort((a, b) => parseMins(a.startTime) - parseMins(b.startTime));
+    if (daySessions.length > 0) {
+      const s = daySessions[0];
+      const label = offset === 1
+        ? `Tomorrow${s.startTime ? " " + s.startTime : ""}`
+        : `${checkDay}${s.startTime ? " " + s.startTime : ""}`;
+      return { label, isToday: false, session: s };
+    }
+  }
+  return null;
+}
+
+// ─── Session summary for card subtitle ─────────────────────────
+export function getSessionSummary(item) {
+  if (!item.sessions || item.sessions.length === 0) return null;
+  const days = [...new Set(item.sessions.map(s => s.day))];
+  if (days.length === 7) return "Daily";
+  if (days.length === 1) {
+    const times = item.sessions.filter(s => s.day === days[0]).map(s => s.startTime).filter(Boolean);
+    return `${days[0]}s${times.length > 0 ? " · " + times.join(", ") : ""}`;
+  }
+  if (days.length <= 3) return days.join(" & ");
+  return `${days.length} days a week`;
 }
 
 export function shareWhatsApp(item) {
@@ -313,8 +431,30 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 20, cursor: "pointer", color: isFav ? "#6B4EFF" : "#D1D5DB", flexShrink: 0, lineHeight: 1, paddingLeft: 6 }}>{isFav ? "♥" : "♡"}</span>
           </div>
           <div style={{ fontSize: 12, color: "#6B7280", marginBottom: distLabel ? 3 : 4 }}>
-            {item.type}{item.ages ? " · " + item.ages : ""}{item.day ? " · " + item.day : ""}
+            {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
+              // Show session summary if sessions exist, else fall back to day text
+              const summary = getSessionSummary(item);
+              if (summary) return " · " + summary;
+              if (item.day) return " · " + item.day;
+              return "";
+            })()}
           </div>
+          {/* Next session hint — shown when sessions exist */}
+          {item.sessions && item.sessions.length > 0 && (() => {
+            const next = getNextSession(item);
+            if (!next) return null;
+            return (
+              <div style={{ fontSize: 11, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 3 }}>
+                {next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}
+              </div>
+            );
+          })()}
+          {/* Event badge for temporary / one-off events */}
+          {item.listingType === "event" && (
+            <div style={{ display: "inline-block", fontSize: 10, fontWeight: 700, color: "#7C3AED", background: "#EDE9FE", padding: "1px 7px", borderRadius: 5, marginBottom: 3 }}>
+              {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
+            </div>
+          )}
           {distLabel && <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 4 }}>{distLabel}</div>}
           {tags.length > 0 && (
             <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 2 }}>

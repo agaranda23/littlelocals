@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { FALLBACK_LISTINGS } from "./fallbackListings.jsx";
 import { typeColors } from "./typeColors.jsx";
 import { getDistanceMiles } from "./utils.jsx";
-import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, isAlwaysAvailable, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
+import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, isAlwaysAvailable, isExpiredEvent, getNextSession, getSessionSummary, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
 
 // ── SEO Landing Page ──────────────────────────────────────────────────────────
 function EalingSEOPage({ listings, onActivityClick }) {
@@ -355,6 +355,13 @@ function WestLondonListings() {
             eventDates: l.event_dates || null,            // e.g. ["2026-03-14"]
             termTimeOnly: l.term_time_only || false,      // exclude during school holidays
             needsScheduleUpdate: l.needs_schedule_update || false, // Various — exclude from Today
+            // Sessions schema (v3)
+            sessions: l.sessions || null,                 // [{day:"Mon",startTime:"10:00",endTime:"11:00"}]
+            listingType: l.listing_type || "activity",   // "activity" | "event"
+            eventStartDate: l.event_start_date || null,  // "2026-04-01"
+            eventEndDate: l.event_end_date || null,       // "2026-04-14"
+            recurrence: l.recurrence || "weekly",         // "weekly"|"one-off"|"multi-day"
+            isTemporary: l.is_temporary || false,
           };}));
 
         // Fetch listing_images and attach to listings
@@ -752,6 +759,7 @@ function getSearchScore(item, query) {
 
   const filtered = useMemo(() => {
     let results = listings.filter(l => {
+      if (isExpiredEvent(l)) return false; // auto-hide expired temporary events
       if (showFavourites && !favourites.includes(l.id)) return false;
       if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
       if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
@@ -889,6 +897,7 @@ function getSearchScore(item, query) {
     const counts = {};
     ["Ealing", "Acton", "Chiswick", "Hanwell", "Northfields", "Ruislip", "Eastcote", "Uxbridge"].forEach(area => {
       counts[area] = listings.filter(l => {
+        if (isExpiredEvent(l)) return false;
         if (!l.location.includes(area)) return false;
         if (showFavourites && !favourites.includes(l.id)) return false;
         if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
