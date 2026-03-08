@@ -15,16 +15,88 @@ export function SceneBg({ type, w, h }) {
   return renderer ? renderer(w, h) : null;
 }
 
+// Canonical short weekday names aligned to JS getDay() order (0=Sun)
+const DOW_INDEX = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
+const DOW_BY_INDEX = ["sun","mon","tue","wed","thu","fri","sat"];
+
+// Checks a single listing against a specific day number (0=Sun … 6=Sat)
+function checkOnDay(item, dayNum) {
+  // Hard exclude: schedule is "Various" with no structured data yet
+  // Better to show nothing than show wrong results
+  if (item.needsScheduleUpdate) return false;
+
+  // --- Structured fields (authoritative when present) ---
+  if (item.isDaily === true) return true;
+
+  if (item.daysOfWeek && item.daysOfWeek.length > 0) {
+    const target = DOW_BY_INDEX[dayNum];
+    return target ? item.daysOfWeek.includes(target) : false;
+  }
+
+  if (item.eventDates && item.eventDates.length > 0) {
+    const d = new Date(); d.setHours(0,0,0,0);
+    // Build a Date for the target dayNum relative to today
+    const offset = (dayNum - d.getDay() + 7) % 7;
+    const target = new Date(d); target.setDate(d.getDate() + offset);
+    const iso = target.toISOString().split("T")[0];
+    return item.eventDates.includes(iso);
+  }
+
+  // --- Text fallback (for listings not yet migrated) ---
+  const raw = (item.day || "").toLowerCase().trim();
+  if (!raw) return false;
+  if (/\b(daily|every day|everyday|all week|open daily|7 days)\b/.test(raw)) return true;
+  const name = DOW_BY_INDEX[dayNum];
+  if (!name) return false;
+  // Full and 3-letter name match
+  const fullNames = { sun:"sunday", mon:"monday", tue:"tuesday", wed:"wednesday", thu:"thursday", fri:"friday", sat:"saturday" };
+  if (raw.includes(name) || raw.includes(fullNames[name])) return true;
+  // Mon-Fri range
+  if (/\b(mon.{0,5}fri|weekdays)\b/.test(raw) && dayNum >= 1 && dayNum <= 5) return true;
+  // Weekends
+  if (/\b(weekends?|sat.{0,5}sun)\b/.test(raw) && (dayNum === 0 || dayNum === 6)) return true;
+  // Explicit onToday flag from DB
+  if (item.onToday === true && dayNum === new Date().getDay()) return true;
+  // Anything else (Various, Weekly, Term time, TBC…) → false
+  return false;
+}
+
 export function isOnToday(item) {
-  const today = new Date().getDay();
-  const days = dayMap[item.day];
-  return days ? days.includes(today) : true;
+  return checkOnDay(item, new Date().getDay());
 }
 
 export function isOnDay(item, dayNum) {
-  if (dayNum === -1) return true; // "All Days"
-  const days = dayMap[item.day];
-  return days ? days.includes(dayNum) : true;
+  if (dayNum === -1) return true; // "All Days" — show everything
+  return checkOnDay(item, dayNum);
+}
+
+// Weekend helper — Saturday or Sunday of the coming weekend
+export function isOnWeekend(item) {
+  if (item.needsScheduleUpdate) return false;
+  if (item.isDaily) return true;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dow = today.getDay(); // 0=Sun … 6=Sat
+  // Next Saturday and Sunday
+  const satOffset = (6 - dow + 7) % 7 || 7; // days until next Saturday (min 1)
+  const sunOffset = (0 - dow + 7) % 7 || 7;
+  const sat = new Date(today); sat.setDate(today.getDate() + satOffset);
+  const sun = new Date(today); sun.setDate(today.getDate() + sunOffset);
+  const satIso = sat.toISOString().split("T")[0];
+  const sunIso = sun.toISOString().split("T")[0];
+
+  if (item.daysOfWeek && item.daysOfWeek.length > 0) {
+    return item.daysOfWeek.includes("sat") || item.daysOfWeek.includes("sun");
+  }
+  if (item.eventDates && item.eventDates.length > 0) {
+    return item.eventDates.includes(satIso) || item.eventDates.includes(sunIso);
+  }
+  // Text fallback
+  const raw = (item.day || "").toLowerCase().trim();
+  if (!raw) return false;
+  if (/\b(daily|every day|everyday|all week|open daily)\b/.test(raw)) return true;
+  if (/\b(sat|saturday)\b/.test(raw) || /\b(sun|sunday)\b/.test(raw)) return true;
+  if (/\b(weekends?|sat.{0,5}sun)\b/.test(raw)) return true;
+  return false;
 }
 
 export function shareWhatsApp(item) {
