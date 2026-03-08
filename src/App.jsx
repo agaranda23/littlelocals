@@ -1388,7 +1388,10 @@ function getSearchScore(item, query) {
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} {dayFilter === "today" ? "activities today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
+          <div>
+            <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} {dayFilter === "today" ? "things happening today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
+            {dayFilter === "today" && <div style={{ fontSize: 10, color: "#C8C8C8", fontWeight: 400, marginTop: 1 }}>{listings.length} activities to explore</div>}
+          </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
           )}
