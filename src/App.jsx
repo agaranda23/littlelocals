@@ -1620,8 +1620,8 @@ function getSearchScore(item, query) {
               );
             })}
             {todayListFull.length > TODAY_LIMIT && (
-              <div onClick={() => { setDayFilter("today"); setSearch(""); setPage(1); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
-                See all {filtered.length} activities in {area} →
+              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
+                Browse all activities →
               </div>
             )}
           </div>
@@ -1752,7 +1752,7 @@ function getSearchScore(item, query) {
         const pagedList = mainFiltered.slice((page - 1) * pageSize, page * pageSize);
         const displayList = (page === 1 && !search && !showFavourites && dayFilter === "today") ? pagedList.slice(0, 3) : pagedList;
         return (
-      <div style={{ padding: "0 20px 20px" }}>
+      <div id="all-activities" style={{ padding: "0 20px 20px" }}>
         {filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px 20px", color: "#4B5563" }}>
             <div style={{ fontSize: 16, fontWeight: 600, color: "#6B7280", marginBottom: 10 }}>{weatherMode === "rainy" ? "No indoor results found" : weatherMode === "sunny" ? "No outdoor results found" : "No results found"}</div>
