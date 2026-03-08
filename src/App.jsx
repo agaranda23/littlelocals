@@ -1141,7 +1141,7 @@ function getSearchScore(item, query) {
             </div>
             <div style={{ marginTop: 6, marginLeft: 58 }}>
               <div style={{ fontSize: 17, fontWeight: 800, color: "#1F2937", lineHeight: 1.3, marginBottom: 2 }}>Today's Best Kids Activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</div>
-              <div style={{ fontSize: 11, color: "#B0B0B0", marginBottom: 3 }}>Helping Ealing parents find great things to do.</div>
+              <div style={{ fontSize: 11, color: "#B0B0B0", marginBottom: 3 }}>Helping Ealing parents find great things to do today.</div>
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
                 const n = 7 + (seed % 6);
@@ -1324,8 +1324,8 @@ function getSearchScore(item, query) {
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Type</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#1F2937">Indoor</Chip>
-            <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#1F2937">Outdoor</Chip>
+            <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#1F2937">🌧️ Indoor</Chip>
+            <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#1F2937">☀️ Outdoor</Chip>
             <Chip active={freeOnly} onClick={() => setFreeOnly(!freeOnly)} activeBg="#1F2937">Free</Chip>
             <Chip active={napFilter === "morning"} onClick={() => setNapFilter(napFilter === "morning" ? "all" : "morning")} activeBg="#1F2937">Morning</Chip>
             <Chip active={napFilter === "afternoon"} onClick={() => setNapFilter(napFilter === "afternoon" ? "all" : "afternoon")} activeBg="#1F2937">Afternoon</Chip>
@@ -1389,11 +1389,11 @@ function getSearchScore(item, query) {
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} {dayFilter === "today" ? "things happening today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
+            <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
             {dayFilter === "today" && (() => {
               const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
               const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
-              return <div style={{ fontSize: 10, color: "#C8C8C8", fontWeight: 400, marginTop: 1 }}>{localCount} activities across Ealing &amp; nearby</div>;
+              return <div style={{ fontSize: 10, color: "#C8C8C8", fontWeight: 400, marginTop: 1 }}>{localCount} things to do around Ealing</div>;
             })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
@@ -1579,7 +1579,14 @@ function getSearchScore(item, query) {
             if (ideas.length === 0) return null;
             return (
               <div style={{ marginTop: 16, padding: "0 20px" }}>
-                <div style={{ fontSize: 13, fontWeight: 800, color: "#111827", marginBottom: 10, letterSpacing: -0.2 }}>☀️ Quick ideas for today</div>
+                {(() => {
+                  const h = new Date().getHours();
+                  const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
+                  if (h >= 5 && h < 12)  return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌤 Good morning {area} parents</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Here are a few ideas for today.</div></>);
+                  if (h >= 12 && h < 18) return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Afternoon ideas for {area} families</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Still looking for something to do today?</div></>);
+                  if (h >= 18)           return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Here are some ideas around {area}.</div></>);
+                  return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Late night planning?</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Save some ideas for tomorrow.</div></>);
+                })()}
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {ideas.map(({ item, label }) => {
                     const tc2 = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
