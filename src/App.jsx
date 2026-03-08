@@ -1141,7 +1141,12 @@ function getSearchScore(item, query) {
             </div>
             <div style={{ marginTop: 6, marginLeft: 58 }}>
               <div style={{ fontSize: 17, fontWeight: 800, color: "#1F2937", lineHeight: 1.3, marginBottom: 2 }}>Today's Best Kids Activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</div>
-              <div style={{ fontSize: 11, color: "#B0B0B0", marginBottom: 6 }}>Helping Ealing parents find great things to do.</div>
+              <div style={{ fontSize: 11, color: "#B0B0B0", marginBottom: 3 }}>Helping Ealing parents find great things to do.</div>
+              {(() => {
+                const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+                const n = 7 + (seed % 6);
+                return <div style={{ fontSize: 11, color: "#C0C0C0" }}>🔥 {n} parents explored activities today</div>;
+              })()}
             </div>
           </>
         ) : (
@@ -1383,7 +1388,7 @@ function getSearchScore(item, query) {
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
+          <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} activities today in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
           )}
@@ -1419,6 +1424,15 @@ function getSearchScore(item, query) {
                 </div>
                 <span style={{ fontSize: 11, color: "#C0C0C0", flexShrink: 0 }}>→</span>
               </div>
+              {(() => {
+                const visited = passport.length;
+                if (visited === 0) return null;
+                const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
+                const msg = visited >= 10
+                  ? `🎉 Local Explorer – you've tried ${visited} places in ${area}`
+                  : `You've explored ${visited} place${visited !== 1 ? "s" : ""} in ${area}`;
+                return <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 6, paddingLeft: 2 }}>{msg}</div>;
+              })()}
             </div>
           );
         } catch { return null; }
@@ -1535,6 +1549,45 @@ function getSearchScore(item, query) {
                           {walkMin !== null && <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#F97316" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
                           <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 5, background: "#ECFDF5", color: "#166534" }}>Open today</span>
                         </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Quick ideas for today — 3 cards: popular, nearby, free */}
+          {(() => {
+            const popular = sortedTodayCandidates.find(a => a.popular || (clickCounts[a.id] || 0) >= 5);
+            const nearby = userLoc ? [...sortedTodayCandidates].sort((a, b) => getDist(a) - getDist(b)).find(a => a.id !== popular?.id) : null;
+            const free = sortedTodayCandidates.find(a => a.free && a.id !== popular?.id && a.id !== nearby?.id);
+            const ideas = [
+              popular && { item: popular, label: "⭐ Popular today" },
+              nearby && { item: nearby, label: "📍 Nearby" },
+              free && { item: free, label: "💰 Free" },
+            ].filter(Boolean).slice(0, 3);
+            if (ideas.length === 0) return null;
+            return (
+              <div style={{ marginTop: 16, padding: "0 20px" }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 10 }}>☀️ Quick ideas for today</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {ideas.map(({ item, label }) => {
+                    const tc2 = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
+                    const d = getDist(item);
+                    const wm = d < 50 ? Math.round(d * 1.60934 * 12) : null;
+                    return (
+                      <div key={"qi-" + item.id} onClick={() => openDetail(item)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "white", borderRadius: 12, border: "1px solid #F0F0F0", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+                        <div style={{ width: 36, height: 36, borderRadius: 10, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14, fontWeight: 800, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
+                          {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", borderRadius: "50%" }} onError={e => e.target.style.display="none"} />}
+                          {!(item.logo || (item.images && item.images[0])) && (item.type || "A").charAt(0)}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 11, color: "#F97316", fontWeight: 600, marginBottom: 1 }}>{label}</div>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                          <div style={{ fontSize: 11, color: "#9CA3AF" }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
+                        </div>
+                        <span style={{ fontSize: 12, color: "#D1D5DB", flexShrink: 0 }}>›</span>
                       </div>
                     );
                   })}

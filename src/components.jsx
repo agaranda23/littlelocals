@@ -200,74 +200,65 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const dist = locRef ? getDistanceMiles(locRef.lat, locRef.lng, item.lat, item.lng) : null;
   const walkMin = dist !== null ? Math.round(dist * 20) : null;
   const onToday = isOnToday(item);
-  
-  // Status badge — smarter real-time
+
+  const handleClick = () => { if (onTrackClick) onTrackClick(item.id); onSelect(item); };
+
+  // Distance: <5 min = Nearby, else X min walk
+  const distLabel = walkMin !== null && walkMin < 60
+    ? (walkMin < 5 ? "📍 Nearby" : `📍 ${walkMin} min walk`)
+    : null;
+
+  // Smarter status messaging
   const getStatus = () => {
     const now = new Date();
-    const h = now.getHours();
-    const m = now.getMinutes();
-    const nowMins = h * 60 + m;
-    if (!onToday) {
-      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-      const tDay = tomorrow.toLocaleDateString("en-GB", { weekday: "long" }).toLowerCase();
-      const itemDays = (item.day || "").toLowerCase();
-      if (itemDays.includes(tDay) || itemDays.includes("daily")) return "📅 Tomorrow";
-      return null;
-    }
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    if (!onToday) return null; // no "Closed today" — just omit for non-today listings
     const timeStr = (item.time || "").trim();
-    if (!timeStr) return "On today";
-    // Parse start time
+    if (!timeStr) return null;
     const startMatch = timeStr.match(/(\d{1,2}):?(\d{2})?\s*(am|pm|AM|PM)?/);
-    if (!startMatch) return "On today";
+    if (!startMatch) return null;
     let startH = parseInt(startMatch[1]);
     const startM = parseInt(startMatch[2] || "0");
     const startAmpm = (startMatch[3] || "").toLowerCase();
     if (startAmpm === "pm" && startH < 12) startH += 12;
     if (startAmpm === "am" && startH === 12) startH = 0;
     const startMins = startH * 60 + startM;
-    // Parse end time
     const endMatch = timeStr.match(/[-–]\s*(\d{1,2}):?(\d{2})?\s*(am|pm|AM|PM)?/);
     let endH = null, endM = 0, endMins = null;
     if (endMatch) {
-      endH = parseInt(endMatch[1]);
-      endM = parseInt(endMatch[2] || "0");
+      endH = parseInt(endMatch[1]); endM = parseInt(endMatch[2] || "0");
       const endAmpm = (endMatch[3] || "").toLowerCase();
       if (endAmpm === "pm" && endH < 12) endH += 12;
       if (endAmpm === "am" && endH === 12) endH = 0;
       endMins = endH * 60 + endM;
     }
-    const fmtTime = (hr, mn) => `${hr > 12 ? hr - 12 : (hr === 0 ? 12 : hr)}:${String(mn).padStart(2, "0")}${hr >= 12 ? "pm" : "am"}`;
-    // Currently open
-    if (endMins !== null && nowMins >= startMins && nowMins < endMins) {
-      const left = endMins - nowMins;
-      if (left <= 30) return `⏰ Closes at ${fmtTime(endH, endM)}`;
-      return "Open now";
-    }
-    // Before start time
+    const fmt = (hr, mn) => `${hr > 12 ? hr-12 : (hr===0?12:hr)}:${String(mn).padStart(2,"0")}${hr>=12?"pm":"am"}`;
+    if (endMins !== null && nowMins >= startMins && nowMins < endMins) return { text: "🟢 Open now", color: "#166534", bg: "#DCFCE7" };
     if (nowMins < startMins) {
       const diff = startMins - nowMins;
-      if (diff <= 60) return `Starts in ${diff} min${diff !== 1 ? "s" : ""}`;
-      return `Opens at ${fmtTime(startH, startM)}`;
+      if (diff <= 60) return { text: `🟡 Starts in ${diff} min${diff!==1?"s":""}`, color: "#92400E", bg: "#FEF3C7" };
+      return { text: `Opens at ${fmt(startH, startM)}`, color: "#6B7280", bg: "transparent" };
     }
-    // After end time or no end time but after start
-    if (endMins !== null && nowMins >= endMins) return null;
-    return "On today";
+    if (endMins !== null && nowMins >= endMins) return { text: "🔴 Closed today", color: "#9CA3AF", bg: "transparent" };
+    return null;
   };
-  const status = getStatus();
-  
-  const handleClick = () => { if (onTrackClick) onTrackClick(item.id); onSelect(item); };
+  const statusObj = getStatus();
 
-  // ONE standardised trust label — 3 variants only
+  // Max TWO tags — priority order: status, trust, free trial
   const getTrustLabel = () => {
     if (todaySignal) return todaySignal;
     const clicks = clickCount || 0;
     if (item.popular || clicks >= 8) return "⭐ Popular with parents";
     if (clicks >= 3 || item.verified) return "🔥 Trending today";
-    const saveCount = clicks + (item.popular ? 4 : 1);
-    if (saveCount >= 4) return "❤️ Saved by parents";
     return null;
   };
   const trustLabel = getTrustLabel();
+
+  // Build tag slots: max 2, priority order
+  const tags = [];
+  if (statusObj && statusObj.text !== "🔴 Closed today") tags.push({ type: "status", ...statusObj });
+  if (tags.length < 2 && trustLabel) tags.push({ type: "trust", text: trustLabel, color: "#9CA3AF", bg: "transparent" });
+  if (tags.length < 2 && item.freeTrial) tags.push({ type: "trial", text: "Free trial", color: "#166534", bg: "#ECFDF5" });
 
   return (
     <div onClick={handleClick} style={{ background: "white", borderRadius: 16, padding: "16px 16px 14px", marginBottom: 12, cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,0.06)", border: "1px solid #EFEFEF" }}>
@@ -288,18 +279,17 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             <span style={{ fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}</span>
             <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 20, cursor: "pointer", color: isFav ? "#6B4EFF" : "#D1D5DB", flexShrink: 0, lineHeight: 1, paddingLeft: 6 }}>{isFav ? "♥" : "♡"}</span>
           </div>
-          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: walkMin !== null && walkMin < 60 ? 3 : 4 }}>
+          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: distLabel ? 3 : 4 }}>
             {item.type}{item.ages ? " · " + item.ages : ""}{item.day ? " · " + item.day : ""}
           </div>
-          {walkMin !== null && walkMin < 60 && (
-            <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 4 }}>
-              📍 {walkMin < 2 ? "Nearby" : walkMin + " min walk"}
+          {distLabel && <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 4 }}>{distLabel}</div>}
+          {tags.length > 0 && (
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 2 }}>
+              {tags.map((tag, i) => (
+                <span key={i} style={{ fontSize: 11, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "1px 6px" : 0, borderRadius: 5 }}>{tag.text}</span>
+              ))}
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-            {status && <span style={{ fontSize: 11, fontWeight: 600, color: status.includes("Open now") ? "#166534" : status.includes("Closes") || status.includes("Opens") || status.includes("Starts") ? "#92400E" : "#4B5563", background: status.includes("Open now") ? "#DCFCE7" : status.includes("Closes") || status.includes("Opens") || status.includes("Starts") ? "#FEF3C7" : "transparent", padding: status.includes("Open now") || status.includes("Closes") || status.includes("Opens") || status.includes("Starts") ? "1px 6px" : 0, borderRadius: 5 }}>{status}</span>}
-            {item.freeTrial && <span style={{ fontSize: 11, fontWeight: 600, color: "#166534", background: "#ECFDF5", padding: "1px 6px", borderRadius: 5 }}>Free trial</span>}
-          </div>
         </div>
 
         {/* Price */}
@@ -307,13 +297,6 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           <span style={{ fontSize: 12, fontWeight: 700, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap" }}>{item.price}</span>
         </div>
       </div>
-
-      {/* Trust label — ONE only, muted */}
-      {trustLabel && (
-        <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px solid #F5F5F5", fontSize: 11, color: "#9CA3AF", fontWeight: 500 }}>
-          {trustLabel}
-        </div>
-      )}
     </div>
   );
 }
@@ -333,6 +316,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
   const [reviewImages, setReviewImages] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [savedFeedback, setSavedFeedback] = useState(false);
+  const [showSaveShareNudge, setShowSaveShareNudge] = useState(false);
   const [beenHereJustTapped, setBeenHereJustTapped] = useState(false);
   const [showContribute, setShowContribute] = useState(false);
   const [showTipInput, setShowTipInput] = useState(false);
@@ -341,7 +325,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
 
   const openExternalWebsite = (url) => { if (!url) return; let safeUrl = url.trim(); if (!safeUrl.startsWith("http://") && !safeUrl.startsWith("https://")) safeUrl = "https://" + safeUrl; window.open(safeUrl, "_blank", "noopener,noreferrer"); };
   const getHostname = (url) => { try { const safe = url.startsWith("http") ? url : "https://" + url; return new URL(safe).hostname.replace("www.", ""); } catch { return ""; } };
-  const handleToggleFav = (id) => { onToggleFav(id); if (!isFav) { setSavedFeedback(true); setTimeout(() => setSavedFeedback(false), 1200); } };
+  const handleToggleFav = (id) => { onToggleFav(id); if (!isFav) { setSavedFeedback(true); setShowSaveShareNudge(true); setTimeout(() => setSavedFeedback(false), 1500); setTimeout(() => setShowSaveShareNudge(false), 5000); } };
 
   // Track last viewed activity
   useEffect(() => { try { localStorage.setItem("ll_lastViewedActivity", JSON.stringify({ id: item.id, name: item.name, timestamp: Date.now() })); } catch(e) {} }, [item.id]);
@@ -409,6 +393,13 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
       </div>
       )}
       <div style={{ padding: 20 }}>
+        {/* Post-save share nudge */}
+        {showSaveShareNudge && (
+          <div style={{ marginBottom: 12, padding: "10px 14px", background: "#F3F0FF", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>Saved to your favourites ❤️</span>
+            <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 11, fontWeight: 700, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
+          </div>
+        )}
         <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
           {item.name}
           {avgRating && <span style={{ fontSize: 12, fontWeight: 700, padding: "2px 8px", borderRadius: 8, background: "#FFF3E0", color: "#E67E22" }}>★ {avgRating}</span>}
@@ -786,14 +777,18 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                   style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 11, fontWeight: 700, color: "#374151", cursor: "pointer", textAlign: "center" }}
                 >✏️ Add quick tip</div>
               </div>
+              {/* Share nudge after been-here */}
+              <div onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid #FED7AA", fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer", textAlign: "center" }}>
+                Send this to another parent →
+              </div>
             </div>
           )}
         </div>
 
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={(e) => { e.stopPropagation(); const shareUrl = window.location.href; if (navigator.share) navigator.share({ title: item.name, text: "Check out " + item.name + " on LITTLElocals!", url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent("Check out " + item.name + " on LITTLElocals! " + shareUrl), "_blank"); }} style={{ flex: 1, padding: 12, borderRadius: 12, border: "none", background: "#25D366", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+          <button onClick={(e) => { e.stopPropagation(); const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ flex: 1, padding: 12, borderRadius: 12, border: "none", background: "#25D366", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.684-6.34-1.861l-.455-.296-2.725.914.912-2.727-.306-.463A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-            Share with a parent
+            Send to another parent
           </button>
           <button onClick={(e) => { e.stopPropagation(); const url = item.website || (item.cta && item.cta.url) || ""; openExternalWebsite(url); }} style={{ flex: 1.2, padding: 12, borderRadius: 12, border: "none", background: item.cta.type === "phone" ? "#42A5F5" : item.cta.type === "facebook" ? "#1877F2" : item.cta.type === "email" ? "#7B68EE" : "#F97316", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
             {item.cta.type === "phone" ? "Phone:" : item.cta.type === "facebook" ? "Facebook:" : item.cta.type === "email" ? "Email:" : "Web:"} {item.cta.label}
