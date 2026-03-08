@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { FALLBACK_LISTINGS } from "./fallbackListings.jsx";
 import { typeColors } from "./typeColors.jsx";
 import { getDistanceMiles } from "./utils.jsx";
-import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, isAlwaysAvailable, isExpiredEvent, getNextSession, getSessionSummary, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
+import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, isOnThisWeek, isAlwaysAvailable, isExpiredEvent, getNextSession, getSessionSummary, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
 
 // ── SEO Landing Page ──────────────────────────────────────────────────────────
 function EalingSEOPage({ listings, onActivityClick }) {
@@ -774,7 +774,8 @@ function getSearchScore(item, query) {
       if (freeOnly && !l.free) return false;
       if (dayFilter === "today" && !isOnToday(l)) return false;
       if (dayFilter === "weekend" && !isOnWeekend(l)) return false;
-      if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && !isOnDay(l, parseInt(dayFilter))) return false;
+      if (dayFilter === "week" && !isOnThisWeek(l)) return false;
+      if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && dayFilter !== "week" && !isOnDay(l, parseInt(dayFilter))) return false;
       if (weatherMode === "rainy" && !l.indoor) return false;
       if (weatherMode === "sunny" && l.indoor) return false;
       if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
@@ -905,7 +906,8 @@ function getSearchScore(item, query) {
         if (freeOnly && !l.free) return false;
         if (dayFilter === "today" && !isOnToday(l)) return false;
         if (dayFilter === "weekend" && !isOnWeekend(l)) return false;
-        if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && !isOnDay(l, parseInt(dayFilter))) return false;
+        if (dayFilter === "week" && !isOnThisWeek(l)) return false;
+        if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && dayFilter !== "week" && !isOnDay(l, parseInt(dayFilter))) return false;
         if (weatherMode === "rainy" && !l.indoor) return false;
         if (weatherMode === "sunny" && l.indoor) return false;
         if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
@@ -947,6 +949,8 @@ function getSearchScore(item, query) {
   }, [userLoc]);
 
   const todayCount = useMemo(() => listings.filter(l => isOnToday(l)).length, [listings]);
+  const weekendCount = useMemo(() => listings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [listings]);
+  const weekCount = useMemo(() => listings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [listings]);
 
   if (showCalendar) {
     const today = new Date();
@@ -1285,33 +1289,7 @@ function getSearchScore(item, query) {
       </div>
 
       {/* Time filter pills */}
-      {!search && (
-        <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>
-          {[
-            { label: "Today", value: "today" },
-            { label: "This weekend", value: "weekend" },
-            { label: "Anytime", value: "all" },
-          ].map(({ label, value }) => {
-            const active = dayFilter === value;
-            return (
-              <span
-                key={value}
-                onClick={() => { setDayFilter(value); setPage(1); }}
-                style={{
-                  display: "inline-flex", alignItems: "center",
-                  fontSize: 12, fontWeight: active ? 700 : 500,
-                  padding: "5px 14px", borderRadius: 20, cursor: "pointer",
-                  background: active ? "#111827" : "transparent",
-                  color: active ? "white" : "#6B7280",
-                  border: active ? "none" : "1px solid #E5E7EB",
-                  transition: "all 0.15s ease",
-                  whiteSpace: "nowrap",
-                }}
-              >{label}</span>
-            );
-          })}
-        </div>
-      )}
+      {!search && (\n        <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>\n          {[\n            { label: "Today", value: "today", count: todayCount },\n            { label: "This weekend", value: "weekend", count: weekendCount },\n            { label: "This week", value: "week", count: weekCount },\n          ].map(({ label, value, count }) => {\n            const active = dayFilter === value;\n            const zero = count === 0;\n            return (\n              <span\n                key={value}\n                onClick={() => { setDayFilter(value); setPage(1); }}\n                style={{\n                  display: "inline-flex", alignItems: "center", gap: 5,\n                  fontSize: 12, fontWeight: active ? 700 : 500,\n                  padding: "5px 14px", borderRadius: 20, cursor: "pointer",\n                  background: active ? "#111827" : "transparent",\n                  color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",\n                  border: active ? "none" : "1px solid #E5E7EB",\n                  transition: "all 0.15s ease",\n                  whiteSpace: "nowrap",\n                  opacity: zero && !active ? 0.6 : 1,\n                }}\n              >\n                {label}\n                <span style={{\n                  fontSize: 10, fontWeight: 600,\n                  color: active ? "rgba(255,255,255,0.7)" : "#B0B0B0",\n                  background: active ? "rgba(255,255,255,0.15)" : "#F3F4F6",\n                  padding: "1px 5px", borderRadius: 8, lineHeight: 1.4\n                }}>{count}</span>\n              </span>\n            );\n          })}\n        </div>\n      )}
 
       {/* Expandable filter panel */}
       {showMoreFilters && (
@@ -1603,20 +1581,20 @@ function getSearchScore(item, query) {
                     const wm = d < 50 ? Math.round(d * 1.60934 * 12) : null;
                     return (
                       <div key={"qi-" + item.id} onClick={() => openDetail(item)}
-                        style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", background: "white", borderRadius: 14, border: "1px solid #EBEBEB", cursor: "pointer", boxShadow: "0 2px 6px rgba(0,0,0,0.05)", transition: "box-shadow 0.15s" }}
+                        style={{ display: "flex", alignItems: "center", gap: 13, padding: "13px 15px", background: "white", borderRadius: 16, border: "1px solid #EBEBEB", cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", transition: "box-shadow 0.15s" }}
                         onTouchStart={e => e.currentTarget.style.boxShadow="0 1px 2px rgba(0,0,0,0.04)"}
-                        onTouchEnd={e => e.currentTarget.style.boxShadow="0 2px 6px rgba(0,0,0,0.05)"}
+                        onTouchEnd={e => e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.06)"}
                       >
-                        <div style={{ width: 38, height: 38, borderRadius: 11, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14, fontWeight: 800, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
-                          {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", borderRadius: "50%" }} onError={e => e.target.style.display="none"} />}
+                        <div style={{ width: 46, height: 46, borderRadius: 13, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 16, fontWeight: 800, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
+                          {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "80%", height: "80%", objectFit: "contain", position: "absolute", top: "10%", left: "10%", borderRadius: "50%" }} onError={e => e.target.style.display="none"} />}
                           {!(item.logo || (item.images && item.images[0])) && (item.type || "A").charAt(0)}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 10, color: "#F97316", fontWeight: 700, marginBottom: 1, letterSpacing: 0.2, textTransform: "uppercase" }}>{label}</div>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-                          <div style={{ fontSize: 11, color: "#9CA3AF" }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
+                          <div style={{ fontSize: 10, color: "#F97316", fontWeight: 700, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                          <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 1 }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
                         </div>
-                        <span style={{ fontSize: 16, color: "#9CA3AF", flexShrink: 0, fontWeight: 300 }}>›</span>
+                        <span style={{ fontSize: 18, color: "#D1D5DB", flexShrink: 0 }}>›</span>
                       </div>
                     );
                   })}
@@ -1626,8 +1604,8 @@ function getSearchScore(item, query) {
           })()}
 
           {/* 1. Top things to do today */}
-          <div style={{ marginTop: 20, padding: "0 20px" }}>
-            <div style={{ fontSize: 21, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px" }}>Top things to do today in {area}</div>
+          <div style={{ marginTop: 28, padding: "0 20px" }}>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
             {(() => {
               const totalViews = todayList.reduce((sum, a) => sum + (clickCounts[a.id] || 0), 0);
               if (totalViews >= 5) return <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>🔥 {totalViews} Ealing parents viewed this today</div>;
@@ -1739,9 +1717,11 @@ function getSearchScore(item, query) {
 
           {/* 2. From your saved */}
           {savedList.length > 0 && (
-            <div style={{ marginTop: 32, padding: "0 20px" }}>
-              <div style={{ fontSize: 21, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px" }}>From your saved</div>
-              <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Ready when you are</div>
+            <div style={{ marginTop: 36, padding: "0 20px" }}>
+              <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>❤️ From your saved</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Ready when you are</div>
+              <div style={{ fontSize: 12, color: "#B0B0B0", marginBottom: 14 }}>Activities you've saved for later</div>
               {savedList.map(item => (
                 <ListingCard key={"fromsaved-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={true} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               ))}
@@ -1750,9 +1730,11 @@ function getSearchScore(item, query) {
 
           {/* 3. This weekend */}
           {popularList.length > 0 && (
-            <div style={{ marginTop: 32, padding: "0 20px" }}>
-              <div style={{ fontSize: 21, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px" }}>This weekend in {area}</div>
-              <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Best things to do with your kids this weekend</div>
+            <div style={{ marginTop: 36, padding: "0 20px" }}>
+              <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>📅 Coming up</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>This weekend in {area}</div>
+              <div style={{ fontSize: 12, color: "#B0B0B0", marginBottom: 14 }}>Best things to do with your kids this weekend</div>
               {popularList.map(item => (
                 <ListingCard key={"pop-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               ))}
@@ -1761,9 +1743,11 @@ function getSearchScore(item, query) {
 
           {/* 4. Loved by Ealing parents */}
           {lovedList.length > 0 && (
-            <div style={{ marginTop: 32, padding: "0 20px" }}>
-              <div style={{ fontSize: 21, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px" }}>Loved by {area} parents</div>
-              <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Saved and recommended by families like yours</div>
+            <div style={{ marginTop: 36, padding: "0 20px" }}>
+              <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
+              <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>⭐ Parent picks</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Loved by {area} parents</div>
+              <div style={{ fontSize: 12, color: "#B0B0B0", marginBottom: 14 }}>Saved and recommended by families like yours</div>
               {lovedList.map(item => (
                 <ListingCard key={"loved-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               ))}

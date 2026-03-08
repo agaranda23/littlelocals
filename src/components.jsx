@@ -172,6 +172,38 @@ export function isOnWeekend(item) {
   return false;
 }
 
+// ─── This week filter (next 7 days) ─────────────────────────────
+export function isOnThisWeek(item) {
+  if (isExpiredEvent(item)) return false;
+  if (isAlwaysAvailable(item)) return true;
+  const today = new Date(); today.setHours(0,0,0,0);
+  const in7 = new Date(today); in7.setDate(today.getDate() + 6);
+  // Events: check overlap with next 7 days
+  if (item.listingType === "event") {
+    if (!item.eventStartDate) return false;
+    const start = new Date(item.eventStartDate);
+    const end = item.eventEndDate ? new Date(item.eventEndDate) : start;
+    return start <= in7 && end >= today;
+  }
+  // Sessions: check if any session day falls in next 7 days
+  if (item.sessions && item.sessions.length > 0) {
+    const dayMap = { Sun:0, Mon:1, Tue:2, Wed:3, Thu:4, Fri:5, Sat:6 };
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(today); d.setDate(today.getDate() + i);
+      const dayName = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()];
+      if (item.sessions.some(s => s.day === dayName)) return true;
+    }
+    return false;
+  }
+  if (item.needsScheduleUpdate) return false;
+  // v2 fallback: daysOfWeek
+  if (item.daysOfWeek && item.daysOfWeek.length > 0) return true;
+  // Text fallback
+  const raw = (item.day || "").toLowerCase();
+  if (/\b(daily|every day|everyday|all week|open daily|mon|tue|wed|thu|fri|sat|sun)\b/.test(raw)) return true;
+  return false;
+}
+
 // ─── Next session helper — for card display ─────────────────────
 export function getNextSession(item) {
   if (!item.sessions || item.sessions.length === 0) return null;
