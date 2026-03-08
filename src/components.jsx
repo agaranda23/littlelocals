@@ -335,6 +335,29 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const walkMin = dist !== null ? Math.round(dist * 20) : null;
   const onToday = isOnToday(item);
 
+  // Swipe state for image carousel
+  const [imgIndex, setImgIndex] = useState(0);
+  const swipeStartX = useRef(null);
+  const allImages = [
+    ...(item.images && item.images.length > 0 ? item.images : []),
+    ...(item.imageUrl && !(item.images && item.images.includes(item.imageUrl)) ? [item.imageUrl] : [])
+  ].filter(Boolean);
+  const hasImages = allImages.length > 0;
+  const hasLogo = !!item.logo;
+
+  const handleSwipeStart = (e) => { swipeStartX.current = e.touches ? e.touches[0].clientX : e.clientX; };
+  const handleSwipeEnd = (e) => {
+    if (swipeStartX.current === null) return;
+    const endX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    const diff = swipeStartX.current - endX;
+    if (Math.abs(diff) > 40) {
+      e.stopPropagation();
+      if (diff > 0) setImgIndex(i => Math.min(i + 1, allImages.length - 1));
+      else setImgIndex(i => Math.max(i - 1, 0));
+    }
+    swipeStartX.current = null;
+  };
+
   const handleClick = () => { if (onTrackClick) onTrackClick(item.id); onSelect(item); };
 
   // Distance: <5 min = Nearby, else X min walk
@@ -412,68 +435,108 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   })();
 
   return (
-    <div onClick={handleClick} style={{ background: "white", borderRadius: 18, padding: "16px 16px 14px", marginBottom: 10, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.07)", border: "1px solid #EFEFEF" }}>
-      <div style={{ display: "flex", gap: 14 }}>
-        {/* Thumb — bigger, square crop */}
-        <div style={{ width: 72, height: 72, borderRadius: 14, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative", overflow: "hidden" }}>
-          <SceneBg type={item.type} w={72} h={72} />
-          <span style={{ position: "relative", zIndex: 2, fontSize: 24, fontWeight: 800, color: tc.color || "#333" }}>{(item.type || "A").charAt(0)}</span>
-          {(item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)) && (
-            <img src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)} alt="" style={{ width: "82%", height: "82%", objectFit: "cover", position: "absolute", top: "9%", left: "9%", zIndex: 4, borderRadius: "50%" }} onError={(e) => { e.target.style.display = "none"; }} />
-          )}
-          {onToday && <div style={{ position: "absolute", top: 0, right: 0, width: 15, height: 15, background: "#166534", borderRadius: "0 12px 0 7px", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 5 }}><span style={{ fontSize: 8, color: "white" }}>✓</span></div>}
-        </div>
+    <div onClick={handleClick} style={{ background: "white", borderRadius: 18, marginBottom: 12, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,0,0,0.07)", border: "1px solid #EFEFEF", overflow: "hidden" }}>
 
-        {/* Content */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 4, marginBottom: 4 }}>
-            <span style={{ fontSize: 16, fontWeight: 700, color: "#111827", lineHeight: 1.25 }}>{item.name}</span>
-            <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 22, cursor: "pointer", color: isFav ? "#6B4EFF" : "#D1D5DB", flexShrink: 0, lineHeight: 1, paddingLeft: 8, paddingTop: 1 }}>{isFav ? "♥" : "♡"}</span>
-          </div>
-          <div style={{ fontSize: 13, color: "#6B7280", marginBottom: distLabel ? 4 : 5, lineHeight: 1.4 }}>
-            {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
-              const summary = getSessionSummary(item);
-              if (summary) return " · " + summary;
-              if (item.day) return " · " + item.day;
-              return "";
-            })()}
-          </div>
-          {/* Next session hint */}
-          {item.sessions && item.sessions.length > 0 && (() => {
-            const next = getNextSession(item);
-            if (!next) return null;
-            return (
-              <div style={{ fontSize: 12, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 4 }}>
-                {next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}
-              </div>
-            );
-          })()}
-          {/* Event badge */}
-          {item.listingType === "event" && (
-            <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#7C3AED", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 4 }}>
-              {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
-            </div>
-          )}
-          {distLabel && <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 5 }}>{distLabel}</div>}
-          {tags.length > 0 && (
-            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 3 }}>
-              {tags.map((tag, i) => (
-                <span key={i} style={{ fontSize: 12, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
+      {/* ── Wide image header ── */}
+      {hasImages ? (
+        <div
+          style={{ position: "relative", height: 160, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, overflow: "hidden", userSelect: "none" }}
+          onTouchStart={handleSwipeStart} onTouchEnd={handleSwipeEnd}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <SceneBg type={item.type} w="100%" h={160} />
+          <img
+            src={allImages[imgIndex]}
+            alt={item.name}
+            loading="lazy"
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            onError={(e) => { e.target.style.display = "none"; }}
+          />
+          {/* Dot indicators */}
+          {allImages.length > 1 && (
+            <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 5 }}>
+              {allImages.map((_, i) => (
+                <div key={i} onClick={(e) => { e.stopPropagation(); setImgIndex(i); }} style={{ width: i === imgIndex ? 16 : 6, height: 6, borderRadius: 3, background: i === imgIndex ? "white" : "rgba(255,255,255,0.5)", transition: "width 0.2s" }} />
               ))}
             </div>
           )}
+          {/* Logo pill overlay — bottom left */}
+          {hasLogo && (
+            <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
+              <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#111827" }}>{item.name}</span>
+            </div>
+          )}
+          {/* Fav button */}
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: isFav ? "#6B4EFF" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
+            {isFav ? "♥" : "♡"}
+          </div>
+          {/* Today badge */}
+          {onToday && (
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+          )}
         </div>
-
-        {/* Price */}
-        <div style={{ flexShrink: 0, alignSelf: "flex-start", paddingTop: 2 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 9, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap" }}>{item.price}</span>
-        </div>
-      </div>
-      {socialProof && (
-        <div style={{ fontSize: 12, color: "#8A8F98", marginTop: 10, paddingTop: 8, borderTop: "1px solid #F5F5F5" }}>
-          {socialProof}
+      ) : (
+        /* No images — coloured banner with type initial + logo */
+        <div style={{ position: "relative", height: 100, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}99)`, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+          <SceneBg type={item.type} w="100%" h={100} />
+          {hasLogo
+            ? <img src={item.logo} alt="" loading="lazy" style={{ height: 56, maxWidth: "60%", objectFit: "contain", position: "relative", zIndex: 2 }} onError={(e) => { e.target.style.display = "none"; }} />
+            : <span style={{ fontSize: 36, fontWeight: 900, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
+          }
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: isFav ? "#6B4EFF" : "#9CA3AF", cursor: "pointer" }}>
+            {isFav ? "♥" : "♡"}
+          </div>
+          {onToday && (
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+          )}
         </div>
       )}
+
+      {/* ── Info block ── */}
+      <div style={{ padding: "12px 14px 13px" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
+          <span style={{ fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.25 }}>{item.name}</span>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
+        </div>
+
+        <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 6, lineHeight: 1.4 }}>
+          {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
+            const summary = getSessionSummary(item);
+            if (summary) return " · " + summary;
+            if (item.day) return " · " + item.day;
+            return "";
+          })()}
+        </div>
+
+        {/* Next session */}
+        {item.sessions && item.sessions.length > 0 && (() => {
+          const next = getNextSession(item);
+          if (!next) return null;
+          return <div style={{ fontSize: 12, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+        })()}
+
+        {/* Event badge */}
+        {item.listingType === "event" && (
+          <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#7C3AED", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 5 }}>
+            {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
+          </div>
+        )}
+
+        {/* Distance + tags row */}
+        <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
+          {distLabel && <span style={{ fontSize: 12, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
+          {tags.map((tag, i) => (
+            <span key={i} style={{ fontSize: 12, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
+          ))}
+        </div>
+
+        {socialProof && (
+          <div style={{ fontSize: 11, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5" }}>
+            {socialProof}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
