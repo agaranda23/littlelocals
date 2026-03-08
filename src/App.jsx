@@ -1390,7 +1390,11 @@ function getSearchScore(item, query) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
             <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} {dayFilter === "today" ? "things happening today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
-            {dayFilter === "today" && <div style={{ fontSize: 10, color: "#C8C8C8", fontWeight: 400, marginTop: 1 }}>{listings.length} activities to explore</div>}
+            {dayFilter === "today" && (() => {
+              const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
+              const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
+              return <div style={{ fontSize: 10, color: "#C8C8C8", fontWeight: 400, marginTop: 1 }}>{localCount} activities across Ealing &amp; nearby</div>;
+            })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
@@ -1575,24 +1579,28 @@ function getSearchScore(item, query) {
             if (ideas.length === 0) return null;
             return (
               <div style={{ marginTop: 16, padding: "0 20px" }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 10 }}>☀️ Quick ideas for today</div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#111827", marginBottom: 10, letterSpacing: -0.2 }}>☀️ Quick ideas for today</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {ideas.map(({ item, label }) => {
                     const tc2 = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
                     const d = getDist(item);
                     const wm = d < 50 ? Math.round(d * 1.60934 * 12) : null;
                     return (
-                      <div key={"qi-" + item.id} onClick={() => openDetail(item)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "white", borderRadius: 12, border: "1px solid #F0F0F0", cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 10, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14, fontWeight: 800, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
+                      <div key={"qi-" + item.id} onClick={() => openDetail(item)}
+                        style={{ display: "flex", alignItems: "center", gap: 12, padding: "11px 14px", background: "white", borderRadius: 14, border: "1px solid #EBEBEB", cursor: "pointer", boxShadow: "0 2px 6px rgba(0,0,0,0.05)", transition: "box-shadow 0.15s" }}
+                        onTouchStart={e => e.currentTarget.style.boxShadow="0 1px 2px rgba(0,0,0,0.04)"}
+                        onTouchEnd={e => e.currentTarget.style.boxShadow="0 2px 6px rgba(0,0,0,0.05)"}
+                      >
+                        <div style={{ width: 38, height: 38, borderRadius: 11, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 14, fontWeight: 800, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
                           {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", borderRadius: "50%" }} onError={e => e.target.style.display="none"} />}
                           {!(item.logo || (item.images && item.images[0])) && (item.type || "A").charAt(0)}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 11, color: "#F97316", fontWeight: 600, marginBottom: 1 }}>{label}</div>
-                          <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                          <div style={{ fontSize: 10, color: "#F97316", fontWeight: 700, marginBottom: 1, letterSpacing: 0.2, textTransform: "uppercase" }}>{label}</div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
                           <div style={{ fontSize: 11, color: "#9CA3AF" }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
                         </div>
-                        <span style={{ fontSize: 12, color: "#D1D5DB", flexShrink: 0 }}>›</span>
+                        <span style={{ fontSize: 16, color: "#9CA3AF", flexShrink: 0, fontWeight: 300 }}>›</span>
                       </div>
                     );
                   })}
