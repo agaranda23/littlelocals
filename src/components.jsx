@@ -20,10 +20,26 @@ const DOW_INDEX = { sun: 0, mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6 };
 const DOW_BY_INDEX = ["sun","mon","tue","wed","thu","fri","sat"];
 
 // Checks a single listing against a specific day number (0=Sun … 6=Sat)
+// Types that are available any day — parks, zoos, soft play etc.
+// These qualify for Today regardless of schedule data.
+const ALWAYS_AVAILABLE_TYPES = new Set([
+  "Park", "Playground", "Zoo", "Animals", "Soft Play", "Play",
+  "Library", "Museum", "Nature", "Outdoor", "Indoor Play", "Farm",
+  "Garden", "Swimming", "Leisure Centre",
+]);
+
+export function isAlwaysAvailable(item) {
+  if (item.isDaily === true) return true;
+  if (item.type && ALWAYS_AVAILABLE_TYPES.has(item.type)) return true;
+  // Text fallback: open daily / always open wording
+  const raw = (item.day || "").toLowerCase();
+  return /\b(daily|every day|everyday|all week|open daily|7 days|always open)\b/.test(raw);
+}
+
 function checkOnDay(item, dayNum) {
   // Hard exclude: schedule is "Various" with no structured data yet
-  // Better to show nothing than show wrong results
-  if (item.needsScheduleUpdate) return false;
+  // BUT skip this if it's an always-open venue type (parks, zoos, etc.)
+  if (item.needsScheduleUpdate && !isAlwaysAvailable(item)) return false;
 
   // --- Structured fields (authoritative when present) ---
   if (item.isDaily === true) return true;
@@ -62,7 +78,7 @@ function checkOnDay(item, dayNum) {
 }
 
 export function isOnToday(item) {
-  return checkOnDay(item, new Date().getDay());
+  return isAlwaysAvailable(item) || checkOnDay(item, new Date().getDay());
 }
 
 export function isOnDay(item, dayNum) {
@@ -72,8 +88,8 @@ export function isOnDay(item, dayNum) {
 
 // Weekend helper — Saturday or Sunday of the coming weekend
 export function isOnWeekend(item) {
-  if (item.needsScheduleUpdate) return false;
-  if (item.isDaily) return true;
+  if (isAlwaysAvailable(item)) return true;
+  if (item.needsScheduleUpdate && !isAlwaysAvailable(item)) return false;
   const today = new Date(); today.setHours(0,0,0,0);
   const dow = today.getDay(); // 0=Sun … 6=Sat
   // Next Saturday and Sunday

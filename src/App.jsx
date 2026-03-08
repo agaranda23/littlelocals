@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { FALLBACK_LISTINGS } from "./fallbackListings.jsx";
 import { typeColors } from "./typeColors.jsx";
 import { getDistanceMiles } from "./utils.jsx";
-import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
+import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, isAlwaysAvailable, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
 
 // ── SEO Landing Page ──────────────────────────────────────────────────────────
 function EalingSEOPage({ listings, onActivityClick }) {
