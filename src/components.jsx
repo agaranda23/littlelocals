@@ -412,54 +412,53 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   })();
 
   return (
-    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, padding: "16px 16px 14px", marginBottom: 12, cursor: "pointer", boxShadow: "0 1px 3px rgba(0,0,0,0.06)", border: "1px solid #EFEFEF" }}>
+    <div onClick={handleClick} style={{ background: "white", borderRadius: 18, padding: "16px 16px 14px", marginBottom: 10, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.07)", border: "1px solid #EFEFEF" }}>
       <div style={{ display: "flex", gap: 14 }}>
-        {/* Thumb */}
-        <div style={{ width: 60, height: 60, borderRadius: 14, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative", overflow: "hidden" }}>
-          <SceneBg type={item.type} w={60} h={60} />
-          <span style={{ position: "relative", zIndex: 2, fontSize: 20, fontWeight: 800, color: tc.color || "#333" }}>{(item.type || "A").charAt(0)}</span>
+        {/* Thumb — bigger, square crop */}
+        <div style={{ width: 72, height: 72, borderRadius: 14, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative", overflow: "hidden" }}>
+          <SceneBg type={item.type} w={72} h={72} />
+          <span style={{ position: "relative", zIndex: 2, fontSize: 24, fontWeight: 800, color: tc.color || "#333" }}>{(item.type || "A").charAt(0)}</span>
           {(item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)) && (
-            <img src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)} alt="" style={{ width: "78%", height: "78%", objectFit: "cover", position: "absolute", top: "11%", left: "11%", zIndex: 4, borderRadius: "50%" }} onError={(e) => { e.target.style.display = "none"; }} />
+            <img src={item.logo || (item.images && item.images.length > 0 ? item.images[0] : item.imageUrl)} alt="" style={{ width: "82%", height: "82%", objectFit: "cover", position: "absolute", top: "9%", left: "9%", zIndex: 4, borderRadius: "50%" }} onError={(e) => { e.target.style.display = "none"; }} />
           )}
-          {onToday && <div style={{ position: "absolute", top: 0, right: 0, width: 13, height: 13, background: "#166534", borderRadius: "0 12px 0 6px", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 5 }}><span style={{ fontSize: 7, color: "white" }}>✓</span></div>}
+          {onToday && <div style={{ position: "absolute", top: 0, right: 0, width: 15, height: 15, background: "#166534", borderRadius: "0 12px 0 7px", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 5 }}><span style={{ fontSize: 8, color: "white" }}>✓</span></div>}
         </div>
 
         {/* Content */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 4, marginBottom: 3 }}>
-            <span style={{ fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}</span>
-            <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 20, cursor: "pointer", color: isFav ? "#6B4EFF" : "#D1D5DB", flexShrink: 0, lineHeight: 1, paddingLeft: 6 }}>{isFav ? "♥" : "♡"}</span>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 4, marginBottom: 4 }}>
+            <span style={{ fontSize: 16, fontWeight: 700, color: "#111827", lineHeight: 1.25 }}>{item.name}</span>
+            <span onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ fontSize: 22, cursor: "pointer", color: isFav ? "#6B4EFF" : "#D1D5DB", flexShrink: 0, lineHeight: 1, paddingLeft: 8, paddingTop: 1 }}>{isFav ? "♥" : "♡"}</span>
           </div>
-          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: distLabel ? 3 : 4 }}>
+          <div style={{ fontSize: 13, color: "#6B7280", marginBottom: distLabel ? 4 : 5, lineHeight: 1.4 }}>
             {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
-              // Show session summary if sessions exist, else fall back to day text
               const summary = getSessionSummary(item);
               if (summary) return " · " + summary;
               if (item.day) return " · " + item.day;
               return "";
             })()}
           </div>
-          {/* Next session hint — shown when sessions exist */}
+          {/* Next session hint */}
           {item.sessions && item.sessions.length > 0 && (() => {
             const next = getNextSession(item);
             if (!next) return null;
             return (
-              <div style={{ fontSize: 11, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 3 }}>
+              <div style={{ fontSize: 12, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 4 }}>
                 {next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}
               </div>
             );
           })()}
-          {/* Event badge for temporary / one-off events */}
+          {/* Event badge */}
           {item.listingType === "event" && (
-            <div style={{ display: "inline-block", fontSize: 10, fontWeight: 700, color: "#7C3AED", background: "#EDE9FE", padding: "1px 7px", borderRadius: 5, marginBottom: 3 }}>
+            <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#7C3AED", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 4 }}>
               {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
             </div>
           )}
-          {distLabel && <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 4 }}>{distLabel}</div>}
+          {distLabel && <div style={{ fontSize: 12, color: "#F97316", fontWeight: 600, marginBottom: 5 }}>{distLabel}</div>}
           {tags.length > 0 && (
-            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 2 }}>
+            <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 3 }}>
               {tags.map((tag, i) => (
-                <span key={i} style={{ fontSize: 11, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "1px 6px" : 0, borderRadius: 5 }}>{tag.text}</span>
+                <span key={i} style={{ fontSize: 12, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
               ))}
             </div>
           )}
@@ -467,7 +466,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
         {/* Price */}
         <div style={{ flexShrink: 0, alignSelf: "flex-start", paddingTop: 2 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap" }}>{item.price}</span>
+          <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 9, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap" }}>{item.price}</span>
         </div>
       </div>
       {socialProof && (
