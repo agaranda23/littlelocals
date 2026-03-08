@@ -1557,15 +1557,17 @@ function getSearchScore(item, query) {
             );
           })()}
 
-          {/* Quick ideas for today — 3 cards: popular, nearby, free */}
+          {/* Quick ideas for today — always 3: popular, nearby, free */}
           {(() => {
-            const popular = sortedTodayCandidates.find(a => a.popular || (clickCounts[a.id] || 0) >= 5);
-            const nearby = userLoc ? [...sortedTodayCandidates].sort((a, b) => getDist(a) - getDist(b)).find(a => a.id !== popular?.id) : null;
+            const locRef2 = userLoc || areaCenters[areaFilter] || areaCenters["Ealing"];
+            const getDist2 = (a) => a.lat && locRef2 ? Math.sqrt(Math.pow((a.lat-locRef2.lat)*111,2)+Math.pow((a.lng-locRef2.lng)*111*Math.cos(locRef2.lat*Math.PI/180),2)) : 999;
+            const popular = sortedTodayCandidates.find(a => a.popular || (clickCounts[a.id]||0) >= 5);
+            const nearby = [...sortedTodayCandidates].sort((a,b) => getDist2(a)-getDist2(b)).find(a => a.id !== popular?.id);
             const free = sortedTodayCandidates.find(a => a.free && a.id !== popular?.id && a.id !== nearby?.id);
             const ideas = [
               popular && { item: popular, label: "⭐ Popular today" },
               nearby && { item: nearby, label: "📍 Nearby" },
-              free && { item: free, label: "💰 Free" },
+              free   && { item: free,   label: "💰 Free" },
             ].filter(Boolean).slice(0, 3);
             if (ideas.length === 0) return null;
             return (
@@ -1618,7 +1620,7 @@ function getSearchScore(item, query) {
               );
             })}
             {todayListFull.length > TODAY_LIMIT && (
-              <div onClick={() => { setShowAllToday(true); setPage(1); }} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
+              <div onClick={() => { setDayFilter("today"); setSearch(""); setPage(1); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
                 See all {filtered.length} activities in {area} →
               </div>
             )}
