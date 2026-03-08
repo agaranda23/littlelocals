@@ -1640,7 +1640,7 @@ function getSearchScore(item, query) {
               {hartbeeps && (
               <div style={{ marginTop: 32, padding: "0 20px" }}>
                 <div style={{ fontSize: 11, fontWeight: 600, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 10 }}>Featured provider</div>
-                <div onClick={() => openDetail(hartbeeps)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "2px solid #6B4EFF", overflow: "hidden", boxShadow: "0 4px 20px rgba(107,78,255,0.12)" }}>
+                <div onClick={() => openDetail(hartbeeps)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ position: "relative" }}>
                     <div style={{ display: "flex", overflowX: "auto", scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
                       {[{src:"/hartbeeps-hero.png",focalY:22},{src:"/hartbeeps-bells.jpg",focalY:50},{src:"/hartbeeps-happy.png",focalY:45}].map((img, i) => (
@@ -1679,7 +1679,7 @@ function getSearchScore(item, query) {
               {/* LGD — Secondary Featured */}
               {lgd && (
               <div style={{ marginTop: 20, padding: "0 20px" }}>
-                <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid #6B4EFF", overflow: "hidden", boxShadow: "0 2px 12px rgba(107,78,255,0.1)" }}>
+                <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ width: "100%", height: 140, overflow: "hidden", position: "relative" }}>
                     <img src="/lgd-dance.png" alt={lgd.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                     <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 6, background: "#6B4EFF", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
@@ -1837,12 +1837,12 @@ function getSearchScore(item, query) {
         community-powered kids activity discovery
       </div>
 
-      <div style={{ textAlign: "center", padding: "0 20px 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 4 }}>
+      <div style={{ textAlign: "center", padding: "32px 20px 28px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 6 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, overflow: "hidden" }}><BrandBear size={34} /></div>
           <span style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></span>
         </div>
-        <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 8 }}>Built by parents, for parents.</div>
+        <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 8, lineHeight: 1.4 }}>Built by parents, for parents.</div>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
           <span onClick={() => setLegalPage("privacy")} style={{ fontSize: 10, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Privacy Policy</span>
           <span onClick={() => setLegalPage("cookies")} style={{ fontSize: 10, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Cookie Policy</span>
