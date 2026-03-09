@@ -689,11 +689,16 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             { icon: "🅿️", label: "Parking", value: parkingLabels[item.parking]?.replace("🅿️ ", "") || "Check venue" },
             { icon: item.indoor ? "🏠" : "🌳", label: "Setting", value: item.indoor ? "Indoor" : "Outdoor" },
           ].map((i, idx) => (
-            <div key={idx} style={{ background: "white", borderRadius: 10, padding: 10, display: "flex", alignItems: "center", gap: 8, border: "1px solid #E5E7EB" }}>
+            <div key={idx} style={{ background: "#FFFFFF", borderRadius: 10, padding: "14px 12px", display: "flex", alignItems: "center", gap: 8, border: "1px solid #ECECF0", transition: "transform 0.12s ease", cursor: "default" }}
+              onMouseDown={e => e.currentTarget.style.transform='scale(0.98)'}
+              onMouseUp={e => e.currentTarget.style.transform='scale(1)'}
+              onTouchStart={e => e.currentTarget.style.transform='scale(0.98)'}
+              onTouchEnd={e => e.currentTarget.style.transform='scale(1)'}
+            >
               <span style={{ fontSize: 18 }}>{i.icon}</span>
               <div>
-                <div style={{ fontSize: 10, color: "#4B5563" }}>{i.label}</div>
-                <div style={{ fontSize: 12, fontWeight: 700 }}>{i.value}</div>
+                <div style={{ fontSize: 13, color: "#8E8E93", fontWeight: 500, marginBottom: 2 }}>{i.label}</div>
+                <div style={{ fontSize: 16, fontWeight: 600 }}>{i.value}</div>
               </div>
             </div>
           ))}
