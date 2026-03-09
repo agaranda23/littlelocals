@@ -1336,56 +1336,56 @@ function getSearchScore(item, query) {
         <div style={{ margin: "0 20px 10px", background: "white", borderRadius: 16, padding: 16, border: "1px solid #E5E7EB" }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Area</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={areaFilter === "All Areas"} onClick={() => { setAreaFilter("All Areas"); setPage(1); }} activeBg="#1F2937">All</Chip>
+            <Chip active={areaFilter === "All Areas"} onClick={() => { setAreaFilter("All Areas"); setPage(1); }} activeBg="#6050F0">All</Chip>
             {["Ealing", "Acton", "Chiswick", "Hanwell", "Northfields", "Ruislip", "Eastcote", "Uxbridge"].map(area => (
-              <Chip key={area} active={areaFilter === area} onClick={() => { setAreaFilter(areaFilter === area ? "All Areas" : area); setPage(1); }} activeBg="#1F2937">{area}</Chip>
+              <Chip key={area} active={areaFilter === area} onClick={() => { setAreaFilter(areaFilter === area ? "All Areas" : area); setPage(1); }} activeBg="#6050F0">{area}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Day</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={dayFilter === "today"} onClick={() => { setDayFilter("today"); setPage(1); }} activeBg="#1F2937">Today</Chip>
+            <Chip active={dayFilter === "today"} onClick={() => { setDayFilter("today"); setPage(1); }} activeBg="#6050F0">Today</Chip>
             {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d, i) => (
-              <Chip key={d} active={dayFilter === String(i === 6 ? 0 : i + 1)} onClick={() => { setDayFilter(String(i === 6 ? 0 : i + 1)); setPage(1); }} activeBg="#1F2937">{d}</Chip>
+              <Chip key={d} active={dayFilter === String(i === 6 ? 0 : i + 1)} onClick={() => { setDayFilter(String(i === 6 ? 0 : i + 1)); setPage(1); }} activeBg="#6050F0">{d}</Chip>
             ))}
-            <Chip active={dayFilter === "all"} onClick={() => { setDayFilter("all"); setPage(1); }} activeBg="#1F2937">All</Chip>
+            <Chip active={dayFilter === "all"} onClick={() => { setDayFilter("all"); setPage(1); }} activeBg="#6050F0">All</Chip>
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Type</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#1F2937">🌧️ Indoor</Chip>
-            <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#1F2937">☀️ Outdoor</Chip>
-            <Chip active={freeOnly} onClick={() => setFreeOnly(!freeOnly)} activeBg="#1F2937">Free</Chip>
-            <Chip active={napFilter === "morning"} onClick={() => setNapFilter(napFilter === "morning" ? "all" : "morning")} activeBg="#1F2937">Morning</Chip>
-            <Chip active={napFilter === "afternoon"} onClick={() => setNapFilter(napFilter === "afternoon" ? "all" : "afternoon")} activeBg="#1F2937">Afternoon</Chip>
+            <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#6050F0">🌧️ Indoor</Chip>
+            <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#6050F0">☀️ Outdoor</Chip>
+            <Chip active={freeOnly} onClick={() => setFreeOnly(!freeOnly)} activeBg="#6050F0">Free</Chip>
+            <Chip active={napFilter === "morning"} onClick={() => setNapFilter(napFilter === "morning" ? "all" : "morning")} activeBg="#6050F0">Morning</Chip>
+            <Chip active={napFilter === "afternoon"} onClick={() => setNapFilter(napFilter === "afternoon" ? "all" : "afternoon")} activeBg="#6050F0">Afternoon</Chip>
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Category</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {Object.keys(typeColors).map(t => (
-              <Chip key={t} active={typeFilter === t} onClick={() => setTypeFilter(typeFilter === t ? "All Types" : t)} activeBg="#1F2937">{t}</Chip>
+              <Chip key={t} active={typeFilter === t} onClick={() => setTypeFilter(typeFilter === t ? "All Types" : t)} activeBg="#6050F0">{t}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Age</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {[{v:"all",l:"All"},{v:"0-1",l:"0–1"},{v:"1-2",l:"1–2"},{v:"2-4",l:"2–4"},{v:"4-7",l:"4–7"},{v:"7+",l:"7+"}].map(a => (
-              <Chip key={a.v} active={ageFilter === a.v} onClick={() => setAgeFilter(a.v)} activeBg="#1F2937">{a.l}</Chip>
+              <Chip key={a.v} active={ageFilter === a.v} onClick={() => setAgeFilter(a.v)} activeBg="#6050F0">{a.l}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Region</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {[{v:"All",l:"All UK"},{v:"London",l:"London"},{v:"Hertfordshire",l:"Hertfordshire"},{v:"Buckinghamshire",l:"Buckinghamshire"},{v:"Essex",l:"Essex"},{v:"Birmingham",l:"Birmingham"},{v:"Manchester",l:"Manchester"},{v:"Leeds",l:"Leeds"},{v:"Liverpool",l:"Liverpool"}].map(c => (
-              <Chip key={c.v} active={cityFilter === c.v} onClick={() => { setCityFilter(c.v); setAreaFilter("All Areas"); setPage(1); }} activeBg="#1F2937">{c.l}</Chip>
+              <Chip key={c.v} active={cityFilter === c.v} onClick={() => { setCityFilter(c.v); setAreaFilter("All Areas"); setPage(1); }} activeBg="#6050F0">{c.l}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Sort</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={sortBy === "mixed"} onClick={() => setSortBy("mixed")} activeBg="#1F2937">Mixed</Chip>
-            <Chip active={sortBy === "nearest"} onClick={() => { setSortBy("nearest"); if (locStatus === "idle" || locStatus === "dismissed") requestLocation(); }} activeBg="#1F2937">Nearest</Chip>
-            <Chip active={sortBy === "price-low"} onClick={() => setSortBy("price-low")} activeBg="#1F2937">Price: Low</Chip>
-            <Chip active={sortBy === "free-first"} onClick={() => setSortBy("free-first")} activeBg="#1F2937">Free first</Chip>
+            <Chip active={sortBy === "mixed"} onClick={() => setSortBy("mixed")} activeBg="#6050F0">Mixed</Chip>
+            <Chip active={sortBy === "nearest"} onClick={() => { setSortBy("nearest"); if (locStatus === "idle" || locStatus === "dismissed") requestLocation(); }} activeBg="#6050F0">Nearest</Chip>
+            <Chip active={sortBy === "price-low"} onClick={() => setSortBy("price-low")} activeBg="#6050F0">Price: Low</Chip>
+            <Chip active={sortBy === "free-first"} onClick={() => setSortBy("free-first")} activeBg="#6050F0">Free first</Chip>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
             {favourites.length > 0 && <Chip active={showFavourites} onClick={() => { setShowFavourites(!showFavourites); setPage(1); }} activeBg="#F97316">Saved ({favourites.length})</Chip>}
             <Chip active={false} onClick={openCalendar}>My Plans {calendarTotal > 0 ? `(${calendarTotal})` : ""}</Chip>
-            <Chip active={mapView} onClick={() => { setMapView(!mapView); if (!mapView && locStatus === "idle") requestLocation(); if (!mapView) setAreaFilter("All Areas"); }} activeBg="#1F2937">Map</Chip>
+            <Chip active={mapView} onClick={() => { setMapView(!mapView); if (!mapView && locStatus === "idle") requestLocation(); if (!mapView) setAreaFilter("All Areas"); }} activeBg="#6050F0">Map</Chip>
           </div>
         </div>
       )}
