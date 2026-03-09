@@ -857,7 +857,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         )}
         <div onClick={() => { const addr = (item.venue || item.location || "").trim(); if (!addr) return; window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), "_blank", "noopener,noreferrer"); }} style={{ background: "white", borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 10, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#6050F0" }}>Location</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#6050F0" }}>📍 Open in Maps</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 12, fontWeight: 700 }}>{item.venue.split(",")[0]}</div>
             <div style={{ fontSize: 10, color: "#4B5563" }}>{item.venue}</div>
@@ -1081,7 +1081,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             Send to another parent
           </button>
           <button onClick={(e) => { e.stopPropagation(); const url = item.website || (item.cta && item.cta.url) || ""; openExternalWebsite(url); }} style={{ flex: 1.2, padding: 12, borderRadius: 12, border: "none", background: item.cta.type === "phone" ? "#42A5F5" : item.cta.type === "facebook" ? "#1877F2" : item.cta.type === "email" ? "#7B68EE" : "#F97316", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
-            {item.cta.type === "phone" ? "Phone:" : item.cta.type === "facebook" ? "Facebook:" : item.cta.type === "email" ? "Email:" : "Web:"} {item.cta.label}
+            {item.cta.type === "phone" ? "📞 " : item.cta.type === "facebook" ? "📘 " : item.cta.type === "email" ? "✉️ " : (item.website || item.cta.url || "").includes("instagram") ? "📸 " : (item.website || item.cta.url || "").includes("book") || (item.website || item.cta.url || "").includes("ticket") ? "🎟 " : "🌐 "}{item.cta.type === "phone" ? "Call" : item.cta.type === "facebook" ? "View on Facebook" : item.cta.type === "email" ? "Email" : (item.website || item.cta.url || "").includes("instagram") ? "View on Instagram" : (item.website || item.cta.url || "").includes("book") || (item.website || item.cta.url || "").includes("ticket") ? "Book a Class" : "Visit Website"}
           </button>
         </div>
 
