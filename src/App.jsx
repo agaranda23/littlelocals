@@ -776,10 +776,10 @@ function getSearchScore(item, query) {
       if (!search && freeOnly && !l.free) return false;
       if (!search && eventsOnly && !l.isEvent) return false;
       if (!search && worthJourney && !l.worthJourney) return false;
-      if (dayFilter === "today" && !isOnToday(l)) return false;
-      if (dayFilter === "weekend" && !isOnWeekend(l)) return false;
-      if (dayFilter === "week" && !isOnThisWeek(l)) return false;
-      if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && dayFilter !== "week" && !isOnDay(l, parseInt(dayFilter))) return false;
+      if (!search && dayFilter === "today" && !isOnToday(l)) return false;
+      if (!search && dayFilter === "weekend" && !isOnWeekend(l)) return false;
+      if (!search && dayFilter === "week" && !isOnThisWeek(l)) return false;
+      if (!search && dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && dayFilter !== "week" && !isOnDay(l, parseInt(dayFilter))) return false;
       if (!search && weatherMode === "rainy" && !l.indoor) return false;
       if (!search && weatherMode === "sunny" && l.indoor) return false;
       if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
