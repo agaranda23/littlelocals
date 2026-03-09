@@ -1152,7 +1152,7 @@ function getSearchScore(item, query) {
               <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
                 <div style={{ width: 48, height: 48, overflow: "hidden", flexShrink: 0, borderRadius: 12, border: "2px solid #E5E7EB" }}><BrandBear size={48} /></div>
                 <div>
-                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#6B4EFF" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
+                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#5B4FCF" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
                 </div>
               </div>
             </div>

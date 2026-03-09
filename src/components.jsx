@@ -467,7 +467,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   })();
 
   return (
-    <div onClick={handleClick} style={{ background: "white", borderRadius: 18, marginBottom: 12, cursor: "pointer", boxShadow: "0 2px 10px rgba(0,0,0,0.07)", border: "1px solid #EFEFEF", overflow: "hidden" }}>
+    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 6px 18px rgba(0,0,0,0.06)", border: "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease" }}>
 
       {/* ── Wide image header ── */}
       {hasImages ? (
@@ -668,7 +668,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Post-save share nudge */}
         {showSaveShareNudge && (
           <div style={{ marginBottom: 12, padding: "10px 14px", background: "#F3F0FF", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>Saved to your favourites ❤️</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#5B4FCF" }}>Saved to your favourites ❤️</span>
             <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 11, fontWeight: 700, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
           </div>
         )}
@@ -770,7 +770,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                       <img src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
                       {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                     </div>
-                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#5B4FCF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
                   </div>
                 );
               })()}
@@ -790,7 +790,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                     <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/winter%20to%20spring%202026-2.png" alt="Sing and Sign Timetable" style={{ width: "100%", display: "block" }} />
                     {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                   </div>
-                  <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6B4EFF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                  <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#5B4FCF" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
                 </div>
               );
             })()}
@@ -802,13 +802,13 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           <>
             <div style={{ background: "#F9FAFB", borderRadius: 14, padding: 16, marginBottom: 16, border: "1px solid #E5E7EB" }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 10 }}>📅 Class Schedule</div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#6B4EFF", marginBottom: 6 }}>Fridays</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#5B4FCF", marginBottom: 6 }}>Fridays</div>
               <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8, marginBottom: 10 }}>
                 4:30–5:00 Ballet<br/>
                 5:00–5:45 Acrobatics / Gymnastics<br/>
                 5:45–6:15 Tap
               </div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#6B4EFF", marginBottom: 6 }}>Sundays</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#5B4FCF", marginBottom: 6 }}>Sundays</div>
               <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8 }}>
                 10:00–10:30 Street Dance<br/>
                 10:30–11:00 Musical Theatre<br/>
@@ -829,7 +829,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </div>
             <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
               {item.trialLink && <a href={item.trialLink} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "12px 0", textAlign: "center", background: "#6B4EFF", color: "white", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", boxShadow: "0 2px 8px rgba(107,78,255,0.25)" }}>Book free trial</a>}
-              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6B4EFF", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6B4EFF" }}>Visit website ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
+              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#5B4FCF", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6B4EFF" }}>Visit website ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
             </div>
           </>
         )}
@@ -844,7 +844,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         )}
         <div onClick={() => { const addr = (item.venue || item.location || "").trim(); if (!addr) return; window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), "_blank", "noopener,noreferrer"); }} style={{ background: "white", borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 10, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#6B4EFF" }}>Location</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "#5B4FCF" }}>Location</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 12, fontWeight: 700 }}>{item.venue.split(",")[0]}</div>
             <div style={{ fontSize: 10, color: "#4B5563" }}>{item.venue}</div>
