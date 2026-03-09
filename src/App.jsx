@@ -255,6 +255,8 @@ function WestLondonListings() {
   const [tips, setTips] = useState({});
   const [mapView, setMapView] = useState(false);
   const [sortBy, setSortBy] = useState("mixed");
+  const [eventsOnly, setEventsOnly] = useState(false);
+  const [worthJourney, setWorthJourney] = useState(false);
   const ITEMS_PER_PAGE = 6;
   const [cityFilter, setCityFilter] = useState(() => {
     try { return localStorage.getItem("ll_city") || "All"; } catch(e) { return "All"; }
@@ -515,7 +517,7 @@ function WestLondonListings() {
   }, [areaFilter]);
 
   // Reset to page 1 when any filter changes
-  useEffect(() => { setPage(1); }, [cityFilter, typeFilter, areaFilter, freeOnly, search, dayFilter, weatherMode, napFilter, ageFilter]);
+  useEffect(() => { setPage(1); }, [cityFilter, typeFilter, areaFilter, freeOnly, search, dayFilter, weatherMode, napFilter, ageFilter, eventsOnly, worthJourney]);
 
   // Persist favourites
   useEffect(() => { try { localStorage.setItem("ll_favs", JSON.stringify(favourites)); } catch(e) {} }, [favourites]);
@@ -772,6 +774,8 @@ function getSearchScore(item, query) {
         }
       }
       if (freeOnly && !l.free) return false;
+      if (eventsOnly && !l.isEvent) return false;
+      if (worthJourney && !l.worthJourney) return false;
       if (dayFilter === "today" && !isOnToday(l)) return false;
       if (dayFilter === "weekend" && !isOnWeekend(l)) return false;
       if (dayFilter === "week" && !isOnThisWeek(l)) return false;
@@ -892,7 +896,7 @@ function getSearchScore(item, query) {
       }
     }
     return results;
-  }, [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, search, userLoc, dayFilter, weatherMode, napFilter, sortBy]);
+  }, [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, search, userLoc, dayFilter, weatherMode, napFilter, sortBy, eventsOnly, worthJourney]);
 
   const areaPreviewCounts = useMemo(() => {
     const counts = {};
@@ -1390,10 +1394,12 @@ function getSearchScore(item, query) {
       <div style={{ padding: "0 20px 4px", borderTop: "1px solid #F3F4F6", paddingTop: 10 }}>
         <div style={{ display: "flex", gap: 7, marginBottom: 8 }}>
           {[
-            { label: "☀️ Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny" },
-            { label: "🌧️ Indoor",  action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy" },
-            { label: "💰 Free",    action: () => { setFreeOnly(!freeOnly); setPage(1); }, active: freeOnly },
-            { label: "✨ Popular", action: () => { setSortBy(sortBy === "popular" ? "mixed" : "popular"); setPage(1); }, active: sortBy === "popular" },
+            { label: "☀️ Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny", count: (filtered||[]).filter(l=>!l.indoor).length },
+            { label: "🌧️ Indoor",  action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy", count: (filtered||[]).filter(l=>l.indoor).length },
+            { label: "💰 Free",    action: () => { setFreeOnly(!freeOnly); setPage(1); }, active: freeOnly, count: (filtered||[]).filter(l=>l.free).length },
+            { label: "📅 Events",  action: () => { setEventsOnly(!eventsOnly); setPage(1); }, active: eventsOnly, count: (listings||[]).filter(l=>l.isEvent && (!l.eventDate || new Date(l.eventDate) >= new Date())).length },
+            { label: "✨ Popular", action: () => { setSortBy(sortBy === "popular" ? "mixed" : "popular"); setPage(1); }, active: sortBy === "popular", count: (filtered||[]).filter(l=>l.popular).length },
+            { label: "🚗 Journey", action: () => { setWorthJourney(!worthJourney); setPage(1); }, active: worthJourney, count: (listings||[]).filter(l=>l.worthJourney).length },
           ].map(({ label, action, active }) => (
             <span
               key={label}
@@ -1420,7 +1426,7 @@ function getSearchScore(item, query) {
             })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setEventsOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
           )}
         </div>
       </div>
