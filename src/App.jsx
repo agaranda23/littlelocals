@@ -1310,7 +1310,7 @@ function getSearchScore(item, query) {
                   display: "inline-flex", alignItems: "center", gap: 5,
                   fontSize: 12, fontWeight: active ? 700 : 500,
                   padding: "5px 14px", borderRadius: 20, cursor: "pointer",
-                  background: active ? "#111827" : "transparent",
+                  background: active ? "#6050F0" : "transparent",
                   color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",
                   border: active ? "none" : "1px solid #E5E7EB",
                   transition: "all 0.15s ease",
