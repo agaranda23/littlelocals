@@ -1162,7 +1162,7 @@ function getSearchScore(item, query) {
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
                 const n = 7 + (seed % 6);
-                return <div style={{ fontSize: 11, color: "#C0C0C0" }}>🔥 {n} parents explored activities today</div>;
+                return <div style={{ display: "inline-block", fontSize: 14, color: "#4B5563", background: "#F3F4F6", padding: "6px 12px", borderRadius: 999, marginBottom: 16 }}>🔥 {n} parents exploring today</div>;
               })()}
             </div>
           </>
