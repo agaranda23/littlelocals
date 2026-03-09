@@ -780,6 +780,16 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </>
           )}
 
+        {/* Cook Stars video */}
+        {item.name && item.name.toLowerCase().includes("cook stars") && (
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See Cook Stars in action</div>
+            <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
+              <iframe src="https://www.youtube.com/embed/CmhzXEdx4IQ" title="Cook Stars St Andrews" frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 12 }} />
+            </div>
+          </div>
+        )}
+
         {/* Sing and Sign timetable */}
         {item.name && item.name.toLowerCase().includes("sing and sign") && (
           <div style={{ marginBottom: 20 }}>
