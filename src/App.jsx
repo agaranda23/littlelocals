@@ -117,7 +117,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
           70+ activities across <strong>Ealing</strong>, <strong>Hanwell</strong>, <strong>Acton</strong>, <strong>Northfields</strong> and <strong>West Ealing</strong>.
         </p>
         <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
-          {[["#F97316", `${ealingListings.length || "70"}+ activities in Ealing`], ["#166534","Updated weekly"], ["#6B4EFF","Free to use"]].map(([col, label]) => (
+          {[["#F97316", `${ealingListings.length || "70"}+ activities in Ealing`], ["#166534","Updated weekly"], ["#6050F0","Free to use"]].map(([col, label]) => (
             <div key={label} style={{ display:"flex", alignItems:"center", gap:6, fontSize:13, fontWeight:600 }}>
               <div style={{ width:8, height:8, borderRadius:"50%", background:col }}></div><span>{label}</span>
             </div>
@@ -985,7 +985,7 @@ function getSearchScore(item, query) {
             <div onClick={closeCalendar} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
               <div style={{ width: 60, height: 60, overflow: "hidden", flexShrink: 0, borderRadius: 14, border: "2px solid #E5E7EB" }}><BrandBear size={60} /></div>
               <div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: "#6B4EFF", letterSpacing: -0.3 }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></div>
+                <div style={{ fontSize: 22, fontWeight: 800, color: "#6050F0", letterSpacing: -0.3 }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></div>
               </div>
             </div>
             <div onClick={closeCalendar} style={{ padding: "6px 12px", background: "white", borderRadius: 10, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#1F2937" }}>← Back</div>
@@ -1133,7 +1133,7 @@ function getSearchScore(item, query) {
     );
   }
 
-  const Chip = ({ active, onClick, children, color = "#374151", activeBg = "#6B4EFF" }) => (
+  const Chip = ({ active, onClick, children, color = "#374151", activeBg = "#6050F0" }) => (
     <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 13, fontWeight: 600, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease" }}>{children}</div>
   );
 
@@ -1152,7 +1152,7 @@ function getSearchScore(item, query) {
               <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
                 <div style={{ width: 48, height: 48, overflow: "hidden", flexShrink: 0, borderRadius: 12, border: "2px solid #E5E7EB" }}><BrandBear size={48} /></div>
                 <div>
-                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#5B4FCF" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
+                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#6050F0" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
                 </div>
               </div>
             </div>
@@ -1694,7 +1694,7 @@ function getSearchScore(item, query) {
                         <img key={i} src={img.src} alt="Hartbeeps class" style={{ width: "100%", height: 180, objectFit: "cover", objectPosition: `center ${img.focalY}%`, flexShrink: 0, scrollSnapAlign: "start" }} />
                       ))}
                     </div>
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "4px 12px", borderRadius: 8, background: "#6B4EFF", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
+                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "4px 12px", borderRadius: 8, background: "#6050F0", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
                     <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 50, background: "linear-gradient(transparent, rgba(0,0,0,0.25))", pointerEvents: "none" }} />
                     <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 4 }}>
                       {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />)}
@@ -1716,7 +1716,7 @@ function getSearchScore(item, query) {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>From £8/class</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "#6B4EFF" }}>View details →</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: "#6050F0" }}>View details →</span>
                     </div>
                   </div>
                 </div>
@@ -1729,7 +1729,7 @@ function getSearchScore(item, query) {
                 <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ width: "100%", height: 140, overflow: "hidden", position: "relative" }}>
                     <img src="/lgd-dance.png" alt={lgd.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 6, background: "#6B4EFF", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
+                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 6, background: "#6050F0", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
@@ -1748,7 +1748,7 @@ function getSearchScore(item, query) {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>{lgd.price}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "#6B4EFF" }}>View details →</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: "#6050F0" }}>View details →</span>
                     </div>
                   </div>
                 </div>
@@ -1951,7 +1951,7 @@ function getSearchScore(item, query) {
             We use simple analytics to understand how LITTLElocals is used and improve it for parents. No ads. No tracking across other sites.
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <div onClick={acceptCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#6B4EFF", color: "white", borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Accept</div>
+            <div onClick={acceptCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#6050F0", color: "white", borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Accept</div>
             <div onClick={declineCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#F3F4F6", color: "#4B5563", borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Decline</div>
           </div>
         </div>
@@ -1984,7 +1984,7 @@ function getSearchScore(item, query) {
               <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Data sharing</p>
               <p style={{ marginBottom: 12 }}>We do not sell, trade, or share your personal data with third parties. We do not use your data for advertising purposes.</p>
               <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
-              <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6B4EFF" }}>littlelocalsuk@gmail.com</a></p>
+              <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
 
             {legalPage === "cookies" && (<>
@@ -1999,7 +1999,7 @@ function getSearchScore(item, query) {
               <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 600 }}>Analytics cookies (optional):</span> Google Analytics — helps us understand how parents use LITTLElocals so we can improve it. Only loaded if you accept.</p>
               <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 600 }}>Essential storage:</span> We use localStorage (not cookies) to save your preferences like favourites and calendar plans. These are essential for the app to work and stay on your device.</p>
               <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
-              <p>If you have questions, contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6B4EFF" }}>littlelocalsuk@gmail.com</a></p>
+              <p>If you have questions, contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
 
             {legalPage === "terms" && (<>
@@ -2015,7 +2015,7 @@ function getSearchScore(item, query) {
               <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Intellectual property</p>
               <p style={{ marginBottom: 12 }}>All content, design, and branding on LITTLElocals is owned by LITTLElocals and may not be reproduced without permission.</p>
               <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
-              <p>If you have any questions about these terms, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6B4EFF" }}>littlelocalsuk@gmail.com</a></p>
+              <p>If you have any questions about these terms, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
           </div>
         </div>
