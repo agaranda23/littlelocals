@@ -531,11 +531,11 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Info block ── */}
       <div style={{ padding: "12px 14px 13px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-          <span style={{ fontSize: 15, fontWeight: 700, color: "#111827", lineHeight: 1.25 }}>{item.name}</span>
+          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.45 }}>{item.name}</span>
           <span style={{ fontSize: 12, fontWeight: 700, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
-        <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 6, lineHeight: 1.4 }}>
+        <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6, lineHeight: 1.45, fontWeight: 500 }}>
           {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
             const summary = getSessionSummary(item);
             if (summary) return " · " + summary;
@@ -548,7 +548,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {item.sessions && item.sessions.length > 0 && (() => {
           const next = getNextSession(item);
           if (!next) return null;
-          return <div style={{ fontSize: 12, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+          return <div style={{ fontSize: 14, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
         })()}
 
         {/* Event badge */}
@@ -560,14 +560,14 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
         {/* Distance + tags row */}
         <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
-          {distLabel && <span style={{ fontSize: 12, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
+          {distLabel && <span style={{ fontSize: 14, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
           {tags.map((tag, i) => (
             <span key={i} style={{ fontSize: 12, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
           ))}
         </div>
 
         {socialProof && (
-          <div style={{ fontSize: 11, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5" }}>
+          <div style={{ fontSize: 13, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5", fontWeight: 500 }}>
             {socialProof}
           </div>
         )}

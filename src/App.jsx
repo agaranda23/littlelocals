@@ -1158,7 +1158,7 @@ function getSearchScore(item, query) {
             </div>
             <div style={{ marginTop: 6, marginLeft: 58 }}>
               <div style={{ fontSize: 28, fontWeight: 700, color: "#1F2937", lineHeight: 1.2, marginBottom: 6 }}>Today's Best Kids Activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</div>
-              <div style={{ fontSize: 16, color: "#4B5563", marginBottom: 10 }}>Helping Ealing parents find great things to do today.</div>
+              <div style={{ fontSize: 16, color: "#4B5563", marginBottom: 10, fontWeight: 500 }}>Helping Ealing parents find great things to do today.</div>
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
                 const n = 7 + (seed % 6);
