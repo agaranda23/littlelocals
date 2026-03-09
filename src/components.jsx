@@ -473,6 +473,9 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {hasImages ? (
         <div
           style={{ position: "relative", height: 160, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, overflow: "hidden", userSelect: "none" }}
+          onPointerDown={(e) => { e._startX = e.clientX; e.currentTarget._startX = e.clientX; e.currentTarget._dragging = false; }}
+          onPointerMove={(e) => { if (Math.abs(e.clientX - e.currentTarget._startX) > 10) e.currentTarget._dragging = true; }}
+          onPointerUp={(e) => { if (!e.currentTarget._dragging) { e.stopPropagation(); handleClick(); } e.currentTarget._dragging = false; }}
           onTouchStart={handleSwipeStart} onTouchEnd={handleSwipeEnd}
           onClick={(e) => e.stopPropagation()}
         >
