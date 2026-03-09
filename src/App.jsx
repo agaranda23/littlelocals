@@ -1152,13 +1152,13 @@ function getSearchScore(item, query) {
               <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
                 <div style={{ width: 48, height: 48, overflow: "hidden", flexShrink: 0, borderRadius: 12, border: "2px solid #E5E7EB" }}><BrandBear size={48} /></div>
                 <div>
-                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#1F2937" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
+                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#6B4EFF" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
                 </div>
               </div>
             </div>
             <div style={{ marginTop: 6, marginLeft: 58 }}>
-              <div style={{ fontSize: 17, fontWeight: 800, color: "#1F2937", lineHeight: 1.3, marginBottom: 2 }}>Today's Best Kids Activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</div>
-              <div style={{ fontSize: 11, color: "#B0B0B0", marginBottom: 3 }}>Helping Ealing parents find great things to do today.</div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: "#1F2937", lineHeight: 1.2, marginBottom: 6 }}>Today's Best Kids Activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</div>
+              <div style={{ fontSize: 16, color: "#4B5563", marginBottom: 10 }}>Helping Ealing parents find great things to do today.</div>
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
                 const n = 7 + (seed % 6);
