@@ -1289,7 +1289,43 @@ function getSearchScore(item, query) {
       </div>
 
       {/* Time filter pills */}
-      {!search && (\n        <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>\n          {[\n            { label: "Today", value: "today", count: todayCount },\n            { label: "This weekend", value: "weekend", count: weekendCount },\n            { label: "This week", value: "week", count: weekCount },\n          ].map(({ label, value, count }) => {\n            const active = dayFilter === value;\n            const zero = count === 0;\n            return (\n              <span\n                key={value}\n                onClick={() => { setDayFilter(value); setPage(1); }}\n                style={{\n                  display: "inline-flex", alignItems: "center", gap: 5,\n                  fontSize: 12, fontWeight: active ? 700 : 500,\n                  padding: "5px 14px", borderRadius: 20, cursor: "pointer",\n                  background: active ? "#111827" : "transparent",\n                  color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",\n                  border: active ? "none" : "1px solid #E5E7EB",\n                  transition: "all 0.15s ease",\n                  whiteSpace: "nowrap",\n                  opacity: zero && !active ? 0.6 : 1,\n                }}\n              >\n                {label}\n                <span style={{\n                  fontSize: 10, fontWeight: 600,\n                  color: active ? "rgba(255,255,255,0.7)" : "#B0B0B0",\n                  background: active ? "rgba(255,255,255,0.15)" : "#F3F4F6",\n                  padding: "1px 5px", borderRadius: 8, lineHeight: 1.4\n                }}>{count}</span>\n              </span>\n            );\n          })}\n        </div>\n      )}
+      {!search && (
+        <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>
+          {[
+            { label: "Today", value: "today", count: todayCount },
+            { label: "This weekend", value: "weekend", count: weekendCount },
+            { label: "This week", value: "week", count: weekCount },
+          ].map(({ label, value, count }) => {
+            const active = dayFilter === value;
+            const zero = count === 0;
+            return (
+              <span
+                key={value}
+                onClick={() => { setDayFilter(value); setPage(1); }}
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 5,
+                  fontSize: 12, fontWeight: active ? 700 : 500,
+                  padding: "5px 14px", borderRadius: 20, cursor: "pointer",
+                  background: active ? "#111827" : "transparent",
+                  color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",
+                  border: active ? "none" : "1px solid #E5E7EB",
+                  transition: "all 0.15s ease",
+                  whiteSpace: "nowrap",
+                  opacity: zero && !active ? 0.6 : 1,
+                }}
+              >
+                {label}
+                <span style={{
+                  fontSize: 10, fontWeight: 600,
+                  color: active ? "rgba(255,255,255,0.7)" : "#B0B0B0",
+                  background: active ? "rgba(255,255,255,0.15)" : "#F3F4F6",
+                  padding: "1px 5px", borderRadius: 8, lineHeight: 1.4
+                }}>{count}</span>
+              </span>
+            );
+          })}
+        </div>
+      )}
 
       {/* Expandable filter panel */}
       {showMoreFilters && (
