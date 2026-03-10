@@ -1001,13 +1001,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                 </div>
               )}
             </div>
-          )) : !showReviewForm && (
-            <div style={{ textAlign: "center", padding: "16px 12px", background: "white", borderRadius: 12, border: "1px dashed #E0DBD5", color: "#4B5563" }}>
-              <div style={{ fontSize: 24, marginBottom: 4 }}>💬</div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#1F2937" }}>Parent reviews coming soon</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2, lineHeight: 1.5 }}>Be the first parent to share your experience and help other families discover great activities.</div>
-            </div>
-          )}
+          )) : null}
         </div>
 
         {/* Add to Calendar */}
@@ -1028,8 +1022,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         </div>
 
-        {/* Parent Tips */}
-        <div id="tip-input-scroll" style={{ marginBottom: 12, padding: "14px 16px", background: "white", borderRadius: 12, border: "1px solid #F3F4F6" }}>
+        {/* Parent Tips — only show if tips exist or user is adding one */}
+        {(tips.length > 0 || showTipInput || tipSubmitted) && <div id="tip-input-scroll" style={{ marginBottom: 12, padding: "14px 16px", background: "white", borderRadius: 12, border: "1px solid #F3F4F6" }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 6 }}>💡 Parent tips</div>
           {tips.length === 0 && !showTipInput && (
             <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>No tips yet — be the first parent to leave one!</div>
@@ -1070,7 +1064,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               ✏️ Add a quick tip
             </div>
           )}
-        </div>
+        </div>}
 
         {/* Been Here + Contribution Loop */}
         <div style={{ marginBottom: 12 }}>
