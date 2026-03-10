@@ -1175,12 +1175,17 @@ function getSearchScore(item, query) {
               </div>
             </div>
             <div style={{ marginTop: 6, marginLeft: 58 }}>
-              <div style={{ fontSize: 28, fontWeight: 700, color: "#1F2937", lineHeight: 1.2, marginBottom: 6 }}>Today's Best Kids Activities in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</div>
-              <div style={{ fontSize: 16, color: "#4B5563", marginBottom: 10, fontWeight: 500 }}>Helping Ealing parents find great things to do today.</div>
+              {(() => {
+                const hr = new Date().getHours();
+                const greeting = hr < 12 ? "Good morning, Ealing parents" : hr < 17 ? "Afternoon ideas for Ealing families" : "Planning tomorrow in Ealing?";
+                return <div style={{ fontSize: 13, fontWeight: 600, color: "#6050F0", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
+              })()}
+              <div style={{ fontSize: 26, fontWeight: 800, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>What should we do today?</div>
+              <div style={{ fontSize: 15, color: "#4B5563", marginBottom: 10, fontWeight: 400 }}>Discover the best kids activities near you in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}.</div>
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
                 const n = 7 + (seed % 6);
-                return <div style={{ display: "inline-block", fontSize: 14, color: "#4B5563", background: "#F3F4F6", padding: "6px 12px", borderRadius: 999, marginBottom: 16 }}>🔥 {n} parents exploring today</div>;
+                return <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "#374151", background: "#FFF7ED", border: "1px solid #FED7AA", padding: "5px 12px", borderRadius: 999, marginBottom: 16, fontWeight: 600 }}>🔥 {n} parents exploring today</div>;
               })()}
             </div>
           </>
