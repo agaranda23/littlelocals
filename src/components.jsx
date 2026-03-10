@@ -579,7 +579,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
 const parkingLabels = { free: "🅿️ Free parking", "free-3hrs": "🅿️ Free (3hrs)", paid: "🅿️ Paid parking", street: "🅿️ Street parking", varies: "🅿️ Parking varies", none: "🚫 No parking" };
 
-export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav, onToggleFav, onAddToCalendar, onRemoveFromCalendar, calendarPlan, isVisited, onToggleVisited, tips = [], onAddTip }) {
+export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav, onToggleFav, onAddToCalendar, onRemoveFromCalendar, calendarPlan, isVisited, onToggleVisited, tips = [], onAddTip, allListings = [], onSelectListing }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const dist = userLoc ? getDistanceMiles(userLoc.lat, userLoc.lng, item.lat, item.lng) : null;
   const itemReviews = reviews.filter(r => r.listingId === item.id);
