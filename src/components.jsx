@@ -868,7 +868,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ marginBottom: 16 }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Also at this venue</div>
               {sameVenue.map(rel => (
-                <div key={rel.id} onClick={() => onSelect(rel)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#F9FAFB", borderRadius: 10, marginBottom: 6, cursor: "pointer", border: "1px solid #E5E7EB" }}>
+                <div key={rel.id} onClick={() => onSelectListing && onSelectListing(rel)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#F9FAFB", borderRadius: 10, marginBottom: 6, cursor: "pointer", border: "1px solid #E5E7EB" }}>
                   {rel.images?.[0]?.url && <img src={rel.images[0].url} alt={rel.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", marginBottom: 1 }}>{rel.name}</div>
