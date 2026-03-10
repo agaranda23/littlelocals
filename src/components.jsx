@@ -5,15 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 export function BrandBear({ size = 38 }) {
-  const eventDateLabel = item.isEvent && item.eventStartDate ? (() => {
-    const d = new Date(item.eventStartDate);
-    const opts = { day: 'numeric', month: 'short' };
-    if (item.eventEndDate && item.eventEndDate !== item.eventStartDate) {
-      const d2 = new Date(item.eventEndDate);
-      return d.toLocaleDateString('en-GB', opts) + ' – ' + d2.toLocaleDateString('en-GB', opts);
-    }
-    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
-  })() : null;
+  const eventDateLabel = null;
 
   return (
     <img src="/bear-logo.png" alt="LITTLElocals" style={{ width: size, height: size, borderRadius: size * 0.2, objectFit: "cover" }} />
@@ -377,14 +369,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const dist = locRef ? getDistanceMiles(locRef.lat, locRef.lng, item.lat, item.lng) : null;
   const walkMin = dist !== null ? Math.round(dist * 20) : null;
   const onToday = isOnToday(item);
-  const isExpired = !!(item.isEvent && item.eventStartDate && (() => {
-    try {
-      const today = new Date(); today.setHours(0,0,0,0);
-      const endStr = item.eventEndDate || item.eventStartDate;
-      const end = new Date(endStr); end.setHours(23,59,59,999);
-      return end < today;
-    } catch(e) { return false; }
-  })());
+  const isExpired = false;
 
   // Swipe state for image carousel
   const [imgIndex, setImgIndex] = useState(0);
