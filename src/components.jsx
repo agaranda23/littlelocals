@@ -482,7 +482,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 6px 18px rgba(0,0,0,0.06)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
       {isExpired && (
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ background: "rgba(0,0,0,0.55)", color: "white", fontWeight: 900, fontSize: 18, letterSpacing: 3, padding: "8px 18px", borderRadius: 8, transform: "rotate(-15deg)", textTransform: "uppercase", border: "2px solid rgba(255,255,255,0.4)" }}>Expired</div>
+          <div style={{ background: "rgba(0,0,0,0.55)", color: "white", fontWeight: 900, fontSize: 20, letterSpacing: 3, padding: "8px 18px", borderRadius: 8, transform: "rotate(-15deg)", textTransform: "uppercase", border: "2px solid rgba(255,255,255,0.4)" }}>Expired</div>
         </div>
       )}
 
@@ -522,16 +522,16 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {hasLogo && (
             <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
               <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#111827" }}>{item.name}</span>
+              <span style={{ fontSize: 13, fontWeight: 800, color: "#111827" }}>{item.name}</span>
             </div>
           )}
           {/* Fav button */}
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
             {isFav ? "♥" : "♡"}
           </div>
           {/* Today badge */}
           {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 12, fontWeight: 900, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
           )}
         </div>
       ) : (
@@ -540,13 +540,13 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           <SceneBg type={item.type} w="100%" h={100} />
           {hasLogo
             ? <img src={item.logo} alt="" loading="lazy" style={{ height: 64, maxWidth: "70%", objectFit: "contain", position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.08))" }} onError={(e) => { e.target.style.display = "none"; }} />
-            : <span style={{ fontSize: 36, fontWeight: 900, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
+            : <span style={{ fontSize: 38, fontWeight: 1000, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
           }
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
             {isFav ? "♥" : "♡"}
           </div>
           {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 12, fontWeight: 900, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
           )}
         </div>
       )}
@@ -554,11 +554,11 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Info block ── */}
       <div style={{ padding: "12px 14px 13px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.45 }}>{item.name}</span>
-          <span style={{ fontSize: 12, fontWeight: 700, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
+          <span style={{ fontSize: 19, fontWeight: 800, color: "#111827", lineHeight: 1.45 }}>{item.name}</span>
+          <span style={{ fontSize: 14, fontWeight: 800, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
-        <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6, lineHeight: 1.45, fontWeight: 500 }}>
+        <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 6, lineHeight: 1.45, fontWeight: 500 }}>
           {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
             const summary = getSessionSummary(item);
             if (summary) return " · " + summary;
@@ -571,26 +571,26 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {item.sessions && item.sessions.length > 0 && (() => {
           const next = getNextSession(item);
           if (!next) return null;
-          return <div style={{ fontSize: 14, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+          return <div style={{ fontSize: 16, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
         })()}
 
         {/* Event badge */}
         {item.listingType === "event" && (
-          <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#6050F0", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 5 }}>
+          <div style={{ display: "inline-block", fontSize: 13, fontWeight: 700, color: "#6050F0", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 5 }}>
             {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
           </div>
         )}
 
         {/* Distance + tags row */}
         <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
-          {distLabel && <span style={{ fontSize: 14, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
+          {distLabel && <span style={{ fontSize: 16, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
           {tags.map((tag, i) => (
-            <span key={i} style={{ fontSize: 12, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
+            <span key={i} style={{ fontSize: 14, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
           ))}
         </div>
 
         {socialProof && (
-          <div style={{ fontSize: 13, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5", fontWeight: 500 }}>
+          <div style={{ fontSize: 15, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5", fontWeight: 500 }}>
             {socialProof}
           </div>
         )}
@@ -657,15 +657,15 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
       {item.featuredProvider ? (
         <div style={{ height: 220, position: "relative", overflow: "hidden" }}>
           <img src="/lgd-dance.png" alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
+          <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 15, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
           <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
-            <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
-            <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 16, color: "white", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+            <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 12, fontWeight: 700, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
+            <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, color: "white", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.684-6.34-1.861l-.455-.296-2.725.914.912-2.727-.306-.463A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
             </div>
           </div>
           <div style={{ position: "absolute", bottom: 10, left: 12, display: "flex", gap: 6, zIndex: 3 }}>
-            <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#6050F0", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Featured local provider</span>
+            <span style={{ padding: "3px 10px", borderRadius: 10, fontSize: 11, fontWeight: 700, color: "white", background: "#6050F0", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Featured local provider</span>
           </div>
         </div>
       ) : (
@@ -675,18 +675,18 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {(item.logo || item.imageUrl) && (
         <img src={item.logo || item.imageUrl} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
         )}
-        <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
+        <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 15, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
         <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
-          <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 10, fontWeight: 700, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
-          <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 16, color: "white", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+          <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 12, fontWeight: 700, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
+          <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, color: "white", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.684-6.34-1.861l-.455-.296-2.725.914.912-2.727-.306-.463A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
         </div>
         </div>
         <div style={{ position: "absolute", bottom: 10, left: 12, display: "flex", gap: 6, flexWrap: "wrap", zIndex: 3 }}>
-          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: tc.color, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.type}</span>
-          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: item.indoor ? "rgba(0,0,0,0.45)" : "#66BB6A", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.indoor ? "Indoor 🌧️" : "Outdoor ☀️"}</span>
-          {item.free && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#166534", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Free</span>}
-          {isOnToday(item) && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#F97316", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>On Today!</span>}
+          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: tc.color, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.type}</span>
+          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: item.indoor ? "rgba(0,0,0,0.45)" : "#66BB6A", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.indoor ? "Indoor 🌧️" : "Outdoor ☀️"}</span>
+          {item.free && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: "#166534", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Free</span>}
+          {isOnToday(item) && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: "#F97316", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>On Today!</span>}
 
         </div>
       </div>
@@ -695,18 +695,18 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Post-save share nudge */}
         {showSaveShareNudge && (
           <div style={{ marginBottom: 12, padding: "10px 14px", background: "#F3F0FF", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#6050F0" }}>Saved to your favourites ❤️</span>
-            <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 3 }}>Know a parent who'd love this?</div>
-            <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 11, fontWeight: 700, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: "#6050F0" }}>Saved to your favourites ❤️</span>
+            <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 3 }}>Know a parent who'd love this?</div>
+            <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 13, fontWeight: 700, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
           </div>
         )}
-        <div style={{ fontSize: 20, fontWeight: 800, marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
           {item.name}
-          {avgRating && <span style={{ fontSize: 12, fontWeight: 700, padding: "2px 8px", borderRadius: 8, background: "#FFF3E0", color: "#E67E22" }}>★ {avgRating}</span>}
+          {avgRating && <span style={{ fontSize: 14, fontWeight: 700, padding: "2px 8px", borderRadius: 8, background: "#FFF3E0", color: "#E67E22" }}>★ {avgRating}</span>}
         </div>
-        <div style={{ fontSize: 12, color: tc.color, fontWeight: 600, marginBottom: 14, display: "flex", alignItems: "center", gap: 4 }}>
+        <div style={{ fontSize: 14, color: tc.color, fontWeight: 600, marginBottom: 14, display: "flex", alignItems: "center", gap: 4 }}>
           {item.location}{dist !== null && <span style={{ color: "#F97316" }}>· {Math.round(dist * 20)} min walk</span>}
-          {item.verified && <span style={{ display: "inline-flex", width: 16, height: 16, background: "#166534", borderRadius: "50%", alignItems: "center", justifyContent: "center", color: "white", fontSize: 9, fontWeight: 700 }}>✓</span>}
+          {item.verified && <span style={{ display: "inline-flex", width: 16, height: 16, background: "#166534", borderRadius: "50%", alignItems: "center", justifyContent: "center", color: "white", fontSize: 11, fontWeight: 700 }}>✓</span>}
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
           {[
@@ -723,26 +723,26 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               onTouchStart={e => e.currentTarget.style.transform='scale(0.98)'}
               onTouchEnd={e => e.currentTarget.style.transform='scale(1)'}
             >
-              <span style={{ fontSize: 18 }}>{i.icon}</span>
+              <span style={{ fontSize: 20 }}>{i.icon}</span>
               <div>
-                <div style={{ fontSize: 13, color: "#8E8E93", fontWeight: 500, marginBottom: 2 }}>{i.label}</div>
-                <div style={{ fontSize: 16, fontWeight: 600 }}>{i.value}</div>
+                <div style={{ fontSize: 15, color: "#8E8E93", fontWeight: 500, marginBottom: 2 }}>{i.label}</div>
+                <div style={{ fontSize: 18, fontWeight: 600 }}>{i.value}</div>
               </div>
             </div>
           ))}
         </div>
-        <p style={{ fontSize: 13, lineHeight: 1.7, color: "#4B5563", marginBottom: 16 }}>{item.description}</p>
+        <p style={{ fontSize: 15, lineHeight: 1.7, color: "#4B5563", marginBottom: 16 }}>{item.description}</p>
 
         {/* Generic photo gallery from listing_images */}
         {item.images && item.images.length > 0 && (
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>📸 Photos</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>📸 Photos</div>
             <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
               {item.images.map((src, i) => (
                 <img key={i} src={src} alt="" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} onError={(e) => { e.target.style.display = "none"; }} />
               ))}
             </div>
-            <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
+            <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
           </div>
         )}
           {/* Hartbeeps-specific content */}
@@ -779,7 +779,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                   { id: "waBu8jQMEOA", label: "Hartbeeps Birthday Parties" },
                 ].map(v => (
                   <div key={v.id} style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>{v.label}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>{v.label}</div>
                     <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
                       <iframe src={"https://www.youtube.com/embed/" + v.id} title={v.label} frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 12 }} />
                     </div>
@@ -792,13 +792,13 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                 const [ttOpen, setTtOpen] = React.useState(false);
                 return (
                   <div style={{ marginBottom: 20 }}>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
-                    <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
+                    <div style={{ fontSize: 16, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
+                    <div style={{ fontSize: 13, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
                     <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
                       <img src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
                       {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                     </div>
-                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6050F0" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 14, fontWeight: 600, color: "#6050F0" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
                   </div>
                 );
               })()}
