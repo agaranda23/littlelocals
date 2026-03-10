@@ -1825,7 +1825,7 @@ function getSearchScore(item, query) {
             const isNew = item.createdAt ? (Date.now() - new Date(item.createdAt).getTime()) < 14 * 24 * 60 * 60 * 1000 : false;
             return <React.Fragment key={item.id}>
               <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNew} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
-              {idx === displayList.length - 1 && !showSuggest && page === 1 && (
+              {false && (
                 <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #F97316" }}>
                   <span style={{ fontSize: 22 }}>✨</span>
                   <div style={{ flex: 1 }}>
@@ -1837,6 +1837,16 @@ function getSearchScore(item, query) {
               )}
             </React.Fragment>;
           })}
+          {page === 1 && !showSuggest && (
+            <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #F97316" }}>
+              <span style={{ fontSize: 22 }}>✨</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 800, color: "#1F2937" }}>Know a great activity we missed?</div>
+                <div style={{ fontSize: 11, color: "#6B7280" }}>Help other parents discover it.</div>
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 800, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
+            </div>
+          )}
           </>
         )}
       </div>
