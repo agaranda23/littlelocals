@@ -781,6 +781,18 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </>
           )}
 
+        {/* Oikos Stay and Play video */}
+        {item.name && item.name.toLowerCase().includes("oikos") && (
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See the space in action</div>
+            <video controls preload="none" style={{ width: "100%", borderRadius: 12, marginBottom: 8 }} poster="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/oikos-stay-play-cover.png">
+              <source src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/oikos-video-1.mp4" type="video/mp4" />
+            </video>
+            <video controls preload="none" style={{ width: "100%", borderRadius: 12 }} poster="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/oikos-stay-play-cover.png">
+              <source src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/oikos-video-2.mp4" type="video/mp4" />
+            </video>
+          </div>
+        )}
         {/* Cook Stars video */}
         {item.name && item.name.toLowerCase().includes("cook stars") && (
           <div style={{ marginBottom: 20 }}>
