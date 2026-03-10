@@ -681,7 +681,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: item.indoor ? "rgba(0,0,0,0.45)" : "#66BB6A", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.indoor ? "Indoor 🌧️" : "Outdoor ☀️"}</span>
           {item.free && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#166534", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Free</span>}
           {isOnToday(item) && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#F97316", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>On Today!</span>}
-          {eventDateLabel && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: isExpired ? "#6B7280" : "#6050F0", background: isExpired ? "#F3F4F6" : "#EDE9FE" }}>📅 {eventDateLabel}</span>}
+
         </div>
       </div>
       )}
