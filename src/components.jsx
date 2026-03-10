@@ -862,7 +862,25 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <span style={{ marginLeft: "auto", fontSize: 16, color: "#4B5563" }}>→</span>
           </div>
         )}
-        <div onClick={() => { const addr = (item.venue || item.location || "").trim(); if (!addr) return; window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), "_blank", "noopener,noreferrer"); }} style={{ background: "white", borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 10, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer" }}>
+        {(() => {
+          const sameVenue = (allListings || []).filter(l => l.id !== item.id && l.venue && item.venue && l.venue.trim().toLowerCase() === item.venue.trim().toLowerCase()).slice(0, 2);
+          return sameVenue.length > 0 ? (
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Also at this venue</div>
+              {sameVenue.map(rel => (
+                <div key={rel.id} onClick={() => onSelect(rel)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#F9FAFB", borderRadius: 10, marginBottom: 6, cursor: "pointer", border: "1px solid #E5E7EB" }}>
+                  {rel.images?.[0]?.url && <img src={rel.images[0].url} alt={rel.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", marginBottom: 1 }}>{rel.name}</div>
+                    <div style={{ fontSize: 12, color: "#6B7280" }}>{rel.type} · {rel.time}</div>
+                  </div>
+                  <span style={{ fontSize: 12, color: "#6050F0", fontWeight: 600 }}>→</span>
+                </div>
+              ))}
+            </div>
+          ) : null;
+        })()}
+                <div onClick={() => { const addr = (item.venue || item.location || "").trim(); if (!addr) return; window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), "_blank", "noopener,noreferrer"); }} style={{ background: "white", borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 10, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer" }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: "#6050F0" }}>📍 Open in Maps</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 12, fontWeight: 700 }}>{item.venue.split(",")[0]}</div>
