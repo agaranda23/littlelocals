@@ -360,6 +360,7 @@ function WestLondonListings() {
             // Sessions schema (v3)
             sessions: l.sessions || null,                 // [{day:"Mon",startTime:"10:00",endTime:"11:00"}]
             listingType: l.listing_type || "activity",   // "activity" | "event"
+            isEvent: (l.listing_type === "event"),
             eventStartDate: l.event_start_date || null,  // "2026-04-01"
             eventEndDate: l.event_end_date || null,       // "2026-04-14"
             recurrence: l.recurrence || "weekly",         // "weekly"|"one-off"|"multi-day"
@@ -775,6 +776,7 @@ function getSearchScore(item, query) {
       }
       if (!search && freeOnly && !l.free) return false;
       if (!search && eventsOnly && !l.isEvent) return false;
+      if (!search && eventsOnly) return true; // show all events bypassing other filters
       if (!search && worthJourney && !l.worthJourney) return false;
       if (!search && dayFilter === "today" && !isOnToday(l)) return false;
       if (!search && dayFilter === "weekend" && !isOnWeekend(l)) return false;
@@ -894,6 +896,22 @@ function getSearchScore(item, query) {
         const [singItem] = results.splice(singIdx, 1);
         results.splice(3, 0, singItem);
       }
+    }
+    // If events mode: sort by date, expired last
+    if (eventsOnly) {
+      const today = new Date(); today.setHours(0,0,0,0);
+      results.sort((x, y) => {
+        const xd = x.eventStartDate ? new Date(x.eventStartDate) : null;
+        const yd = y.eventStartDate ? new Date(y.eventStartDate) : null;
+        const xe = xd && xd < today;
+        const ye = yd && yd < today;
+        if (xe && !ye) return 1;
+        if (!xe && ye) return -1;
+        if (!xd && !yd) return 0;
+        if (!xd) return 1;
+        if (!yd) return -1;
+        return xd - yd;
+      });
     }
     return results;
   }, [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, search, userLoc, dayFilter, weatherMode, napFilter, sortBy, eventsOnly, worthJourney]);

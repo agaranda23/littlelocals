@@ -5,6 +5,16 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 export function BrandBear({ size = 38 }) {
+  const eventDateLabel = item.isEvent && item.eventStartDate ? (() => {
+    const d = new Date(item.eventStartDate);
+    const opts = { day: 'numeric', month: 'short' };
+    if (item.eventEndDate && item.eventEndDate !== item.eventStartDate) {
+      const d2 = new Date(item.eventEndDate);
+      return d.toLocaleDateString('en-GB', opts) + ' – ' + d2.toLocaleDateString('en-GB', opts);
+    }
+    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+  })() : null;
+
   return (
     <img src="/bear-logo.png" alt="LITTLElocals" style={{ width: size, height: size, borderRadius: size * 0.2, objectFit: "cover" }} />
   );
@@ -367,6 +377,12 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const dist = locRef ? getDistanceMiles(locRef.lat, locRef.lng, item.lat, item.lng) : null;
   const walkMin = dist !== null ? Math.round(dist * 20) : null;
   const onToday = isOnToday(item);
+  const isExpired = item.isEvent && item.eventStartDate && (() => {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const end = item.eventEndDate ? new Date(item.eventEndDate) : new Date(item.eventStartDate);
+    end.setHours(23,59,59,999);
+    return end < today;
+  })();
 
   // Swipe state for image carousel
   const [imgIndex, setImgIndex] = useState(0);
@@ -468,7 +484,12 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   })();
 
   return (
-    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 6px 18px rgba(0,0,0,0.06)", border: "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease" }}>
+    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 6px 18px rgba(0,0,0,0.06)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
+      {isExpired && (
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "rgba(0,0,0,0.55)", color: "white", fontWeight: 900, fontSize: 18, letterSpacing: 3, padding: "8px 18px", borderRadius: 8, transform: "rotate(-15deg)", textTransform: "uppercase", border: "2px solid rgba(255,255,255,0.4)" }}>Expired</div>
+        </div>
+      )}
 
       {/* ── Wide image header ── */}
       {hasImages ? (
@@ -665,6 +686,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: item.indoor ? "rgba(0,0,0,0.45)" : "#66BB6A", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.indoor ? "Indoor 🌧️" : "Outdoor ☀️"}</span>
           {item.free && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#166534", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Free</span>}
           {isOnToday(item) && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: "white", background: "#F97316", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>On Today!</span>}
+          {eventDateLabel && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 700, color: isExpired ? "#6B7280" : "#6050F0", background: isExpired ? "#F3F4F6" : "#EDE9FE" }}>📅 {eventDateLabel}</span>}
         </div>
       </div>
       )}
