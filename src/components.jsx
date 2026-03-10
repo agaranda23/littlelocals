@@ -206,6 +206,7 @@ export function isOnThisWeek(item) {
 
 // ─── Next session helper — for card display ─────────────────────
 export function getNextSession(item) {
+  if (isAlwaysAvailable(item)) return { label: "Open daily", isToday: true, isNow: false };
   if (!item.sessions || item.sessions.length === 0) return null;
   const now = new Date();
   const todayShort = DOW_SHORT[now.getDay()];
