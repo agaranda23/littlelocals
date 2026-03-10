@@ -1194,7 +1194,20 @@ function getSearchScore(item, query) {
             <div onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ width: 32, height: 32, overflow: "hidden", flexShrink: 0, borderRadius: 8, border: "1.5px solid #E5E7EB", cursor: "pointer" }}><BrandBear size={32} /></div>
             <div style={{ flex: 1, minWidth: 0, background: "white", borderRadius: 10, padding: "6px 12px", display: "flex", alignItems: "center", gap: 6, border: "1px solid #E5E7EB" }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 12, flex: 1, minWidth: 0, background: "transparent", fontFamily: "inherit" }} />
+              <input value={search} onChange={e => {
+  const val = e.target.value;
+  setSearch(val);
+  if (val.length === 1) {
+    setDayFilter("all");
+    setTypeFilter("All Types");
+    setWeatherMode("all");
+    setFreeOnly(false);
+    setEventsOnly(false);
+    setWorthJourney(false);
+    setNapFilter("all");
+    setAgeFilter("all");
+  }
+}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 12, flex: 1, minWidth: 0, background: "transparent", fontFamily: "inherit" }} />
             </div>
             <div onClick={() => setShowMoreFilters(!showMoreFilters)} style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid #E5E7EB", background: showMoreFilters ? "#1F2937" : "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={showMoreFilters ? "white" : "#374151"} strokeWidth="2.5" strokeLinecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>
@@ -1307,7 +1320,20 @@ function getSearchScore(item, query) {
       <div style={{ margin: "8px 20px 6px", display: "flex", gap: 8, alignItems: "center" }}>
         <div style={{ flex: 1, background: "white", borderRadius: 12, padding: "10px 14px", display: "flex", alignItems: "center", gap: 8, border: "1px solid #E5E7EB" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2.5" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 13, flex: 1, background: "transparent", fontFamily: "inherit", minWidth: 0 }} />
+          <input value={search} onChange={e => {
+  const val = e.target.value;
+  setSearch(val);
+  if (val.length === 1) {
+    setDayFilter("all");
+    setTypeFilter("All Types");
+    setWeatherMode("all");
+    setFreeOnly(false);
+    setEventsOnly(false);
+    setWorthJourney(false);
+    setNapFilter("all");
+    setAgeFilter("all");
+  }
+}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 13, flex: 1, background: "transparent", fontFamily: "inherit", minWidth: 0 }} />
         </div>
         <div onClick={() => setShowMoreFilters(!showMoreFilters)} style={{ padding: "10px 14px", background: showMoreFilters ? "#1F2937" : "#FFFFFF", borderRadius: 12, border: showMoreFilters ? "none" : "1px solid #E5E7EB", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, flexShrink: 0, minHeight: 44, transition: "all 0.18s ease" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={showMoreFilters ? "white" : "#374151"} strokeWidth="2.5" strokeLinecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>
