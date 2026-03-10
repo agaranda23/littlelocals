@@ -377,12 +377,14 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const dist = locRef ? getDistanceMiles(locRef.lat, locRef.lng, item.lat, item.lng) : null;
   const walkMin = dist !== null ? Math.round(dist * 20) : null;
   const onToday = isOnToday(item);
-  const isExpired = item.isEvent && item.eventStartDate && (() => {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const end = item.eventEndDate ? new Date(item.eventEndDate) : new Date(item.eventStartDate);
-    end.setHours(23,59,59,999);
-    return end < today;
-  })();
+  const isExpired = !!(item.isEvent && item.eventStartDate && (() => {
+    try {
+      const today = new Date(); today.setHours(0,0,0,0);
+      const endStr = item.eventEndDate || item.eventStartDate;
+      const end = new Date(endStr); end.setHours(23,59,59,999);
+      return end < today;
+    } catch(e) { return false; }
+  })());
 
   // Swipe state for image carousel
   const [imgIndex, setImgIndex] = useState(0);
