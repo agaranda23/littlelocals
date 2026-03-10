@@ -1656,7 +1656,8 @@ function getSearchScore(item, query) {
             {todayList.length === 0 ? (
               <div style={{ padding: "16px 0", textAlign: "center" }}>
                 <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6 }}>Nothing confirmed for today in {area}</div>
-                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>Browse all activities →</div>
+                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
+                {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />)}</div>) : null; })()}
               </div>
             ) : todayList.map((item, idx) => {
               const signal = getTodaySignal(item, idx, clickCounts[item.id] || 0);
