@@ -1235,7 +1235,7 @@ function getSearchScore(item, query) {
         <div style={{ margin: "6px 20px 10px" }}>
           <div style={{ background: "white", borderRadius: 16, padding: 18, border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(92,75,107,0.06)" }}>
             <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 2, color: "#1F2937" }}>Know a great activity we missed?</div>
-            <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 14 }}>Mums, dads & providers welcome — we'll review and add it!</div>
+            <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 14 }}>Help other Ealing parents discover it. Free to add — built by local parents.</div>
             <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Activity Name *</div>
             <input value={suggestForm.name} onChange={e => setSuggestForm(p => ({...p, name: e.target.value}))} placeholder="e.g. Tiny Tots Music Class" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 13, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 10 }}>

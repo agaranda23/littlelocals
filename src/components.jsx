@@ -497,13 +497,19 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           onClick={(e) => e.stopPropagation()}
         >
           <SceneBg type={item.type} w="100%" h={160} />
-          <img
-            src={allImages[imgIndex]}
-            alt={item.name}
-            loading="lazy"
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-            onError={(e) => { e.target.style.display = "none"; }}
-          />
+          {(() => {
+            const src = allImages[imgIndex];
+            const isLogoImage = src && (src === item.logo || src === item.imageUrl && item.logo);
+            const isLikelyLogo = src && !isLogoImage && item.logo && allImages.length === 1 && src === item.logo;
+            const useCover = !isLogoImage && !isLikelyLogo;
+            return <img
+              src={src}
+              alt={item.name}
+              loading="lazy"
+              style={{ width: "100%", height: "100%", objectFit: useCover ? "cover" : "contain", display: "block", background: useCover ? "transparent" : "white", padding: useCover ? 0 : "12px" }}
+              onError={(e) => { e.target.style.display = "none"; }}
+            />;
+          })()}
           {/* Dot indicators */}
           {allImages.length > 1 && (
             <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 5 }}>
@@ -533,7 +539,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         <div style={{ position: "relative", height: 100, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}99)`, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
           <SceneBg type={item.type} w="100%" h={100} />
           {hasLogo
-            ? <img src={item.logo} alt="" loading="lazy" style={{ height: 56, maxWidth: "60%", objectFit: "contain", position: "relative", zIndex: 2 }} onError={(e) => { e.target.style.display = "none"; }} />
+            ? <img src={item.logo} alt="" loading="lazy" style={{ height: 64, maxWidth: "70%", objectFit: "contain", position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.08))" }} onError={(e) => { e.target.style.display = "none"; }} />
             : <span style={{ fontSize: 36, fontWeight: 900, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
           }
           <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
@@ -690,6 +696,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {showSaveShareNudge && (
           <div style={{ marginBottom: 12, padding: "10px 14px", background: "#F3F0FF", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontSize: 12, fontWeight: 600, color: "#6050F0" }}>Saved to your favourites ❤️</span>
+            <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 3 }}>Know a parent who'd love this?</div>
             <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 11, fontWeight: 700, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
           </div>
         )}
