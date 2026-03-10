@@ -1152,7 +1152,7 @@ function getSearchScore(item, query) {
   }
 
   const Chip = ({ active, onClick, children, color = "#374151", activeBg = "#6050F0" }) => (
-    <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 17, fontWeight: 800, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease" }}>{children}</div>
+    <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 17, fontWeight: 800, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease", boxShadow: active ? "0 4px 12px rgba(91,45,110,0.25)" : "none" }}>{children}</div>
   );
 
   // SEO landing page route
@@ -1441,7 +1441,7 @@ function getSearchScore(item, query) {
 
       {/* Quick filters + count row */}
       <div style={{ padding: "0 20px 4px", borderTop: "1px solid #F3F4F6", paddingTop: 10 }}>
-        <div style={{ display: "flex", gap: 7, marginBottom: 8 }}>
+        <div style={{ display: "flex", gap: 7, marginBottom: 8, flexWrap: "nowrap", overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingRight: 12 }}>
           {[
             { label: "☀️ Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny", count: (filtered||[]).filter(l=>!l.indoor).length },
             { label: "🌧️ Indoor",  action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy", count: (filtered||[]).filter(l=>l.indoor).length },

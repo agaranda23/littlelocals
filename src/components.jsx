@@ -479,7 +479,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   })();
 
   return (
-    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 6px 18px rgba(0,0,0,0.06)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
+    <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 12px 32px rgba(0,0,0,0.08)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease, box-shadow 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
       {isExpired && (
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <div style={{ background: "rgba(0,0,0,0.55)", color: "white", fontWeight: 1000, fontSize: 24, letterSpacing: 3, padding: "8px 18px", borderRadius: 8, transform: "rotate(-15deg)", textTransform: "uppercase", border: "2px solid rgba(255,255,255,0.4)" }}>Expired</div>
@@ -717,7 +717,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             { icon: "🅿️", label: "Parking", value: parkingLabels[item.parking]?.replace("🅿️ ", "") || "Check venue" },
             { icon: item.indoor ? "🏠" : "🌳", label: "Setting", value: item.indoor ? "Indoor" : "Outdoor" },
           ].map((i, idx) => (
-            <div key={idx} style={{ background: "#FFFFFF", borderRadius: 10, padding: "14px 12px", display: "flex", alignItems: "center", gap: 8, border: "1px solid #ECECF0", transition: "transform 0.12s ease", cursor: "default" }}
+            <div key={idx} style={{ background: "#FFFFFF", borderRadius: 10, padding: "14px 12px", display: "flex", alignItems: "center", gap: 8, border: "1px solid #ECECF0", transition: "transform 0.12s ease, box-shadow 0.12s ease", cursor: "default" }}
               onMouseDown={e => e.currentTarget.style.transform='scale(0.98)'}
               onMouseUp={e => e.currentTarget.style.transform='scale(1)'}
               onTouchStart={e => e.currentTarget.style.transform='scale(0.98)'}
