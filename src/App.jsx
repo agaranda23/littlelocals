@@ -12,7 +12,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
   const score = (l) => {
     let s = 0;
-    if ((l.images && l.images.length > 0) || l.logo || l.imageUrl) s += 3;
+    if ((l.images && l.images.length > 0) || l.logo || l.imageUrl) s += 10;
     if (l.description && l.description.length > 30) s += 2;
     if (l.website || l.trialLink) s += 1;
     if (l.popular) s += 2;
@@ -847,7 +847,7 @@ function getSearchScore(item, query) {
       const FAVS = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
       const score = (l) => {
         let s = 0;
-        if ((l.images && l.images.length > 0) || l.logo) s += 3;
+        if ((l.images && l.images.length > 0) || l.logo || l.imageUrl) s += 10;
         if (l.description && l.description.length > 30) s += 2;
         if (l.time && l.time.length > 3) s += 1;
         if (l.website || l.trialLink) s += 1;
@@ -1519,7 +1519,7 @@ function getSearchScore(item, query) {
         // Sort today candidates by quality score for curated feel
         const getTodayScore = (a) => {
           let s = 0;
-          if ((a.images && a.images.length > 0) || a.logo) s += 3;
+          if ((a.images && a.images.length > 0) || a.logo || a.imageUrl) s += 10;
           if (a.description && a.description.length > 30) s += 2;
           if (a.time && a.time.length > 3) s += 1;
           if (a.website || a.trialLink) s += 1;
@@ -1671,7 +1671,7 @@ function getSearchScore(item, query) {
           {/* Ealing parents are loving these */}
           {(() => {
             const loved = listings
-              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified))
+              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || l.logo || l.imageUrl))
               .sort((a, b) => {
                 const sa = (a.popular?3:0)+(a.featuredProvider?2:0)+(clickCounts[a.id]||0)+(a.verified?1:0);
                 const sb = (b.popular?3:0)+(b.featuredProvider?2:0)+(clickCounts[b.id]||0)+(b.verified?1:0);
