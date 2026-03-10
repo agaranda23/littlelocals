@@ -49,21 +49,21 @@ function EalingSEOPage({ listings, onActivityClick }) {
       <div onClick={() => onActivityClick(item)} style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:16, marginBottom:12, display:"flex", gap:14, cursor:"pointer", boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
         <div style={{ width:64, height:64, borderRadius:12, background:`linear-gradient(135deg,${bg},${bg}dd)`, flexShrink:0, position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
           {img && <img src={img} alt="" style={{ width:"78%", height:"78%", objectFit:"cover", position:"absolute", top:"11%", left:"11%", borderRadius:"50%" }} onError={e => e.target.style.display="none"} />}
-          <span style={{ fontSize:22, fontWeight:800, color:col, position:"relative", zIndex:2 }}>{(item.type||"A").charAt(0)}</span>
+          <span style={{ fontSize: 26, fontWeight: 1000, color:col, position:"relative", zIndex:2 }}>{(item.type||"A").charAt(0)}</span>
         </div>
         <div style={{ flex:1, minWidth:0 }}>
-          <div style={{ fontSize:15, fontWeight:700, color:"#111827", marginBottom:3 }}>{item.name}</div>
-          <div style={{ fontSize:12, color:"#4B5563", marginBottom:3 }}>{item.type}{item.ages ? " · " + item.ages : ""}{item.day ? " · " + item.day : ""}</div>
-          <div style={{ fontSize:12, color:"#6B7280" }}>{item.venue ? item.venue.split(",")[0] + ", " : ""}{item.location}</div>
+          <div style={{ fontSize: 19, fontWeight: 900, color:"#111827", marginBottom:3 }}>{item.name}</div>
+          <div style={{ fontSize: 16, color:"#4B5563", marginBottom:3 }}>{item.type}{item.ages ? " · " + item.ages : ""}{item.day ? " · " + item.day : ""}</div>
+          <div style={{ fontSize: 16, color:"#6B7280" }}>{item.venue ? item.venue.split(",")[0] + ", " : ""}{item.location}</div>
           {(item.freeTrial || item.popular) && (
             <div style={{ display:"flex", gap:6, marginTop:6 }}>
-              {item.freeTrial && <span style={{ fontSize:10, fontWeight:700, padding:"2px 7px", borderRadius:6, background:"#DCFCE7", color:"#166534" }}>Free trial</span>}
-              {item.popular && <span style={{ fontSize:10, fontWeight:700, padding:"2px 7px", borderRadius:6, background:"#FEF3C7", color:"#92400E" }}>⭐ Popular</span>}
+              {item.freeTrial && <span style={{ fontSize: 14, fontWeight: 900, padding:"2px 7px", borderRadius:6, background:"#DCFCE7", color:"#166534" }}>Free trial</span>}
+              {item.popular && <span style={{ fontSize: 14, fontWeight: 900, padding:"2px 7px", borderRadius:6, background:"#FEF3C7", color:"#92400E" }}>⭐ Popular</span>}
             </div>
           )}
         </div>
         <div style={{ flexShrink:0, alignSelf:"flex-start" }}>
-          {item.price && <div style={{ fontSize:12, fontWeight:700, padding:"5px 10px", borderRadius:8, background: isFree ? "#DCFCE7" : "#FFF7ED", color: isFree ? "#166534" : "#9A3412", whiteSpace:"nowrap" }}>{item.price}</div>}
+          {item.price && <div style={{ fontSize: 16, fontWeight: 900, padding:"5px 10px", borderRadius:8, background: isFree ? "#DCFCE7" : "#FFF7ED", color: isFree ? "#166534" : "#9A3412", whiteSpace:"nowrap" }}>{item.price}</div>}
         </div>
       </div>
     );
@@ -71,11 +71,11 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
   const Section = ({ id, eyebrow, title, desc, items }) => (
     <section id={id} style={{ padding:"28px 20px 8px" }}>
-      <div style={{ fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.8px", color:"#F97316", marginBottom:4 }}>{eyebrow}</div>
-      <h2 style={{ fontFamily:"Georgia,serif", fontSize:22, fontWeight:800, color:"#111827", marginBottom:6, lineHeight:1.25 }}>{title}</h2>
-      <p style={{ fontSize:14, color:"#4B5563", marginBottom:16, lineHeight:1.55 }}>{desc}</p>
-      {items.length > 0 ? items.map(item => <Card key={item.id} item={item} />) : <p style={{ fontSize:13, color:"#9CA3AF" }}>Loading activities…</p>}
-      <div onClick={() => window.location.href = "/"} style={{ textAlign:"center", padding:"8px 0 4px", fontSize:13, fontWeight:600, color:"#F97316", cursor:"pointer" }}>Browse all {eyebrow.toLowerCase()} →</div>
+      <div style={{ fontSize: 15, fontWeight: 900, textTransform:"uppercase", letterSpacing:"0.8px", color:"#F97316", marginBottom:4 }}>{eyebrow}</div>
+      <h2 style={{ fontFamily:"Georgia,serif", fontSize: 26, fontWeight: 1000, color:"#111827", marginBottom:6, lineHeight:1.25 }}>{title}</h2>
+      <p style={{ fontSize: 18, color:"#4B5563", marginBottom:16, lineHeight:1.55 }}>{desc}</p>
+      {items.length > 0 ? items.map(item => <Card key={item.id} item={item} />) : <p style={{ fontSize: 17, color:"#9CA3AF" }}>Loading activities…</p>}
+      <div onClick={() => window.location.href = "/"} style={{ textAlign:"center", padding:"8px 0 4px", fontSize: 17, fontWeight: 800, color:"#F97316", cursor:"pointer" }}>Browse all {eyebrow.toLowerCase()} →</div>
     </section>
   );
 
@@ -94,31 +94,31 @@ function EalingSEOPage({ listings, onActivityClick }) {
       <nav style={{ background:"white", borderBottom:"1px solid #E5E7EB", padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", position:"sticky", top:0, zIndex:100 }}>
         <div onClick={() => window.location.href="/"} style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer" }}>
           <img src="/bear-logo.png" alt="LITTLElocals" style={{ width:28, height:28, borderRadius:6 }} />
-          <span style={{ fontFamily:"Georgia,serif", fontSize:18, fontWeight:900 }}>LITTLE<span style={{ color:"#F97316" }}>locals</span></span>
+          <span style={{ fontFamily:"Georgia,serif", fontSize: 22, fontWeight: 1000 }}>LITTLE<span style={{ color:"#F97316" }}>locals</span></span>
         </div>
-        <div onClick={() => window.location.href="/"} style={{ background:"#F97316", color:"white", padding:"8px 16px", borderRadius:20, fontSize:13, fontWeight:700, cursor:"pointer" }}>Browse all →</div>
+        <div onClick={() => window.location.href="/"} style={{ background:"#F97316", color:"white", padding:"8px 16px", borderRadius:20, fontSize: 17, fontWeight: 900, cursor:"pointer" }}>Browse all →</div>
       </nav>
 
       {/* Breadcrumb */}
-      <div style={{ padding:"10px 20px", fontSize:12, color:"#9CA3AF" }}>
+      <div style={{ padding:"10px 20px", fontSize: 16, color:"#9CA3AF" }}>
         <span onClick={() => window.location.href="/"} style={{ color:"#F97316", cursor:"pointer" }}>Home</span> › Things to do with kids in Ealing
       </div>
 
       {/* Hero */}
       <header style={{ background:"linear-gradient(135deg,#FFF7ED,#FFFBF5,#F0FDF4)", padding:"32px 20px 28px", borderBottom:"1px solid #E5E7EB" }}>
-        <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize:12, fontWeight:700, color:"#F97316", background:"#FFF7ED", border:"1px solid #FED7AA", padding:"4px 12px", borderRadius:20, marginBottom:14 }}>📍 Ealing, West London</div>
-        <h1 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(26px,6vw,34px)", fontWeight:900, color:"#111827", lineHeight:1.2, marginBottom:14 }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize: 16, fontWeight: 900, color:"#F97316", background:"#FFF7ED", border:"1px solid #FED7AA", padding:"4px 12px", borderRadius:20, marginBottom:14 }}>📍 Ealing, West London</div>
+        <h1 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(26px,6vw,34px)", fontWeight: 1000, color:"#111827", lineHeight:1.2, marginBottom:14 }}>
           Best Things To Do<br/>With Kids In <span style={{ color:"#F97316", fontStyle:"italic" }}>Ealing</span>
         </h1>
-        <p style={{ fontSize:15, color:"#4B5563", lineHeight:1.65, marginBottom:12 }}>
+        <p style={{ fontSize: 19, color:"#4B5563", lineHeight:1.65, marginBottom:12 }}>
           LITTLElocals is built by Ealing parents, for Ealing parents. Every activity here has been found, verified, or recommended by local families — from baby sensory classes to free parks, toddler groups to weekend adventures.
         </p>
-        <p style={{ fontSize:13, color:"#6B7280", marginBottom:16 }}>
+        <p style={{ fontSize: 17, color:"#6B7280", marginBottom:16 }}>
           70+ activities across <strong>Ealing</strong>, <strong>Hanwell</strong>, <strong>Acton</strong>, <strong>Northfields</strong> and <strong>West Ealing</strong>.
         </p>
         <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
           {[["#F97316", `${ealingListings.length || "70"}+ activities in Ealing`], ["#166534","Updated weekly"], ["#6050F0","Free to use"]].map(([col, label]) => (
-            <div key={label} style={{ display:"flex", alignItems:"center", gap:6, fontSize:13, fontWeight:600 }}>
+            <div key={label} style={{ display:"flex", alignItems:"center", gap:6, fontSize: 17, fontWeight: 800 }}>
               <div style={{ width:8, height:8, borderRadius:"50%", background:col }}></div><span>{label}</span>
             </div>
           ))}
@@ -128,27 +128,27 @@ function EalingSEOPage({ listings, onActivityClick }) {
       {/* Jump nav */}
       <nav style={{ background:"white", borderBottom:"1px solid #E5E7EB", display:"flex", overflowX:"auto", padding:"0 20px", scrollbarWidth:"none" }}>
         {[["#outdoor","☀️ Outdoor"],["#classes","🎶 Baby classes"],["#free","💰 Free things"],["#popular","⭐ Popular"],["#faq","❓ FAQ"]].map(([href, label]) => (
-          <a key={href} href={href} style={{ display:"inline-flex", alignItems:"center", gap:4, padding:"12px 14px", fontSize:13, fontWeight:600, color:"#4B5563", textDecoration:"none", whiteSpace:"nowrap", borderBottom:"2px solid transparent" }}>{label}</a>
+          <a key={href} href={href} style={{ display:"inline-flex", alignItems:"center", gap:4, padding:"12px 14px", fontSize: 17, fontWeight: 800, color:"#4B5563", textDecoration:"none", whiteSpace:"nowrap", borderBottom:"2px solid transparent" }}>{label}</a>
         ))}
       </nav>
 
       {/* Intro */}
       <div style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:20, margin:"20px 20px 0" }}>
-        <h3 style={{ fontFamily:"Georgia,serif", fontSize:17, fontWeight:800, marginBottom:8 }}>Finding things to do with kids in Ealing</h3>
-        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65, marginBottom:10 }}>Whether you have a newborn, a toddler, or a school-age child, Ealing has a huge range of family-friendly activities year-round. From Walpole Park and Pitzhanger Manor to award-winning baby sensory classes near Ealing Broadway, there's something for every age and budget.</p>
-        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65 }}>LITTLElocals brings together all family activities in Ealing in one place — classes, parks, soft play, toddler groups, museums and more — so you spend less time searching and more time doing.</p>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize: 21, fontWeight: 1000, marginBottom:8 }}>Finding things to do with kids in Ealing</h3>
+        <p style={{ fontSize: 18, color:"#4B5563", lineHeight:1.65, marginBottom:10 }}>Whether you have a newborn, a toddler, or a school-age child, Ealing has a huge range of family-friendly activities year-round. From Walpole Park and Pitzhanger Manor to award-winning baby sensory classes near Ealing Broadway, there's something for every age and budget.</p>
+        <p style={{ fontSize: 18, color:"#4B5563", lineHeight:1.65 }}>LITTLElocals brings together all family activities in Ealing in one place — classes, parks, soft play, toddler groups, museums and more — so you spend less time searching and more time doing.</p>
       </div>
 
       <Section id="outdoor" eyebrow="Parks & outdoor fun" title="Best outdoor activities for kids in Ealing ☀️" desc="From nature play to farm animals, Ealing has some of West London's best outdoor spaces for families." items={outdoor} />
       <div style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:20, margin:"0 20px 8px" }}>
-        <h3 style={{ fontFamily:"Georgia,serif", fontSize:16, fontWeight:800, marginBottom:8 }}>Outdoor activities for toddlers in Ealing</h3>
-        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65 }}>Pitzhanger Park Play Centre offers free play for under 5s on weekdays. Brent Lodge Park (Hanwell Zoo) is a great low-cost outing with animals and open space. Gunnersbury Park Nature Play gives children of all ages the chance to explore natural outdoor environments.</p>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize: 20, fontWeight: 1000, marginBottom:8 }}>Outdoor activities for toddlers in Ealing</h3>
+        <p style={{ fontSize: 18, color:"#4B5563", lineHeight:1.65 }}>Pitzhanger Park Play Centre offers free play for under 5s on weekdays. Brent Lodge Park (Hanwell Zoo) is a great low-cost outing with animals and open space. Gunnersbury Park Nature Play gives children of all ages the chance to explore natural outdoor environments.</p>
       </div>
 
       <Section id="classes" eyebrow="Baby & toddler classes" title="Best baby & toddler classes in Ealing 🎶" desc="Structured classes for babies and toddlers — music, sensory play, signing, movement and more." items={classes} />
       <div style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:20, margin:"0 20px 8px" }}>
-        <h3 style={{ fontFamily:"Georgia,serif", fontSize:16, fontWeight:800, marginBottom:8 }}>Baby classes in Ealing for 0–12 months</h3>
-        <p style={{ fontSize:14, color:"#4B5563", lineHeight:1.65 }}>Hartbeeps runs award-winning baby sensory and music classes from Haven Green Church near Ealing Broadway. Sing and Sign Ealing offers baby signing classes at two venues on Thursdays and Fridays for babies aged 0–24 months. Many classes offer free taster sessions.</p>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize: 20, fontWeight: 1000, marginBottom:8 }}>Baby classes in Ealing for 0–12 months</h3>
+        <p style={{ fontSize: 18, color:"#4B5563", lineHeight:1.65 }}>Hartbeeps runs award-winning baby sensory and music classes from Haven Green Church near Ealing Broadway. Sing and Sign Ealing offers baby signing classes at two venues on Thursdays and Fridays for babies aged 0–24 months. Many classes offer free taster sessions.</p>
       </div>
 
       <Section id="free" eyebrow="No budget needed" title="Free things to do with kids in Ealing 💰" desc="Great family activities that won't cost a penny — parks, play centres, toddler groups and more." items={free} />
@@ -157,26 +157,26 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
       {/* FAQ */}
       <section id="faq" style={{ padding:"24px 20px" }}>
-        <h2 style={{ fontFamily:"Georgia,serif", fontSize:22, fontWeight:800, color:"#111827", marginBottom:16 }}>Frequently asked questions</h2>
+        <h2 style={{ fontFamily:"Georgia,serif", fontSize: 26, fontWeight: 1000, color:"#111827", marginBottom:16 }}>Frequently asked questions</h2>
         {faqItems.map((item, i) => (
           <div key={i} style={{ background:"white", border:"1px solid #E5E7EB", borderRadius:14, marginBottom:10, overflow:"hidden" }}>
-            <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding:"14px 16px", fontSize:14, fontWeight:700, color:"#111827", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", gap:12 }}>
+            <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding:"14px 16px", fontSize: 18, fontWeight: 900, color:"#111827", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", gap:12 }}>
               {item.q}
-              <span style={{ fontSize:18, color:"#F97316", transform: openFaq===i ? "rotate(45deg)" : "none", transition:"transform 0.2s", flexShrink:0 }}>+</span>
+              <span style={{ fontSize: 22, color:"#F97316", transform: openFaq===i ? "rotate(45deg)" : "none", transition:"transform 0.2s", flexShrink:0 }}>+</span>
             </div>
-            {openFaq === i && <div style={{ padding:"0 16px 14px", fontSize:14, color:"#4B5563", lineHeight:1.65 }}>{item.a}</div>}
+            {openFaq === i && <div style={{ padding:"0 16px 14px", fontSize: 18, color:"#4B5563", lineHeight:1.65 }}>{item.a}</div>}
           </div>
         ))}
       </section>
 
       {/* CTA */}
       <div style={{ margin:"0 20px 32px", background:"linear-gradient(135deg,#1F2937,#374151)", borderRadius:18, padding:"24px 20px", textAlign:"center" }}>
-        <h3 style={{ fontFamily:"Georgia,serif", fontSize:20, fontWeight:900, color:"white", marginBottom:8 }}>See everything happening in Ealing today</h3>
-        <p style={{ fontSize:13, color:"rgba(255,255,255,0.7)", marginBottom:16, lineHeight:1.55 }}>Browse all kids activities in Ealing — baby classes, toddler groups, soft play, parks and more. Free to use, updated weekly by local parents.</p>
-        <div onClick={() => window.location.href="/"} style={{ display:"inline-block", background:"#F97316", color:"white", fontSize:14, fontWeight:800, padding:"12px 28px", borderRadius:28, cursor:"pointer", boxShadow:"0 4px 14px rgba(249,115,22,0.4)" }}>👉 Browse all kids activities in Ealing →</div>
+        <h3 style={{ fontFamily:"Georgia,serif", fontSize: 24, fontWeight: 1000, color:"white", marginBottom:8 }}>See everything happening in Ealing today</h3>
+        <p style={{ fontSize: 17, color:"rgba(255,255,255,0.7)", marginBottom:16, lineHeight:1.55 }}>Browse all kids activities in Ealing — baby classes, toddler groups, soft play, parks and more. Free to use, updated weekly by local parents.</p>
+        <div onClick={() => window.location.href="/"} style={{ display:"inline-block", background:"#F97316", color:"white", fontSize: 18, fontWeight: 1000, padding:"12px 28px", borderRadius:28, cursor:"pointer", boxShadow:"0 4px 14px rgba(249,115,22,0.4)" }}>👉 Browse all kids activities in Ealing →</div>
       </div>
 
-      <footer style={{ background:"white", borderTop:"1px solid #E5E7EB", padding:20, textAlign:"center", fontSize:12, color:"#9CA3AF" }}>
+      <footer style={{ background:"white", borderTop:"1px solid #E5E7EB", padding:20, textAlign:"center", fontSize: 16, color:"#9CA3AF" }}>
         <p>© 2025 LITTLElocals. Built by parents, for parents.</p>
         <p style={{ marginTop:6 }}><span onClick={() => window.location.href="/"} style={{ color:"#F97316", cursor:"pointer" }}>Home</span> · <span style={{ color:"#F97316", cursor:"pointer" }}>Privacy</span> · <span style={{ color:"#F97316", cursor:"pointer" }}>Contact</span></p>
       </footer>
@@ -1003,27 +1003,27 @@ function getSearchScore(item, query) {
             <div onClick={closeCalendar} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
               <div style={{ width: 60, height: 60, overflow: "hidden", flexShrink: 0, borderRadius: 14, border: "2px solid #E5E7EB" }}><BrandBear size={60} /></div>
               <div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: "#6050F0", letterSpacing: -0.3 }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></div>
+                <div style={{ fontSize: 26, fontWeight: 1000, color: "#6050F0", letterSpacing: -0.3 }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></div>
               </div>
             </div>
-            <div onClick={closeCalendar} style={{ padding: "6px 12px", background: "white", borderRadius: 10, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#1F2937" }}>← Back</div>
+            <div onClick={closeCalendar} style={{ padding: "6px 12px", background: "white", borderRadius: 10, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#1F2937" }}>← Back</div>
           </div>
         </div>
 
         <div style={{ padding: "16px 20px 8px" }}>
-          <div style={{ fontSize: 18, fontWeight: 800, color: "#1F2937", marginBottom: 4 }}>📅 My Plans</div>
-          <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 12 }}>Tap a date to view or add activities</div>
+          <div style={{ fontSize: 22, fontWeight: 1000, color: "#1F2937", marginBottom: 4 }}>📅 My Plans</div>
+          <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 12 }}>Tap a date to view or add activities</div>
 
           {/* Month nav */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-            <div onClick={prevMonth} style={{ padding: "6px 12px", background: "white", borderRadius: 8, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 14, fontWeight: 700 }}>‹</div>
-            <div style={{ fontSize: 15, fontWeight: 800, color: "#1F2937" }}>{monthNames[calMonth]} {calYear}</div>
-            <div onClick={nextMonth} style={{ padding: "6px 12px", background: "white", borderRadius: 8, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 14, fontWeight: 700 }}>›</div>
+            <div onClick={prevMonth} style={{ padding: "6px 12px", background: "white", borderRadius: 8, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 18, fontWeight: 900 }}>‹</div>
+            <div style={{ fontSize: 19, fontWeight: 1000, color: "#1F2937" }}>{monthNames[calMonth]} {calYear}</div>
+            <div onClick={nextMonth} style={{ padding: "6px 12px", background: "white", borderRadius: 8, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 18, fontWeight: 900 }}>›</div>
           </div>
 
           {/* Day labels */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: 2, marginBottom: 4 }}>
-            {dayLabels.map(d => <div key={d} style={{ textAlign: "center", fontSize: 10, fontWeight: 700, color: "#6B7280", padding: 4 }}>{d}</div>)}
+            {dayLabels.map(d => <div key={d} style={{ textAlign: "center", fontSize: 14, fontWeight: 900, color: "#6B7280", padding: 4 }}>{d}</div>)}
           </div>
 
           {/* Calendar grid */}
@@ -1041,7 +1041,7 @@ function getSearchScore(item, query) {
                   background: isSelected ? "linear-gradient(135deg, #F97316, #FB923C)" : isToday ? "#FFF0EB" : "white",
                   color: isSelected ? "white" : isPast ? "#9CA3AF" : "#1F2937",
                   border: isToday && !isSelected ? "2px solid #F97316" : "1px solid #E5E7EB",
-                  fontWeight: isToday || isSelected ? 800 : 600, fontSize: 13
+                  fontWeight: isToday || isSelected ? 800 : 600, fontSize: 17
                 }}>
                   {d}
                   {hasPlans && <div style={{ position: "absolute", bottom: 3, left: "50%", transform: "translateX(-50%)", width: 5, height: 5, borderRadius: "50%", background: isSelected ? "white" : "#F97316" }} />}
@@ -1053,28 +1053,28 @@ function getSearchScore(item, query) {
 
         {/* Selected date detail */}
         <div style={{ padding: "0 20px 12px" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#1F2937", marginBottom: 8 }}>
+          <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937", marginBottom: 8 }}>
             {selectedDate === todayKey ? "Today" : new Date(selectedDate + "T12:00:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" })}
-            <span style={{ fontSize: 12, fontWeight: 600, color: "#6B7280", marginLeft: 8 }}>{selectedActivities.length} {selectedActivities.length === 1 ? "activity" : "activities"}</span>
+            <span style={{ fontSize: 16, fontWeight: 800, color: "#6B7280", marginLeft: 8 }}>{selectedActivities.length} {selectedActivities.length === 1 ? "activity" : "activities"}</span>
           </div>
 
           {selectedActivities.length === 0 ? (
             <div style={{ padding: "20px", textAlign: "center", background: "white", borderRadius: 14, border: "1px solid #E5E7EB" }}>
-              <div style={{ fontSize: 28, marginBottom: 6 }}>📅</div>
-              <div style={{ fontSize: 12, color: "#6B7280" }}>Nothing planned yet</div>
-              <div onClick={closeCalendar} style={{ display: "inline-block", marginTop: 8, padding: "6px 16px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 10, fontSize: 11, fontWeight: 700, cursor: "pointer" }}>Browse Activities</div>
+              <div style={{ fontSize: 32, marginBottom: 6 }}>📅</div>
+              <div style={{ fontSize: 16, color: "#6B7280" }}>Nothing planned yet</div>
+              <div onClick={closeCalendar} style={{ display: "inline-block", marginTop: 8, padding: "6px 16px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 10, fontSize: 15, fontWeight: 900, cursor: "pointer" }}>Browse Activities</div>
             </div>
           ) : (
             selectedActivities.map(item => (
               <div key={item.id} style={{ padding: "10px 14px", background: "white", borderRadius: 14, border: "1px solid #E5E7EB", marginBottom: 6, display: "flex", alignItems: "center", gap: 10 }}>
                 
                 <div style={{ flex: 1 }} onClick={() => { closeCalendar(); setTimeout(() => openDetail(item), 50); }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", cursor: "pointer" }}>{item.name}</div>
-                  <div style={{ fontSize: 11, color: "#6B7280" }}>{item.time || item.day} · {item.location}</div>
+                  <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937", cursor: "pointer" }}>{item.name}</div>
+                  <div style={{ fontSize: 15, color: "#6B7280" }}>{item.time || item.day} · {item.location}</div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: item.free ? "#166534" : "#F97316" }}>{item.price}</span>
-                  <div onClick={() => removeFromCalendar(item.id, selectedDate)} style={{ width: 26, height: 26, borderRadius: "50%", background: "#FFF0EB", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 12 }}>✕</div>
+                  <span style={{ fontSize: 15, fontWeight: 900, color: item.free ? "#166534" : "#F97316" }}>{item.price}</span>
+                  <div onClick={() => removeFromCalendar(item.id, selectedDate)} style={{ width: 26, height: 26, borderRadius: "50%", background: "#FFF0EB", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 16 }}>✕</div>
                 </div>
               </div>
             ))
@@ -1084,15 +1084,15 @@ function getSearchScore(item, query) {
         {/* Activity Passport */}
         <div style={{ padding: "0 20px 16px" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>🏆 Activity Passport</div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: "#166534" }}>{passport.length} visited</div>
+            <div style={{ fontSize: 20, fontWeight: 1000, color: "#1F2937" }}>🏆 Activity Passport</div>
+            <div style={{ fontSize: 16, fontWeight: 900, color: "#166534" }}>{passport.length} visited</div>
           </div>
 
           {passport.length === 0 ? (
             <div style={{ padding: "20px", textAlign: "center", background: "white", borderRadius: 14, border: "1px solid #E5E7EB" }}>
-              <div style={{ fontSize: 28, marginBottom: 6 }}>🏆</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Start collecting!</div>
-              <div style={{ fontSize: 11, color: "#6B7280" }}>Tap "Been here?" on activities your family has tried</div>
+              <div style={{ fontSize: 32, marginBottom: 6 }}>🏆</div>
+              <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Start collecting!</div>
+              <div style={{ fontSize: 15, color: "#6B7280" }}>Tap "Been here?" on activities your family has tried</div>
             </div>
           ) : (
             <>
@@ -1107,11 +1107,11 @@ function getSearchScore(item, query) {
                   <div style={{ marginBottom: 10 }}>
                     {Object.entries(typeCounts).sort((a, b) => b[1] - a[1]).map(([type, count]) => (
                       <div key={type} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-                        <div style={{ fontSize: 11, fontWeight: 700, color: "#1F2937", width: 90, flexShrink: 0 }}>{type}</div>
+                        <div style={{ fontSize: 15, fontWeight: 900, color: "#1F2937", width: 90, flexShrink: 0 }}>{type}</div>
                         <div style={{ flex: 1, height: 8, background: "#E5E7EB", borderRadius: 4, overflow: "hidden" }}>
                           <div style={{ width: `${Math.min(100, (count / (typeTotal[type] || 1)) * 100)}%`, height: "100%", background: "linear-gradient(90deg, #166534, #86EFAC)", borderRadius: 4 }} />
                         </div>
-                        <div style={{ fontSize: 10, fontWeight: 700, color: "#166534", width: 36, textAlign: "right" }}>{count}/{typeTotal[type] || 0}</div>
+                        <div style={{ fontSize: 14, fontWeight: 900, color: "#166534", width: 36, textAlign: "right" }}>{count}/{typeTotal[type] || 0}</div>
                       </div>
                     ))}
                   </div>
@@ -1126,8 +1126,8 @@ function getSearchScore(item, query) {
                   return (
                     <div key={id} onClick={() => { closeCalendar(); setTimeout(() => openDetail(item), 50); }} style={{ textAlign: "center", padding: "8px 4px", background: "white", borderRadius: 12, border: "1px solid #E5E7EB", cursor: "pointer" }}>
                       
-                      <div style={{ fontSize: 8, fontWeight: 700, color: "#1F2937", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-                      <div style={{ fontSize: 7, color: "#166534", fontWeight: 600 }}>✓ Visited</div>
+                      <div style={{ fontSize: 12, fontWeight: 900, color: "#1F2937", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                      <div style={{ fontSize: 11, color: "#166534", fontWeight: 800 }}>✓ Visited</div>
                     </div>
                   );
                 })}
@@ -1137,7 +1137,7 @@ function getSearchScore(item, query) {
         </div>
 
         <div style={{ padding: "8px 20px 24px", textAlign: "center" }}>
-          <div onClick={closeCalendar} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Browse Activities to Add More</div>
+          <div onClick={closeCalendar} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Browse Activities to Add More</div>
         </div>
       </div>
     );
@@ -1152,7 +1152,7 @@ function getSearchScore(item, query) {
   }
 
   const Chip = ({ active, onClick, children, color = "#374151", activeBg = "#6050F0" }) => (
-    <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 13, fontWeight: 600, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease" }}>{children}</div>
+    <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 17, fontWeight: 800, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease" }}>{children}</div>
   );
 
   // SEO landing page route
@@ -1170,7 +1170,7 @@ function getSearchScore(item, query) {
               <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
                 <div style={{ width: 48, height: 48, overflow: "hidden", flexShrink: 0, borderRadius: 12, border: "2px solid #E5E7EB" }}><BrandBear size={48} /></div>
                 <div>
-                  <div style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.3 }}><span style={{ color: "#6050F0" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
+                  <div style={{ fontSize: 24, fontWeight: 1000, letterSpacing: -0.3 }}><span style={{ color: "#6050F0" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
                 </div>
               </div>
             </div>
@@ -1178,14 +1178,14 @@ function getSearchScore(item, query) {
               {(() => {
                 const hr = new Date().getHours();
                 const greeting = hr < 12 ? "Good morning, Ealing parents" : hr < 17 ? "Afternoon ideas for Ealing families" : "Planning tomorrow in Ealing?";
-                return <div style={{ fontSize: 13, fontWeight: 600, color: "#6050F0", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
+                return <div style={{ fontSize: 17, fontWeight: 800, color: "#6050F0", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
               })()}
-              <div style={{ fontSize: 26, fontWeight: 800, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>What should we do today?</div>
-              <div style={{ fontSize: 15, color: "#4B5563", marginBottom: 10, fontWeight: 400 }}>Discover the best kids activities near you in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}.</div>
+              <div style={{ fontSize: 30, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>What should we do today?</div>
+              <div style={{ fontSize: 19, color: "#4B5563", marginBottom: 10, fontWeight: 600 }}>Discover the best kids activities near you in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}.</div>
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
                 const n = 7 + (seed % 6);
-                return <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "#374151", background: "#FFF7ED", border: "1px solid #FED7AA", padding: "5px 12px", borderRadius: 999, marginBottom: 16, fontWeight: 600 }}>🔥 {n} parents exploring today</div>;
+                return <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 17, color: "#374151", background: "#FFF7ED", border: "1px solid #FED7AA", padding: "5px 12px", borderRadius: 999, marginBottom: 16, fontWeight: 800 }}>🔥 {n} parents exploring today</div>;
               })()}
             </div>
           </>
@@ -1207,7 +1207,7 @@ function getSearchScore(item, query) {
     setNapFilter("all");
     setAgeFilter("all");
   }
-}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 12, flex: 1, minWidth: 0, background: "transparent", fontFamily: "inherit" }} />
+}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 16, flex: 1, minWidth: 0, background: "transparent", fontFamily: "inherit" }} />
             </div>
             <div onClick={() => setShowMoreFilters(!showMoreFilters)} style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid #E5E7EB", background: showMoreFilters ? "#1F2937" : "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={showMoreFilters ? "white" : "#374151"} strokeWidth="2.5" strokeLinecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>
@@ -1228,7 +1228,7 @@ function getSearchScore(item, query) {
       {isLoading && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "60px 20px", gap: 12 }}>
           <div style={{ width: 36, height: 36, border: "3px solid #E5E7EB", borderTopColor: "#F97316", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-          <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 600 }}>Loading activities...</div>
+          <div style={{ fontSize: 17, color: "#6B7280", fontWeight: 800 }}>Loading activities...</div>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
@@ -1238,8 +1238,8 @@ function getSearchScore(item, query) {
       {/* Suggest Submitted Confirmation */}
       {suggestSubmitted && (
         <div style={{ margin: "6px 20px 8px", padding: "12px 16px", background: "#F0F7F0", borderRadius: 14, textAlign: "center" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#166534" }}>Activity submitted!</div>
-          <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2 }}>We'll review it and add it to LITTLElocals soon</div>
+          <div style={{ fontSize: 17, fontWeight: 900, color: "#166534" }}>Activity submitted!</div>
+          <div style={{ fontSize: 15, color: "#6B7280", marginTop: 2 }}>We'll review it and add it to LITTLElocals soon</div>
         </div>
       )}
 
@@ -1247,56 +1247,56 @@ function getSearchScore(item, query) {
       {showSuggest && (
         <div style={{ margin: "6px 20px 10px" }}>
           <div style={{ background: "white", borderRadius: 16, padding: 18, border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(92,75,107,0.06)" }}>
-            <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 2, color: "#1F2937" }}>Know a great activity we missed?</div>
-            <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 14 }}>Help other Ealing parents discover it. Free to add — built by local parents.</div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Activity Name *</div>
-            <input value={suggestForm.name} onChange={e => setSuggestForm(p => ({...p, name: e.target.value}))} placeholder="e.g. Tiny Tots Music Class" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 13, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
+            <div style={{ fontSize: 20, fontWeight: 1000, marginBottom: 2, color: "#1F2937" }}>Know a great activity we missed?</div>
+            <div style={{ fontSize: 15, color: "#6B7280", marginBottom: 14 }}>Help other Ealing parents discover it. Free to add — built by local parents.</div>
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Activity Name *</div>
+            <input value={suggestForm.name} onChange={e => setSuggestForm(p => ({...p, name: e.target.value}))} placeholder="e.g. Tiny Tots Music Class" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 17, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 10 }}>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Type *</div>
-                <select value={suggestForm.type} onChange={e => setSuggestForm(p => ({...p, type: e.target.value}))} style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", background: "white", boxSizing: "border-box" }}>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Type *</div>
+                <select value={suggestForm.type} onChange={e => setSuggestForm(p => ({...p, type: e.target.value}))} style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", background: "white", boxSizing: "border-box" }}>
                   {Object.keys(typeColors).map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>City *</div>
-                <select value={suggestForm.city} onChange={e => setSuggestForm(p => ({...p, city: e.target.value, location: ""}))} style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", background: "white", boxSizing: "border-box" }}>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>City *</div>
+                <select value={suggestForm.city} onChange={e => setSuggestForm(p => ({...p, city: e.target.value, location: ""}))} style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", background: "white", boxSizing: "border-box" }}>
                   {Object.keys(cityGroups).map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div style={{ position: "relative" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Area *</div>
-                <input value={suggestForm.location} onChange={e => setSuggestForm(p => ({...p, location: e.target.value}))} placeholder="Type area name..." style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", background: "white", boxSizing: "border-box", outline: "none" }} onFocus={e => e.target.setAttribute("data-open","1")} onBlur={e => setTimeout(() => e.target.removeAttribute("data-open"), 200)} />
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Area *</div>
+                <input value={suggestForm.location} onChange={e => setSuggestForm(p => ({...p, location: e.target.value}))} placeholder="Type area name..." style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", background: "white", boxSizing: "border-box", outline: "none" }} onFocus={e => e.target.setAttribute("data-open","1")} onBlur={e => setTimeout(() => e.target.removeAttribute("data-open"), 200)} />
                 {suggestForm.location && suggestForm.location.length > 0 && (() => {
                   const areas = (cityGroups[suggestForm.city] || []).filter(a => !a.includes("/") && a !== "Hillingdon-wide" && a.toLowerCase().includes(suggestForm.location.toLowerCase()));
                   const exactMatch = (cityGroups[suggestForm.city] || []).some(a => a.toLowerCase() === suggestForm.location.toLowerCase());
                   if (exactMatch || areas.length === 0) return null;
                   return <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "white", border: "1px solid #E5E7EB", borderRadius: 10, marginTop: 2, maxHeight: 150, overflowY: "auto", zIndex: 10, boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-                    {areas.slice(0, 8).map(a => <div key={a} onMouseDown={() => setSuggestForm(p => ({...p, location: a}))} style={{ padding: "8px 10px", fontSize: 12, cursor: "pointer", borderBottom: "1px solid #E5E7EB" }}>{a}</div>)}
+                    {areas.slice(0, 8).map(a => <div key={a} onMouseDown={() => setSuggestForm(p => ({...p, location: a}))} style={{ padding: "8px 10px", fontSize: 16, cursor: "pointer", borderBottom: "1px solid #E5E7EB" }}>{a}</div>)}
                   </div>;
                 })()}
               </div>
             </div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Venue / Address *</div>
-            <input value={suggestForm.venue} onChange={e => setSuggestForm(p => ({...p, venue: e.target.value}))} placeholder="e.g. St Mary's Church Hall, High St, HA4 7AY" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 13, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Venue / Address *</div>
+            <input value={suggestForm.venue} onChange={e => setSuggestForm(p => ({...p, venue: e.target.value}))} placeholder="e.g. St Mary's Church Hall, High St, HA4 7AY" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 17, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 10 }}>
-              <div><div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Ages</div><input value={suggestForm.ages} onChange={e => setSuggestForm(p => ({...p, ages: e.target.value}))} placeholder="0–5yrs" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
-              <div><div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Day(s)</div><input value={suggestForm.day} onChange={e => setSuggestForm(p => ({...p, day: e.target.value}))} placeholder="Mondays" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
-              <div><div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Time</div><input value={suggestForm.time} onChange={e => setSuggestForm(p => ({...p, time: e.target.value}))} placeholder="10:00 AM" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
-              <div><div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Price</div><input value={suggestForm.price} onChange={e => setSuggestForm(p => ({...p, price: e.target.value}))} placeholder="£8" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
+              <div><div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Ages</div><input value={suggestForm.ages} onChange={e => setSuggestForm(p => ({...p, ages: e.target.value}))} placeholder="0–5yrs" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
+              <div><div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Day(s)</div><input value={suggestForm.day} onChange={e => setSuggestForm(p => ({...p, day: e.target.value}))} placeholder="Mondays" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
+              <div><div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Time</div><input value={suggestForm.time} onChange={e => setSuggestForm(p => ({...p, time: e.target.value}))} placeholder="10:00 AM" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
+              <div><div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Price</div><input value={suggestForm.price} onChange={e => setSuggestForm(p => ({...p, price: e.target.value}))} placeholder="£8" style={{ width: "100%", padding: "10px 8px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} /></div>
             </div>
-            <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Description</div>
-            <textarea value={suggestForm.description} onChange={e => setSuggestForm(p => ({...p, description: e.target.value}))} placeholder="Tell us what makes this activity great..." rows={3} style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 13, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", resize: "vertical", outline: "none" }} />
+            <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Description</div>
+            <textarea value={suggestForm.description} onChange={e => setSuggestForm(p => ({...p, description: e.target.value}))} placeholder="Tell us what makes this activity great..." rows={3} style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 17, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", resize: "vertical", outline: "none" }} />
             <div style={{ borderTop: "1px solid #E5E7EB", paddingTop: 12, marginBottom: 10 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, marginBottom: 8 }}>Your Details</div>
+              <div style={{ fontSize: 16, fontWeight: 900, marginBottom: 8 }}>Your Details</div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                <input value={suggestForm.submitterName} onChange={e => setSuggestForm(p => ({...p, submitterName: e.target.value}))} placeholder="Your name *" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} />
-                <input value={suggestForm.submitterEmail} onChange={e => setSuggestForm(p => ({...p, submitterEmail: e.target.value}))} placeholder="Email (optional)" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} />
+                <input value={suggestForm.submitterName} onChange={e => setSuggestForm(p => ({...p, submitterName: e.target.value}))} placeholder="Your name *" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} />
+                <input value={suggestForm.submitterEmail} onChange={e => setSuggestForm(p => ({...p, submitterEmail: e.target.value}))} placeholder="Email (optional)" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", boxSizing: "border-box", outline: "none" }} />
               </div>
             </div>
             <div style={{ display: "flex", gap: 8 }}>
-              <button onClick={closeSuggest} style={{ flex: 1, padding: 12, borderRadius: 10, border: "1px solid #E5E7EB", background: "white", fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", color: "#4B5563" }}>Cancel</button>
-              <button onClick={submitSuggestion} disabled={!suggestForm.name.trim() || !suggestForm.venue.trim() || !suggestForm.submitterName.trim() || !suggestForm.location} style={{ flex: 1.5, padding: 12, borderRadius: 10, border: "none", background: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "linear-gradient(135deg, #F97316, #FB923C)" : "#E5E7EB", color: "white", fontSize: 13, fontWeight: 700, cursor: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "pointer" : "default", fontFamily: "inherit" }}>Submit for Review</button>
+              <button onClick={closeSuggest} style={{ flex: 1, padding: 12, borderRadius: 10, border: "1px solid #E5E7EB", background: "white", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", color: "#4B5563" }}>Cancel</button>
+              <button onClick={submitSuggestion} disabled={!suggestForm.name.trim() || !suggestForm.venue.trim() || !suggestForm.submitterName.trim() || !suggestForm.location} style={{ flex: 1.5, padding: 12, borderRadius: 10, border: "none", background: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "linear-gradient(135deg, #F97316, #FB923C)" : "#E5E7EB", color: "white", fontSize: 17, fontWeight: 900, cursor: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "pointer" : "default", fontFamily: "inherit" }}>Submit for Review</button>
             </div>
           </div>
         </div>
@@ -1306,11 +1306,11 @@ function getSearchScore(item, query) {
       {locStatus === "idle" && (() => { try { return !localStorage.getItem("ll_loc_asked"); } catch(e) { return false; } })() && (
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
           <div style={{ background: "white", borderRadius: 20, padding: "28px 24px", maxWidth: 320, width: "100%", textAlign: "center" }}>
-            <div style={{ fontSize: 18, fontWeight: 800, color: "#1F2937", marginBottom: 6 }}>Enable location?</div>
-            <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 20, lineHeight: 1.5 }}>Allow location access to show activities closest to you.</div>
+            <div style={{ fontSize: 22, fontWeight: 1000, color: "#1F2937", marginBottom: 6 }}>Enable location?</div>
+            <div style={{ fontSize: 17, color: "#6B7280", marginBottom: 20, lineHeight: 1.5 }}>Allow location access to show activities closest to you.</div>
             <div style={{ display: "flex", gap: 10 }}>
-              <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); setLocStatus("dismissed"); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "1px solid #E5E7EB", background: "white", fontSize: 13, fontWeight: 600, color: "#6B7280", cursor: "pointer", fontFamily: "inherit" }}>Not now</button>
-              <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); requestLocation(); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "none", background: "#F97316", fontSize: 13, fontWeight: 700, color: "white", cursor: "pointer", fontFamily: "inherit" }}>Allow</button>
+              <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); setLocStatus("dismissed"); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "1px solid #E5E7EB", background: "white", fontSize: 17, fontWeight: 800, color: "#6B7280", cursor: "pointer", fontFamily: "inherit" }}>Not now</button>
+              <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); requestLocation(); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "none", background: "#F97316", fontSize: 17, fontWeight: 900, color: "white", cursor: "pointer", fontFamily: "inherit" }}>Allow</button>
             </div>
           </div>
         </div>
@@ -1333,11 +1333,11 @@ function getSearchScore(item, query) {
     setNapFilter("all");
     setAgeFilter("all");
   }
-}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 13, flex: 1, background: "transparent", fontFamily: "inherit", minWidth: 0 }} />
+}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 17, flex: 1, background: "transparent", fontFamily: "inherit", minWidth: 0 }} />
         </div>
         <div onClick={() => setShowMoreFilters(!showMoreFilters)} style={{ padding: "10px 14px", background: showMoreFilters ? "#1F2937" : "#FFFFFF", borderRadius: 12, border: showMoreFilters ? "none" : "1px solid #E5E7EB", cursor: "pointer", display: "flex", alignItems: "center", gap: 6, flexShrink: 0, minHeight: 44, transition: "all 0.18s ease" }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={showMoreFilters ? "white" : "#374151"} strokeWidth="2.5" strokeLinecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>
-          <span style={{ fontSize: 12, fontWeight: 600, color: showMoreFilters ? "white" : "#374151" }}>Filters</span>
+          <span style={{ fontSize: 16, fontWeight: 800, color: showMoreFilters ? "white" : "#374151" }}>Filters</span>
         </div>
       </div>
 
@@ -1357,7 +1357,7 @@ function getSearchScore(item, query) {
                 onClick={() => { setDayFilter(value); setPage(1); }}
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 5,
-                  fontSize: 12, fontWeight: active ? 700 : 500,
+                  fontSize: 16, fontWeight: active ? 700 : 500,
                   padding: "5px 14px", borderRadius: 20, cursor: "pointer",
                   background: active ? "#6050F0" : "transparent",
                   color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",
@@ -1369,7 +1369,7 @@ function getSearchScore(item, query) {
               >
                 {label}
                 <span style={{
-                  fontSize: 10, fontWeight: 600,
+                  fontSize: 14, fontWeight: 800,
                   color: active ? "rgba(255,255,255,0.7)" : "#B0B0B0",
                   background: active ? "rgba(255,255,255,0.15)" : "#F3F4F6",
                   padding: "1px 5px", borderRadius: 8, lineHeight: 1.4
@@ -1383,14 +1383,14 @@ function getSearchScore(item, query) {
       {/* Expandable filter panel */}
       {showMoreFilters && (
         <div style={{ margin: "0 20px 10px", background: "white", borderRadius: 16, padding: 16, border: "1px solid #E5E7EB" }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Area</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Area</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             <Chip active={areaFilter === "All Areas"} onClick={() => { setAreaFilter("All Areas"); setPage(1); }} activeBg="#6050F0">All</Chip>
             {["Ealing", "Acton", "Chiswick", "Hanwell", "Northfields", "Ruislip", "Eastcote", "Uxbridge"].map(area => (
               <Chip key={area} active={areaFilter === area} onClick={() => { setAreaFilter(areaFilter === area ? "All Areas" : area); setPage(1); }} activeBg="#6050F0">{area}</Chip>
             ))}
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Day</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Day</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             <Chip active={dayFilter === "today"} onClick={() => { setDayFilter("today"); setPage(1); }} activeBg="#6050F0">Today</Chip>
             {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d, i) => (
@@ -1398,7 +1398,7 @@ function getSearchScore(item, query) {
             ))}
             <Chip active={dayFilter === "all"} onClick={() => { setDayFilter("all"); setPage(1); }} activeBg="#6050F0">All</Chip>
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Type</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Type</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#6050F0">🌧️ Indoor</Chip>
             <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#6050F0">☀️ Outdoor</Chip>
@@ -1406,25 +1406,25 @@ function getSearchScore(item, query) {
             <Chip active={napFilter === "morning"} onClick={() => setNapFilter(napFilter === "morning" ? "all" : "morning")} activeBg="#6050F0">Morning</Chip>
             <Chip active={napFilter === "afternoon"} onClick={() => setNapFilter(napFilter === "afternoon" ? "all" : "afternoon")} activeBg="#6050F0">Afternoon</Chip>
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Category</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Category</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {Object.keys(typeColors).map(t => (
               <Chip key={t} active={typeFilter === t} onClick={() => setTypeFilter(typeFilter === t ? "All Types" : t)} activeBg="#6050F0">{t}</Chip>
             ))}
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Age</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Age</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {[{v:"all",l:"All"},{v:"0-1",l:"0–1"},{v:"1-2",l:"1–2"},{v:"2-4",l:"2–4"},{v:"4-7",l:"4–7"},{v:"7+",l:"7+"}].map(a => (
               <Chip key={a.v} active={ageFilter === a.v} onClick={() => setAgeFilter(a.v)} activeBg="#6050F0">{a.l}</Chip>
             ))}
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Region</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Region</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {[{v:"All",l:"All UK"},{v:"London",l:"London"},{v:"Hertfordshire",l:"Hertfordshire"},{v:"Buckinghamshire",l:"Buckinghamshire"},{v:"Essex",l:"Essex"},{v:"Birmingham",l:"Birmingham"},{v:"Manchester",l:"Manchester"},{v:"Leeds",l:"Leeds"},{v:"Liverpool",l:"Liverpool"}].map(c => (
               <Chip key={c.v} active={cityFilter === c.v} onClick={() => { setCityFilter(c.v); setAreaFilter("All Areas"); setPage(1); }} activeBg="#6050F0">{c.l}</Chip>
             ))}
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Sort</div>
+          <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Sort</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             <Chip active={sortBy === "mixed"} onClick={() => setSortBy("mixed")} activeBg="#6050F0">Mixed</Chip>
             <Chip active={sortBy === "nearest"} onClick={() => { setSortBy("nearest"); if (locStatus === "idle" || locStatus === "dismissed") requestLocation(); }} activeBg="#6050F0">Nearest</Chip>
@@ -1455,7 +1455,7 @@ function getSearchScore(item, query) {
               onClick={action}
               style={{
                 flex: 1, textAlign: "center",
-                fontSize: 12, fontWeight: active ? 700 : 500,
+                fontSize: 16, fontWeight: active ? 700 : 500,
                 padding: "6px 0", borderRadius: 20, cursor: "pointer",
                 background: active ? "#F97316" : "white",
                 color: active ? "white" : "#6B7280",
@@ -1467,15 +1467,15 @@ function getSearchScore(item, query) {
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <span style={{ fontSize: 11, color: "#B0B0B0", fontWeight: 400 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
+            <span style={{ fontSize: 15, color: "#B0B0B0", fontWeight: 600 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
             {dayFilter === "today" && (() => {
               const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
               const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
-              return <div style={{ fontSize: 10, color: "#C8C8C8", fontWeight: 400, marginTop: 1 }}>{localCount} things to do around Ealing</div>;
+              return <div style={{ fontSize: 14, color: "#C8C8C8", fontWeight: 600, marginTop: 1 }}>{localCount} things to do around Ealing</div>;
             })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setEventsOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer" }}>Clear all</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setEventsOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#F97316", fontWeight: 800, cursor: "pointer" }}>Clear all</span>
           )}
         </div>
       </div>
@@ -1483,7 +1483,7 @@ function getSearchScore(item, query) {
       {/* Map View */}
       {mapView && (
         <div style={{ margin: "0 20px 4px" }}>
-          <div style={{ fontSize: 10, color: "#6B7280", marginBottom: 4, textAlign: "right" }}>{filtered.filter(i => i.lat && i.lng).length} activities on map</div>
+          <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 4, textAlign: "right" }}>{filtered.filter(i => i.lat && i.lng).length} activities on map</div>
           <MapView filtered={filtered} userLoc={userLoc} onSelect={openDetail} areaFilter={areaFilter} />
         </div>
       )}
@@ -1502,12 +1502,12 @@ function getSearchScore(item, query) {
           return (
             <div style={{ padding: "8px 20px 0" }}>
               <div onClick={() => openDetail(lvItem)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#FAFAFA", borderRadius: 10, border: "1px solid #F0F0F0", cursor: "pointer" }}>
-                <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 13, fontWeight: 800, color: tc.color || "#666" }}>{(lvItem.type || "A").charAt(0)}</div>
+                <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 17, fontWeight: 1000, color: tc.color || "#666" }}>{(lvItem.type || "A").charAt(0)}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 10, color: "#B0B0B0", marginBottom: 1 }}>Continue exploring · You recently viewed:</div>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "#374151", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{lvItem.name}</div>
+                  <div style={{ fontSize: 14, color: "#B0B0B0", marginBottom: 1 }}>Continue exploring · You recently viewed:</div>
+                  <div style={{ fontSize: 17, fontWeight: 800, color: "#374151", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{lvItem.name}</div>
                 </div>
-                <span style={{ fontSize: 11, color: "#C0C0C0", flexShrink: 0 }}>→</span>
+                <span style={{ fontSize: 15, color: "#C0C0C0", flexShrink: 0 }}>→</span>
               </div>
               {(() => {
                 const visited = passport.length;
@@ -1516,7 +1516,7 @@ function getSearchScore(item, query) {
                 const msg = visited >= 10
                   ? `🎉 Local Explorer – you've tried ${visited} places in ${area}`
                   : `You've explored ${visited} place${visited !== 1 ? "s" : ""} in ${area}`;
-                return <div style={{ fontSize: 11, color: "#9CA3AF", marginTop: 6, paddingLeft: 2 }}>{msg}</div>;
+                return <div style={{ fontSize: 15, color: "#9CA3AF", marginTop: 6, paddingLeft: 2 }}>{msg}</div>;
               })()}
             </div>
           );
@@ -1620,7 +1620,7 @@ function getSearchScore(item, query) {
             if (nearbyToday.length === 0) return null;
             return (
               <div style={{ padding: "12px 20px 0" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 8 }}>📍 Near you today</div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 8 }}>📍 Near you today</div>
                 <div style={{ display: "flex", gap: 8, overflowX: "auto", scrollbarWidth: "none", paddingBottom: 4 }}>
                   {nearbyToday.map(item => {
                     const dist = getDist(item);
@@ -1628,11 +1628,11 @@ function getSearchScore(item, query) {
                     const tc = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
                     return (
                       <div key={"nearby-" + item.id} onClick={() => openDetail(item)} style={{ flexShrink: 0, width: 160, background: "white", borderRadius: 12, border: "1px solid #E5E7EB", padding: "10px 12px", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
-                        <div style={{ fontSize: 11, fontWeight: 700, color: "#1F2937", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-                        <div style={{ fontSize: 10, color: "#6B7280", marginBottom: 4 }}>{item.type}</div>
+                        <div style={{ fontSize: 15, fontWeight: 900, color: "#1F2937", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                        <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 4 }}>{item.type}</div>
                         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                          {walkMin !== null && <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#F97316" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
-                          <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 5, background: "#ECFDF5", color: "#166534" }}>Open today</span>
+                          {walkMin !== null && <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#F97316" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
+                          <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#ECFDF5", color: "#166534" }}>Open today</span>
                         </div>
                       </div>
                     );
@@ -1660,10 +1660,10 @@ function getSearchScore(item, query) {
                 {(() => {
                   const h = new Date().getHours();
                   const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
-                  if (h >= 5 && h < 12)  return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌤 Good morning {area} parents</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Here are a few ideas for today.</div></>);
-                  if (h >= 12 && h < 18) return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Afternoon ideas for {area} families</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Still looking for something to do today?</div></>);
-                  if (h >= 18)           return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Here are some ideas around {area}.</div></>);
-                  return (<><div style={{ fontSize: 14, fontWeight: 800, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Late night planning?</div><div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 10 }}>Save some ideas for tomorrow.</div></>);
+                  if (h >= 5 && h < 12)  return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌤 Good morning {area} parents</div><div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 10 }}>Here are a few ideas for today.</div></>);
+                  if (h >= 12 && h < 18) return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Afternoon ideas for {area} families</div><div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 10 }}>Still looking for something to do today?</div></>);
+                  if (h >= 18)           return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 10 }}>Here are some ideas around {area}.</div></>);
+                  return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Late night planning?</div><div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 10 }}>Save some ideas for tomorrow.</div></>);
                 })()}
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {ideas.map(({ item, label }) => {
@@ -1676,16 +1676,16 @@ function getSearchScore(item, query) {
                         onTouchStart={e => e.currentTarget.style.boxShadow="0 1px 2px rgba(0,0,0,0.04)"}
                         onTouchEnd={e => e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.06)"}
                       >
-                        <div style={{ width: 46, height: 46, borderRadius: 13, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 16, fontWeight: 800, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
+                        <div style={{ width: 46, height: 46, borderRadius: 13, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 20, fontWeight: 1000, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
                           {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "80%", height: "80%", objectFit: "contain", position: "absolute", top: "10%", left: "10%", borderRadius: "50%" }} onError={e => e.target.style.display="none"} />}
                           {!(item.logo || (item.images && item.images[0])) && (item.type || "A").charAt(0)}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 10, color: "#F97316", fontWeight: 700, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-                          <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 1 }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
+                          <div style={{ fontSize: 14, color: "#F97316", fontWeight: 900, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
+                          <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                          <div style={{ fontSize: 16, color: "#9CA3AF", marginTop: 1 }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
                         </div>
-                        <span style={{ fontSize: 18, color: "#D1D5DB", flexShrink: 0 }}>›</span>
+                        <span style={{ fontSize: 22, color: "#D1D5DB", flexShrink: 0 }}>›</span>
                       </div>
                     );
                   })}
@@ -1708,8 +1708,8 @@ function getSearchScore(item, query) {
             loved.forEach(l => shownIds.add(l.id));
             return (
               <div style={{ marginTop: 28, padding: "0 20px" }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Ealing parents are loving these</div>
-                <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local families right now</div>
+                <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Ealing parents are loving these</div>
+                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local families right now</div>
                 {loved.map(item => (
                   <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />
                 ))}
@@ -1719,17 +1719,17 @@ function getSearchScore(item, query) {
 
           {/* 1. Top things to do today */}
           <div style={{ marginTop: 28, padding: "0 20px" }}>
-            <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
+            <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
             {(() => {
               const totalViews = todayList.reduce((sum, a) => sum + (clickCounts[a.id] || 0), 0);
-              if (totalViews >= 5) return <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>🔥 {totalViews} Ealing parents viewed this today</div>;
-              return <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Quick ideas parents are choosing today</div>;
+              if (totalViews >= 5) return <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>🔥 {totalViews} Ealing parents viewed this today</div>;
+              return <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Quick ideas parents are choosing today</div>;
             })()}
             {todayList.length === 0 ? (
               <div style={{ padding: "16px 0", textAlign: "center" }}>
-                <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6 }}>Nothing confirmed for today in {area}</div>
-                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
-                {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 13, fontWeight: 700, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />)}</div>) : null; })()}
+                <div style={{ fontSize: 18, color: "#6B7280", marginBottom: 6 }}>Nothing confirmed for today in {area}</div>
+                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 17, fontWeight: 800, color: "#F97316", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
+                {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 17, fontWeight: 900, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />)}</div>) : null; })()}
               </div>
             ) : todayList.map((item, idx) => {
               const signal = getTodaySignal(item, idx, clickCounts[item.id] || 0);
@@ -1740,7 +1740,7 @@ function getSearchScore(item, query) {
               );
             })}
             {todayListFull.length > TODAY_LIMIT && (
-              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 13, fontWeight: 600, color: "#F97316", cursor: "pointer" }}>
+              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 17, fontWeight: 800, color: "#F97316", cursor: "pointer" }}>
                 Browse all activities →
               </div>
             )}
@@ -1759,7 +1759,7 @@ function getSearchScore(item, query) {
               {/* Hartbeeps — Premium Featured */}
               {hartbeeps && (
               <div style={{ marginTop: 32, padding: "0 20px" }}>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 10 }}>Featured provider</div>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 10 }}>Featured provider</div>
                 <div onClick={() => openDetail(hartbeeps)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ position: "relative" }}>
                     <div style={{ display: "flex", overflowX: "auto", scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
@@ -1767,7 +1767,7 @@ function getSearchScore(item, query) {
                         <img key={i} src={img.src} alt="Hartbeeps class" style={{ width: "100%", height: 180, objectFit: "cover", objectPosition: `center ${img.focalY}%`, flexShrink: 0, scrollSnapAlign: "start" }} />
                       ))}
                     </div>
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "4px 12px", borderRadius: 8, background: "#6050F0", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
+                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "4px 12px", borderRadius: 8, background: "#6050F0", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
                     <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 50, background: "linear-gradient(transparent, rgba(0,0,0,0.25))", pointerEvents: "none" }} />
                     <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 4 }}>
                       {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />)}
@@ -1775,21 +1775,21 @@ function getSearchScore(item, query) {
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-                      <span style={{ fontSize: 17, fontWeight: 800, color: "#222" }}>Hartbeeps West & SW London</span>
+                      <span style={{ fontSize: 21, fontWeight: 1000, color: "#222" }}>Hartbeeps West & SW London</span>
                     </div>
-                    <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 6 }}>Award-winning baby sensory and music classes loved by local parents.</div>
-                    <div style={{ fontSize: 13, color: "#4B5563", marginBottom: 3 }}>Baby Sensory · 0–4 yrs · Various days</div>
-                    <div style={{ fontSize: 13, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 6 }}>
+                    <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 6 }}>Award-winning baby sensory and music classes loved by local parents.</div>
+                    <div style={{ fontSize: 17, color: "#4B5563", marginBottom: 3 }}>Baby Sensory · 0–4 yrs · Various days</div>
+                    <div style={{ fontSize: 17, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 6 }}>
                       Haven Green Church, Ealing Broadway
-                      {hWalk !== null && hWalk < 60 && <span style={{ color: "#F97316", fontWeight: 600 }}>· {hWalk < 2 ? "Nearby" : hWalk + " min walk"}</span>}
+                      {hWalk !== null && hWalk < 60 && <span style={{ color: "#F97316", fontWeight: 800 }}>· {hWalk < 2 ? "Nearby" : hWalk + " min walk"}</span>}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
-                      <span style={{ fontSize: 11, fontWeight: 600, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>
+                      <span style={{ fontSize: 15, fontWeight: 800, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>
                       
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>From £8/class</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "#6050F0" }}>View details →</span>
+                      <span style={{ fontSize: 16, fontWeight: 900, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>From £8/class</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: "#6050F0" }}>View details →</span>
                     </div>
                   </div>
                 </div>
@@ -1802,26 +1802,26 @@ function getSearchScore(item, query) {
                 <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ width: "100%", height: 140, overflow: "hidden", position: "relative" }}>
                     <img src="/lgd-dance.png" alt={lgd.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 6, background: "#6050F0", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
+                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "3px 10px", borderRadius: 6, background: "#6050F0", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-                      <span style={{ fontSize: 16, fontWeight: 700, color: "#222" }}>{lgd.name}</span>
-                      <span style={{ fontSize: 9, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: "#F97316", color: "white", letterSpacing: 0.3 }}>NEW</span>
+                      <span style={{ fontSize: 20, fontWeight: 900, color: "#222" }}>{lgd.name}</span>
+                      <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "#F97316", color: "white", letterSpacing: 0.3 }}>NEW</span>
                     </div>
-                    <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 4 }}>Fun, friendly dance classes in West Ealing</div>
-                    <div style={{ fontSize: 13, color: "#4B5563", marginBottom: 3 }}>{lgd.type} · {lgd.ages} · {lgd.day}</div>
-                    <div style={{ fontSize: 13, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 4 }}>
+                    <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 4 }}>Fun, friendly dance classes in West Ealing</div>
+                    <div style={{ fontSize: 17, color: "#4B5563", marginBottom: 3 }}>{lgd.type} · {lgd.ages} · {lgd.day}</div>
+                    <div style={{ fontSize: 17, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 4 }}>
                       {lgd.venue.split(",")[0]}, {lgd.location}
-                      {lWalk !== null && lWalk < 60 && <span style={{ color: "#F97316", fontWeight: 600 }}>· {lWalk < 2 ? "Nearby" : lWalk + " min walk"}</span>}
+                      {lWalk !== null && lWalk < 60 && <span style={{ color: "#F97316", fontWeight: 800 }}>· {lWalk < 2 ? "Nearby" : lWalk + " min walk"}</span>}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                      {lgd.freeTrial && <span style={{ fontSize: 11, fontWeight: 600, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>}
+                      {lgd.freeTrial && <span style={{ fontSize: 15, fontWeight: 800, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>}
                       
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <span style={{ fontSize: 12, fontWeight: 700, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>{lgd.price}</span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "#6050F0" }}>View details →</span>
+                      <span style={{ fontSize: 16, fontWeight: 900, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>{lgd.price}</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: "#6050F0" }}>View details →</span>
                     </div>
                   </div>
                 </div>
@@ -1834,9 +1834,9 @@ function getSearchScore(item, query) {
           {savedList.length > 0 && (
             <div style={{ marginTop: 36, padding: "0 20px" }}>
               <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>❤️ From your saved</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Ready when you are</div>
-              <div style={{ fontSize: 12, color: "#B0B0B0", marginBottom: 14 }}>Activities you've saved for later</div>
+              <div style={{ fontSize: 15, fontWeight: 900, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>❤️ From your saved</div>
+              <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Ready when you are</div>
+              <div style={{ fontSize: 16, color: "#B0B0B0", marginBottom: 14 }}>Activities you've saved for later</div>
               {savedList.map(item => (
                 <ListingCard key={"fromsaved-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={true} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               ))}
@@ -1847,9 +1847,9 @@ function getSearchScore(item, query) {
           {popularList.length > 0 && (
             <div style={{ marginTop: 36, padding: "0 20px" }}>
               <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>📅 Coming up</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>This weekend in {area}</div>
-              <div style={{ fontSize: 12, color: "#B0B0B0", marginBottom: 14 }}>Best things to do with your kids this weekend</div>
+              <div style={{ fontSize: 15, fontWeight: 900, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>📅 Coming up</div>
+              <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>This weekend in {area}</div>
+              <div style={{ fontSize: 16, color: "#B0B0B0", marginBottom: 14 }}>Best things to do with your kids this weekend</div>
               {popularList.map(item => (
                 <ListingCard key={"pop-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               ))}
@@ -1860,9 +1860,9 @@ function getSearchScore(item, query) {
           {lovedList.length > 0 && (
             <div style={{ marginTop: 36, padding: "0 20px" }}>
               <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
-              <div style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>⭐ Parent picks</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Loved by {area} parents</div>
-              <div style={{ fontSize: 12, color: "#B0B0B0", marginBottom: 14 }}>Saved and recommended by families like yours</div>
+              <div style={{ fontSize: 15, fontWeight: 900, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>⭐ Parent picks</div>
+              <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Loved by {area} parents</div>
+              <div style={{ fontSize: 16, color: "#B0B0B0", marginBottom: 14 }}>Saved and recommended by families like yours</div>
               {lovedList.map(item => (
                 <ListingCard key={"loved-" + item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               ))}
@@ -1881,16 +1881,16 @@ function getSearchScore(item, query) {
       <div id="all-activities" style={{ padding: "0 20px 20px" }}>
         {filtered.length === 0 ? (
           <div style={{ textAlign: "center", padding: "40px 20px", color: "#4B5563" }}>
-            <div style={{ fontSize: 16, fontWeight: 600, color: "#6B7280", marginBottom: 10 }}>{weatherMode === "rainy" ? "No indoor results found" : weatherMode === "sunny" ? "No outdoor results found" : "No results found"}</div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>{areaFilter !== "All Areas" ? `Nothing found in ${areaFilter}` : dayFilter === "today" ? `Nothing found for ${todayName}` : "No activities match your filters"}</div>
-            <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 16, lineHeight: 1.5 }}>{areaFilter !== "All Areas" ? "Try a different area or broaden your filters" : "Try fewer filters or search for something else"}</div>
-            <div onClick={() => { setCityFilter("All"); setAreaFilter("All Areas"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>Reset all filters</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: "#6B7280", marginBottom: 10 }}>{weatherMode === "rainy" ? "No indoor results found" : weatherMode === "sunny" ? "No outdoor results found" : "No results found"}</div>
+            <div style={{ fontSize: 19, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>{areaFilter !== "All Areas" ? `Nothing found in ${areaFilter}` : dayFilter === "today" ? `Nothing found for ${todayName}` : "No activities match your filters"}</div>
+            <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 16, lineHeight: 1.5 }}>{areaFilter !== "All Areas" ? "Try a different area or broaden your filters" : "Try fewer filters or search for something else"}</div>
+            <div onClick={() => { setCityFilter("All"); setAreaFilter("All Areas"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Reset all filters</div>
           </div>
         ) : (
           <>
           {page === 1 && <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0 12px" }}>
             <div style={{ flex: 1, height: 1, background: "#E5E7EB" }} />
-            <span style={{ fontSize: 11, color: "#C0C0C0", fontWeight: 400 }}>Trusted by {areaFilter !== "All Areas" ? areaFilter : "Ealing"} parents</span>
+            <span style={{ fontSize: 15, color: "#C0C0C0", fontWeight: 600 }}>Trusted by {areaFilter !== "All Areas" ? areaFilter : "Ealing"} parents</span>
             <div style={{ flex: 1, height: 1, background: "#E5E7EB" }} />
           </div>}
           {displayList.map((item, idx) => {
@@ -1899,24 +1899,24 @@ function getSearchScore(item, query) {
               <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNew} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               {false && (
                 <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #F97316" }}>
-                  <span style={{ fontSize: 22 }}>✨</span>
+                  <span style={{ fontSize: 26 }}>✨</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 14, fontWeight: 800, color: "#1F2937" }}>Know a great activity we missed?</div>
-                    <div style={{ fontSize: 11, color: "#6B7280" }}>Help other parents discover it.</div>
+                    <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
+                    <div style={{ fontSize: 15, color: "#6B7280" }}>Help other parents discover it.</div>
                   </div>
-                  <span style={{ fontSize: 12, fontWeight: 800, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
+                  <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
                 </div>
               )}
             </React.Fragment>;
           })}
           {page === 1 && !showSuggest && (
             <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #F97316" }}>
-              <span style={{ fontSize: 22 }}>✨</span>
+              <span style={{ fontSize: 26 }}>✨</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 800, color: "#1F2937" }}>Know a great activity we missed?</div>
-                <div style={{ fontSize: 11, color: "#6B7280" }}>Help other parents discover it.</div>
+                <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
+                <div style={{ fontSize: 15, color: "#6B7280" }}>Help other parents discover it.</div>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 800, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
+              <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
             </div>
           )}
           </>
@@ -1935,12 +1935,12 @@ function getSearchScore(item, query) {
         if (allChips.length === 0) return null;
         return (
         <div style={{ padding: "0 0 6px" }}>
-          <div style={{ fontSize: 10, fontWeight: 600, marginBottom: 4, color: "#9CA3AF", paddingLeft: 20 }}>✨ Suggested & added by parents</div>
+          <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4, color: "#9CA3AF", paddingLeft: 20 }}>✨ Suggested & added by parents</div>
           <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingLeft: 20, paddingRight: 20 }}>
             {allChips.slice(0, 10).map(c => (
               <div key={c.id} onClick={() => { if (c.match) openDetail(c.match); }} style={{ flexShrink: 0, padding: "5px 10px", background: "white", borderRadius: 8, border: "1px dashed #E5E7EB", cursor: c.match ? "pointer" : "default", maxWidth: 140 }}>
-                <div style={{ fontSize: 9, fontWeight: 700, color: c.match ? "#F97316" : "#1F2937", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</div>
-                <div style={{ fontSize: 8, color: "#9CA3AF" }}>{c.type}</div>
+                <div style={{ fontSize: 13, fontWeight: 900, color: c.match ? "#F97316" : "#1F2937", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</div>
+                <div style={{ fontSize: 12, color: "#9CA3AF" }}>{c.type}</div>
               </div>
             ))}
           </div>
@@ -1954,38 +1954,38 @@ function getSearchScore(item, query) {
         if (totalPages <= 1) return null;
         return (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "0 20px 16px" }}>
-            <button onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === 1} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === 1 ? "#F3F4F6" : "white", color: page === 1 ? "#9CA3AF" : "#1F2937", fontSize: 12, fontWeight: 600, cursor: page === 1 ? "default" : "pointer", fontFamily: "inherit" }}>← Prev</button>
+            <button onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === 1} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === 1 ? "#F3F4F6" : "white", color: page === 1 ? "#9CA3AF" : "#1F2937", fontSize: 16, fontWeight: 800, cursor: page === 1 ? "default" : "pointer", fontFamily: "inherit" }}>← Prev</button>
             <div style={{ display: "flex", gap: 4 }}>
               {Array.from({ length: totalPages }, (_, i) => i + 1).filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 1).map((p, idx, arr) => (
                 <React.Fragment key={p}>
-                  {idx > 0 && arr[idx - 1] < p - 1 && <span style={{ color: "#9CA3AF", fontSize: 12, padding: "0 2px" }}>...</span>}
-                  <button onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ width: 32, height: 32, borderRadius: 8, border: page === p ? "none" : "1px solid #E5E7EB", background: page === p ? "linear-gradient(135deg, #F97316, #FB923C)" : "white", color: page === p ? "white" : "#6B7394", fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
+                  {idx > 0 && arr[idx - 1] < p - 1 && <span style={{ color: "#9CA3AF", fontSize: 16, padding: "0 2px" }}>...</span>}
+                  <button onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ width: 32, height: 32, borderRadius: 8, border: page === p ? "none" : "1px solid #E5E7EB", background: page === p ? "linear-gradient(135deg, #F97316, #FB923C)" : "white", color: page === p ? "white" : "#6B7394", fontSize: 16, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
                 </React.Fragment>
               ))}
             </div>
-            <button onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === totalPages} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === totalPages ? "#F3F4F6" : "white", color: page === totalPages ? "#9CA3AF" : "#1F2937", fontSize: 12, fontWeight: 600, cursor: page === totalPages ? "default" : "pointer", fontFamily: "inherit" }}>Next →</button>
+            <button onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === totalPages} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === totalPages ? "#F3F4F6" : "white", color: page === totalPages ? "#9CA3AF" : "#1F2937", fontSize: 16, fontWeight: 800, cursor: page === totalPages ? "default" : "pointer", fontFamily: "inherit" }}>Next →</button>
           </div>
         );
       })()}
       </>}
 
-      <div style={{ textAlign: "center", padding: "20px 20px 8px", fontSize: 11, color: "#C4C4C4" }}>
+      <div style={{ textAlign: "center", padding: "20px 20px 8px", fontSize: 15, color: "#C4C4C4" }}>
         community-powered kids activity discovery
       </div>
 
       <div style={{ textAlign: "center", padding: "32px 20px 28px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 6 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, overflow: "hidden" }}><BrandBear size={34} /></div>
-          <span style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></span>
+          <span style={{ fontSize: 20, fontWeight: 1000, color: "#1F2937" }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></span>
         </div>
-        <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 8, lineHeight: 1.4 }}>Built by parents, for parents.</div>
+        <div style={{ fontSize: 14, color: "#9CA3AF", marginBottom: 8, lineHeight: 1.4 }}>Built by parents, for parents.</div>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
-          <span onClick={() => setLegalPage("privacy")} style={{ fontSize: 10, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Privacy Policy</span>
-          <span onClick={() => setLegalPage("cookies")} style={{ fontSize: 10, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Cookie Policy</span>
-          <span onClick={() => setLegalPage("terms")} style={{ fontSize: 10, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Terms of Service</span>
-          <a href="mailto:littlelocalsuk@gmail.com" style={{ fontSize: 10, color: "#6B7280", textDecoration: "underline" }}>Contact</a>
+          <span onClick={() => setLegalPage("privacy")} style={{ fontSize: 14, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Privacy Policy</span>
+          <span onClick={() => setLegalPage("cookies")} style={{ fontSize: 14, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Cookie Policy</span>
+          <span onClick={() => setLegalPage("terms")} style={{ fontSize: 14, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Terms of Service</span>
+          <a href="mailto:littlelocalsuk@gmail.com" style={{ fontSize: 14, color: "#6B7280", textDecoration: "underline" }}>Contact</a>
         </div>
-        <div style={{ fontSize: 9, color: "#9CA3AF" }}>© 2026 LITTLElocals. All rights reserved.</div>
+        <div style={{ fontSize: 13, color: "#9CA3AF" }}>© 2026 LITTLElocals. All rights reserved.</div>
         {showInstallBanner && <div style={{ height: 44 }} />}
       </div>
 
@@ -1993,7 +1993,7 @@ function getSearchScore(item, query) {
 
       {/* Floating "Top" button */}
       {showScrollTop && (
-        <div onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ position: "fixed", bottom: showInstallBanner ? 60 : 20, right: 16, padding: "8px 12px", background: "white", borderRadius: 12, border: "1px solid #E5E7EB", boxShadow: "0 4px 12px rgba(0,0,0,0.08)", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#1F2937", zIndex: 998, transition: "bottom 0.2s" }}>↑ Top</div>
+        <div onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ position: "fixed", bottom: showInstallBanner ? 60 : 20, right: 16, padding: "8px 12px", background: "white", borderRadius: 12, border: "1px solid #E5E7EB", boxShadow: "0 4px 12px rgba(0,0,0,0.08)", cursor: "pointer", fontSize: 16, fontWeight: 900, color: "#1F2937", zIndex: 998, transition: "bottom 0.2s" }}>↑ Top</div>
       )}
 
       {/* Add to Home Screen Banner */}
@@ -2004,25 +2004,25 @@ function getSearchScore(item, query) {
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <img src="/bear-logo.png" alt="LITTLElocals" style={{ width: 28, height: 28, borderRadius: 6 }} />
-                  <span style={{ fontSize: 12, fontWeight: 800, color: "#1F2937" }}>Save as an app!</span>
+                  <span style={{ fontSize: 16, fontWeight: 1000, color: "#1F2937" }}>Save as an app!</span>
                 </div>
-                <div onClick={() => { setShowInstallBanner(false); try { localStorage.setItem("ll_install_dismissed", "1"); } catch(e) {} }} style={{ fontSize: 11, color: "#6B7280", cursor: "pointer", padding: "4px 8px" }}>✕</div>
+                <div onClick={() => { setShowInstallBanner(false); try { localStorage.setItem("ll_install_dismissed", "1"); } catch(e) {} }} style={{ fontSize: 15, color: "#6B7280", cursor: "pointer", padding: "4px 8px" }}>✕</div>
               </div>
-              <div style={{ fontSize: 11, color: "#4B5563", lineHeight: 1.5 }}>
+              <div style={{ fontSize: 15, color: "#4B5563", lineHeight: 1.5 }}>
                 {/CriOS|FxiOS/.test(navigator.userAgent) ? (
-                  <span>Open this page in <span style={{ fontWeight: 700 }}>Safari</span>, then tap <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 700 }}>⬆ Share</span> → <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 700 }}>Add to Home Screen</span></span>
+                  <span>Open this page in <span style={{ fontWeight: 900 }}>Safari</span>, then tap <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 900 }}>⬆ Share</span> → <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 900 }}>Add to Home Screen</span></span>
                 ) : (
-                  <span>Tap <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 700 }}>⬆ Share</span> in the Safari toolbar below, then scroll down and tap <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 700 }}>Add to Home Screen</span></span>
+                  <span>Tap <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 900 }}>⬆ Share</span> in the Safari toolbar below, then scroll down and tap <span style={{ display: "inline-block", padding: "1px 6px", background: "#E5E7EB", borderRadius: 4, fontWeight: 900 }}>Add to Home Screen</span></span>
                 )}
               </div>
             </div>
           ) : (
             <div style={{ padding: "10px 16px", display: "flex", alignItems: "center", gap: 10 }}>
               <img src="/bear-logo.png" alt="LITTLElocals" style={{ width: 28, height: 28, borderRadius: 6 }} />
-              <div onClick={async () => { if (installPrompt) { installPrompt.prompt(); const result = await installPrompt.userChoice; if (result.outcome === "accepted") { setShowInstallBanner(false); try { localStorage.setItem("ll_install_dismissed", "1"); } catch(e) {} } setInstallPrompt(null); } }} style={{ flex: 1, fontSize: 11, color: "#1F2937", cursor: "pointer" }}>
-                <span style={{ fontWeight: 700 }}>{installPrompt ? "Tap to install app" : "Add to home screen"}</span> for quick access
+              <div onClick={async () => { if (installPrompt) { installPrompt.prompt(); const result = await installPrompt.userChoice; if (result.outcome === "accepted") { setShowInstallBanner(false); try { localStorage.setItem("ll_install_dismissed", "1"); } catch(e) {} } setInstallPrompt(null); } }} style={{ flex: 1, fontSize: 15, color: "#1F2937", cursor: "pointer" }}>
+                <span style={{ fontWeight: 900 }}>{installPrompt ? "Tap to install app" : "Add to home screen"}</span> for quick access
               </div>
-              <div onClick={() => { setShowInstallBanner(false); try { localStorage.setItem("ll_install_dismissed", "1"); } catch(e) {} }} style={{ fontSize: 11, color: "#6B7280", cursor: "pointer", padding: "4px 8px" }}>✕</div>
+              <div onClick={() => { setShowInstallBanner(false); try { localStorage.setItem("ll_install_dismissed", "1"); } catch(e) {} }} style={{ fontSize: 15, color: "#6B7280", cursor: "pointer", padding: "4px 8px" }}>✕</div>
             </div>
           )}
         </div>
@@ -2030,12 +2030,12 @@ function getSearchScore(item, query) {
       {/* Cookie Consent Banner */}
       {cookieConsent === null && (
         <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, background: "white", borderTop: "1px solid #E5E5E5", padding: "12px 20px", zIndex: 9999, maxWidth: 480, margin: "0 auto" }}>
-          <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.5, marginBottom: 10 }}>
+          <div style={{ fontSize: 16, color: "#4B5563", lineHeight: 1.5, marginBottom: 10 }}>
             We use simple analytics to understand how LITTLElocals is used and improve it for parents. No ads. No tracking across other sites.
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <div onClick={acceptCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#6050F0", color: "white", borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Accept</div>
-            <div onClick={declineCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#F3F4F6", color: "#4B5563", borderRadius: 10, fontSize: 12, fontWeight: 700, cursor: "pointer" }}>Decline</div>
+            <div onClick={acceptCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#6050F0", color: "white", borderRadius: 10, fontSize: 16, fontWeight: 900, cursor: "pointer" }}>Accept</div>
+            <div onClick={declineCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#F3F4F6", color: "#4B5563", borderRadius: 10, fontSize: 16, fontWeight: 900, cursor: "pointer" }}>Decline</div>
           </div>
         </div>
       )}
@@ -2044,60 +2044,60 @@ function getSearchScore(item, query) {
       {legalPage && (
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "#F9FAFB", zIndex: 10000, overflowY: "auto", maxWidth: 480, margin: "0 auto" }}>
           <div style={{ padding: "16px 20px", position: "sticky", top: 0, background: "#F9FAFB", borderBottom: "1px solid #E5E7EB", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>
+            <div style={{ fontSize: 20, fontWeight: 1000, color: "#1F2937" }}>
               {legalPage === "privacy" && "Privacy Policy"}
               {legalPage === "cookies" && "Cookie Policy"}
               {legalPage === "terms" && "Terms of Service"}
             </div>
-            <div onClick={() => setLegalPage(null)} style={{ padding: "6px 12px", background: "white", borderRadius: 10, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#1F2937" }}>← Back</div>
+            <div onClick={() => setLegalPage(null)} style={{ padding: "6px 12px", background: "white", borderRadius: 10, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#1F2937" }}>← Back</div>
           </div>
-          <div style={{ padding: "20px", fontSize: 13, color: "#4B5563", lineHeight: 1.7 }}>
+          <div style={{ padding: "20px", fontSize: 17, color: "#4B5563", lineHeight: 1.7 }}>
             {legalPage === "privacy" && (<>
-              <p style={{ fontWeight: 700, color: "#1F2937", fontSize: 18, marginBottom: 16 }}>Privacy Policy for LITTLElocals</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", fontSize: 22, marginBottom: 16 }}>Privacy Policy for LITTLElocals</p>
               <p style={{ color: "#6B7280", marginBottom: 16 }}>Last updated: 28 February 2026</p>
               <p style={{ marginBottom: 12 }}>LITTLElocals is a community-powered directory of kids' activities. We take your privacy seriously and are committed to protecting your personal data.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>What we collect</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>What we collect</p>
               <p style={{ marginBottom: 12 }}>When you suggest an activity, you may optionally provide your name and email address. This information is stored securely and used only to follow up on your suggestion if needed.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Local storage</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Local storage</p>
               <p style={{ marginBottom: 12 }}>We use your browser's local storage to save your preferences such as favourites, calendar plans, and cookie consent. This data stays on your device and is not sent to our servers.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Cookies & Analytics</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Cookies & Analytics</p>
               <p style={{ marginBottom: 12 }}>We use privacy-friendly analytics to understand how LITTLElocals is used and improve the service. This data is anonymous and not used for advertising. Analytics cookies are only loaded if you accept them via our cookie consent banner.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Your rights</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Your rights</p>
               <p style={{ marginBottom: 12 }}>Under UK GDPR, you have the right to access, correct, or delete your personal data. You can also withdraw consent for analytics cookies at any time by clearing your browser's local storage.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Data sharing</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Data sharing</p>
               <p style={{ marginBottom: 12 }}>We do not sell, trade, or share your personal data with third parties. We do not use your data for advertising purposes.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
               <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
 
             {legalPage === "cookies" && (<>
-              <p style={{ fontWeight: 700, color: "#1F2937", fontSize: 18, marginBottom: 16 }}>Cookie Policy for LITTLElocals</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", fontSize: 22, marginBottom: 16 }}>Cookie Policy for LITTLElocals</p>
               <p style={{ color: "#6B7280", marginBottom: 16 }}>Last updated: 28 February 2026</p>
               <p style={{ marginBottom: 12 }}>LITTLElocals uses analytics cookies to understand how the site is used and improve the experience for parents.</p>
               <p style={{ marginBottom: 12 }}>These cookies collect anonymous information such as pages visited and interactions.</p>
               <p style={{ marginBottom: 12 }}>We do not use cookies for advertising.</p>
               <p style={{ marginBottom: 12 }}>We do not sell your data.</p>
               <p style={{ marginBottom: 12 }}>You can accept or decline analytics cookies when you first visit the site. Your choice is saved in your browser and you can change it at any time by clearing your browser data.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Types of cookies we use</p>
-              <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 600 }}>Analytics cookies (optional):</span> Google Analytics — helps us understand how parents use LITTLElocals so we can improve it. Only loaded if you accept.</p>
-              <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 600 }}>Essential storage:</span> We use localStorage (not cookies) to save your preferences like favourites and calendar plans. These are essential for the app to work and stay on your device.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Types of cookies we use</p>
+              <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 800 }}>Analytics cookies (optional):</span> Google Analytics — helps us understand how parents use LITTLElocals so we can improve it. Only loaded if you accept.</p>
+              <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 800 }}>Essential storage:</span> We use localStorage (not cookies) to save your preferences like favourites and calendar plans. These are essential for the app to work and stay on your device.</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
               <p>If you have questions, contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
 
             {legalPage === "terms" && (<>
-              <p style={{ fontWeight: 700, color: "#1F2937", fontSize: 18, marginBottom: 16 }}>Terms of Service for LITTLElocals</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", fontSize: 22, marginBottom: 16 }}>Terms of Service for LITTLElocals</p>
               <p style={{ color: "#6B7280", marginBottom: 16 }}>Last updated: 28 February 2026</p>
               <p style={{ marginBottom: 12 }}>Welcome to LITTLElocals. By using our website you agree to the following terms.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>About the service</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>About the service</p>
               <p style={{ marginBottom: 12 }}>LITTLElocals is a free community directory of kids' activities in the Ealing area and surrounding boroughs. We aim to provide accurate and up-to-date information but cannot guarantee the accuracy of all listings.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>User contributions</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>User contributions</p>
               <p style={{ marginBottom: 12 }}>When you suggest an activity or leave a review, you grant LITTLElocals permission to display that content on the site. You agree that your contributions are accurate and not misleading.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Disclaimer</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Disclaimer</p>
               <p style={{ marginBottom: 12 }}>LITTLElocals is provided "as is". We are not responsible for the quality, safety, or availability of activities listed on the platform. Always check directly with activity providers for the most current information.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Intellectual property</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Intellectual property</p>
               <p style={{ marginBottom: 12 }}>All content, design, and branding on LITTLElocals is owned by LITTLElocals and may not be reproduced without permission.</p>
-              <p style={{ fontWeight: 700, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
+              <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
               <p>If you have any questions about these terms, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
           </div>

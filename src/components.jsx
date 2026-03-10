@@ -482,7 +482,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 6px 18px rgba(0,0,0,0.06)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
       {isExpired && (
         <div style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 10, pointerEvents: "none", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ background: "rgba(0,0,0,0.55)", color: "white", fontWeight: 900, fontSize: 20, letterSpacing: 3, padding: "8px 18px", borderRadius: 8, transform: "rotate(-15deg)", textTransform: "uppercase", border: "2px solid rgba(255,255,255,0.4)" }}>Expired</div>
+          <div style={{ background: "rgba(0,0,0,0.55)", color: "white", fontWeight: 1000, fontSize: 24, letterSpacing: 3, padding: "8px 18px", borderRadius: 8, transform: "rotate(-15deg)", textTransform: "uppercase", border: "2px solid rgba(255,255,255,0.4)" }}>Expired</div>
         </div>
       )}
 
@@ -522,16 +522,16 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {hasLogo && (
             <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
               <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
-              <span style={{ fontSize: 13, fontWeight: 800, color: "#111827" }}>{item.name}</span>
+              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}</span>
             </div>
           )}
           {/* Fav button */}
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
             {isFav ? "♥" : "♡"}
           </div>
           {/* Today badge */}
           {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 12, fontWeight: 900, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 16, fontWeight: 1000, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
           )}
         </div>
       ) : (
@@ -540,13 +540,13 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           <SceneBg type={item.type} w="100%" h={100} />
           {hasLogo
             ? <img src={item.logo} alt="" loading="lazy" style={{ height: 64, maxWidth: "70%", objectFit: "contain", position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.08))" }} onError={(e) => { e.target.style.display = "none"; }} />
-            : <span style={{ fontSize: 38, fontWeight: 1000, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
+            : <span style={{ fontSize: 42, fontWeight: 1000, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
           }
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
             {isFav ? "♥" : "♡"}
           </div>
           {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 12, fontWeight: 900, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 16, fontWeight: 1000, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
           )}
         </div>
       )}
@@ -554,11 +554,11 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Info block ── */}
       <div style={{ padding: "12px 14px 13px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-          <span style={{ fontSize: 19, fontWeight: 800, color: "#111827", lineHeight: 1.45 }}>{item.name}</span>
-          <span style={{ fontSize: 14, fontWeight: 800, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
+          <span style={{ fontSize: 23, fontWeight: 1000, color: "#111827", lineHeight: 1.45 }}>{item.name}</span>
+          <span style={{ fontSize: 18, fontWeight: 1000, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
-        <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 6, lineHeight: 1.45, fontWeight: 500 }}>
+        <div style={{ fontSize: 20, color: "#6B7280", marginBottom: 6, lineHeight: 1.45, fontWeight: 700 }}>
           {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
             const summary = getSessionSummary(item);
             if (summary) return " · " + summary;
@@ -571,26 +571,26 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {item.sessions && item.sessions.length > 0 && (() => {
           const next = getNextSession(item);
           if (!next) return null;
-          return <div style={{ fontSize: 16, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 600, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+          return <div style={{ fontSize: 20, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 800, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
         })()}
 
         {/* Event badge */}
         {item.listingType === "event" && (
-          <div style={{ display: "inline-block", fontSize: 13, fontWeight: 700, color: "#6050F0", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 5 }}>
+          <div style={{ display: "inline-block", fontSize: 17, fontWeight: 900, color: "#6050F0", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 5 }}>
             {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
           </div>
         )}
 
         {/* Distance + tags row */}
         <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
-          {distLabel && <span style={{ fontSize: 16, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
+          {distLabel && <span style={{ fontSize: 20, color: "#F97316", fontWeight: 800 }}>{distLabel}</span>}
           {tags.map((tag, i) => (
-            <span key={i} style={{ fontSize: 14, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
+            <span key={i} style={{ fontSize: 18, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
           ))}
         </div>
 
         {socialProof && (
-          <div style={{ fontSize: 15, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5", fontWeight: 500 }}>
+          <div style={{ fontSize: 19, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5", fontWeight: 700 }}>
             {socialProof}
           </div>
         )}
@@ -657,36 +657,36 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
       {item.featuredProvider ? (
         <div style={{ height: 220, position: "relative", overflow: "hidden" }}>
           <img src="/lgd-dance.png" alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 15, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
+          <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 19, fontWeight: 900, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
           <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
-            <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 12, fontWeight: 700, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
-            <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, color: "white", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+            <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 24, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 16, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
+            <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 22, color: "white", fontWeight: 900, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.684-6.34-1.861l-.455-.296-2.725.914.912-2.727-.306-.463A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
             </div>
           </div>
           <div style={{ position: "absolute", bottom: 10, left: 12, display: "flex", gap: 6, zIndex: 3 }}>
-            <span style={{ padding: "3px 10px", borderRadius: 10, fontSize: 11, fontWeight: 700, color: "white", background: "#6050F0", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Featured local provider</span>
+            <span style={{ padding: "3px 10px", borderRadius: 10, fontSize: 15, fontWeight: 900, color: "white", background: "#6050F0", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Featured local provider</span>
           </div>
         </div>
       ) : (
-      <div style={{ height: 190, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd, white)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 64, position: "relative", overflow: "hidden" }}>
+      <div style={{ height: 190, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd, white)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 68, position: "relative", overflow: "hidden" }}>
         <SceneBg type={item.type} w={500} h={190} />
-        <span style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))", fontSize: 36, fontWeight: 800, color: "white" }}>{(item.type || "A").charAt(0)}</span>
+        <span style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))", fontSize: 40, fontWeight: 1000, color: "white" }}>{(item.type || "A").charAt(0)}</span>
         {(item.logo || item.imageUrl) && (
         <img src={item.logo || item.imageUrl} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
         )}
-        <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 15, fontWeight: 700, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
+        <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 19, fontWeight: 900, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
         <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
-          <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 20, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 12, fontWeight: 700, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
-          <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 18, color: "white", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+          <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 24, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#6050F0" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#6050F0", color: "white", fontSize: 16, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
+          <div onClick={(e) => { e.stopPropagation(); shareWhatsApp(item); }} style={{ width: 36, height: 36, background: "#25D366", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 22, color: "white", fontWeight: 900, boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.684-6.34-1.861l-.455-.296-2.725.914.912-2.727-.306-.463A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
         </div>
         </div>
         <div style={{ position: "absolute", bottom: 10, left: 12, display: "flex", gap: 6, flexWrap: "wrap", zIndex: 3 }}>
-          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: tc.color, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.type}</span>
-          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: item.indoor ? "rgba(0,0,0,0.45)" : "#66BB6A", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.indoor ? "Indoor 🌧️" : "Outdoor ☀️"}</span>
-          {item.free && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: "#166534", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Free</span>}
-          {isOnToday(item) && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 13, fontWeight: 700, color: "white", background: "#F97316", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>On Today!</span>}
+          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 17, fontWeight: 900, color: "white", background: tc.color, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.type}</span>
+          <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 17, fontWeight: 900, color: "white", background: item.indoor ? "rgba(0,0,0,0.45)" : "#66BB6A", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>{item.indoor ? "Indoor 🌧️" : "Outdoor ☀️"}</span>
+          {item.free && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 17, fontWeight: 900, color: "white", background: "#166534", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>Free</span>}
+          {isOnToday(item) && <span style={{ padding: "3px 10px", borderRadius: 8, fontSize: 17, fontWeight: 900, color: "white", background: "#F97316", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>On Today!</span>}
 
         </div>
       </div>
@@ -695,18 +695,18 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Post-save share nudge */}
         {showSaveShareNudge && (
           <div style={{ marginBottom: 12, padding: "10px 14px", background: "#F3F0FF", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: 14, fontWeight: 600, color: "#6050F0" }}>Saved to your favourites ❤️</span>
-            <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 3 }}>Know a parent who'd love this?</div>
-            <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 13, fontWeight: 700, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
+            <span style={{ fontSize: 18, fontWeight: 800, color: "#6050F0" }}>Saved to your favourites ❤️</span>
+            <div style={{ fontSize: 17, color: "#6B7280", marginBottom: 3 }}>Know a parent who'd love this?</div>
+            <span onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ fontSize: 17, fontWeight: 900, color: "#25D366", cursor: "pointer", whiteSpace: "nowrap" }}>Send to another parent →</span>
           </div>
         )}
-        <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ fontSize: 26, fontWeight: 1000, marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
           {item.name}
-          {avgRating && <span style={{ fontSize: 14, fontWeight: 700, padding: "2px 8px", borderRadius: 8, background: "#FFF3E0", color: "#E67E22" }}>★ {avgRating}</span>}
+          {avgRating && <span style={{ fontSize: 18, fontWeight: 900, padding: "2px 8px", borderRadius: 8, background: "#FFF3E0", color: "#E67E22" }}>★ {avgRating}</span>}
         </div>
-        <div style={{ fontSize: 14, color: tc.color, fontWeight: 600, marginBottom: 14, display: "flex", alignItems: "center", gap: 4 }}>
+        <div style={{ fontSize: 18, color: tc.color, fontWeight: 800, marginBottom: 14, display: "flex", alignItems: "center", gap: 4 }}>
           {item.location}{dist !== null && <span style={{ color: "#F97316" }}>· {Math.round(dist * 20)} min walk</span>}
-          {item.verified && <span style={{ display: "inline-flex", width: 16, height: 16, background: "#166534", borderRadius: "50%", alignItems: "center", justifyContent: "center", color: "white", fontSize: 11, fontWeight: 700 }}>✓</span>}
+          {item.verified && <span style={{ display: "inline-flex", width: 16, height: 16, background: "#166534", borderRadius: "50%", alignItems: "center", justifyContent: "center", color: "white", fontSize: 15, fontWeight: 900 }}>✓</span>}
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
           {[
@@ -723,45 +723,45 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               onTouchStart={e => e.currentTarget.style.transform='scale(0.98)'}
               onTouchEnd={e => e.currentTarget.style.transform='scale(1)'}
             >
-              <span style={{ fontSize: 20 }}>{i.icon}</span>
+              <span style={{ fontSize: 24 }}>{i.icon}</span>
               <div>
-                <div style={{ fontSize: 15, color: "#8E8E93", fontWeight: 500, marginBottom: 2 }}>{i.label}</div>
-                <div style={{ fontSize: 18, fontWeight: 600 }}>{i.value}</div>
+                <div style={{ fontSize: 19, color: "#8E8E93", fontWeight: 700, marginBottom: 2 }}>{i.label}</div>
+                <div style={{ fontSize: 22, fontWeight: 800 }}>{i.value}</div>
               </div>
             </div>
           ))}
         </div>
-        <p style={{ fontSize: 15, lineHeight: 1.7, color: "#4B5563", marginBottom: 16 }}>{item.description}</p>
+        <p style={{ fontSize: 19, lineHeight: 1.7, color: "#4B5563", marginBottom: 16 }}>{item.description}</p>
 
         {/* Generic photo gallery from listing_images */}
         {item.images && item.images.length > 0 && (
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 16, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>📸 Photos</div>
+            <div style={{ fontSize: 20, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>📸 Photos</div>
             <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
               {item.images.map((src, i) => (
                 <img key={i} src={src} alt="" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} onError={(e) => { e.target.style.display = "none"; }} />
               ))}
             </div>
-            <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
+            <div style={{ fontSize: 16, color: "#9CA3AF", marginTop: 4 }}>{item.images.length} photo{item.images.length > 1 ? "s" : ""}</div>
           </div>
         )}
           {/* Hartbeeps-specific content */}
           {item.name && item.name.toLowerCase().includes("hartbeeps") && (
             <>
               {/* Trust + Perfect for + Credit */}
-              <div style={{ fontSize: 13, fontWeight: 600, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>A favourite baby class for families across West London.</div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: "#6B7280", fontStyle: "italic", marginBottom: 12 }}>A favourite baby class for families across West London.</div>
               <div style={{ marginBottom: 14 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Perfect for:</div>
-                <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8 }}>Newborn babies · Babies learning to sit or crawl · Toddlers who love music and movement</div>
+                <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Perfect for:</div>
+                <div style={{ fontSize: 16, color: "#4B5563", lineHeight: 1.8 }}>Newborn babies · Babies learning to sit or crawl · Toddlers who love music and movement</div>
               </div>
               <div style={{ marginBottom: 16 }}>
-                <a href={item.website || "https://www.hartbeeps.com"} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", padding: "12px 20px", borderRadius: 12, background: "#6050F0", color: "white", fontSize: 14, fontWeight: 700, textDecoration: "none", fontFamily: "inherit" }}>Visit provider website ↗</a>
+                <a href={item.website || "https://www.hartbeeps.com"} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", padding: "12px 20px", borderRadius: 12, background: "#6050F0", color: "white", fontSize: 18, fontWeight: 900, textDecoration: "none", fontFamily: "inherit" }}>Visit provider website ↗</a>
               </div>
-              <div style={{ fontSize: 10, color: "#9CA3AF", marginBottom: 16 }}>Provider photos and videos supplied by Kimmy and Sophie from Hartbeeps West & SW London.</div>
+              <div style={{ fontSize: 14, color: "#9CA3AF", marginBottom: 16 }}>Provider photos and videos supplied by Kimmy and Sophie from Hartbeeps West & SW London.</div>
 
               {/* Photo gallery */}
               <div style={{ marginBottom: 20 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>Photos from class</div>
+                <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>Photos from class</div>
                 <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
                   {["/hartbeeps-hero.png", "/hartbeeps-bells.jpg", "/hartbeeps-happy.png"].map((src, i) => (
                     <img key={i} src={src} alt="Hartbeeps class" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
@@ -771,7 +771,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
 
               {/* Videos */}
               <div style={{ marginBottom: 20 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See the classes in action</div>
+                <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>See the classes in action</div>
                 {[
                   { id: "Vk9_6vlvQkc", label: "Baby Bells — for young babies" },
                   { id: "F2JHBDsST40", label: "Baby Beeps — sitting to standing babies" },
@@ -779,7 +779,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                   { id: "waBu8jQMEOA", label: "Hartbeeps Birthday Parties" },
                 ].map(v => (
                   <div key={v.id} style={{ marginBottom: 12 }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>{v.label}</div>
+                    <div style={{ fontSize: 18, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>{v.label}</div>
                     <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
                       <iframe src={"https://www.youtube.com/embed/" + v.id} title={v.label} frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 12 }} />
                     </div>
@@ -792,13 +792,13 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                 const [ttOpen, setTtOpen] = React.useState(false);
                 return (
                   <div style={{ marginBottom: 20 }}>
-                    <div style={{ fontSize: 16, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
-                    <div style={{ fontSize: 13, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
+                    <div style={{ fontSize: 20, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
+                    <div style={{ fontSize: 17, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
                     <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
                       <img src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
                       {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                     </div>
-                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 14, fontWeight: 600, color: "#6050F0" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                    <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 18, fontWeight: 800, color: "#6050F0" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
                   </div>
                 );
               })()}
@@ -808,7 +808,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Oikos Stay and Play video */}
         {item.name && item.name.toLowerCase().includes("oikos") && (
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See the space in action</div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>See the space in action</div>
             <video controls preload="none" style={{ width: "100%", borderRadius: 12, marginBottom: 8 }} poster="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/oikos-stay-play-cover.png">
               <source src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/oikos-video-1.mp4" type="video/mp4" />
             </video>
@@ -820,7 +820,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Cook Stars video */}
         {item.name && item.name.toLowerCase().includes("cook stars") && (
           <div style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 8 }}>See Cook Stars in action</div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>See Cook Stars in action</div>
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0, borderRadius: 12, overflow: "hidden" }}>
               <iframe src="https://www.youtube.com/embed/CmhzXEdx4IQ" title="Cook Stars St Andrews" frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: 12 }} />
             </div>
@@ -836,8 +836,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-logo.png" alt="Sing and Sign" style={{ width: 80, height: 56, objectFit: "contain", borderRadius: 8 }} onError={(e) => { e.target.style.display = "none"; }} />
             </div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 4 }}>Winter to Spring 2026 Timetable</div>
-            <div style={{ fontSize: 11, color: "#9CA3AF", marginBottom: 8 }}>5 January – 27 March 2026 (half term break 9–20 Feb)</div>
+            <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Winter to Spring 2026 Timetable</div>
+            <div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 8 }}>5 January – 27 March 2026 (half term break 9–20 Feb)</div>
             {(() => {
               const [ttOpen, setTtOpen] = React.useState(false);
               return (
@@ -846,7 +846,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                     <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-timetable-2026.png" alt="Sing and Sign Timetable" style={{ width: "100%", display: "block" }} />
                     {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                   </div>
-                  <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 600, color: "#6050F0" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
+                  <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#6050F0" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
                 </div>
               );
             })()}
@@ -857,15 +857,15 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {item.featuredProvider && (
           <>
             <div style={{ background: "#F9FAFB", borderRadius: 14, padding: 16, marginBottom: 16, border: "1px solid #E5E7EB" }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 10 }}>📅 Class Schedule</div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#6050F0", marginBottom: 6 }}>Fridays</div>
-              <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8, marginBottom: 10 }}>
+              <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 10 }}>📅 Class Schedule</div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: "#6050F0", marginBottom: 6 }}>Fridays</div>
+              <div style={{ fontSize: 16, color: "#4B5563", lineHeight: 1.8, marginBottom: 10 }}>
                 4:30–5:00 Ballet<br/>
                 5:00–5:45 Acrobatics / Gymnastics<br/>
                 5:45–6:15 Tap
               </div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#6050F0", marginBottom: 6 }}>Sundays</div>
-              <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8 }}>
+              <div style={{ fontSize: 16, fontWeight: 900, color: "#6050F0", marginBottom: 6 }}>Sundays</div>
+              <div style={{ fontSize: 16, color: "#4B5563", lineHeight: 1.8 }}>
                 10:00–10:30 Street Dance<br/>
                 10:30–11:00 Musical Theatre<br/>
                 11:00–11:45 Primary / Grade 1 Ballet<br/>
@@ -875,98 +875,98 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               </div>
             </div>
             <div style={{ background: "#F9FAFB", borderRadius: 14, padding: 16, marginBottom: 16, border: "1px solid #E5E7EB" }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "#1F2937", marginBottom: 6 }}>💷 Pricing</div>
-              <div style={{ fontSize: 12, color: "#4B5563", lineHeight: 1.8 }}>
+              <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 6 }}>💷 Pricing</div>
+              <div style={{ fontSize: 16, color: "#4B5563", lineHeight: 1.8 }}>
                 Classes start from £5<br/>
                 Paid monthly<br/>
                 Multi-class discounts available<br/>
-                <span style={{ fontWeight: 700, color: "#166534" }}>Free trial available</span>
+                <span style={{ fontWeight: 900, color: "#166534" }}>Free trial available</span>
               </div>
             </div>
             <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
-              {item.trialLink && <a href={item.trialLink} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "12px 0", textAlign: "center", background: "#6050F0", color: "white", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", boxShadow: "0 2px 8px rgba(107,78,255,0.25)" }}>Book free trial</a>}
-              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6050F0", borderRadius: 12, fontSize: 13, fontWeight: 700, textDecoration: "none", border: "1.5px solid #6050F0" }}>Visit website ↗{getHostname(item.website) && <div style={{ fontSize: 10, fontWeight: 400, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
+              {item.trialLink && <a href={item.trialLink} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "12px 0", textAlign: "center", background: "#6050F0", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, textDecoration: "none", boxShadow: "0 2px 8px rgba(107,78,255,0.25)" }}>Book free trial</a>}
+              {item.website && <a href={(() => { let u = item.website.trim(); if (!u.startsWith("http")) u = "https://" + u; return u; })()} target="_blank" rel="noopener noreferrer" style={{ flex: 1, padding: "10px 0", textAlign: "center", background: "white", color: "#6050F0", borderRadius: 12, fontSize: 17, fontWeight: 900, textDecoration: "none", border: "1.5px solid #6050F0" }}>Visit website ↗{getHostname(item.website) && <div style={{ fontSize: 14, fontWeight: 600, color: "#6B7280", marginTop: 1 }}>{getHostname(item.website)}</div>}</a>}
             </div>
           </>
         )}
         {item.photos && (
           <div onClick={(e) => { e.stopPropagation(); window.open(item.photos, "_blank"); }} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "12px 16px", background: "white", borderRadius: 12, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
-            <span style={{ fontSize: 20 }}>📸</span>
+            <span style={{ fontSize: 24 }}>📸</span>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937" }}>See Photos & Reviews</div>
-              <div style={{ fontSize: 10, color: "#4B5563" }}>View real photos from visitors on {item.photos.includes("instagram") ? "Instagram" : item.photos.includes("facebook") ? "Facebook" : "Google Maps"}</div>
+              <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937" }}>See Photos & Reviews</div>
+              <div style={{ fontSize: 14, color: "#4B5563" }}>View real photos from visitors on {item.photos.includes("instagram") ? "Instagram" : item.photos.includes("facebook") ? "Facebook" : "Google Maps"}</div>
             </div>
-            <span style={{ marginLeft: "auto", fontSize: 16, color: "#4B5563" }}>→</span>
+            <span style={{ marginLeft: "auto", fontSize: 20, color: "#4B5563" }}>→</span>
           </div>
         )}
         {(() => {
           const sameVenue = (allListings || []).filter(l => l.id !== item.id && l.venue && item.venue && l.venue.trim().toLowerCase() === item.venue.trim().toLowerCase()).slice(0, 2);
           return sameVenue.length > 0 ? (
             <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Also at this venue</div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Also at this venue</div>
               {sameVenue.map(rel => (
                 <div key={rel.id} onClick={() => onSelectListing && onSelectListing(rel)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#F9FAFB", borderRadius: 10, marginBottom: 6, cursor: "pointer", border: "1px solid #E5E7EB" }}>
                   {rel.images?.[0]?.url && <img src={rel.images[0].url} alt={rel.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "#111827", marginBottom: 1 }}>{rel.name}</div>
-                    <div style={{ fontSize: 12, color: "#6B7280" }}>{rel.type} · {rel.time}</div>
+                    <div style={{ fontSize: 17, fontWeight: 800, color: "#111827", marginBottom: 1 }}>{rel.name}</div>
+                    <div style={{ fontSize: 16, color: "#6B7280" }}>{rel.type} · {rel.time}</div>
                   </div>
-                  <span style={{ fontSize: 12, color: "#6050F0", fontWeight: 600 }}>→</span>
+                  <span style={{ fontSize: 16, color: "#6050F0", fontWeight: 800 }}>→</span>
                 </div>
               ))}
             </div>
           ) : null;
         })()}
                 <div onClick={() => { const addr = (item.venue || item.location || "").trim(); if (!addr) return; window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), "_blank", "noopener,noreferrer"); }} style={{ background: "white", borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 10, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer" }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#6050F0" }}>📍 Open in Maps</span>
+          <span style={{ fontSize: 17, fontWeight: 900, color: "#6050F0" }}>📍 Open in Maps</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 12, fontWeight: 700 }}>{item.venue.split(",")[0]}</div>
-            <div style={{ fontSize: 10, color: "#4B5563" }}>{item.venue}</div>
-            <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 2 }}>Tap to open in Maps</div>
+            <div style={{ fontSize: 16, fontWeight: 900 }}>{item.venue.split(",")[0]}</div>
+            <div style={{ fontSize: 14, color: "#4B5563" }}>{item.venue}</div>
+            <div style={{ fontSize: 14, color: "#9CA3AF", marginTop: 2 }}>Tap to open in Maps</div>
           </div>
-          <span style={{ fontSize: 11, color: "#F97316", fontWeight: 600 }}>↗</span>
+          <span style={{ fontSize: 15, color: "#F97316", fontWeight: 800 }}>↗</span>
         </div>
         {item.bring.length > 0 && (
           <>
-            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>What to Bring</div>
+            <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 8 }}>What to Bring</div>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-              {item.bring.map(b => <span key={b} style={{ padding: "5px 10px", background: "#FFF3E0", borderRadius: 8, fontSize: 11, fontWeight: 600, color: "#E67E22" }}>{b}</span>)}
+              {item.bring.map(b => <span key={b} style={{ padding: "5px 10px", background: "#FFF3E0", borderRadius: 8, fontSize: 15, fontWeight: 800, color: "#E67E22" }}>{b}</span>)}
             </div>
           </>
         )}
-        {item.sen && <div style={{ padding: "8px 12px", background: "#E8FBF8", borderRadius: 10, fontSize: 12, fontWeight: 600, color: "#166534", marginBottom: 16 }}>♿ SEN / Additional Needs Friendly</div>}
+        {item.sen && <div style={{ padding: "8px 12px", background: "#E8FBF8", borderRadius: 10, fontSize: 16, fontWeight: 800, color: "#166534", marginBottom: 16 }}>♿ SEN / Additional Needs Friendly</div>}
 
         {/* COMMUNITY REVIEWS SECTION */}
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-            <div style={{ fontSize: 14, fontWeight: 700 }}>💬 Community Reviews {itemReviews.length > 0 && <span style={{ fontSize: 11, color: "#4B5563", fontWeight: 500 }}>({itemReviews.length})</span>}</div>
-            {!showReviewForm && <span onClick={() => setShowReviewForm(true)} style={{ fontSize: 11, fontWeight: 700, color: "#F97316", cursor: "pointer", padding: "4px 10px", background: "#F9731612", borderRadius: 8 }}>+ Add Review</span>}
+            <div style={{ fontSize: 18, fontWeight: 900 }}>💬 Community Reviews {itemReviews.length > 0 && <span style={{ fontSize: 15, color: "#4B5563", fontWeight: 700 }}>({itemReviews.length})</span>}</div>
+            {!showReviewForm && <span onClick={() => setShowReviewForm(true)} style={{ fontSize: 15, fontWeight: 900, color: "#F97316", cursor: "pointer", padding: "4px 10px", background: "#F9731612", borderRadius: 8 }}>+ Add Review</span>}
           </div>
 
           {submitted && (
-            <div style={{ padding: "10px 14px", background: "#E8FBF8", borderRadius: 10, marginBottom: 12, fontSize: 12, fontWeight: 600, color: "#166534", textAlign: "center" }}>✓ Review added — thanks for helping other parents!</div>
+            <div style={{ padding: "10px 14px", background: "#E8FBF8", borderRadius: 10, marginBottom: 12, fontSize: 16, fontWeight: 800, color: "#166534", textAlign: "center" }}>✓ Review added — thanks for helping other parents!</div>
           )}
 
           {/* Review Form */}
           {showReviewForm && (
             <div style={{ background: "white", borderRadius: 12, padding: 16, border: "1px solid #E5E7EB", marginBottom: 12, boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
-              <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 12 }}>Share your experience</div>
-              <input value={reviewName} onChange={e => setReviewName(e.target.value)} placeholder="Your first name" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E0DBD5", fontSize: 13, fontFamily: "inherit", marginBottom: 8, boxSizing: "border-box", outline: "none" }} />
+              <div style={{ fontSize: 17, fontWeight: 900, marginBottom: 12 }}>Share your experience</div>
+              <input value={reviewName} onChange={e => setReviewName(e.target.value)} placeholder="Your first name" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E0DBD5", fontSize: 17, fontFamily: "inherit", marginBottom: 8, boxSizing: "border-box", outline: "none" }} />
               <div style={{ marginBottom: 8 }}>
-                <div style={{ fontSize: 11, color: "#4B5563", marginBottom: 4 }}>Rating</div>
+                <div style={{ fontSize: 15, color: "#4B5563", marginBottom: 4 }}>Rating</div>
                 <div style={{ display: "flex", gap: 4 }}>
                   {[1,2,3,4,5].map(s => (
-                    <span key={s} onClick={() => setReviewRating(s)} style={{ fontSize: 20, cursor: "pointer", filter: s <= reviewRating ? "none" : "grayscale(1) opacity(0.3)" }}>⭐</span>
+                    <span key={s} onClick={() => setReviewRating(s)} style={{ fontSize: 24, cursor: "pointer", filter: s <= reviewRating ? "none" : "grayscale(1) opacity(0.3)" }}>⭐</span>
                   ))}
                 </div>
               </div>
-              <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="What did you and your little one think? Any tips for other parents?" rows={3} style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E0DBD5", fontSize: 13, fontFamily: "inherit", marginBottom: 8, boxSizing: "border-box", resize: "vertical", outline: "none" }} />
+              <textarea value={reviewText} onChange={e => setReviewText(e.target.value)} placeholder="What did you and your little one think? Any tips for other parents?" rows={3} style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E0DBD5", fontSize: 17, fontFamily: "inherit", marginBottom: 8, boxSizing: "border-box", resize: "vertical", outline: "none" }} />
               <div style={{ marginBottom: 10 }}>
                 <label style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", background: "#F8F6F3", borderRadius: 10, cursor: "pointer", border: "1px dashed #E0DBD5" }}>
-                  <span style={{ fontSize: 18 }}>📷</span>
+                  <span style={{ fontSize: 22 }}>📷</span>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 600, color: "#1F2937" }}>Add photos</div>
-                    <div style={{ fontSize: 10, color: "#4B5563" }}>Help other parents see what it's like</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>Add photos</div>
+                    <div style={{ fontSize: 14, color: "#4B5563" }}>Help other parents see what it's like</div>
                   </div>
                   <input type="file" accept="image/*" multiple onChange={handleImageUpload} style={{ display: "none" }} />
                 </label>
@@ -975,15 +975,15 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                     {reviewImages.map((img, i) => (
                       <div key={i} style={{ position: "relative", flexShrink: 0 }}>
                         <img src={img} alt="" style={{ width: 60, height: 60, borderRadius: 8, objectFit: "cover" }} />
-                        <span onClick={() => setReviewImages(prev => prev.filter((_, idx) => idx !== i))} style={{ position: "absolute", top: -4, right: -4, width: 18, height: 18, background: "#F97316", borderRadius: "50%", color: "white", fontSize: 10, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>✕</span>
+                        <span onClick={() => setReviewImages(prev => prev.filter((_, idx) => idx !== i))} style={{ position: "absolute", top: -4, right: -4, width: 18, height: 18, background: "#F97316", borderRadius: "50%", color: "white", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>✕</span>
                       </div>
                     ))}
                   </div>
                 )}
               </div>
               <div style={{ display: "flex", gap: 8 }}>
-                <button onClick={() => { setShowReviewForm(false); setReviewImages([]); }} style={{ flex: 1, padding: 10, borderRadius: 10, border: "1px solid #E0DBD5", background: "white", fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "inherit", color: "#4B5563" }}>Cancel</button>
-                <button onClick={submitReview} disabled={!reviewName.trim() || !reviewText.trim()} style={{ flex: 1.5, padding: 10, borderRadius: 10, border: "none", background: reviewName.trim() && reviewText.trim() ? "#F97316" : "#E0DBD5", color: "white", fontSize: 12, fontWeight: 700, cursor: reviewName.trim() && reviewText.trim() ? "pointer" : "default", fontFamily: "inherit" }}>Post Review</button>
+                <button onClick={() => { setShowReviewForm(false); setReviewImages([]); }} style={{ flex: 1, padding: 10, borderRadius: 10, border: "1px solid #E0DBD5", background: "white", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", color: "#4B5563" }}>Cancel</button>
+                <button onClick={submitReview} disabled={!reviewName.trim() || !reviewText.trim()} style={{ flex: 1.5, padding: 10, borderRadius: 10, border: "none", background: reviewName.trim() && reviewText.trim() ? "#F97316" : "#E0DBD5", color: "white", fontSize: 16, fontWeight: 900, cursor: reviewName.trim() && reviewText.trim() ? "pointer" : "default", fontFamily: "inherit" }}>Post Review</button>
               </div>
             </div>
           )}
@@ -993,15 +993,15 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div key={r.id} style={{ background: "white", borderRadius: 12, padding: 14, border: "1px solid #E5E7EB", marginBottom: 8 }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: "50%", background: "linear-gradient(135deg, #F97316, #7B68EE)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 12, fontWeight: 700 }}>{r.name.charAt(0).toUpperCase()}</div>
+                  <div style={{ width: 30, height: 30, borderRadius: "50%", background: "linear-gradient(135deg, #F97316, #7B68EE)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: 16, fontWeight: 900 }}>{r.name.charAt(0).toUpperCase()}</div>
                   <div>
-                    <div style={{ fontSize: 12, fontWeight: 700 }}>{r.name}</div>
-                    <div style={{ fontSize: 10, color: "#4B5563" }}>{r.date}</div>
+                    <div style={{ fontSize: 16, fontWeight: 900 }}>{r.name}</div>
+                    <div style={{ fontSize: 14, color: "#4B5563" }}>{r.date}</div>
                   </div>
                 </div>
-                <div style={{ fontSize: 11 }}>{"★".repeat(r.rating)}</div>
+                <div style={{ fontSize: 15 }}>{"★".repeat(r.rating)}</div>
               </div>
-              <p style={{ fontSize: 12, lineHeight: 1.6, color: "#4B5563", margin: 0 }}>{r.text}</p>
+              <p style={{ fontSize: 16, lineHeight: 1.6, color: "#4B5563", margin: 0 }}>{r.text}</p>
               {((r.images && r.images.length > 0) || (r.photos && r.photos.length > 0)) && (
                 <div style={{ display: "flex", gap: 6, marginTop: 8, overflowX: "auto" }}>
                   {(r.images || r.photos).map((img, i) => <img key={i} src={img} alt="" style={{ width: 80, height: 80, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />)}
@@ -1013,7 +1013,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
 
         {/* Add to Calendar */}
         <div style={{ marginBottom: 12 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "#1F2937", marginBottom: 6 }}>📅 Add to My Plans</div>
+          <div style={{ fontSize: 16, fontWeight: 900, color: "#1F2937", marginBottom: 6 }}>📅 Add to My Plans</div>
           <div style={{ display: "flex", gap: 4, overflowX: "auto", paddingBottom: 4 }}>
             {Array.from({ length: 14 }, (_, i) => {
               const d = new Date(); d.setDate(d.getDate() + i);
@@ -1021,8 +1021,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               const isAdded = (calendarPlan[dateKey] || []).includes(item.id);
               const dayLabel = i === 0 ? "Today" : i === 1 ? "Tmrw" : d.toLocaleDateString("en-GB", { weekday: "short" });
               const dateLabel = d.getDate();
-              return <div key={dateKey} onClick={() => isAdded ? onRemoveFromCalendar(item.id, dateKey) : onAddToCalendar(item.id, dateKey)} style={{ flexShrink: 0, padding: "6px 8px", borderRadius: 10, fontSize: 10, fontWeight: 700, textAlign: "center", minWidth: 44, background: isAdded ? "#F97316" : "white", color: isAdded ? "white" : "#1F2937", border: `1px solid ${isAdded ? "#F97316" : "#E5E7EB"}`, cursor: "pointer" }}>
-                <div style={{ fontSize: 9, marginBottom: 2 }}>{dayLabel}</div>
+              return <div key={dateKey} onClick={() => isAdded ? onRemoveFromCalendar(item.id, dateKey) : onAddToCalendar(item.id, dateKey)} style={{ flexShrink: 0, padding: "6px 8px", borderRadius: 10, fontSize: 14, fontWeight: 900, textAlign: "center", minWidth: 44, background: isAdded ? "#F97316" : "white", color: isAdded ? "white" : "#1F2937", border: `1px solid ${isAdded ? "#F97316" : "#E5E7EB"}`, cursor: "pointer" }}>
+                <div style={{ fontSize: 13, marginBottom: 2 }}>{dayLabel}</div>
                 <div>{isAdded ? "✓" : dateLabel}</div>
               </div>;
             })}
@@ -1031,17 +1031,17 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
 
         {/* Parent Tips — only show if tips exist or user is adding one */}
         {(tips.length > 0 || showTipInput || tipSubmitted) && <div id="tip-input-scroll" style={{ marginBottom: 12, padding: "14px 16px", background: "white", borderRadius: 12, border: "1px solid #F3F4F6" }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "#1F2937", marginBottom: 6 }}>💡 Parent tips</div>
+          <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937", marginBottom: 6 }}>💡 Parent tips</div>
           {tips.length === 0 && !showTipInput && (
-            <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>No tips yet — be the first parent to leave one!</div>
+            <div style={{ fontSize: 16, color: "#9CA3AF", marginBottom: 8 }}>No tips yet — be the first parent to leave one!</div>
           )}
           {tips.map((t, i) => (
-            <div key={i} style={{ background: "#FFFBEB", borderRadius: 8, padding: "8px 10px", marginBottom: 6, fontSize: 12, color: "#4B5563", lineHeight: 1.5 }}>
+            <div key={i} style={{ background: "#FFFBEB", borderRadius: 8, padding: "8px 10px", marginBottom: 6, fontSize: 16, color: "#4B5563", lineHeight: 1.5 }}>
               💡 {t.tip_text}
             </div>
           ))}
           {tipSubmitted ? (
-            <div style={{ fontSize: 12, color: "#166534", fontWeight: 600 }}>✓ Tip added — thanks! Your tip helps local parents ❤️</div>
+            <div style={{ fontSize: 16, color: "#166534", fontWeight: 800 }}>✓ Tip added — thanks! Your tip helps local parents ❤️</div>
           ) : showTipInput ? (
             <div>
               <textarea
@@ -1049,12 +1049,12 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                 onChange={e => setTipText(e.target.value.slice(0, 120))}
                 placeholder="e.g. Arrive early — gets busy after 10am!"
                 rows={2}
-                style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: "1px solid #E5E7EB", fontSize: 12, fontFamily: "inherit", resize: "none", outline: "none", boxSizing: "border-box", marginBottom: 4 }}
+                style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: "1px solid #E5E7EB", fontSize: 16, fontFamily: "inherit", resize: "none", outline: "none", boxSizing: "border-box", marginBottom: 4 }}
               />
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <span style={{ fontSize: 10, color: "#9CA3AF" }}>{tipText.length}/120</span>
+                <span style={{ fontSize: 14, color: "#9CA3AF" }}>{tipText.length}/120</span>
                 <div style={{ display: "flex", gap: 8 }}>
-                  <span onClick={() => { setShowTipInput(false); setTipText(""); }} style={{ fontSize: 11, color: "#9CA3AF", cursor: "pointer" }}>Cancel</span>
+                  <span onClick={() => { setShowTipInput(false); setTipText(""); }} style={{ fontSize: 15, color: "#9CA3AF", cursor: "pointer" }}>Cancel</span>
                   <span onClick={() => {
                     if (tipText.trim().length < 3) return;
                     if (onAddTip) onAddTip(item.id, tipText.trim());
@@ -1062,12 +1062,12 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                     setShowTipInput(false);
                     setTipText("");
                     setTimeout(() => setTipSubmitted(false), 4000);
-                  }} style={{ fontSize: 11, fontWeight: 700, color: "#F97316", cursor: "pointer" }}>Submit</span>
+                  }} style={{ fontSize: 15, fontWeight: 900, color: "#F97316", cursor: "pointer" }}>Submit</span>
                 </div>
               </div>
             </div>
           ) : (
-            <div onClick={() => setShowTipInput(true)} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 600, color: "#F97316", cursor: "pointer", marginTop: 2 }}>
+            <div onClick={() => setShowTipInput(true)} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 15, fontWeight: 800, color: "#F97316", cursor: "pointer", marginTop: 2 }}>
               ✏️ Add a quick tip
             </div>
           )}
@@ -1090,25 +1090,25 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             }}
             style={{ padding: "10px 14px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", background: isVisited ? "linear-gradient(135deg, #166534, #059669)" : "white", border: isVisited ? "none" : "1.5px dashed #E0DBD5", marginBottom: 8 }}
           >
-            <span style={{ fontSize: 20 }}>{beenHereJustTapped ? "🎉" : isVisited ? "🏆" : "✅"}</span>
+            <span style={{ fontSize: 24 }}>{beenHereJustTapped ? "🎉" : isVisited ? "🏆" : "✅"}</span>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: isVisited ? "white" : "#1F2937" }}>
+              <div style={{ fontSize: 16, fontWeight: 900, color: isVisited ? "white" : "#1F2937" }}>
                 {beenHereJustTapped ? "Added to your family activity map" : isVisited ? "Been There!" : "Been here? Tap to mark visited"}
               </div>
-              <div style={{ fontSize: 10, color: isVisited ? "rgba(255,255,255,0.75)" : "#6B7280" }}>
+              <div style={{ fontSize: 14, color: isVisited ? "rgba(255,255,255,0.75)" : "#6B7280" }}>
                 {beenHereJustTapped ? "Track places your family has tried." : isVisited ? "Added to your Activity Passport" : "Track activities your family has tried"}
               </div>
             </div>
-            {isVisited && !beenHereJustTapped && <span style={{ fontSize: 11, color: "white", fontWeight: 600 }}>✕ Undo</span>}
+            {isVisited && !beenHereJustTapped && <span style={{ fontSize: 15, color: "white", fontWeight: 800 }}>✕ Undo</span>}
           </div>
 
           {/* Step 2: Contribution prompt — shown after tapping */}
           {showContribute && (
             <div style={{ background: "#FFFBF5", border: "1px solid #FED7AA", borderRadius: 12, padding: "12px 14px" }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "#1F2937", marginBottom: 2 }}>Help other Ealing parents 🙌</div>
-              <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 10 }}>Add a quick photo or tip about this activity.</div>
+              <div style={{ fontSize: 16, fontWeight: 900, color: "#1F2937", marginBottom: 2 }}>Help other Ealing parents 🙌</div>
+              <div style={{ fontSize: 15, color: "#6B7280", marginBottom: 10 }}>Add a quick photo or tip about this activity.</div>
               <div style={{ display: "flex", gap: 8 }}>
-                <label style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 11, fontWeight: 700, color: "#374151", cursor: "pointer", textAlign: "center" }}>
+                <label style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 15, fontWeight: 900, color: "#374151", cursor: "pointer", textAlign: "center" }}>
                   📸 Add photo
                   <input type="file" accept="image/*" capture="environment" style={{ display: "none" }} onChange={(e) => {
                     if (e.target.files[0]) {
@@ -1119,11 +1119,11 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                 </label>
                 <div
                   onClick={() => { setShowContribute(false); document.getElementById("tip-input-scroll")?.scrollIntoView({ behavior: "smooth" }); }}
-                  style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 11, fontWeight: 700, color: "#374151", cursor: "pointer", textAlign: "center" }}
+                  style={{ flex: 1, padding: "7px 0", borderRadius: 10, background: "white", border: "1px solid #E5E7EB", fontSize: 15, fontWeight: 900, color: "#374151", cursor: "pointer", textAlign: "center" }}
                 >✏️ Add quick tip</div>
               </div>
               {/* Share nudge after been-here */}
-              <div onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid #FED7AA", fontSize: 11, color: "#F97316", fontWeight: 600, cursor: "pointer", textAlign: "center" }}>
+              <div onClick={() => { const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid #FED7AA", fontSize: 15, color: "#F97316", fontWeight: 800, cursor: "pointer", textAlign: "center" }}>
                 Send this to another parent →
               </div>
             </div>
@@ -1131,29 +1131,29 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         </div>
 
         <div style={{ display: "flex", gap: 10 }}>
-          <button onClick={(e) => { e.stopPropagation(); const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ flex: 1, padding: 12, borderRadius: 12, border: "none", background: "#25D366", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+          <button onClick={(e) => { e.stopPropagation(); const shareUrl = "https://littlelocals.uk/?activity=" + (item.slug || item.id); const msg = "Thought you might like this for the kids 👶\n\n" + item.name + "\n" + (item.description ? item.description.slice(0,80) + "..." : item.type + " · " + item.ages) + "\n\nFound it on LITTLElocals:\n" + shareUrl; if (navigator.share) navigator.share({ title: item.name, text: msg, url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent(msg), "_blank"); }} style={{ flex: 1, padding: 12, borderRadius: 12, border: "none", background: "#25D366", color: "white", fontSize: 17, fontWeight: 900, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 00.917.918l4.462-1.496A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.336 0-4.512-.684-6.34-1.861l-.455-.296-2.725.914.912-2.727-.306-.463A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
             Send to another parent
           </button>
-          <button onClick={(e) => { e.stopPropagation(); const url = item.website || (item.cta && item.cta.url) || ""; openExternalWebsite(url); }} style={{ flex: 1.2, padding: 12, borderRadius: 12, border: "none", background: item.cta.type === "phone" ? "#42A5F5" : item.cta.type === "facebook" ? "#1877F2" : item.cta.type === "email" ? "#7B68EE" : "#F97316", color: "white", fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" }}>
+          <button onClick={(e) => { e.stopPropagation(); const url = item.website || (item.cta && item.cta.url) || ""; openExternalWebsite(url); }} style={{ flex: 1.2, padding: 12, borderRadius: 12, border: "none", background: item.cta.type === "phone" ? "#42A5F5" : item.cta.type === "facebook" ? "#1877F2" : item.cta.type === "email" ? "#7B68EE" : "#F97316", color: "white", fontSize: 17, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>
             {item.cta.type === "phone" ? "📞 " : item.cta.type === "facebook" ? "📘 " : item.cta.type === "email" ? "✉️ " : (item.website || item.cta.url || "").includes("instagram") ? "📸 " : (item.website || item.cta.url || "").includes("book") || (item.website || item.cta.url || "").includes("ticket") ? "🎟 " : "🌐 "}{item.cta.type === "phone" ? "Call" : item.cta.type === "facebook" ? "View on Facebook" : item.cta.type === "email" ? "Email" : (item.website || item.cta.url || "").includes("instagram") ? "View on Instagram" : (item.website || item.cta.url || "").includes("book") || (item.website || item.cta.url || "").includes("ticket") ? "Book a Class" : "Visit Website"}
           </button>
         </div>
 
         {/* Suggested by credit */}
         {item.suggestedBy && (
-          <div style={{ marginTop: 10, fontSize: 11, color: "#9CA3AF", textAlign: "center" }}>Suggested by {item.suggestedBy || "a local parent"}</div>
+          <div style={{ marginTop: 10, fontSize: 15, color: "#9CA3AF", textAlign: "center" }}>Suggested by {item.suggestedBy || "a local parent"}</div>
         )}
 
         {/* Provider share prompt */}
         <div onClick={() => { const shareUrl = window.location.href; if (navigator.share) navigator.share({ title: item.name + " on LITTLElocals", text: "Share this page with parents who might be interested", url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent("Check out " + item.name + " on LITTLElocals — share with parents who'd love this! " + shareUrl), "_blank"); }} style={{ marginTop: 12, padding: "10px 14px", borderRadius: 12, background: "#F9FAFB", textAlign: "center", cursor: "pointer" }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "#6B7280" }}>Share this page with parents</div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: "#6B7280" }}>Share this page with parents</div>
         </div>
 
         {/* Claim this activity */}
         <div onClick={() => window.open("mailto:littlelocalsuk@gmail.com?subject=Claim: " + encodeURIComponent(item.name) + "&body=" + encodeURIComponent("Hi, I run " + item.name + " and would like to claim this listing to manage photos and info."), "_blank")} style={{ marginTop: 8, padding: "10px 14px", borderRadius: 12, border: "1px dashed #E5E7EB", textAlign: "center", cursor: "pointer" }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "#6B7280" }}>Run this activity?</div>
-          <div style={{ fontSize: 10, color: "#9CA3AF" }}>Claim this listing to update photos and info</div>
+          <div style={{ fontSize: 15, fontWeight: 800, color: "#6B7280" }}>Run this activity?</div>
+          <div style={{ fontSize: 14, color: "#9CA3AF" }}>Claim this listing to update photos and info</div>
         </div>
       </div>
     </div>
