@@ -1234,7 +1234,7 @@ function getSearchScore(item, query) {
       {showSuggest && (
         <div style={{ margin: "6px 20px 10px" }}>
           <div style={{ background: "white", borderRadius: 16, padding: 18, border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(92,75,107,0.06)" }}>
-            <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 2, color: "#1F2937" }}>✨ Suggest an Activity</div>
+            <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 2, color: "#1F2937" }}>Know a great activity we missed?</div>
             <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 14 }}>Mums, dads & providers welcome — we'll review and add it!</div>
             <div style={{ fontSize: 11, fontWeight: 600, color: "#4B5563", marginBottom: 4 }}>Activity Name *</div>
             <input value={suggestForm.name} onChange={e => setSuggestForm(p => ({...p, name: e.target.value}))} placeholder="e.g. Tiny Tots Music Class" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 13, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
@@ -1664,6 +1664,29 @@ function getSearchScore(item, query) {
                     );
                   })}
                 </div>
+              </div>
+            );
+          })()}
+
+          {/* Ealing parents are loving these */}
+          {(() => {
+            const loved = listings
+              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified))
+              .sort((a, b) => {
+                const sa = (a.popular?3:0)+(a.featuredProvider?2:0)+(clickCounts[a.id]||0)+(a.verified?1:0);
+                const sb = (b.popular?3:0)+(b.featuredProvider?2:0)+(clickCounts[b.id]||0)+(b.verified?1:0);
+                return sb - sa;
+              })
+              .slice(0, 3);
+            if (loved.length < 2) return null;
+            loved.forEach(l => shownIds.add(l.id));
+            return (
+              <div style={{ marginTop: 28, padding: "0 20px" }}>
+                <div style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Ealing parents are loving these</div>
+                <div style={{ fontSize: 12, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local families right now</div>
+                {loved.map(item => (
+                  <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />
+                ))}
               </div>
             );
           })()}
