@@ -1707,7 +1707,7 @@ function getSearchScore(item, query) {
             if (loved.length < 2) return null;
             loved.forEach(l => shownIds.add(l.id));
             return (
-              <div style={{ marginTop: 28, padding: "0 20px" }}>
+              <div style={{ marginTop: 40, padding: "0 20px" }}>
                 <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Ealing parents are loving these</div>
                 <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local families right now</div>
                 {loved.map(item => (
@@ -1718,7 +1718,7 @@ function getSearchScore(item, query) {
           })()}
 
           {/* 1. Top things to do today */}
-          <div style={{ marginTop: 28, padding: "0 20px" }}>
+          <div style={{ marginTop: 40, padding: "0 20px" }}>
             <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
             {(() => {
               const totalViews = todayList.reduce((sum, a) => sum + (clickCounts[a.id] || 0), 0);
@@ -1758,7 +1758,7 @@ function getSearchScore(item, query) {
             return (<>
               {/* Hartbeeps — Premium Featured */}
               {hartbeeps && (
-              <div style={{ marginTop: 32, padding: "0 20px" }}>
+              <div style={{ marginTop: 44, padding: "0 20px" }}>
                 <div style={{ fontSize: 15, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 10 }}>Featured provider</div>
                 <div onClick={() => openDetail(hartbeeps)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ position: "relative" }}>
@@ -1798,7 +1798,7 @@ function getSearchScore(item, query) {
 
               {/* LGD — Secondary Featured */}
               {lgd && (
-              <div style={{ marginTop: 20, padding: "0 20px" }}>
+              <div style={{ marginTop: 28, padding: "0 20px" }}>
                 <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ width: "100%", height: 140, overflow: "hidden", position: "relative" }}>
                     <img src="/lgd-dance.png" alt={lgd.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -1832,7 +1832,7 @@ function getSearchScore(item, query) {
 
           {/* 2. From your saved */}
           {savedList.length > 0 && (
-            <div style={{ marginTop: 36, padding: "0 20px" }}>
+            <div style={{ marginTop: 48, padding: "0 20px" }}>
               <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
               <div style={{ fontSize: 15, fontWeight: 900, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>❤️ From your saved</div>
               <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Ready when you are</div>
@@ -1845,7 +1845,7 @@ function getSearchScore(item, query) {
 
           {/* 3. This weekend */}
           {popularList.length > 0 && (
-            <div style={{ marginTop: 36, padding: "0 20px" }}>
+            <div style={{ marginTop: 48, padding: "0 20px" }}>
               <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
               <div style={{ fontSize: 15, fontWeight: 900, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>📅 Coming up</div>
               <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>This weekend in {area}</div>
@@ -1858,7 +1858,7 @@ function getSearchScore(item, query) {
 
           {/* 4. Loved by Ealing parents */}
           {lovedList.length > 0 && (
-            <div style={{ marginTop: 36, padding: "0 20px" }}>
+            <div style={{ marginTop: 48, padding: "0 20px" }}>
               <div style={{ height: 1, background: "linear-gradient(to right, #F3F4F6, transparent)", marginBottom: 20 }} />
               <div style={{ fontSize: 15, fontWeight: 900, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.7px", marginBottom: 6 }}>⭐ Parent picks</div>
               <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 3 }}>Loved by {area} parents</div>
