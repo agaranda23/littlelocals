@@ -257,6 +257,7 @@ function WestLondonListings() {
   const [sortBy, setSortBy] = useState("mixed");
   const [eventsOnly, setEventsOnly] = useState(false);
   const [worthJourney, setWorthJourney] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
   const ITEMS_PER_PAGE = 6;
   const [cityFilter, setCityFilter] = useState(() => {
     try { return localStorage.getItem("ll_city") || "All"; } catch(e) { return "All"; }
@@ -431,7 +432,35 @@ function WestLondonListings() {
         if (match) { setSelected(match); window.scrollTo(0, 0); return; }
       }
       if (selected) { setSelected(null); window.history.replaceState({}, "", "/"); return; }
-      if (showCalendar) { setShowCalendar(false); return; }
+    
+const BottomNav = () => (
+  <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 480, height: 64, background: "white", borderTop: "1px solid #E5E7EB", display: "flex", zIndex: 1000, boxShadow: "0 -2px 12px rgba(0,0,0,0.06)" }}>
+    {[
+      { id: "home", icon: "🏠", label: "Home" },
+      { id: "nearby", icon: "📍", label: "Nearby" },
+      { id: "plans", icon: "🗓️", label: "My Plans", badge: calendarTotal },
+      { id: "browse", icon: "🔎", label: "Browse" },
+    ].map(tab => {
+      const isActive = activeTab === tab.id;
+      return (
+        <div key={tab.id} onClick={() => {
+          setActiveTab(tab.id);
+          if (tab.id === "home") { setShowMoreFilters(false); setSortBy("mixed"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          else if (tab.id === "nearby") { setSortBy("nearest"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          else if (tab.id === "plans") { openCalendar(); }
+          else if (tab.id === "browse") { setShowMoreFilters(true); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+        }} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", gap: 3, position: "relative" }}>
+          <span style={{ fontSize: 22 }}>{tab.icon}</span>
+          <span style={{ fontSize: 11, fontWeight: isActive ? 800 : 500, color: isActive ? "#5B2D6E" : "#9CA3AF" }}>{tab.label}</span>
+          {tab.badge > 0 && <div style={{ position: "absolute", top: 8, right: "calc(50% - 18px)", background: "#5B2D6E", color: "white", fontSize: 9, fontWeight: 800, borderRadius: 10, minWidth: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 4px" }}>{tab.badge}</div>}
+          {isActive && <div style={{ position: "absolute", bottom: 0, left: "20%", right: "20%", height: 3, background: "#5B2D6E", borderRadius: "3px 3px 0 0" }} />}
+        </div>
+      );
+    })}
+  </div>
+);
+
+  if (showCalendar) { setShowCalendar(false); return; }
       if (showSuggest) { setShowSuggest(false); return; }
     };
     window.addEventListener("popstate", handlePop);
@@ -974,6 +1003,34 @@ function getSearchScore(item, query) {
   const weekendCount = useMemo(() => listings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [listings]);
   const weekCount = useMemo(() => listings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [listings]);
 
+
+const BottomNav = () => (
+  <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 480, height: 64, background: "white", borderTop: "1px solid #E5E7EB", display: "flex", zIndex: 1000, boxShadow: "0 -2px 12px rgba(0,0,0,0.06)" }}>
+    {[
+      { id: "home", icon: "🏠", label: "Home" },
+      { id: "nearby", icon: "📍", label: "Nearby" },
+      { id: "plans", icon: "🗓️", label: "My Plans", badge: calendarTotal },
+      { id: "browse", icon: "🔎", label: "Browse" },
+    ].map(tab => {
+      const isActive = activeTab === tab.id;
+      return (
+        <div key={tab.id} onClick={() => {
+          setActiveTab(tab.id);
+          if (tab.id === "home") { setShowMoreFilters(false); setSortBy("mixed"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          else if (tab.id === "nearby") { setSortBy("nearest"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          else if (tab.id === "plans") { openCalendar(); }
+          else if (tab.id === "browse") { setShowMoreFilters(true); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+        }} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", gap: 3, position: "relative" }}>
+          <span style={{ fontSize: 22 }}>{tab.icon}</span>
+          <span style={{ fontSize: 11, fontWeight: isActive ? 800 : 500, color: isActive ? "#5B2D6E" : "#9CA3AF" }}>{tab.label}</span>
+          {tab.badge > 0 && <div style={{ position: "absolute", top: 8, right: "calc(50% - 18px)", background: "#5B2D6E", color: "white", fontSize: 9, fontWeight: 800, borderRadius: 10, minWidth: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center", padding: "0 4px" }}>{tab.badge}</div>}
+          {isActive && <div style={{ position: "absolute", bottom: 0, left: "20%", right: "20%", height: 3, background: "#5B2D6E", borderRadius: "3px 3px 0 0" }} />}
+        </div>
+      );
+    })}
+  </div>
+);
+
   if (showCalendar) {
     const today = new Date();
 
@@ -1136,6 +1193,7 @@ function getSearchScore(item, query) {
           )}
         </div>
 
+        <BottomNav />
         <div style={{ padding: "8px 20px 24px", textAlign: "center" }}>
           <div onClick={closeCalendar} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Browse Activities to Add More</div>
         </div>
@@ -2103,9 +2161,9 @@ function getSearchScore(item, query) {
           </div>
         </div>
       )}
+      {!selected && <BottomNav />}
     </div>
   );
 }
-
 
 export default WestLondonListings;
