@@ -269,15 +269,15 @@ export function getSessionSummary(item) {
 }
 
 export function shareWhatsApp(item) {
-  var e = function(c) { return String.fromCodePoint(c); };
-  var bear = e(0x1F9F8);
-  var pin = e(0x1F4CD);
-  var cal = e(0x1F4C5);
-  var heart = e(0x1F9E1);
-  var down = e(0x1F447);
-  var dot = e(0x00B7);
-  var link = window.location.href;
-  var text = "Check out " + item.name + "! " + bear + "\n\n" + item.type + " " + dot + " " + item.ages + " " + dot + " " + item.price + "\n" + pin + " " + item.venue + "\n" + cal + " " + item.day + " " + item.time + "\n\n" + item.description.slice(0,120) + "...\n\nFound on LITTLElocals " + heart + "\nDiscover more activities for your little ones " + down + "\n" + link;
+  var activityUrl = "https://littlelocals.uk/activity/" + (item.slug || item.id);
+  var time = item.time ? item.time : "";
+  var ages = item.ages ? item.ages : "";
+  var text = "Hey — I found this kids activity on LITTLElocals:\n\n"
+    + item.name + "\n"
+    + (time ? "⏰ " + time + "\n" : "")
+    + (ages ? "👶 " + ages + "\n" : "")
+    + "\n" + activityUrl + "\n\n"
+    + "Looks fun for the kids!";
   window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
 }
 
