@@ -338,8 +338,20 @@ function WestLondonListings() {
       if (!supabase) { console.log("No Supabase client, using fallback"); return; }
       try {
         // Load listings from Supabase
-        const { data: ld, error: listErr } = await supabase.from("listings").select("*").order("id", { ascending: true }).limit(500);
-        console.log("Listings loaded:", ld ? ld.length : 0, "error:", listErr);
+        const [
+          { data: ld, error: listErr },
+          { data: imgData0 },
+          { data: rd0 },
+          { data: sd0 },
+          { data: tipsData0 },
+        ] = await Promise.all([
+          supabase.from("listings").select("*").order("id", { ascending: true }).limit(500),
+          supabase.from("listing_images").select("*").order("sort_order", { ascending: true }),
+          supabase.from("reviews").select("*").order("created_at", { ascending: false }),
+          supabase.from("suggestions").select("*").order("created_at", { ascending: false }),
+          supabase.from("parent_tips").select("*").order("created_at", { ascending: true }),
+        ]);
+        console.log("All data loaded in parallel. Listings:", ld ? ld.length : 0, "error:", listErr);
         if (ld && ld.length > 0) {
           setListings(ld.map(l => {
             const slug = (l.name || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + (l.location || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -369,7 +381,7 @@ function WestLondonListings() {
           };}));
 
         // Fetch listing_images and attach to listings
-        const { data: imgData } = await supabase.from("listing_images").select("*").order("sort_order", { ascending: true });
+        const imgData = imgData0;
         if (imgData && imgData.length > 0) {
           const imgMap = {};
           imgData.forEach(img => {
@@ -381,15 +393,15 @@ function WestLondonListings() {
           try { localStorage.setItem("ll_listings_cache", JSON.stringify(ld)); } catch(e) {}
         }
         // Load reviews
-        const { data: rd } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
+        const rd = rd0;
         if (rd) {
           setReviews(rd.map(r => ({ id: r.id, listingId: r.listing_id, name: r.reviewer_name, rating: r.rating, text: r.review_text, photos: r.photos || [], date: new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })));
           try { localStorage.setItem("ll_reviews", JSON.stringify(rd)); } catch(e) {}
         }
         // Load suggestions
-        const { data: sd } = await supabase.from("suggestions").select("*").order("created_at", { ascending: false });
+        const sd = sd0;
         if (sd) setSuggestedActivities(sd.map(s => ({ ...s, submitterName: s.submitter_name, submittedAt: new Date(s.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })));
-        const { data: tipsData } = await supabase.from("parent_tips").select("*").order("created_at", { ascending: true });
+        const tipsData = tipsData0;
         if (tipsData) {
           const tipsMap = {};
           tipsData.forEach(t => { if (!tipsMap[t.activity_id]) tipsMap[t.activity_id] = []; tipsMap[t.activity_id].push(t); });
