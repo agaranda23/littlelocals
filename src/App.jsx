@@ -1023,9 +1023,10 @@ function getSearchScore(item, query) {
     return allAreas.sort((a, b) => areaAvgDist[a] - areaAvgDist[b]);
   }, [userLoc]);
 
-  const todayCount = useMemo(() => listings.filter(l => isOnToday(l)).length, [listings]);
-  const weekendCount = useMemo(() => listings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [listings]);
-  const weekCount = useMemo(() => listings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [listings]);
+  const areaListings = useMemo(() => areaFilter === "All Areas" ? listings : listings.filter(l => l.location && l.location.includes(areaFilter)), [listings, areaFilter]);
+  const todayCount = useMemo(() => areaListings.filter(l => isOnToday(l)).length, [areaListings]);
+  const weekendCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [areaListings]);
+  const weekCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [areaListings]);
 
 
 const BottomNav = () => (
