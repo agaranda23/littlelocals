@@ -362,6 +362,37 @@ export function MapView({ filtered, userLoc, onSelect, areaFilter }) {
   return <div ref={mapRef} style={{ height: 380, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden" }} />;
 }
 
+function getSuggestion(item) {
+  const type = (item.type || "").toLowerCase();
+  const ages = (item.ages || "").toLowerCase();
+  const price = (item.price || "").toLowerCase();
+  const setting = (item.setting || "").toLowerCase();
+  const day = (item.day || "").toLowerCase();
+  const isFree = price.includes("free") || price === "0";
+  const isBaby = ages.includes("0-") || ages.includes("baby") || ages.includes("newborn") || ages.includes("0-1") || ages.includes("0-2");
+  const isToddler = ages.includes("toddler") || ages.includes("1-") || ages.includes("2-") || ages.includes("0-4") || ages.includes("0-3");
+  const isOutdoor = setting.includes("outdoor") || type.includes("outdoor") || type.includes("park") || type.includes("playground");
+  const isIndoor = setting.includes("indoor") || type.includes("soft play") || type.includes("sensory") || type.includes("music") || type.includes("dance") || type.includes("baking") || type.includes("arts");
+  const isWeekend = day.includes("sat") || day.includes("sun");
+  const isSwim = type.includes("swim");
+  const isSport = type.includes("football") || type.includes("gymnastics") || type.includes("martial") || type.includes("sport");
+
+  if (isFree && isOutdoor) return "Free outdoor fun today";
+  if (isFree) return "Free activity — no booking needed";
+  if (isSwim) return "Great for building water confidence";
+  if (isBaby && isIndoor) return "Perfect for little ones indoors";
+  if (isBaby) return "Ideal for babies & new parents";
+  if (isToddler && isIndoor) return "Perfect for rainy day toddler fun";
+  if (isToddler) return "Great for toddlers";
+  if (isSport) return "Burn off some energy!";
+  if (isOutdoor) return "Fun outdoor adventure";
+  if (isIndoor) return "Great for rainy afternoons";
+  if (isWeekend) return "Perfect weekend activity";
+  if (type.includes("baking") || type.includes("arts")) return "Creative fun for curious kids";
+  if (type.includes("music") || type.includes("dance")) return "Great for imaginative little ones";
+  return null;
+}
+
 export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, todaySignal, startsSoon }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 } };
@@ -582,6 +613,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {!(item.sessions && item.sessions.length > 0) && item.day && (
           <div style={{ fontSize: 13, color: "#4B5563", fontWeight: 500, marginBottom: 4 }}>📅 {item.day}{item.time ? " · " + item.time : ""}</div>
         )}
+        {getSuggestion(item) && <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500, marginTop: 2, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
 
         {/* Event badge */}
         {item.listingType === "event" && (
