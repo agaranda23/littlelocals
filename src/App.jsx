@@ -1798,7 +1798,7 @@ const BottomNav = () => (
         popularList.forEach(a => shownIds.add(a.id));
 
         // --- SECTION 4: Loved by Ealing parents ---
-        const lovedList = filtered.filter(a => (a.verified || a.popular) && !shownIds.has(a.id) && ((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"))))
+        const lovedList = filtered.filter(a => (a.verified || a.popular) && !shownIds.has(a.id) && ((a.images && a.images.length > 0) || (a.imageUrl && a.imageUrl.startsWith("http"))))
           .sort((a, b) => (clickCounts[b.id] || 0) - (clickCounts[a.id] || 0))
           .slice(0, 3);
         lovedList.forEach(a => shownIds.add(a.id));
