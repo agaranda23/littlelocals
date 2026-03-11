@@ -1399,6 +1399,54 @@ const BottomNav = () => (
         </div>
       </div>
 
+
+      {/* DYNAMIC INSIGHT BANNER */}
+      {(() => {
+        try {
+          // Priority 1: upcoming plans
+          const today = new Date().toISOString().split("T")[0];
+          const upcomingDates = Object.keys(calendarPlan).filter(d => d >= today && calendarPlan[d].length > 0).sort().slice(0, 2);
+          if (upcomingDates.length > 0) {
+            const firstDate = upcomingDates[0];
+            const firstId = calendarPlan[firstDate][0];
+            const firstItem = listings.find(l => l.id === firstId);
+            const dateLabel = firstDate === today ? "Today" : new Date(firstDate + "T12:00:00").toLocaleDateString("en-GB", { weekday: "long" });
+            return (
+              <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#F3F0FF", borderRadius: 14, border: "1px solid #DDD6FE" }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#5B2D6E", marginBottom: 2 }}>⭐ Your plans this week</div>
+                {firstItem && <div style={{ fontSize: 13, color: "#4B5563" }}>{firstItem.name} – {dateLabel}</div>}
+              </div>
+            );
+          }
+          // Priority 2: recently viewed
+          const lv = JSON.parse(localStorage.getItem("ll_lastViewedActivity") || "null");
+          if (lv && lv.name && (Date.now() - lv.timestamp) < 24 * 60 * 60 * 1000) {
+            return (
+              <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#FFF7ED", borderRadius: 14, border: "1px solid #FED7AA" }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#D4732A", marginBottom: 2 }}>👀 Continue exploring</div>
+                <div style={{ fontSize: 13, color: "#4B5563" }}>{lv.name}</div>
+              </div>
+            );
+          }
+          // Priority 3: nearby starting soon
+          if (userLoc) {
+            return (
+              <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#F0FDF4", borderRadius: 14, border: "1px solid #BBF7D0" }}>
+                <div style={{ fontSize: 13, fontWeight: 800, color: "#166534", marginBottom: 2 }}>📍 Activities near you starting soon</div>
+                <div style={{ fontSize: 13, color: "#4B5563" }}>Based on your location</div>
+              </div>
+            );
+          }
+          // Fallback
+          return (
+            <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#F9FAFB", borderRadius: 14, border: "1px solid #E5E7EB" }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: "#1F2937", marginBottom: 2 }}>✨ Discover something new in Ealing today</div>
+              <div style={{ fontSize: 13, color: "#6B7280" }}>Fresh activities for local families</div>
+            </div>
+          );
+        } catch(e) { return null; }
+      })()}
+
       {/* Time filter pills */}
       {!search && (
         <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>
