@@ -2105,7 +2105,8 @@ const BottomNav = () => (
 
       {/* === MAIN LISTING GRID === */}
       {(() => {
-        const mainFiltered = (page === 1 && !search && !showFavourites && dayFilter === "today") ? filtered.filter(a => !shownIdsRef.current.has(a.id)) : filtered;
+        const hasImage = a => (a.images && a.images.length > 0) || (a.imageUrl && a.imageUrl.startsWith("http"));
+        const mainFiltered = (page === 1 && !search && !showFavourites && dayFilter === "today") ? filtered.filter(a => !shownIdsRef.current.has(a.id) && hasImage(a)) : filtered;
         const pageSize = 6;
         const pagedList = mainFiltered.slice((page - 1) * pageSize, page * pageSize);
         const displayList = (page === 1 && !search && !showFavourites && dayFilter === "today") ? pagedList.slice(0, 3) : pagedList;
