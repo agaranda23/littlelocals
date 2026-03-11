@@ -937,7 +937,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {item.sen && <div style={{ padding: "8px 12px", background: "#E8FBF8", borderRadius: 10, fontSize: 16, fontWeight: 800, color: "#166534", marginBottom: 16 }}>♿ SEN / Additional Needs Friendly</div>}
 
         {/* COMMUNITY REVIEWS SECTION */}
-        <div style={{ marginBottom: 16 }}>
+        {(itemReviews.length > 0 || showReviewForm) && <div style={{ marginBottom: 16 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
             <div style={{ fontSize: 18, fontWeight: 900 }}>💬 Community Reviews {itemReviews.length > 0 && <span style={{ fontSize: 15, color: "#4B5563", fontWeight: 700 }}>({itemReviews.length})</span>}</div>
             {!showReviewForm && <span onClick={() => setShowReviewForm(true)} style={{ fontSize: 15, fontWeight: 900, color: "#F97316", cursor: "pointer", padding: "4px 10px", background: "#F9731612", borderRadius: 8 }}>+ Add Review</span>}
@@ -1011,6 +1011,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           )) : null}
         </div>
 
+        }{/* COMMUNITY REVIEWS SECTION END */}
         {/* Add to Calendar */}
         <div style={{ marginBottom: 12 }}>
           <div style={{ fontSize: 16, fontWeight: 900, color: "#1F2937", marginBottom: 6 }}>📅 Add to My Plans</div>
