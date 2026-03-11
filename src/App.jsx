@@ -1739,7 +1739,9 @@ const BottomNav = () => (
         // Sort today candidates by quality score for curated feel
         const getTodayScore = (a) => {
           let s = 0;
-          if ((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"))) s += 10;
+          if (a.images && a.images.length > 0) s += 50;
+          else if ((a.imageUrl && a.imageUrl.startsWith("http"))) s += 20;
+          else if ((a.logo && a.logo.startsWith("http"))) s += 5;
           if (a.description && a.description.length > 30) s += 2;
           if (a.time && a.time.length > 3) s += 1;
           if (a.website || a.trialLink) s += 1;
