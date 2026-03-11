@@ -246,6 +246,7 @@ function WestLondonListings() {
   const [userLoc, setUserLoc] = useState(null);
   const [locStatus, setLocStatus] = useState("idle");
   const [isSunny, setIsSunny] = useState(true);
+  const [weather, setWeather] = useState(null);
   const [dayFilter, setDayFilter] = useState("today");
   const [weatherMode, setWeatherMode] = useState("all");
   const [napFilter, setNapFilter] = useState("all");
@@ -328,10 +329,11 @@ function WestLondonListings() {
       .then(function(r) { return r.json(); })
       .then(function(d) {
         if (d && d.current && d.current.weather_code !== undefined) {
-          // WMO codes: 0-3 = clear/partly cloudy, 45-48 = fog, 51+ = rain/snow
-          var sunny = d.current.weather_code <= 3;
+          var code = d.current.weather_code;
+          var sunny = code <= 3;
+          var rainy = code >= 51 || (code >= 61 && code <= 99);
           setIsSunny(sunny);
-          console.log("Weather code:", d.current.weather_code, "Sunny:", sunny);
+          setWeather({ code, isRainy: rainy, isClear: sunny });
         }
       })
       .catch(function(e) { console.log("Weather fetch failed, defaulting to sunny"); });
@@ -1882,6 +1884,35 @@ const BottomNav = () => (
                     );
                   })}
                 </div>
+              </div>
+            );
+          })()}
+
+          {/* Weather smart suggestions */}
+          {weather && (weather.isRainy || weather.isClear) && (() => {
+            const weatherListings = (listings || [])
+              .filter(l => !isExpiredEvent(l))
+              .filter(l => weather.isRainy
+                ? (l.type && ['Baby Sensory','Soft Play','Music','Baking','Arts & Crafts','Dance','Drama','Swimming','Indoor'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('indoor'))))
+                : (l.type && ['Outdoor','Park','Nature','Sports','Playground'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('outdoor'))))
+              )
+              .slice(0, 4);
+            if (weatherListings.length < 2) return null;
+            return (
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: 20, fontWeight: 900, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>
+                  {weather.isRainy ? "🌧 Rainy day? Stay inside & have fun" : "☀️ Beautiful day — get outside!"}
+                </div>
+                <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 12 }}>
+                  {weather.isRainy ? "Indoor activities perfect for today" : "Outdoor activities to make the most of it"}
+                </div>
+                {weatherListings.map(item => (
+                  <ListingCard key={"wx-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc}
+                    isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite}
+                    isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter}
+                    isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0}
+                    startsSoon={getStartsSoonMins(item)} />
+                ))}
               </div>
             );
           })()}
