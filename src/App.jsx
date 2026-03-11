@@ -12,7 +12,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
   const score = (l) => {
     let s = 0;
-    if ((l.images && l.images.length > 0) || l.logo || l.imageUrl) s += 10;
+    if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 10;
     if (l.description && l.description.length > 30) s += 2;
     if (l.website || l.trialLink) s += 1;
     if (l.popular) s += 2;
@@ -950,7 +950,7 @@ function getSearchScore(item, query) {
       const FAVS = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
       const score = (l) => {
         let s = 0;
-        if ((l.images && l.images.length > 0) || l.logo || l.imageUrl) s += 10;
+        if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 10;
         if (l.description && l.description.length > 30) s += 2;
         if (l.time && l.time.length > 3) s += 1;
         if (l.website || l.trialLink) s += 1;
@@ -1739,7 +1739,7 @@ const BottomNav = () => (
         // Sort today candidates by quality score for curated feel
         const getTodayScore = (a) => {
           let s = 0;
-          if ((a.images && a.images.length > 0) || a.logo || a.imageUrl) s += 10;
+          if ((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"))) s += 10;
           if (a.description && a.description.length > 30) s += 2;
           if (a.time && a.time.length > 3) s += 1;
           if (a.website || a.trialLink) s += 1;
@@ -1764,7 +1764,7 @@ const BottomNav = () => (
         // Deduplicate by exact name
         const todaySeenNames = new Set();
         const todayListFull = todayRaw.filter(a => {
-          if (!((a.images && a.images.length > 0) || a.logo || a.imageUrl)) return false;
+          if (!((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http")))) return false;
           const name = (a.name || "").toLowerCase().trim();
           if (todaySeenNames.has(name)) return false;
           todaySeenNames.add(name);
@@ -1790,7 +1790,7 @@ const BottomNav = () => (
         // --- SECTION 3: This weekend ---
         const halfDay = Math.floor(Date.now() / (12 * 60 * 60 * 1000));
         const sRand = (i) => { let x = Math.sin(halfDay * 9301 + i * 49297) * 49297; return x - Math.floor(x); };
-        const popularList = listings.filter(a => !shownIds.has(a.id) && isOnWeekend(a) && ((a.images && a.images.length > 0) || a.logo || a.imageUrl))
+        const popularList = listings.filter(a => !shownIds.has(a.id) && isOnWeekend(a) && ((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"))))
           .sort((a, b) => {
             const score = x => (x.popular ? 3 : 0) + (x.verified ? 2 : 0) + (clickCounts[x.id] || 0);
             return score(b) - score(a);
@@ -1798,7 +1798,7 @@ const BottomNav = () => (
         popularList.forEach(a => shownIds.add(a.id));
 
         // --- SECTION 4: Loved by Ealing parents ---
-        const lovedList = filtered.filter(a => (a.verified || a.popular) && !shownIds.has(a.id) && ((a.images && a.images.length > 0) || a.logo || a.imageUrl))
+        const lovedList = filtered.filter(a => (a.verified || a.popular) && !shownIds.has(a.id) && ((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"))))
           .sort((a, b) => (clickCounts[b.id] || 0) - (clickCounts[a.id] || 0))
           .slice(0, 3);
         lovedList.forEach(a => shownIds.add(a.id));
@@ -1892,7 +1892,7 @@ const BottomNav = () => (
           {/* Weather smart suggestions */}
           {weather && (weather.isRainy || weather.isClear) && (() => {
             const weatherListings = (listings || [])
-              .filter(l => !isExpiredEvent(l) && ((l.images && l.images.length > 0) || l.logo || l.imageUrl))
+              .filter(l => !isExpiredEvent(l) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
               .filter(l => weather.isRainy
                 ? (l.type && ['Baby Sensory','Soft Play','Music','Baking','Arts & Crafts','Dance','Drama','Swimming','Indoor'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('indoor'))))
                 : (l.type && ['Outdoor','Park','Nature','Sports','Playground'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('outdoor'))))
@@ -1921,7 +1921,7 @@ const BottomNav = () => (
           {/* Ealing parents are loving these */}
           {(() => {
             const lovedRaw = listings
-              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || l.logo || l.imageUrl))
+              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
               .sort((a, b) => {
                 const sa = (a.popular?3:0)+(a.featuredProvider?2:0)+(clickCounts[a.id]||0)+(a.verified?1:0);
                 const sb = (b.popular?3:0)+(b.featuredProvider?2:0)+(clickCounts[b.id]||0)+(b.verified?1:0);
