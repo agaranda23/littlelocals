@@ -1734,7 +1734,7 @@ const BottomNav = () => (
         const getDist = (a) => a.lat && locRef ? Math.sqrt(Math.pow((a.lat - locRef.lat) * 111, 2) + Math.pow((a.lng - locRef.lng) * 111 * Math.cos(locRef.lat * Math.PI / 180), 2)) : 999;
 
         // --- SECTION 1: Today in {Area} ---
-        const todayCandidates = filtered.filter(a => isOnToday(a));
+        const todayCandidates = filtered.filter(a => isOnToday(a) && ((a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"))));
 
         // Sort today candidates by quality score for curated feel
         const getTodayScore = (a) => {
