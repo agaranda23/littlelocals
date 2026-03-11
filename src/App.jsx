@@ -71,11 +71,11 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
   const Section = ({ id, eyebrow, title, desc, items }) => (
     <section id={id} style={{ padding:"28px 20px 8px" }}>
-      <div style={{ fontSize: 15, fontWeight: 900, textTransform:"uppercase", letterSpacing:"0.8px", color:"#F97316", marginBottom:4 }}>{eyebrow}</div>
+      <div style={{ fontSize: 15, fontWeight: 900, textTransform:"uppercase", letterSpacing:"0.8px", color:"#D4732A", marginBottom:4 }}>{eyebrow}</div>
       <h2 style={{ fontFamily:"Georgia,serif", fontSize: 26, fontWeight: 1000, color:"#111827", marginBottom:6, lineHeight:1.25 }}>{title}</h2>
       <p style={{ fontSize: 18, color:"#4B5563", marginBottom:16, lineHeight:1.55 }}>{desc}</p>
       {items.length > 0 ? items.map(item => <Card key={item.id} item={item} />) : <p style={{ fontSize: 17, color:"#9CA3AF" }}>Loading activities…</p>}
-      <div onClick={() => window.location.href = "/"} style={{ textAlign:"center", padding:"8px 0 4px", fontSize: 17, fontWeight: 800, color:"#F97316", cursor:"pointer" }}>Browse all {eyebrow.toLowerCase()} →</div>
+      <div onClick={() => window.location.href = "/"} style={{ textAlign:"center", padding:"8px 0 4px", fontSize: 17, fontWeight: 800, color:"#D4732A", cursor:"pointer" }}>Browse all {eyebrow.toLowerCase()} →</div>
     </section>
   );
 
@@ -94,21 +94,21 @@ function EalingSEOPage({ listings, onActivityClick }) {
       <nav style={{ background:"white", borderBottom:"1px solid #E5E7EB", padding:"14px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", position:"sticky", top:0, zIndex:100 }}>
         <div onClick={() => window.location.href="/"} style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer" }}>
           <img src="/bear-logo.png" alt="LITTLElocals" style={{ width:28, height:28, borderRadius:6 }} />
-          <span style={{ fontFamily:"Georgia,serif", fontSize: 22, fontWeight: 1000 }}>LITTLE<span style={{ color:"#F97316" }}>locals</span></span>
+          <span style={{ fontFamily:"Georgia,serif", fontSize: 22, fontWeight: 1000 }}>LITTLE<span style={{ color:"#D4732A" }}>locals</span></span>
         </div>
-        <div onClick={() => window.location.href="/"} style={{ background:"#F97316", color:"white", padding:"8px 16px", borderRadius:20, fontSize: 17, fontWeight: 900, cursor:"pointer" }}>Browse all →</div>
+        <div onClick={() => window.location.href="/"} style={{ background:"#D4732A", color:"white", padding:"8px 16px", borderRadius:20, fontSize: 17, fontWeight: 900, cursor:"pointer" }}>Browse all →</div>
       </nav>
 
       {/* Breadcrumb */}
       <div style={{ padding:"10px 20px", fontSize: 16, color:"#9CA3AF" }}>
-        <span onClick={() => window.location.href="/"} style={{ color:"#F97316", cursor:"pointer" }}>Home</span> › Things to do with kids in Ealing
+        <span onClick={() => window.location.href="/"} style={{ color:"#D4732A", cursor:"pointer" }}>Home</span> › Things to do with kids in Ealing
       </div>
 
       {/* Hero */}
       <header style={{ background:"linear-gradient(135deg,#FFF7ED,#FFFBF5,#F0FDF4)", padding:"32px 20px 28px", borderBottom:"1px solid #E5E7EB" }}>
-        <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize: 16, fontWeight: 900, color:"#F97316", background:"#FFF7ED", border:"1px solid #FED7AA", padding:"4px 12px", borderRadius:20, marginBottom:14 }}>📍 Ealing, West London</div>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:6, fontSize: 16, fontWeight: 900, color:"#D4732A", background:"#FFF7ED", border:"1px solid #FED7AA", padding:"4px 12px", borderRadius:20, marginBottom:14 }}>📍 Ealing, West London</div>
         <h1 style={{ fontFamily:"Georgia,serif", fontSize:"clamp(26px,6vw,34px)", fontWeight: 1000, color:"#111827", lineHeight:1.2, marginBottom:14 }}>
-          Best Things To Do<br/>With Kids In <span style={{ color:"#F97316", fontStyle:"italic" }}>Ealing</span>
+          Best Things To Do<br/>With Kids In <span style={{ color:"#D4732A", fontStyle:"italic" }}>Ealing</span>
         </h1>
         <p style={{ fontSize: 19, color:"#4B5563", lineHeight:1.65, marginBottom:12 }}>
           LITTLElocals is built by Ealing parents, for Ealing parents. Every activity here has been found, verified, or recommended by local families — from baby sensory classes to free parks, toddler groups to weekend adventures.
@@ -117,7 +117,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
           70+ activities across <strong>Ealing</strong>, <strong>Hanwell</strong>, <strong>Acton</strong>, <strong>Northfields</strong> and <strong>West Ealing</strong>.
         </p>
         <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
-          {[["#F97316", `${ealingListings.length || "70"}+ activities in Ealing`], ["#166534","Updated weekly"], ["#6050F0","Free to use"]].map(([col, label]) => (
+          {[["#D4732A", `${ealingListings.length || "70"}+ activities in Ealing`], ["#166534","Updated weekly"], ["#5B2D6E","Free to use"]].map(([col, label]) => (
             <div key={label} style={{ display:"flex", alignItems:"center", gap:6, fontSize: 17, fontWeight: 800 }}>
               <div style={{ width:8, height:8, borderRadius:"50%", background:col }}></div><span>{label}</span>
             </div>
@@ -162,7 +162,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
           <div key={i} style={{ background:"white", border:"1px solid #E5E7EB", borderRadius:14, marginBottom:10, overflow:"hidden" }}>
             <div onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ padding:"14px 16px", fontSize: 18, fontWeight: 900, color:"#111827", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", gap:12 }}>
               {item.q}
-              <span style={{ fontSize: 22, color:"#F97316", transform: openFaq===i ? "rotate(45deg)" : "none", transition:"transform 0.2s", flexShrink:0 }}>+</span>
+              <span style={{ fontSize: 22, color:"#D4732A", transform: openFaq===i ? "rotate(45deg)" : "none", transition:"transform 0.2s", flexShrink:0 }}>+</span>
             </div>
             {openFaq === i && <div style={{ padding:"0 16px 14px", fontSize: 18, color:"#4B5563", lineHeight:1.65 }}>{item.a}</div>}
           </div>
@@ -173,12 +173,12 @@ function EalingSEOPage({ listings, onActivityClick }) {
       <div style={{ margin:"0 20px 32px", background:"linear-gradient(135deg,#1F2937,#374151)", borderRadius:18, padding:"24px 20px", textAlign:"center" }}>
         <h3 style={{ fontFamily:"Georgia,serif", fontSize: 24, fontWeight: 1000, color:"white", marginBottom:8 }}>See everything happening in Ealing today</h3>
         <p style={{ fontSize: 17, color:"rgba(255,255,255,0.7)", marginBottom:16, lineHeight:1.55 }}>Browse all kids activities in Ealing — baby classes, toddler groups, soft play, parks and more. Free to use, updated weekly by local parents.</p>
-        <div onClick={() => window.location.href="/"} style={{ display:"inline-block", background:"#F97316", color:"white", fontSize: 18, fontWeight: 1000, padding:"12px 28px", borderRadius:28, cursor:"pointer", boxShadow:"0 4px 14px rgba(249,115,22,0.4)" }}>👉 Browse all kids activities in Ealing →</div>
+        <div onClick={() => window.location.href="/"} style={{ display:"inline-block", background:"#D4732A", color:"white", fontSize: 18, fontWeight: 1000, padding:"12px 28px", borderRadius:28, cursor:"pointer", boxShadow:"0 4px 14px rgba(249,115,22,0.4)" }}>👉 Browse all kids activities in Ealing →</div>
       </div>
 
       <footer style={{ background:"white", borderTop:"1px solid #E5E7EB", padding:20, textAlign:"center", fontSize: 16, color:"#9CA3AF" }}>
         <p>© 2025 LITTLElocals. Built by parents, for parents.</p>
-        <p style={{ marginTop:6 }}><span onClick={() => window.location.href="/"} style={{ color:"#F97316", cursor:"pointer" }}>Home</span> · <span style={{ color:"#F97316", cursor:"pointer" }}>Privacy</span> · <span style={{ color:"#F97316", cursor:"pointer" }}>Contact</span></p>
+        <p style={{ marginTop:6 }}><span onClick={() => window.location.href="/"} style={{ color:"#D4732A", cursor:"pointer" }}>Home</span> · <span style={{ color:"#D4732A", cursor:"pointer" }}>Privacy</span> · <span style={{ color:"#D4732A", cursor:"pointer" }}>Contact</span></p>
       </footer>
     </div>
   );
@@ -640,7 +640,7 @@ const PlanPrompt = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
             {dates.map(({ label, date }) => (
               <button key={date} onClick={() => { addToCalendar(planPrompt.id, date); setPlanPrompt(null); }}
-                style={{ padding: '12px 8px', borderRadius: 12, border: '2px solid #6050F0', background: 'white', color: '#6050F0', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
+                style={{ padding: '12px 8px', borderRadius: 12, border: '2px solid #5B2D6E', background: 'white', color: '#5B2D6E', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
                 {label}
               </button>
             ))}
@@ -1148,7 +1148,7 @@ const BottomNav = () => (
             <div onClick={closeCalendar} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
               <div style={{ width: 60, height: 60, overflow: "hidden", flexShrink: 0, borderRadius: 14, border: "2px solid #E5E7EB" }}><BrandBear size={60} /></div>
               <div>
-                <div style={{ fontSize: 26, fontWeight: 1000, color: "#6050F0", letterSpacing: -0.3 }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></div>
+                <div style={{ fontSize: 26, fontWeight: 1000, color: "#5B2D6E", letterSpacing: -0.3 }}>LITTLE<span style={{ color: "#D4732A" }}>locals</span></div>
               </div>
             </div>
             <div onClick={closeCalendar} style={{ padding: "6px 12px", background: "white", borderRadius: 10, border: "1px solid #E5E7EB", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#1F2937" }}>← Back</div>
@@ -1183,13 +1183,13 @@ const BottomNav = () => (
               return (
                 <div key={dateKey} onClick={() => setSelectedDate(dateKey)} style={{
                   textAlign: "center", padding: "8px 0", borderRadius: 10, cursor: "pointer", position: "relative",
-                  background: isSelected ? "linear-gradient(135deg, #F97316, #FB923C)" : isToday ? "#FFF0EB" : "white",
+                  background: isSelected ? "linear-gradient(135deg, #D4732A, #FB923C)" : isToday ? "#FFF0EB" : "white",
                   color: isSelected ? "white" : isPast ? "#9CA3AF" : "#1F2937",
-                  border: isToday && !isSelected ? "2px solid #F97316" : "1px solid #E5E7EB",
+                  border: isToday && !isSelected ? "2px solid #D4732A" : "1px solid #E5E7EB",
                   fontWeight: isToday || isSelected ? 800 : 600, fontSize: 17
                 }}>
                   {d}
-                  {hasPlans && <div style={{ position: "absolute", bottom: 3, left: "50%", transform: "translateX(-50%)", width: 5, height: 5, borderRadius: "50%", background: isSelected ? "white" : "#F97316" }} />}
+                  {hasPlans && <div style={{ position: "absolute", bottom: 3, left: "50%", transform: "translateX(-50%)", width: 5, height: 5, borderRadius: "50%", background: isSelected ? "white" : "#D4732A" }} />}
                 </div>
               );
             })}
@@ -1207,7 +1207,7 @@ const BottomNav = () => (
             <div style={{ padding: "20px", textAlign: "center", background: "white", borderRadius: 14, border: "1px solid #E5E7EB" }}>
               <div style={{ fontSize: 32, marginBottom: 6 }}>📅</div>
               <div style={{ fontSize: 16, color: "#6B7280" }}>Nothing planned yet</div>
-              <div onClick={closeCalendar} style={{ display: "inline-block", marginTop: 8, padding: "6px 16px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 10, fontSize: 15, fontWeight: 900, cursor: "pointer" }}>Browse Activities</div>
+              <div onClick={closeCalendar} style={{ display: "inline-block", marginTop: 8, padding: "6px 16px", background: "linear-gradient(135deg, #D4732A, #FB923C)", color: "white", borderRadius: 10, fontSize: 15, fontWeight: 900, cursor: "pointer" }}>Browse Activities</div>
             </div>
           ) : (
             selectedActivities.map(item => (
@@ -1218,7 +1218,7 @@ const BottomNav = () => (
                   <div style={{ fontSize: 15, color: "#6B7280" }}>{item.time || item.day} · {item.location}</div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontSize: 15, fontWeight: 900, color: item.free ? "#166534" : "#F97316" }}>{item.price}</span>
+                  <span style={{ fontSize: 15, fontWeight: 900, color: item.free ? "#166534" : "#D4732A" }}>{item.price}</span>
                   <div onClick={() => removeFromCalendar(item.id, selectedDate)} style={{ width: 26, height: 26, borderRadius: "50%", background: "#FFF0EB", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 16 }}>✕</div>
                 </div>
               </div>
@@ -1283,7 +1283,7 @@ const BottomNav = () => (
 
         <BottomNav />
         <div style={{ padding: "8px 20px 24px", textAlign: "center" }}>
-          <div onClick={closeCalendar} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Browse Activities to Add More</div>
+          <div onClick={closeCalendar} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #D4732A, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Browse Activities to Add More</div>
         </div>
       </div>
     );
@@ -1297,7 +1297,7 @@ const BottomNav = () => (
     );
   }
 
-  const Chip = ({ active, onClick, children, color = "#374151", activeBg = "#6050F0" }) => (
+  const Chip = ({ active, onClick, children, color = "#374151", activeBg = "#5B2D6E" }) => (
     <div onClick={() => { if (navigator.vibrate) navigator.vibrate(8); onClick(); }} style={{ flexShrink: 0, padding: "8px 14px", borderRadius: 20, fontSize: 17, fontWeight: 800, background: active ? activeBg : "#F3F4F6", color: active ? "white" : color, border: `1px solid ${active ? activeBg : "#E5E7EB"}`, cursor: "pointer", whiteSpace: "nowrap", minHeight: 40, display: "flex", alignItems: "center", transition: "all 0.18s ease", boxShadow: active ? "0 4px 12px rgba(91,45,110,0.25)" : "none" }}>{children}</div>
   );
 
@@ -1316,7 +1316,7 @@ const BottomNav = () => (
               <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
                 <div style={{ width: 48, height: 48, overflow: "hidden", flexShrink: 0, borderRadius: 12, border: "2px solid #E5E7EB" }}><BrandBear size={48} /></div>
                 <div>
-                  <div style={{ fontSize: 24, fontWeight: 1000, letterSpacing: -0.3 }}><span style={{ color: "#6050F0" }}>LITTLE</span><span style={{ color: "#F97316" }}>locals</span></div>
+                  <div style={{ fontSize: 24, fontWeight: 1000, letterSpacing: -0.3 }}><span style={{ color: "#5B2D6E" }}>LITTLE</span><span style={{ color: "#D4732A" }}>locals</span></div>
                 </div>
               </div>
             </div>
@@ -1324,7 +1324,7 @@ const BottomNav = () => (
               {(() => {
                 const hr = new Date().getHours();
                 const greeting = hr < 12 ? "Good morning, Ealing parents" : hr < 17 ? "Afternoon ideas for Ealing families" : "Planning tomorrow in Ealing?";
-                return <div style={{ fontSize: 17, fontWeight: 800, color: "#6050F0", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
+                return <div style={{ fontSize: 17, fontWeight: 800, color: "#5B2D6E", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
               })()}
               <div style={{ fontSize: 30, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>What should we do today?</div>
               <div style={{ fontSize: 19, color: "#4B5563", marginBottom: 10, fontWeight: 600 }}>Discover the best kids activities near you in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}.</div>
@@ -1365,7 +1365,7 @@ const BottomNav = () => (
       {/* Pull to refresh indicator */}
       {pullRefreshing && (
         <div style={{ textAlign: "center", padding: "8px 0" }}>
-          <div style={{ display: "inline-block", width: 20, height: 20, border: "2px solid #E5E7EB", borderTopColor: "#F97316", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+          <div style={{ display: "inline-block", width: 20, height: 20, border: "2px solid #E5E7EB", borderTopColor: "#D4732A", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
       )}
@@ -1373,7 +1373,7 @@ const BottomNav = () => (
       {/* Loading spinner on first load */}
       {isLoading && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "60px 20px", gap: 12 }}>
-          <div style={{ width: 36, height: 36, border: "3px solid #E5E7EB", borderTopColor: "#F97316", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+          <div style={{ width: 36, height: 36, border: "3px solid #E5E7EB", borderTopColor: "#D4732A", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
           <div style={{ fontSize: 17, color: "#6B7280", fontWeight: 800 }}>Loading activities...</div>
           <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
         </div>
@@ -1442,7 +1442,7 @@ const BottomNav = () => (
             </div>
             <div style={{ display: "flex", gap: 8 }}>
               <button onClick={closeSuggest} style={{ flex: 1, padding: 12, borderRadius: 10, border: "1px solid #E5E7EB", background: "white", fontSize: 16, fontWeight: 800, cursor: "pointer", fontFamily: "inherit", color: "#4B5563" }}>Cancel</button>
-              <button onClick={submitSuggestion} disabled={!suggestForm.name.trim() || !suggestForm.venue.trim() || !suggestForm.submitterName.trim() || !suggestForm.location} style={{ flex: 1.5, padding: 12, borderRadius: 10, border: "none", background: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "linear-gradient(135deg, #F97316, #FB923C)" : "#E5E7EB", color: "white", fontSize: 17, fontWeight: 900, cursor: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "pointer" : "default", fontFamily: "inherit" }}>Submit for Review</button>
+              <button onClick={submitSuggestion} disabled={!suggestForm.name.trim() || !suggestForm.venue.trim() || !suggestForm.submitterName.trim() || !suggestForm.location} style={{ flex: 1.5, padding: 12, borderRadius: 10, border: "none", background: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "linear-gradient(135deg, #D4732A, #FB923C)" : "#E5E7EB", color: "white", fontSize: 17, fontWeight: 900, cursor: suggestForm.name.trim() && suggestForm.venue.trim() && suggestForm.submitterName.trim() && suggestForm.location ? "pointer" : "default", fontFamily: "inherit" }}>Submit for Review</button>
             </div>
           </div>
         </div>
@@ -1456,7 +1456,7 @@ const BottomNav = () => (
             <div style={{ fontSize: 17, color: "#6B7280", marginBottom: 20, lineHeight: 1.5 }}>Allow location access to show activities closest to you.</div>
             <div style={{ display: "flex", gap: 10 }}>
               <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); setLocStatus("dismissed"); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "1px solid #E5E7EB", background: "white", fontSize: 17, fontWeight: 800, color: "#6B7280", cursor: "pointer", fontFamily: "inherit" }}>Not now</button>
-              <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); requestLocation(); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "none", background: "#F97316", fontSize: 17, fontWeight: 900, color: "white", cursor: "pointer", fontFamily: "inherit" }}>Allow</button>
+              <button onClick={() => { localStorage.setItem("ll_loc_asked", "1"); requestLocation(); }} style={{ flex: 1, padding: "12px 0", borderRadius: 12, border: "none", background: "#D4732A", fontSize: 17, fontWeight: 900, color: "white", cursor: "pointer", fontFamily: "inherit" }}>Allow</button>
             </div>
           </div>
         </div>
@@ -1553,7 +1553,7 @@ const BottomNav = () => (
                   display: "inline-flex", alignItems: "center", gap: 5,
                   fontSize: 16, fontWeight: active ? 700 : 500,
                   padding: "5px 14px", borderRadius: 20, cursor: "pointer",
-                  background: active ? "#6050F0" : "transparent",
+                  background: active ? "#5B2D6E" : "transparent",
                   color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",
                   border: active ? "none" : "1px solid #E5E7EB",
                   transition: "all 0.15s ease",
@@ -1579,56 +1579,56 @@ const BottomNav = () => (
         <div style={{ margin: "0 20px 10px", background: "white", borderRadius: 16, padding: 16, border: "1px solid #E5E7EB" }}>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Area</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={areaFilter === "All Areas"} onClick={() => { setAreaFilter("All Areas"); setPage(1); }} activeBg="#6050F0">All</Chip>
+            <Chip active={areaFilter === "All Areas"} onClick={() => { setAreaFilter("All Areas"); setPage(1); }} activeBg="#5B2D6E">All</Chip>
             {["Ealing", "Acton", "Chiswick", "Hanwell", "Northfields", "Ruislip", "Eastcote", "Uxbridge"].map(area => (
-              <Chip key={area} active={areaFilter === area} onClick={() => { setAreaFilter(areaFilter === area ? "All Areas" : area); setPage(1); }} activeBg="#6050F0">{area}</Chip>
+              <Chip key={area} active={areaFilter === area} onClick={() => { setAreaFilter(areaFilter === area ? "All Areas" : area); setPage(1); }} activeBg="#5B2D6E">{area}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Day</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={dayFilter === "today"} onClick={() => { setDayFilter("today"); setPage(1); }} activeBg="#6050F0">Today</Chip>
+            <Chip active={dayFilter === "today"} onClick={() => { setDayFilter("today"); setPage(1); }} activeBg="#5B2D6E">Today</Chip>
             {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d, i) => (
-              <Chip key={d} active={dayFilter === String(i === 6 ? 0 : i + 1)} onClick={() => { setDayFilter(String(i === 6 ? 0 : i + 1)); setPage(1); }} activeBg="#6050F0">{d}</Chip>
+              <Chip key={d} active={dayFilter === String(i === 6 ? 0 : i + 1)} onClick={() => { setDayFilter(String(i === 6 ? 0 : i + 1)); setPage(1); }} activeBg="#5B2D6E">{d}</Chip>
             ))}
-            <Chip active={dayFilter === "all"} onClick={() => { setDayFilter("all"); setPage(1); }} activeBg="#6050F0">All</Chip>
+            <Chip active={dayFilter === "all"} onClick={() => { setDayFilter("all"); setPage(1); }} activeBg="#5B2D6E">All</Chip>
           </div>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Type</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#6050F0">🌧️ Indoor</Chip>
-            <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#6050F0">☀️ Outdoor</Chip>
-            <Chip active={freeOnly} onClick={() => setFreeOnly(!freeOnly)} activeBg="#6050F0">Free</Chip>
-            <Chip active={napFilter === "morning"} onClick={() => setNapFilter(napFilter === "morning" ? "all" : "morning")} activeBg="#6050F0">Morning</Chip>
-            <Chip active={napFilter === "afternoon"} onClick={() => setNapFilter(napFilter === "afternoon" ? "all" : "afternoon")} activeBg="#6050F0">Afternoon</Chip>
+            <Chip active={weatherMode === "rainy"} onClick={() => setWeatherMode(weatherMode === "rainy" ? "all" : "rainy")} activeBg="#5B2D6E">🌧️ Indoor</Chip>
+            <Chip active={weatherMode === "sunny"} onClick={() => setWeatherMode(weatherMode === "sunny" ? "all" : "sunny")} activeBg="#5B2D6E">☀️ Outdoor</Chip>
+            <Chip active={freeOnly} onClick={() => setFreeOnly(!freeOnly)} activeBg="#5B2D6E">Free</Chip>
+            <Chip active={napFilter === "morning"} onClick={() => setNapFilter(napFilter === "morning" ? "all" : "morning")} activeBg="#5B2D6E">Morning</Chip>
+            <Chip active={napFilter === "afternoon"} onClick={() => setNapFilter(napFilter === "afternoon" ? "all" : "afternoon")} activeBg="#5B2D6E">Afternoon</Chip>
           </div>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Category</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {Object.keys(typeColors).map(t => (
-              <Chip key={t} active={typeFilter === t} onClick={() => setTypeFilter(typeFilter === t ? "All Types" : t)} activeBg="#6050F0">{t}</Chip>
+              <Chip key={t} active={typeFilter === t} onClick={() => setTypeFilter(typeFilter === t ? "All Types" : t)} activeBg="#5B2D6E">{t}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Age</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {[{v:"all",l:"All"},{v:"0-1",l:"0–1"},{v:"1-2",l:"1–2"},{v:"2-4",l:"2–4"},{v:"4-7",l:"4–7"},{v:"7+",l:"7+"}].map(a => (
-              <Chip key={a.v} active={ageFilter === a.v} onClick={() => setAgeFilter(a.v)} activeBg="#6050F0">{a.l}</Chip>
+              <Chip key={a.v} active={ageFilter === a.v} onClick={() => setAgeFilter(a.v)} activeBg="#5B2D6E">{a.l}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Region</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
             {[{v:"All",l:"All UK"},{v:"London",l:"London"},{v:"Hertfordshire",l:"Hertfordshire"},{v:"Buckinghamshire",l:"Buckinghamshire"},{v:"Essex",l:"Essex"},{v:"Birmingham",l:"Birmingham"},{v:"Manchester",l:"Manchester"},{v:"Leeds",l:"Leeds"},{v:"Liverpool",l:"Liverpool"}].map(c => (
-              <Chip key={c.v} active={cityFilter === c.v} onClick={() => { setCityFilter(c.v); setAreaFilter("All Areas"); setPage(1); }} activeBg="#6050F0">{c.l}</Chip>
+              <Chip key={c.v} active={cityFilter === c.v} onClick={() => { setCityFilter(c.v); setAreaFilter("All Areas"); setPage(1); }} activeBg="#5B2D6E">{c.l}</Chip>
             ))}
           </div>
           <div style={{ fontSize: 15, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 8 }}>Sort</div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
-            <Chip active={sortBy === "mixed"} onClick={() => setSortBy("mixed")} activeBg="#6050F0">Mixed</Chip>
-            <Chip active={sortBy === "nearest"} onClick={() => { setSortBy("nearest"); if (locStatus === "idle" || locStatus === "dismissed") requestLocation(); }} activeBg="#6050F0">Nearest</Chip>
-            <Chip active={sortBy === "price-low"} onClick={() => setSortBy("price-low")} activeBg="#6050F0">Price: Low</Chip>
-            <Chip active={sortBy === "free-first"} onClick={() => setSortBy("free-first")} activeBg="#6050F0">Free first</Chip>
+            <Chip active={sortBy === "mixed"} onClick={() => setSortBy("mixed")} activeBg="#5B2D6E">Mixed</Chip>
+            <Chip active={sortBy === "nearest"} onClick={() => { setSortBy("nearest"); if (locStatus === "idle" || locStatus === "dismissed") requestLocation(); }} activeBg="#5B2D6E">Nearest</Chip>
+            <Chip active={sortBy === "price-low"} onClick={() => setSortBy("price-low")} activeBg="#5B2D6E">Price: Low</Chip>
+            <Chip active={sortBy === "free-first"} onClick={() => setSortBy("free-first")} activeBg="#5B2D6E">Free first</Chip>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            {favourites.length > 0 && <Chip active={showFavourites} onClick={() => { setShowFavourites(!showFavourites); setPage(1); }} activeBg="#F97316">Saved ({favourites.length})</Chip>}
+            {favourites.length > 0 && <Chip active={showFavourites} onClick={() => { setShowFavourites(!showFavourites); setPage(1); }} activeBg="#D4732A">Saved ({favourites.length})</Chip>}
             <Chip active={false} onClick={openCalendar}>My Plans {calendarTotal > 0 ? `(${calendarTotal})` : ""}</Chip>
-            <Chip active={mapView} onClick={() => { setMapView(!mapView); if (!mapView && locStatus === "idle") requestLocation(); if (!mapView) setAreaFilter("All Areas"); }} activeBg="#6050F0">Map</Chip>
+            <Chip active={mapView} onClick={() => { setMapView(!mapView); if (!mapView && locStatus === "idle") requestLocation(); if (!mapView) setAreaFilter("All Areas"); }} activeBg="#5B2D6E">Map</Chip>
           </div>
         </div>
       )}
@@ -1651,7 +1651,7 @@ const BottomNav = () => (
                 flex: 1, textAlign: "center",
                 fontSize: 16, fontWeight: active ? 700 : 500,
                 padding: "6px 0", borderRadius: 20, cursor: "pointer",
-                background: active ? "#F97316" : "white",
+                background: active ? "#D4732A" : "white",
                 color: active ? "white" : "#6B7280",
                 border: active ? "none" : "1px solid #EBEBEB",
                 whiteSpace: "nowrap",
@@ -1669,7 +1669,7 @@ const BottomNav = () => (
             })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setEventsOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#F97316", fontWeight: 800, cursor: "pointer" }}>Clear all</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setEventsOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear all</span>
           )}
         </div>
       </div>
@@ -1825,7 +1825,7 @@ const BottomNav = () => (
                         <div style={{ fontSize: 15, fontWeight: 900, color: "#1F2937", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
                         <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 4 }}>{item.type}</div>
                         <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                          {walkMin !== null && <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#F97316" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
+                          {walkMin !== null && <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#D4732A" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
                           <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#ECFDF5", color: "#166534" }}>Open today</span>
                         </div>
                       </div>
@@ -1875,7 +1875,7 @@ const BottomNav = () => (
                           {!(item.logo || (item.images && item.images[0])) && <span style={{ fontSize: 32, fontWeight: 900, color: tc2.color || "#555", opacity: 0.4 }}>{(item.type || "A").charAt(0)}</span>}
                         </div>
                         <div style={{ padding: "10px 12px" }}>
-                          <div style={{ fontSize: 12, color: "#F97316", fontWeight: 900, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
+                          <div style={{ fontSize: 12, color: "#D4732A", fontWeight: 900, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
                           <div style={{ fontSize: 15, fontWeight: 900, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 2 }}>{item.name}</div>
                           <div style={{ fontSize: 13, color: "#9CA3AF" }}>{item.type}{item.ages ? " · " + item.ages : ""}{item.free ? " · Free" : ""}</div>
                           {item.time && <div style={{ fontSize: 13, color: "#6B7280", marginTop: 2 }}>{item.time}</div>}
@@ -1957,7 +1957,7 @@ const BottomNav = () => (
             {todayList.length === 0 ? (
               <div style={{ padding: "16px 0", textAlign: "center" }}>
                 <div style={{ fontSize: 18, color: "#6B7280", marginBottom: 6 }}>Nothing confirmed for today in {area}</div>
-                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 17, fontWeight: 800, color: "#F97316", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
+                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 17, fontWeight: 800, color: "#D4732A", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
                 {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 17, fontWeight: 900, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />)}</div>) : null; })()}
               </div>
             ) : todayList.map((item, idx) => {
@@ -1969,7 +1969,7 @@ const BottomNav = () => (
               );
             })}
             {todayListFull.length > TODAY_LIMIT && (
-              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 17, fontWeight: 800, color: "#F97316", cursor: "pointer" }}>
+              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 17, fontWeight: 800, color: "#D4732A", cursor: "pointer" }}>
                 Browse all activities →
               </div>
             )}
@@ -1996,7 +1996,7 @@ const BottomNav = () => (
                         <img key={i} src={img.src} alt="Hartbeeps class" style={{ width: "100%", height: 180, objectFit: "cover", objectPosition: `center ${img.focalY}%`, flexShrink: 0, scrollSnapAlign: "start" }} />
                       ))}
                     </div>
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "4px 12px", borderRadius: 8, background: "#6050F0", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
+                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "4px 12px", borderRadius: 8, background: "#5B2D6E", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
                     <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 50, background: "linear-gradient(transparent, rgba(0,0,0,0.25))", pointerEvents: "none" }} />
                     <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 4 }}>
                       {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />)}
@@ -2010,7 +2010,7 @@ const BottomNav = () => (
                     <div style={{ fontSize: 17, color: "#4B5563", marginBottom: 3 }}>Baby Sensory · 0–4 yrs · Various days</div>
                     <div style={{ fontSize: 17, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 6 }}>
                       Haven Green Church, Ealing Broadway
-                      {hWalk !== null && hWalk < 60 && <span style={{ color: "#F97316", fontWeight: 800 }}>· {hWalk < 2 ? "Nearby" : hWalk + " min walk"}</span>}
+                      {hWalk !== null && hWalk < 60 && <span style={{ color: "#D4732A", fontWeight: 800 }}>· {hWalk < 2 ? "Nearby" : hWalk + " min walk"}</span>}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
                       <span style={{ fontSize: 15, fontWeight: 800, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>
@@ -2018,7 +2018,7 @@ const BottomNav = () => (
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <span style={{ fontSize: 16, fontWeight: 900, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>From £8/class</span>
-                      <span style={{ fontSize: 15, fontWeight: 900, color: "#6050F0" }}>View details →</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: "#5B2D6E" }}>View details →</span>
                     </div>
                   </div>
                 </div>
@@ -2031,18 +2031,18 @@ const BottomNav = () => (
                 <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
                   <div style={{ width: "100%", height: 140, overflow: "hidden", position: "relative" }}>
                     <img src="/lgd-dance.png" alt={lgd.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "3px 10px", borderRadius: 6, background: "#6050F0", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
+                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "3px 10px", borderRadius: 6, background: "#5B2D6E", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
                   </div>
                   <div style={{ padding: "14px 16px" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
                       <span style={{ fontSize: 20, fontWeight: 900, color: "#222" }}>{lgd.name}</span>
-                      <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "#F97316", color: "white", letterSpacing: 0.3 }}>NEW</span>
+                      <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "#D4732A", color: "white", letterSpacing: 0.3 }}>NEW</span>
                     </div>
                     <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 4 }}>Fun, friendly dance classes in West Ealing</div>
                     <div style={{ fontSize: 17, color: "#4B5563", marginBottom: 3 }}>{lgd.type} · {lgd.ages} · {lgd.day}</div>
                     <div style={{ fontSize: 17, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 4 }}>
                       {lgd.venue.split(",")[0]}, {lgd.location}
-                      {lWalk !== null && lWalk < 60 && <span style={{ color: "#F97316", fontWeight: 800 }}>· {lWalk < 2 ? "Nearby" : lWalk + " min walk"}</span>}
+                      {lWalk !== null && lWalk < 60 && <span style={{ color: "#D4732A", fontWeight: 800 }}>· {lWalk < 2 ? "Nearby" : lWalk + " min walk"}</span>}
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
                       {lgd.freeTrial && <span style={{ fontSize: 15, fontWeight: 800, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>}
@@ -2050,7 +2050,7 @@ const BottomNav = () => (
                     </div>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <span style={{ fontSize: 16, fontWeight: 900, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>{lgd.price}</span>
-                      <span style={{ fontSize: 15, fontWeight: 900, color: "#6050F0" }}>View details →</span>
+                      <span style={{ fontSize: 15, fontWeight: 900, color: "#5B2D6E" }}>View details →</span>
                     </div>
                   </div>
                 </div>
@@ -2113,7 +2113,7 @@ const BottomNav = () => (
             <div style={{ fontSize: 20, fontWeight: 800, color: "#6B7280", marginBottom: 10 }}>{weatherMode === "rainy" ? "No indoor results found" : weatherMode === "sunny" ? "No outdoor results found" : "No results found"}</div>
             <div style={{ fontSize: 19, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>{areaFilter !== "All Areas" ? `Nothing found in ${areaFilter}` : dayFilter === "today" ? `Nothing found for ${todayName}` : "No activities match your filters"}</div>
             <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 16, lineHeight: 1.5 }}>{areaFilter !== "All Areas" ? "Try a different area or broaden your filters" : "Try fewer filters or search for something else"}</div>
-            <div onClick={() => { setCityFilter("All"); setAreaFilter("All Areas"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #F97316, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Reset all filters</div>
+            <div onClick={() => { setCityFilter("All"); setAreaFilter("All Areas"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setAgeFilter("all"); setTypeFilter("All Types"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ display: "inline-block", padding: "10px 24px", background: "linear-gradient(135deg, #D4732A, #FB923C)", color: "white", borderRadius: 12, fontSize: 17, fontWeight: 900, cursor: "pointer" }}>Reset all filters</div>
           </div>
         ) : (
           <>
@@ -2127,25 +2127,25 @@ const BottomNav = () => (
             return <React.Fragment key={item.id}>
               <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNew} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               {false && (
-                <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #F97316" }}>
+                <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
                   <span style={{ fontSize: 26 }}>✨</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
                     <div style={{ fontSize: 15, color: "#6B7280" }}>Help other parents discover it.</div>
                   </div>
-                  <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
+                  <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
                 </div>
               )}
             </React.Fragment>;
           })}
           {page === 1 && !showSuggest && (
-            <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #F97316" }}>
+            <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
               <span style={{ fontSize: 26 }}>✨</span>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
                 <div style={{ fontSize: 15, color: "#6B7280" }}>Help other parents discover it.</div>
               </div>
-              <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #F97316, #FB923C)", borderRadius: 10 }}>Add</span>
+              <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
             </div>
           )}
           </>
@@ -2168,7 +2168,7 @@ const BottomNav = () => (
           <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingLeft: 20, paddingRight: 20 }}>
             {allChips.slice(0, 10).map(c => (
               <div key={c.id} onClick={() => { if (c.match) openDetail(c.match); }} style={{ flexShrink: 0, padding: "5px 10px", background: "white", borderRadius: 8, border: "1px dashed #E5E7EB", cursor: c.match ? "pointer" : "default", maxWidth: 140 }}>
-                <div style={{ fontSize: 13, fontWeight: 900, color: c.match ? "#F97316" : "#1F2937", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</div>
+                <div style={{ fontSize: 13, fontWeight: 900, color: c.match ? "#D4732A" : "#1F2937", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</div>
                 <div style={{ fontSize: 12, color: "#9CA3AF" }}>{c.type}</div>
               </div>
             ))}
@@ -2188,7 +2188,7 @@ const BottomNav = () => (
               {Array.from({ length: totalPages }, (_, i) => i + 1).filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 1).map((p, idx, arr) => (
                 <React.Fragment key={p}>
                   {idx > 0 && arr[idx - 1] < p - 1 && <span style={{ color: "#9CA3AF", fontSize: 16, padding: "0 2px" }}>...</span>}
-                  <button onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ width: 32, height: 32, borderRadius: 8, border: page === p ? "none" : "1px solid #E5E7EB", background: page === p ? "linear-gradient(135deg, #F97316, #FB923C)" : "white", color: page === p ? "white" : "#6B7394", fontSize: 16, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
+                  <button onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ width: 32, height: 32, borderRadius: 8, border: page === p ? "none" : "1px solid #E5E7EB", background: page === p ? "linear-gradient(135deg, #D4732A, #FB923C)" : "white", color: page === p ? "white" : "#6B7394", fontSize: 16, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
                 </React.Fragment>
               ))}
             </div>
@@ -2205,7 +2205,7 @@ const BottomNav = () => (
       <div style={{ textAlign: "center", padding: "32px 20px 28px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginBottom: 6 }}>
           <div style={{ width: 34, height: 34, borderRadius: 10, overflow: "hidden" }}><BrandBear size={34} /></div>
-          <span style={{ fontSize: 20, fontWeight: 1000, color: "#1F2937" }}>LITTLE<span style={{ color: "#F97316" }}>locals</span></span>
+          <span style={{ fontSize: 20, fontWeight: 1000, color: "#1F2937" }}>LITTLE<span style={{ color: "#D4732A" }}>locals</span></span>
         </div>
         <div style={{ fontSize: 14, color: "#9CA3AF", marginBottom: 8, lineHeight: 1.4 }}>Built by parents, for parents.</div>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
@@ -2263,7 +2263,7 @@ const BottomNav = () => (
             We use simple analytics to understand how LITTLElocals is used and improve it for parents. No ads. No tracking across other sites.
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <div onClick={acceptCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#6050F0", color: "white", borderRadius: 10, fontSize: 16, fontWeight: 900, cursor: "pointer" }}>Accept</div>
+            <div onClick={acceptCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#5B2D6E", color: "white", borderRadius: 10, fontSize: 16, fontWeight: 900, cursor: "pointer" }}>Accept</div>
             <div onClick={declineCookies} style={{ flex: 1, padding: "8px 0", textAlign: "center", background: "#F3F4F6", color: "#4B5563", borderRadius: 10, fontSize: 16, fontWeight: 900, cursor: "pointer" }}>Decline</div>
           </div>
         </div>
@@ -2296,7 +2296,7 @@ const BottomNav = () => (
               <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Data sharing</p>
               <p style={{ marginBottom: 12 }}>We do not sell, trade, or share your personal data with third parties. We do not use your data for advertising purposes.</p>
               <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
-              <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
+              <p>If you have any questions about this privacy policy, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#5B2D6E" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
 
             {legalPage === "cookies" && (<>
@@ -2311,7 +2311,7 @@ const BottomNav = () => (
               <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 800 }}>Analytics cookies (optional):</span> Google Analytics — helps us understand how parents use LITTLElocals so we can improve it. Only loaded if you accept.</p>
               <p style={{ marginBottom: 12 }}><span style={{ fontWeight: 800 }}>Essential storage:</span> We use localStorage (not cookies) to save your preferences like favourites and calendar plans. These are essential for the app to work and stay on your device.</p>
               <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
-              <p>If you have questions, contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
+              <p>If you have questions, contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#5B2D6E" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
 
             {legalPage === "terms" && (<>
@@ -2327,7 +2327,7 @@ const BottomNav = () => (
               <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Intellectual property</p>
               <p style={{ marginBottom: 12 }}>All content, design, and branding on LITTLElocals is owned by LITTLElocals and may not be reproduced without permission.</p>
               <p style={{ fontWeight: 900, color: "#1F2937", marginBottom: 6, marginTop: 16 }}>Contact</p>
-              <p>If you have any questions about these terms, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#6050F0" }}>littlelocalsuk@gmail.com</a></p>
+              <p>If you have any questions about these terms, please contact us at <a href="mailto:littlelocalsuk@gmail.com" style={{ color: "#5B2D6E" }}>littlelocalsuk@gmail.com</a></p>
             </>)}
           </div>
         </div>
