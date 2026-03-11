@@ -534,7 +534,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             </div>
           )}
           {/* Fav button */}
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id, item.name); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
             {isFav ? "♥" : "♡"}
           </div>
           {/* Today badge */}
@@ -550,7 +550,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             ? <img src={item.logo} alt="" loading="lazy" style={{ height: 64, maxWidth: "70%", objectFit: "contain", position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.08))" }} onError={(e) => { e.target.style.display = "none"; }} />
             : <span style={{ fontSize: 42, fontWeight: 1000, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
           }
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
+          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id, item.name); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: isFav ? "#6050F0" : "#9CA3AF", cursor: "pointer" }}>
             {isFav ? "♥" : "♡"}
           </div>
           {onToday && (
@@ -631,7 +631,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
 
   const openExternalWebsite = (url) => { if (!url) return; let safeUrl = url.trim(); if (!safeUrl.startsWith("http://") && !safeUrl.startsWith("https://")) safeUrl = "https://" + safeUrl; window.open(safeUrl, "_blank", "noopener,noreferrer"); };
   const getHostname = (url) => { try { const safe = url.startsWith("http") ? url : "https://" + url; return new URL(safe).hostname.replace("www.", ""); } catch { return ""; } };
-  const handleToggleFav = (id) => { onToggleFav(id); if (!isFav) { setSavedFeedback(true); setShowSaveShareNudge(true); setTimeout(() => setSavedFeedback(false), 1500); setTimeout(() => setShowSaveShareNudge(false), 5000); } };
+  const handleToggleFav = (id) => { onToggleFav(id, item.name); if (!isFav) { setSavedFeedback(true); setShowSaveShareNudge(true); setTimeout(() => setSavedFeedback(false), 1500); setTimeout(() => setShowSaveShareNudge(false), 5000); } };
 
   // Track last viewed activity
   useEffect(() => { try { localStorage.setItem("ll_lastViewedActivity", JSON.stringify({ id: item.id, name: item.name, timestamp: Date.now() })); } catch(e) {} }, [item.id]);

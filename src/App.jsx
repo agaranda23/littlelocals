@@ -257,6 +257,7 @@ function WestLondonListings() {
   const [sortBy, setSortBy] = useState("mixed");
   const [eventsOnly, setEventsOnly] = useState(false);
   const [worthJourney, setWorthJourney] = useState(false);
+  const [planPrompt, setPlanPrompt] = useState(null); // {id, name} of item just saved
   const [activeTab, setActiveTab] = useState("home");
   const ITEMS_PER_PAGE = 6;
   const [cityFilter, setCityFilter] = useState(() => {
@@ -445,6 +446,8 @@ function WestLondonListings() {
       }
       if (selected) { setSelected(null); window.history.replaceState({}, "", "/"); return; }
     
+
+
 const BottomNav = () => (
   <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 480, height: 64, background: "white", borderTop: "1px solid #E5E7EB", display: "flex", zIndex: 1000, boxShadow: "0 -2px 12px rgba(0,0,0,0.06)" }}>
     {[
@@ -586,9 +589,47 @@ const BottomNav = () => (
 
   const calendarTotal = Object.values(calendarPlan).reduce((sum, arr) => sum + arr.length, 0);
 
-  const toggleFavourite = (id) => {
+  const toggleFavourite = (id, name) => {
     if (navigator.vibrate) navigator.vibrate(10);
-    setFavourites(prev => prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]);
+    const isRemoving = favourites.includes(id);
+    setFavourites(prev => isRemoving ? prev.filter(f => f !== id) : [...prev, id]);
+    if (!isRemoving) setPlanPrompt({ id, name });
+  };
+
+const PlanPrompt = () => {
+    if (!planPrompt) return null;
+    const today = new Date();
+    const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+    const sat = new Date(today); sat.setDate(today.getDate() + ((6 - today.getDay() + 7) % 7 || 7));
+    const sun = new Date(today); sun.setDate(today.getDate() + ((0 - today.getDay() + 7) % 7 || 7));
+    const fmt = d => d.toISOString().split('T')[0];
+    const fmtLabel = d => d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    const dates = [
+      { label: 'Today', date: fmt(today) },
+      { label: 'Tomorrow', date: fmt(tomorrow) },
+      { label: `Sat ${sat.getDate()}`, date: fmt(sat) },
+      { label: `Sun ${sun.getDate()}`, date: fmt(sun) },
+    ];
+    return (
+      <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 2000, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }} onClick={() => setPlanPrompt(null)}>
+        <div style={{ background: 'white', width: '100%', maxWidth: 480, borderRadius: '20px 20px 0 0', padding: '24px 20px 40px', boxShadow: '0 -4px 32px rgba(0,0,0,0.15)' }} onClick={e => e.stopPropagation()}>
+          <div style={{ textAlign: 'center', fontSize: 22, marginBottom: 4 }}>✅</div>
+          <div style={{ textAlign: 'center', fontWeight: 700, fontSize: 17, marginBottom: 4 }}>Added to My Plans!</div>
+          <div style={{ textAlign: 'center', color: '#6B7280', fontSize: 14, marginBottom: 20 }}>When do you want to go?</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+            {dates.map(({ label, date }) => (
+              <button key={date} onClick={() => { addToCalendar(planPrompt.id, date); setPlanPrompt(null); }}
+                style={{ padding: '12px 8px', borderRadius: 12, border: '2px solid #6050F0', background: 'white', color: '#6050F0', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
+                {label}
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setPlanPrompt(null)} style={{ width: '100%', padding: '12px', borderRadius: 12, border: 'none', background: '#F3F4F6', color: '#6B7280', fontWeight: 500, fontSize: 15, cursor: 'pointer' }}>
+            Skip for now
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const togglePassport = (id) => {
@@ -1027,6 +1068,7 @@ function getSearchScore(item, query) {
   const todayCount = useMemo(() => areaListings.filter(l => isOnToday(l)).length, [areaListings]);
   const weekendCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [areaListings]);
   const weekCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [areaListings]);
+
 
 
 const BottomNav = () => (
@@ -2241,6 +2283,7 @@ const BottomNav = () => (
         </div>
       )}
       {!selected && <BottomNav />}
+      <PlanPrompt />
     </div>
   );
 }
