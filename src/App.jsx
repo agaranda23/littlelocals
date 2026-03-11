@@ -1764,6 +1764,7 @@ const BottomNav = () => (
         // Deduplicate by exact name
         const todaySeenNames = new Set();
         const todayListFull = todayRaw.filter(a => {
+          if (!((a.images && a.images.length > 0) || a.logo || a.imageUrl)) return false;
           const name = (a.name || "").toLowerCase().trim();
           if (todaySeenNames.has(name)) return false;
           todaySeenNames.add(name);
@@ -1789,7 +1790,7 @@ const BottomNav = () => (
         // --- SECTION 3: This weekend ---
         const halfDay = Math.floor(Date.now() / (12 * 60 * 60 * 1000));
         const sRand = (i) => { let x = Math.sin(halfDay * 9301 + i * 49297) * 49297; return x - Math.floor(x); };
-        const popularList = listings.filter(a => !shownIds.has(a.id) && isOnWeekend(a))
+        const popularList = listings.filter(a => !shownIds.has(a.id) && isOnWeekend(a) && ((a.images && a.images.length > 0) || a.logo || a.imageUrl))
           .sort((a, b) => {
             const score = x => (x.popular ? 3 : 0) + (x.verified ? 2 : 0) + (clickCounts[x.id] || 0);
             return score(b) - score(a);
@@ -1797,7 +1798,7 @@ const BottomNav = () => (
         popularList.forEach(a => shownIds.add(a.id));
 
         // --- SECTION 4: Loved by Ealing parents ---
-        const lovedList = filtered.filter(a => (a.verified || a.popular) && !shownIds.has(a.id))
+        const lovedList = filtered.filter(a => (a.verified || a.popular) && !shownIds.has(a.id) && ((a.images && a.images.length > 0) || a.logo || a.imageUrl))
           .sort((a, b) => (clickCounts[b.id] || 0) - (clickCounts[a.id] || 0))
           .slice(0, 3);
         lovedList.forEach(a => shownIds.add(a.id));
@@ -1891,7 +1892,7 @@ const BottomNav = () => (
           {/* Weather smart suggestions */}
           {weather && (weather.isRainy || weather.isClear) && (() => {
             const weatherListings = (listings || [])
-              .filter(l => !isExpiredEvent(l))
+              .filter(l => !isExpiredEvent(l) && ((l.images && l.images.length > 0) || l.logo || l.imageUrl))
               .filter(l => weather.isRainy
                 ? (l.type && ['Baby Sensory','Soft Play','Music','Baking','Arts & Crafts','Dance','Drama','Swimming','Indoor'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('indoor'))))
                 : (l.type && ['Outdoor','Park','Nature','Sports','Playground'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('outdoor'))))
