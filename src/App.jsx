@@ -1783,27 +1783,27 @@ const BottomNav = () => (
                   if (h >= 18)           return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 10 }}>Here are some ideas around {area}.</div></>);
                   return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Late night planning?</div><div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 10 }}>Save some ideas for tomorrow.</div></>);
                 })()}
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ display: "flex", gap: 14, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingBottom: 8, marginLeft: -20, paddingLeft: 20, marginRight: -20, paddingRight: 20 }}>
                   {ideas.map(({ item, label }) => {
                     const tc2 = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
                     const d = getDist(item);
                     const wm = d < 50 ? Math.round(d * 1.60934 * 12) : null;
                     return (
                       <div key={"qi-" + item.id} onClick={() => openDetail(item)}
-                        style={{ display: "flex", alignItems: "center", gap: 13, padding: "13px 15px", background: "white", borderRadius: 16, border: "1px solid #EBEBEB", cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", transition: "box-shadow 0.15s" }}
+                        style={{ flexShrink: 0, width: "72vw", maxWidth: 280, background: "white", borderRadius: 16, border: "1px solid #EBEBEB", cursor: "pointer", boxShadow: "0 2px 8px rgba(0,0,0,0.06)", overflow: "hidden" }}
                         onTouchStart={e => e.currentTarget.style.boxShadow="0 1px 2px rgba(0,0,0,0.04)"}
                         onTouchEnd={e => e.currentTarget.style.boxShadow="0 2px 8px rgba(0,0,0,0.06)"}
                       >
-                        <div style={{ width: 46, height: 46, borderRadius: 13, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 20, fontWeight: 1000, color: tc2.color || "#333", position: "relative", overflow: "hidden" }}>
-                          {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "80%", height: "80%", objectFit: "contain", position: "absolute", top: "10%", left: "10%", borderRadius: "50%" }} onError={e => e.target.style.display="none"} />}
-                          {!(item.logo || (item.images && item.images[0])) && (item.type || "A").charAt(0)}
+                        <div style={{ width: "100%", height: 100, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+                          {(item.logo || (item.images && item.images[0])) && <img src={item.logo || item.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: item.logo ? "contain" : "cover", background: item.logo ? "white" : "transparent", padding: item.logo ? 8 : 0, boxSizing: "border-box" }} onError={e => e.target.style.display="none"} />}
+                          {!(item.logo || (item.images && item.images[0])) && <span style={{ fontSize: 32, fontWeight: 900, color: tc2.color || "#555", opacity: 0.4 }}>{(item.type || "A").charAt(0)}</span>}
                         </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 14, color: "#F97316", fontWeight: 900, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
-                          <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-                          <div style={{ fontSize: 16, color: "#9CA3AF", marginTop: 1 }}>{item.type}{wm !== null && wm < 60 ? ` · ${wm < 5 ? "Nearby" : wm + " min walk"}` : ""}{item.free ? " · Free" : ""}</div>
+                        <div style={{ padding: "10px 12px" }}>
+                          <div style={{ fontSize: 12, color: "#F97316", fontWeight: 900, marginBottom: 2, letterSpacing: 0.3, textTransform: "uppercase" }}>{label}</div>
+                          <div style={{ fontSize: 15, fontWeight: 900, color: "#111827", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 2 }}>{item.name}</div>
+                          <div style={{ fontSize: 13, color: "#9CA3AF" }}>{item.type}{item.ages ? " · " + item.ages : ""}{item.free ? " · Free" : ""}</div>
+                          {item.time && <div style={{ fontSize: 13, color: "#6B7280", marginTop: 2 }}>{item.time}</div>}
                         </div>
-                        <span style={{ fontSize: 22, color: "#D1D5DB", flexShrink: 0 }}>›</span>
                       </div>
                     );
                   })}
