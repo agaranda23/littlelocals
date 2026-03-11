@@ -489,7 +489,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Wide image header ── */}
       {hasImages ? (
         <div
-          style={{ position: "relative", height: 160, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, overflow: "hidden", userSelect: "none" }}
+          style={{ position: "relative", height: 160, background: (item.logo && allImages[imgIndex] === item.logo) ? "white" : `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, overflow: (item.logo && allImages[imgIndex] === item.logo) ? "visible" : "hidden", userSelect: "none" }}
           onPointerDown={(e) => { e._startX = e.clientX; e.currentTarget._startX = e.clientX; e.currentTarget._dragging = false; }}
           onPointerMove={(e) => { if (Math.abs(e.clientX - e.currentTarget._startX) > 10) e.currentTarget._dragging = true; }}
           onPointerUp={(e) => { if (!e.currentTarget._dragging) { e.stopPropagation(); handleClick(); } e.currentTarget._dragging = false; }}
@@ -499,14 +499,22 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           <SceneBg type={item.type} w="100%" h={160} />
           {(() => {
             const src = allImages[imgIndex];
-            const isLogoImage = src && (src === item.logo || src === item.imageUrl && item.logo);
-            const isLikelyLogo = src && !isLogoImage && item.logo && allImages.length === 1 && src === item.logo;
-            const useCover = !isLogoImage && !isLikelyLogo;
+            const hasRealPhoto = allImages.some(img => img !== item.logo && img !== item.imageUrl);
+            const isLogo = !hasRealPhoto;
             return <img
               src={src}
               alt={item.name}
               loading="lazy"
-              style={{ width: "100%", height: "100%", objectFit: useCover ? "cover" : "contain", display: "block", background: useCover ? "transparent" : "white", padding: useCover ? 0 : "12px" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: isLogo ? "contain" : "cover",
+                objectPosition: "center",
+                display: "block",
+                background: isLogo ? "white" : "transparent",
+                padding: isLogo ? "12px" : 0,
+                boxSizing: "border-box",
+              }}
               onError={(e) => { e.target.style.display = "none"; }}
             />;
           })()}
