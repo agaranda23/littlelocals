@@ -337,14 +337,6 @@ function WestLondonListings() {
         }
       })
       .catch(function(e) { console.log("Weather fetch failed, defaulting to sunny"); });
-    // Show cached listings instantly before network fetch
-    try {
-      const cachedInstant = localStorage.getItem("ll_listings_cache");
-      if (cachedInstant) {
-        setListings(JSON.parse(cachedInstant));
-        setIsLoading(false);
-      }
-    } catch(e) {}
     (async () => {
       if (!supabase) { console.log("No Supabase client, using fallback"); return; }
       try {
