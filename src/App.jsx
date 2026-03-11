@@ -918,6 +918,18 @@ function getSearchScore(item, query) {
       results = [...firstPage, ...rest];
     }
 
+    // Limit repeated providers — match on first 2 words of name
+    if (!search) {
+      const recentProviders = [];
+      results = results.filter(r => {
+        const words = (r.name || "").toLowerCase().trim().split(/\s+/).slice(0, 2).join(" ");
+        if (recentProviders.includes(words)) return false;
+        recentProviders.push(words);
+        if (recentProviders.length > 4) recentProviders.shift();
+        return true;
+      });
+    }
+
     // Place Sing and Sign in positions 3–5
     if (!search) {
       const singIdx = results.findIndex(r => r.name && r.name.toLowerCase().includes("sing and sign"));
@@ -1802,14 +1814,20 @@ const BottomNav = () => (
 
           {/* Ealing parents are loving these */}
           {(() => {
-            const loved = listings
+            const lovedRaw = listings
               .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || l.logo || l.imageUrl))
               .sort((a, b) => {
                 const sa = (a.popular?3:0)+(a.featuredProvider?2:0)+(clickCounts[a.id]||0)+(a.verified?1:0);
                 const sb = (b.popular?3:0)+(b.featuredProvider?2:0)+(clickCounts[b.id]||0)+(b.verified?1:0);
                 return sb - sa;
-              })
-              .slice(0, 3);
+              });
+            const lovedSeen = new Set();
+            const loved = lovedRaw.filter(l => {
+              const key = (l.name || "").toLowerCase().split(/\s+/).slice(0,2).join(" ");
+              if (lovedSeen.has(key)) return false;
+              lovedSeen.add(key);
+              return true;
+            }).slice(0, 3);
             if (loved.length < 2) return null;
             loved.forEach(l => shownIds.add(l.id));
             return (
