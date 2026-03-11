@@ -1928,14 +1928,14 @@ function getSearchScore(item, query) {
       {/* Suggested Activities — horizontal scroll, clickable to listing */}
       {(() => {
         // Show suggested activities from Supabase suggestions table, plus recent Ealing listings as "parent picks"
-        const parentPicks = listings.filter(l => l.location === "Ealing" && l.verified).slice(-8).reverse();
+        const parentPicks = listings.filter(l => l.location === "Ealing" && l.verified).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)).slice(0, 8);
         const suggestedChips = suggestedActivities.length > 0 ? suggestedActivities : [];
         const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9 ]/g, "").replace(/\s+/g, " ").trim();
         const allChips = [...suggestedChips.map(s => ({ id: "s-" + s.id, name: s.name, type: s.type, match: listings.find(l => norm(l.name) === norm(s.name)) || listings.find(l => norm(l.name).includes(norm(s.name)) || norm(s.name).includes(norm(l.name))) })), ...parentPicks.filter(p => !suggestedChips.some(s => norm(s.name) === norm(p.name))).map(p => ({ id: "p-" + p.id, name: p.name, type: p.type, match: p }))];
         if (allChips.length === 0) return null;
         return (
         <div style={{ padding: "0 0 6px" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4, color: "#9CA3AF", paddingLeft: 20 }}>✨ Suggested & added by parents</div>
+          <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4, color: "#9CA3AF", paddingLeft: 20 }}>✨ New this week in Ealing</div>
           <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingLeft: 20, paddingRight: 20 }}>
             {allChips.slice(0, 10).map(c => (
               <div key={c.id} onClick={() => { if (c.match) openDetail(c.match); }} style={{ flexShrink: 0, padding: "5px 10px", background: "white", borderRadius: 8, border: "1px dashed #E5E7EB", cursor: c.match ? "pointer" : "default", maxWidth: 140 }}>
