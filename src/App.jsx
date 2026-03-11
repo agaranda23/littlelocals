@@ -1078,7 +1078,7 @@ const BottomNav = () => (
     const selectedActivities = (calendarPlan[selectedDate] || []).map(id => listings.find(l => l.id === id)).filter(Boolean);
 
     return (
-      <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden" }}>
+      <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden", paddingBottom: 140 }}>
         <div style={{ padding: "12px 20px 6px", position: "sticky", top: 0, zIndex: 100, background: "#F9FAFB", borderBottom: "1px solid #E5E7EB" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div onClick={closeCalendar} style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
@@ -1227,7 +1227,7 @@ const BottomNav = () => (
 
   if (selected) {
     return (
-      <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden" }}>
+      <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden", paddingBottom: 140 }}>
         <DetailView item={selected} onBack={closeDetail} userLoc={userLoc} reviews={reviews} onAddReview={addReview} isFav={favourites.includes(selected.id)} onToggleFav={toggleFavourite} onAddToCalendar={addToCalendar} onRemoveFromCalendar={removeFromCalendar} calendarPlan={calendarPlan} isVisited={passport.includes(selected.id)} onToggleVisited={togglePassport} tips={tips[selected.id] || []} onAddTip={addTip} allListings={listings} onSelectListing={openDetail} />
       </div>
     );
@@ -1243,7 +1243,7 @@ const BottomNav = () => (
   }
 
   return (
-    <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden" }}>
+    <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden", paddingBottom: 140 }}>
       {/* HEADER */}
       <div style={{ padding: showScrollTop ? "8px 20px 4px" : "12px 20px 6px", position: "sticky", top: 0, zIndex: 100, background: "#F9FAFB", borderBottom: "1px solid #E5E7EB", transition: "padding 0.2s" }}>
         {!showScrollTop ? (
