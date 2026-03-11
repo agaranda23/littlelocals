@@ -362,7 +362,7 @@ export function MapView({ filtered, userLoc, onSelect, areaFilter }) {
   return <div ref={mapRef} style={{ height: 380, borderRadius: 16, border: "1px solid #E5E7EB", overflow: "hidden" }} />;
 }
 
-export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, todaySignal }) {
+export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, todaySignal, startsSoon }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 } };
   const locRef = userLoc || areaCenters[areaFilter] || null;
@@ -457,9 +457,10 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
   // Build tag slots: max 2, priority order
   const tags = [];
-  if (statusObj && statusObj.text !== "🔴 Closed today") tags.push({ type: "status", ...statusObj });
+  if (startsSoon !== null && startsSoon !== undefined) tags.push({ type: "soon", text: startsSoon === 0 ? "⏰ Starting now!" : `⏰ Starts in ${startsSoon} min`, color: "#fff", bg: "#EF4444" });
+  if (tags.length < 2 && statusObj && statusObj.text !== "🔴 Closed today") tags.push({ type: "status", ...statusObj });
   if (tags.length < 2 && trustLabel) tags.push({ type: "trust", text: trustLabel, color: "#9CA3AF", bg: "transparent" });
-  if (tags.length < 2 && item.freeTrial) tags.push({ type: "trial", text: "Free trial", color: "#166534", bg: "#ECFDF5" });
+  if (tags.length < 2 && item.freeTrial) tags.push({ type: "trial", text: "Free trial", color: "#166634", bg: "#ECFDF5" });
 
   // Seeded social proof — stable per listing per day, believably small
   const socialProof = (() => {

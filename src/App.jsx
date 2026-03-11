@@ -589,6 +589,25 @@ const BottomNav = () => (
 
   const calendarTotal = Object.values(calendarPlan).reduce((sum, arr) => sum + arr.length, 0);
 
+  const getStartsSoonMins = (listing) => {
+    if (!listing.time) return null;
+    const now = new Date();
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    // Extract all time tokens like 9:30am, 1:30pm, 9:30 AM
+    const tokens = listing.time.match(/\d{1,2}:\d{2}\s*(?:am|pm|AM|PM)/g) || [];
+    for (const tok of tokens) {
+      const m = tok.match(/(\d{1,2}):(\d{2})\s*(am|pm|AM|PM)/i);
+      if (!m) continue;
+      let h = parseInt(m[1]), min = parseInt(m[2]), meridiem = m[3].toLowerCase();
+      if (meridiem === 'pm' && h !== 12) h += 12;
+      if (meridiem === 'am' && h === 12) h = 0;
+      const startMins = h * 60 + min;
+      const diff = startMins - nowMins;
+      if (diff >= 0 && diff <= 90) return diff;
+    }
+    return null;
+  };
+
   const toggleFavourite = (id, name) => {
     if (navigator.vibrate) navigator.vibrate(10);
     const isRemoving = favourites.includes(id);
@@ -1890,7 +1909,7 @@ const BottomNav = () => (
                 <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Ealing parents are loving these</div>
                 <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local families right now</div>
                 {loved.map(item => (
-                  <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />
+                  <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />
                 ))}
               </div>
             );
@@ -1908,13 +1927,13 @@ const BottomNav = () => (
               <div style={{ padding: "16px 0", textAlign: "center" }}>
                 <div style={{ fontSize: 18, color: "#6B7280", marginBottom: 6 }}>Nothing confirmed for today in {area}</div>
                 <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 17, fontWeight: 800, color: "#F97316", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
-                {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 17, fontWeight: 900, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} />)}</div>) : null; })()}
+                {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 17, fontWeight: 900, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />)}</div>) : null; })()}
               </div>
             ) : todayList.map((item, idx) => {
               const signal = getTodaySignal(item, idx, clickCounts[item.id] || 0);
               return (
                 <div key={"today-" + item.id}>
-                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} todaySignal={signal} />
+                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} todaySignal={signal} startsSoon={getStartsSoonMins(item)} />
                 </div>
               );
             })}
