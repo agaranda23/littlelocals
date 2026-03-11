@@ -561,39 +561,39 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
       {/* ── Info block ── */}
       <div style={{ padding: "12px 14px 13px" }}>
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 4 }}>
-          <span style={{ fontSize: 23, fontWeight: 1000, color: "#111827", lineHeight: 1.45 }}>{item.name}</span>
-          <span style={{ fontSize: 18, fontWeight: 1000, padding: "4px 9px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 5 }}>
+          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}</span>
+          <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
-        <div style={{ fontSize: 20, color: "#6B7280", marginBottom: 6, lineHeight: 1.45, fontWeight: 700 }}>
-          {item.type}{item.ages ? " · " + item.ages : ""}{(() => {
-            const summary = getSessionSummary(item);
-            if (summary) return " · " + summary;
-            if (item.day) return " · " + item.day;
-            return "";
-          })()}
+        <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 4, lineHeight: 1.4, fontWeight: 500 }}>
+          {item.type}{item.ages ? " · " + item.ages : ""}
         </div>
 
-        {/* Next session */}
+        {/* Next session — time on its own line */}
         {item.sessions && item.sessions.length > 0 && (() => {
           const next = getNextSession(item);
           if (!next) return null;
-          return <div style={{ fontSize: 20, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#6B7280", fontWeight: 800, marginBottom: 5 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+          return <div style={{ fontSize: 13, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#4B5563", fontWeight: 600, marginBottom: 4 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
         })()}
+
+        {/* Day fallback if no sessions */}
+        {!(item.sessions && item.sessions.length > 0) && item.day && (
+          <div style={{ fontSize: 13, color: "#4B5563", fontWeight: 500, marginBottom: 4 }}>📅 {item.day}{item.time ? " · " + item.time : ""}</div>
+        )}
 
         {/* Event badge */}
         {item.listingType === "event" && (
-          <div style={{ display: "inline-block", fontSize: 17, fontWeight: 900, color: "#6050F0", background: "#EDE9FE", padding: "2px 8px", borderRadius: 6, marginBottom: 5 }}>
+          <div style={{ display: "inline-block", fontSize: 12, fontWeight: 600, color: "#6050F0", background: "#EDE9FE", padding: "2px 7px", borderRadius: 6, marginBottom: 4 }}>
             {item.recurrence === "multi-day" ? "Holiday camp" : item.recurrence === "one-off" ? "One-off event" : "Event"}
           </div>
         )}
 
-        {/* Distance + tags row */}
-        <div style={{ display: "flex", gap: 5, flexWrap: "wrap", alignItems: "center" }}>
-          {distLabel && <span style={{ fontSize: 20, color: "#F97316", fontWeight: 800 }}>{distLabel}</span>}
-          {tags.map((tag, i) => (
-            <span key={i} style={{ fontSize: 18, fontWeight: tag.type === "trust" ? 500 : 600, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 8px" : 0, borderRadius: 6 }}>{tag.text}</span>
+        {/* Distance + tags row — softer and smaller */}
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", marginTop: 2 }}>
+          {distLabel && <span style={{ fontSize: 12, color: "#F97316", fontWeight: 600 }}>{distLabel}</span>}
+          {tags.slice(0, 2).map((tag, i) => (
+            <span key={i} style={{ fontSize: 12, fontWeight: 500, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 7px" : 0, borderRadius: 6, opacity: 0.9 }}>{tag.text}</span>
           ))}
         </div>
 
