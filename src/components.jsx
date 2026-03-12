@@ -713,8 +713,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
       <div style={{ height: 190, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}dd, white)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 68, position: "relative", overflow: "hidden" }}>
         <SceneBg type={item.type} w={500} h={190} />
         <span style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))", fontSize: 40, fontWeight: 1000, color: "white" }}>{(item.type || "A").charAt(0)}</span>
-        {(item.logo || item.imageUrl) && (
-        <img src={item.logo || item.imageUrl} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
+        {(item.logo || item.imageUrl || (item.images && item.images[0])) && (
+        <img src={item.logo || item.imageUrl || (item.images && item.images[0])} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: "cover", borderRadius: "50%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
         )}
         <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 19, fontWeight: 900, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
         <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
