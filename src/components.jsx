@@ -117,6 +117,25 @@ export function isOnToday(item) {
   return checkOnDay(item, new Date().getDay());
 }
 
+export function isOnTomorrow(item) {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  if (item.listingType === "event" || item.isEvent) {
+    if (item.eventDates && item.eventDates.length > 0) {
+      const tStr = tomorrow.toISOString().split("T")[0];
+      return item.eventDates.includes(tStr);
+    }
+    if (item.eventStartDate) {
+      const start = new Date(item.eventStartDate);
+      const end = item.eventEndDate ? new Date(item.eventEndDate) : start;
+      start.setHours(0,0,0,0); end.setHours(23,59,59,999); tomorrow.setHours(12,0,0,0);
+      return tomorrow >= start && tomorrow <= end;
+    }
+    return false;
+  }
+  return checkOnDay(item, tomorrow.getDay());
+}
+
 export function isOnDay(item, dayNum) {
   if (dayNum === -1) return true;
   return checkOnDay(item, dayNum);

@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { FALLBACK_LISTINGS } from "./fallbackListings.jsx";
 import { typeColors } from "./typeColors.jsx";
 import { getDistanceMiles } from "./utils.jsx";
-import { BrandBear, SceneBg, isOnToday, isOnDay, isOnWeekend, isOnThisWeek, isAlwaysAvailable, isExpiredEvent, getNextSession, getSessionSummary, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
+import { BrandBear, SceneBg, isOnToday, isOnTomorrow, isOnDay, isOnWeekend, isOnThisWeek, isAlwaysAvailable, isExpiredEvent, getNextSession, getSessionSummary, shareWhatsApp, MapView, ListingCard, DetailView } from "./components.jsx";
 
 // ── SEO Landing Page ──────────────────────────────────────────────────────────
 function EalingSEOPage({ listings, onActivityClick }) {
@@ -247,7 +247,7 @@ function WestLondonListings() {
   const [locStatus, setLocStatus] = useState("idle");
   const [isSunny, setIsSunny] = useState(true);
   const [weather, setWeather] = useState(null);
-  const [dayFilter, setDayFilter] = useState("today");
+  const [dayFilter, setDayFilter] = useState(() => new Date().getHours() >= 18 ? "tomorrow" : "today");
   const [weatherMode, setWeatherMode] = useState("all");
   const [napFilter, setNapFilter] = useState("all");
   const [ageFilter, setAgeFilter] = useState("all");
@@ -564,7 +564,7 @@ const BottomNav = () => (
   }, [areaFilter]);
 
   // Reset to page 1 when any filter changes
-  useEffect(() => { setPage(1); }, [cityFilter, typeFilter, areaFilter, freeOnly, search, dayFilter, weatherMode, napFilter, ageFilter, eventsOnly, worthJourney]);
+  useEffect(() => { setPage(1); }, [cityFilter, typeFilter, areaFilter, freeOnly, search, dayFilter, weatherMode, napFilter, ageFilter, worthJourney]);
 
   // Persist favourites
   useEffect(() => { try { localStorage.setItem("ll_favs", JSON.stringify(favourites)); } catch(e) {} }, [favourites]);
@@ -882,6 +882,7 @@ function getSearchScore(item, query) {
       if (!search && eventsOnly) return true; // show all events bypassing other filters
       if (!search && worthJourney && !l.worthJourney) return false;
       if (!search && dayFilter === "today" && !isOnToday(l)) return false;
+      if (!search && dayFilter === "tomorrow" && !isOnTomorrow(l)) return false;
       if (!search && dayFilter === "weekend" && !isOnWeekend(l)) return false;
       if (!search && dayFilter === "week" && !isOnThisWeek(l)) return false;
       if (!search && dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && dayFilter !== "week" && !isOnDay(l, parseInt(dayFilter))) return false;
@@ -1042,6 +1043,7 @@ function getSearchScore(item, query) {
         if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
         if (freeOnly && !l.free) return false;
         if (dayFilter === "today" && !isOnToday(l)) return false;
+        if (dayFilter === "tomorrow" && !isOnTomorrow(l)) return false;
         if (dayFilter === "weekend" && !isOnWeekend(l)) return false;
         if (dayFilter === "week" && !isOnThisWeek(l)) return false;
         if (dayFilter !== "all" && dayFilter !== "today" && dayFilter !== "weekend" && dayFilter !== "week" && !isOnDay(l, parseInt(dayFilter))) return false;
@@ -1087,6 +1089,7 @@ function getSearchScore(item, query) {
 
   const areaListings = useMemo(() => areaFilter === "All Areas" ? listings : listings.filter(l => l.location && l.location.includes(areaFilter)), [listings, areaFilter]);
   const todayCount = useMemo(() => areaListings.filter(l => isOnToday(l)).length, [areaListings]);
+  const tomorrowCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnTomorrow(l)).length, [areaListings]);
   const weekendCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [areaListings]);
   const weekCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [areaListings]);
 
@@ -1326,7 +1329,7 @@ const BottomNav = () => (
                 const greeting = hr < 12 ? "Good morning, Ealing parents" : hr < 17 ? "Afternoon ideas for Ealing families" : "Planning tomorrow in Ealing?";
                 return <div style={{ fontSize: 17, fontWeight: 800, color: "#5B2D6E", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
               })()}
-              <div style={{ fontSize: 30, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>What should we do today?</div>
+              <div style={{ fontSize: 30, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>{new Date().getHours() >= 18 ? "Plan tomorrow with the kids" : "What should we do today?"}</div>
               <div style={{ fontSize: 19, color: "#4B5563", marginBottom: 10, fontWeight: 600 }}>Discover the best kids activities near you in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}.</div>
               {(() => {
                 const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
@@ -1535,14 +1538,38 @@ const BottomNav = () => (
         } catch(e) { return null; }
       })()}
 
+      {/* Age filter row */}
+      {!search && (
+        <div style={{ padding: "0 20px 6px", display: "flex", gap: 6, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          {[
+            { label: "👶 Baby", value: "0-1" },
+            { label: "🐣 Toddler", value: "1-2" },
+            { label: "🧒 Preschool", value: "2-4" },
+            { label: "🎒 Kids", value: "4-7" },
+          ].map(({ label, value }) => {
+            const active = ageFilter === value;
+            return (
+              <span key={value} onClick={() => { setAgeFilter(active ? "all" : value); setPage(1); }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 15, fontWeight: active ? 700 : 500,
+                  padding: "5px 13px", borderRadius: 20, cursor: "pointer",
+                  background: active ? "#5B2D6E" : "transparent", color: active ? "white" : "#6B7280",
+                  border: active ? "none" : "1px solid #E5E7EB", whiteSpace: "nowrap", flexShrink: 0,
+                  transition: "all 0.15s ease" }}
+              >{label}</span>
+            );
+          })}
+        </div>
+      )}
+
       {/* Time filter pills */}
       {!search && (
         <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>
           {[
             { label: "Today", value: "today", count: todayCount },
-            { label: "This weekend", value: "weekend", count: weekendCount },
-            { label: "This week", value: "week", count: weekCount },
-          ].map(({ label, value, count }) => {
+            { label: "Tomorrow", value: "tomorrow", count: tomorrowCount },
+            { label: "Weekend", value: "weekend", count: weekendCount },
+            { label: "Week", value: "week", count: weekCount },
+          ].filter(({ value, count }) => value !== "tomorrow" || count > 0).map(({ label, value, count }) => {
             const active = dayFilter === value;
             const zero = count === 0;
             return (
@@ -1640,9 +1667,8 @@ const BottomNav = () => (
             { label: "☀️ Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny", count: (filtered||[]).filter(l=>!l.indoor).length },
             { label: "🌧️ Indoor",  action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy", count: (filtered||[]).filter(l=>l.indoor).length },
             { label: "💰 Free",    action: () => { setFreeOnly(!freeOnly); setPage(1); }, active: freeOnly, count: (filtered||[]).filter(l=>l.free).length },
-            { label: "📅 Events",  action: () => { setEventsOnly(!eventsOnly); setPage(1); }, active: eventsOnly, count: (listings||[]).filter(l=>l.isEvent && (!l.eventDate || new Date(l.eventDate) >= new Date())).length },
-            { label: "✨ Popular", action: () => { setSortBy(sortBy === "popular" ? "mixed" : "popular"); setPage(1); }, active: sortBy === "popular", count: (filtered||[]).filter(l=>l.popular).length },
-            { label: "🚗 Journey", action: () => { setWorthJourney(!worthJourney); setPage(1); }, active: worthJourney, count: (listings||[]).filter(l=>l.worthJourney).length },
+            { label: "✨ Trending", action: () => { setSortBy(sortBy === "popular" ? "mixed" : "popular"); setPage(1); }, active: sortBy === "popular", count: (filtered||[]).filter(l=>l.popular).length },
+            { label: "🚗 Adventure", action: () => { setWorthJourney(!worthJourney); setPage(1); }, active: worthJourney, count: (listings||[]).filter(l=>l.worthJourney).length },
           ].map(({ label, action, active }) => (
             <span
               key={label}
@@ -1669,7 +1695,7 @@ const BottomNav = () => (
             })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setEventsOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear all</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear all</span>
           )}
         </div>
       </div>
