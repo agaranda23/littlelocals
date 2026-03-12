@@ -1323,19 +1323,8 @@ const BottomNav = () => (
                 </div>
               </div>
             </div>
-            <div style={{ marginTop: 6, marginLeft: 58 }}>
-              {(() => {
-                const hr = new Date().getHours();
-                const greeting = hr < 12 ? "Good morning, Ealing parents" : hr < 17 ? "Afternoon ideas for Ealing families" : "Planning tomorrow in Ealing?";
-                return <div style={{ fontSize: 17, fontWeight: 800, color: "#5B2D6E", marginBottom: 6, letterSpacing: 0.1 }}>{greeting}</div>;
-              })()}
-              <div style={{ fontSize: 30, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 6, letterSpacing: -0.5 }}>{new Date().getHours() >= 18 ? "Plan tomorrow with the kids" : "What should we do today?"}</div>
-              <div style={{ fontSize: 19, color: "#4B5563", marginBottom: 10, fontWeight: 600 }}>Discover the best kids activities near you in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}.</div>
-              {(() => {
-                const seed = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-                const n = 7 + (seed % 6);
-                return <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 17, color: "#374151", background: "#FFF7ED", border: "1px solid #FED7AA", padding: "5px 12px", borderRadius: 999, marginBottom: 16, fontWeight: 800 }}>🔥 {n} parents exploring today</div>;
-              })()}
+            <div style={{ marginTop: 4, marginLeft: 58 }}>
+              <div style={{ fontSize: 26, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 0, letterSpacing: -0.5 }}>{new Date().getHours() >= 18 ? "Plan tomorrow with the kids" : "What should we do today?"}</div>
             </div>
           </>
         ) : (
@@ -1522,19 +1511,13 @@ const BottomNav = () => (
           // Priority 3: nearby starting soon
           if (userLoc) {
             return (
-              <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#F0FDF4", borderRadius: 14, border: "1px solid #BBF7D0" }}>
-                <div style={{ fontSize: 13, fontWeight: 800, color: "#166534", marginBottom: 2 }}>📍 Activities near you starting soon</div>
-                <div style={{ fontSize: 13, color: "#4B5563" }}>Based on your location</div>
+              <div style={{ margin: "0 20px 8px", padding: "7px 12px", background: "#F0FDF4", borderRadius: 10, border: "1px solid #BBF7D0", display: "inline-block" }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: "#166534" }}>📍 Activities near you starting soon</span>
               </div>
             );
           }
           // Fallback
-          return (
-            <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#F9FAFB", borderRadius: 14, border: "1px solid #E5E7EB" }}>
-              <div style={{ fontSize: 13, fontWeight: 800, color: "#1F2937", marginBottom: 2 }}>✨ Discover something new in Ealing today</div>
-              <div style={{ fontSize: 13, color: "#6B7280" }}>Fresh activities for local families</div>
-            </div>
-          );
+          return null;
         } catch(e) { return null; }
       })()}
 
@@ -1685,9 +1668,10 @@ const BottomNav = () => (
             >{label}</span>
           ))}
         </div>
+        {(() => { const seed = Math.floor(Date.now() / (1000*60*60*24)); const n = 7+(seed%6); return <div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 700, marginBottom: 4 }}>🔥 {n} parents exploring today</div>; })()}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <span style={{ fontSize: 15, color: "#B0B0B0", fontWeight: 600 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
+            <span style={{ fontSize: 15, color: "#B0B0B0", fontWeight: 600 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "tomorrow" ? "things to do tomorrow" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
             {dayFilter === "today" && (() => {
               const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
               const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
@@ -1695,7 +1679,7 @@ const BottomNav = () => (
             })()}
           </div>
           {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter("today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear all</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
           )}
         </div>
       </div>
@@ -1724,7 +1708,7 @@ const BottomNav = () => (
               <div onClick={() => openDetail(lvItem)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#FAFAFA", borderRadius: 10, border: "1px solid #F0F0F0", cursor: "pointer" }}>
                 <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 17, fontWeight: 1000, color: tc.color || "#666" }}>{(lvItem.type || "A").charAt(0)}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 14, color: "#B0B0B0", marginBottom: 1 }}>Continue exploring · You recently viewed:</div>
+                  <div style={{ fontSize: 13, color: "#B0B0B0", marginBottom: 1 }}>Continue exploring →</div>
                   <div style={{ fontSize: 17, fontWeight: 800, color: "#374151", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{lvItem.name}</div>
                 </div>
                 <span style={{ fontSize: 15, color: "#C0C0C0", flexShrink: 0 }}>→</span>
