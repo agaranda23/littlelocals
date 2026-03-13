@@ -54,9 +54,13 @@ function isEventActive(item) {
 
 // ─── Event: is it expired? ─────────────────────────────────────
 export function isExpiredEvent(item) {
-  if (!item.isTemporary || !item.eventEndDate) return false;
-  const now = new Date(); now.setHours(0,0,0,0);
-  return now > new Date(item.eventEndDate);
+  try {
+    if (!item.isTemporary || !item.eventEndDate) return false;
+    const end = new Date(item.eventEndDate);
+    if (isNaN(end.getTime())) return false;
+    const now = new Date(); now.setHours(0,0,0,0);
+    return now > end;
+  } catch (e) { return false; }
 }
 
 // ─── Session: does this item have a session on a given short day? ──
