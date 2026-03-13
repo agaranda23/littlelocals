@@ -1122,10 +1122,10 @@ function getSearchScore(item, query) {
     }
     return true;
   }), [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, worthJourney, weatherMode, napFilter, ageFilter]);
-  const todayCount = useMemo(() => baseForCounts.filter(l => isOnToday(l)).length, [baseForCounts]);
-  const tomorrowCount = useMemo(() => baseForCounts.filter(l => isOnTomorrow(l)).length, [baseForCounts]);
-  const weekendCount = useMemo(() => baseForCounts.filter(l => isOnWeekend(l)).length, [baseForCounts]);
-  const weekCount = useMemo(() => baseForCounts.filter(l => isOnThisWeek(l)).length, [baseForCounts]);
+  const todayCount = useMemo(() => areaListings.filter(l => { try { return isOnToday(l); } catch(e) { return false; } }).length, [areaListings]);
+  const tomorrowCount = useMemo(() => areaListings.filter(l => { try { return isOnTomorrow(l); } catch(e) { return false; } }).length, [areaListings]);
+  const weekendCount = useMemo(() => areaListings.filter(l => { try { return isOnWeekend(l); } catch(e) { return false; } }).length, [areaListings]);
+  const weekCount = useMemo(() => areaListings.filter(l => { try { return isOnThisWeek(l); } catch(e) { return false; } }).length, [areaListings]);
 
 
 
