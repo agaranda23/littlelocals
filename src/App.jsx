@@ -1088,10 +1088,44 @@ function getSearchScore(item, query) {
   }, [userLoc]);
 
   const areaListings = useMemo(() => areaFilter === "All Areas" ? listings : listings.filter(l => l.location && l.location.includes(areaFilter)), [listings, areaFilter]);
-  const todayCount = useMemo(() => areaListings.filter(l => isOnToday(l)).length, [areaListings]);
-  const tomorrowCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnTomorrow(l)).length, [areaListings]);
-  const weekendCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnWeekend(l)).length, [areaListings]);
-  const weekCount = useMemo(() => areaListings.filter(l => !isExpiredEvent(l) && isOnThisWeek(l)).length, [areaListings]);
+  const baseForCounts = useMemo(() => listings.filter(l => {
+    if (isExpiredEvent(l)) return false;
+    if (showFavourites && !favourites.includes(l.id)) return false;
+    if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
+    if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
+    if (areaFilter !== "All Areas") {
+      const ealingBorough = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing"];
+      if (areaFilter === "Ealing") { if (!ealingBorough.some(a => l.location.includes(a))) return false; }
+      else { if (!l.location.includes(areaFilter)) return false; }
+    }
+    if (freeOnly && !l.free) return false;
+    if (worthJourney && !l.worthJourney) return false;
+    if (weatherMode === "rainy" && !l.indoor) return false;
+    if (weatherMode === "sunny" && l.indoor) return false;
+    if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
+    if (napFilter === "afternoon" && l.timeSlot !== "afternoon" && l.timeSlot !== "all-day") return false;
+    if (ageFilter !== "all") {
+      const a = (l.ages || "").toLowerCase();
+      if (!a.includes("all ages")) {
+        const nums = a.match(/\d+/g);
+        if (!nums) return false;
+        const lo = parseInt(nums[0]);
+        const hi = nums.length > 1 ? parseInt(nums[nums.length - 1]) : lo;
+        const loYrs = a.includes("mo") && lo < 24 ? lo / 12 : lo;
+        const hiYrs = a.includes("mo") && hi < 24 && nums.length === 1 ? hi / 12 : hi;
+        if (ageFilter === "0-1" && (hiYrs < 0 || loYrs > 1)) return false;
+        if (ageFilter === "1-2" && (loYrs > 2 || hiYrs < 1)) return false;
+        if (ageFilter === "2-4" && (loYrs > 4 || hiYrs < 2)) return false;
+        if (ageFilter === "4-7" && (loYrs > 7 || hiYrs < 4)) return false;
+        if (ageFilter === "7+" && hiYrs < 7) return false;
+      }
+    }
+    return true;
+  }), [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, worthJourney, weatherMode, napFilter, ageFilter]);
+  const todayCount = useMemo(() => baseForCounts.filter(l => isOnToday(l)).length, [baseForCounts]);
+  const tomorrowCount = useMemo(() => baseForCounts.filter(l => isOnTomorrow(l)).length, [baseForCounts]);
+  const weekendCount = useMemo(() => baseForCounts.filter(l => isOnWeekend(l)).length, [baseForCounts]);
+  const weekCount = useMemo(() => baseForCounts.filter(l => isOnThisWeek(l)).length, [baseForCounts]);
 
 
 
