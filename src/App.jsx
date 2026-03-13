@@ -1703,7 +1703,7 @@ const BottomNav = () => (
           })()}
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 15, color: "#6B7280", fontWeight: 700 }}>{dayFilter === "today" ? todayCount : dayFilter === "tomorrow" ? tomorrowCount : dayFilter === "weekend" ? weekendCount : weekCount} {dayFilter === "today" ? "things to do today" : dayFilter === "tomorrow" ? "things to do tomorrow" : dayFilter === "weekend" ? "this weekend" : "this week"}</span>
+          <span style={{ fontSize: 15, color: "#6B7280", fontWeight: 700 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "tomorrow" ? "things to do tomorrow" : dayFilter === "weekend" ? "this weekend" : "this week"}</span>
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
           )}
