@@ -1200,6 +1200,13 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             {item.cta.type === "phone" ? "📞 " : item.cta.type === "facebook" ? "📘 " : item.cta.type === "email" ? "✉️ " : (item.website || item.cta.url || "").includes("instagram") ? "📸 " : (item.website || item.cta.url || "").includes("book") || (item.website || item.cta.url || "").includes("ticket") ? "🎟 " : "🌐 "}{item.cta.type === "phone" ? "Call" : item.cta.type === "facebook" ? "View on Facebook" : item.cta.type === "email" ? "Email" : (item.website || item.cta.url || "").includes("instagram") ? "View on Instagram" : (item.website || item.cta.url || "").includes("book") || (item.website || item.cta.url || "").includes("ticket") ? "Book a Class" : "Visit Website"}
           </button>
         </div>
+        {item.cta && item.cta.url && item.website && item.website !== item.cta.url && (
+          <div style={{ marginTop: 8 }}>
+            <button onClick={(e) => { e.stopPropagation(); openExternalWebsite(item.cta.url); }} style={{ width: "100%", padding: 12, borderRadius: 12, border: "none", background: "#D4732A", color: "white", fontSize: 17, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>
+              🔗 More info / Bookings
+            </button>
+          </div>
+        )}
 
         {/* Suggested by credit */}
         {item.suggestedBy && (
