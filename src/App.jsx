@@ -366,7 +366,7 @@ function WestLondonListings() {
             bring: l.bring || [], sen: l.sen,
             cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
             photos: l.photos, verified: l.verified, parking: l.parking,
-            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo,
+            timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo, whatsappGroup: l.whatsapp_group_url,
             // Structured schedule fields (v2)
             daysOfWeek: l.days_of_week || null,          // e.g. ["mon","wed","fri"]
             isDaily: l.is_daily || false,                 // true = runs every day
@@ -426,7 +426,7 @@ function WestLondonListings() {
               bring: l.bring || [], sen: l.sen,
               cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
               photos: l.photos, verified: l.verified, parking: l.parking,
-              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo,
+              timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo, whatsappGroup: l.whatsapp_group_url,
             };}));
           }
         } catch(e2) {}
