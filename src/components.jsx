@@ -100,7 +100,9 @@ function checkOnDay(item, dayNum) {
     const d = new Date(); d.setHours(0,0,0,0);
     const offset = (dayNum - d.getDay() + 7) % 7;
     const target = new Date(d); target.setDate(d.getDate() + offset);
-    return item.eventDates.includes(target.toISOString().split("T")[0]);
+    if (isNaN(target.getTime())) return false;
+    const tStr2 = target.toISOString().split("T")[0];
+    return item.eventDates.some(d => typeof d === "string" && d.startsWith(tStr2));
   }
 
   // Text fallback
@@ -126,6 +128,8 @@ export function isOnTomorrow(item) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   if (item.listingType === "event" || item.isEvent) {
     if (item.eventDates && item.eventDates.length > 0) {
+      if (isNaN(tomorrow.getTime())) return false;
+      if (isNaN(tomorrow.getTime())) return false;
       const tStr = tomorrow.toISOString().split("T")[0];
       return item.eventDates.includes(tStr);
     }
