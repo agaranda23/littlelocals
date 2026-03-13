@@ -1498,16 +1498,8 @@ const BottomNav = () => (
               </div>
             );
           }
-          // Priority 2: recently viewed
+          // Priority 2: recently viewed — handled by slim card below
           const lv = JSON.parse(localStorage.getItem("ll_lastViewedActivity") || "null");
-          if (lv && lv.name && (Date.now() - lv.timestamp) < 24 * 60 * 60 * 1000) {
-            return (
-              <div style={{ margin: "0 20px 16px", padding: "12px 16px", background: "#FFF7ED", borderRadius: 14, border: "1px solid #FED7AA" }}>
-                <div style={{ fontSize: 13, fontWeight: 800, color: "#D4732A", marginBottom: 2 }}>👀 Continue exploring</div>
-                <div style={{ fontSize: 13, color: "#4B5563" }}>{lv.name}</div>
-              </div>
-            );
-          }
           // Priority 3: nearby starting soon
           if (userLoc) {
             return (
@@ -1525,20 +1517,20 @@ const BottomNav = () => (
       {!search && (
         <div style={{ padding: "0 20px 6px", display: "flex", gap: 6, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none" }}>
           {[
-            { label: "👶 Baby", value: "0-1" },
-            { label: "🐣 Toddler", value: "1-2" },
-            { label: "🧒 Preschool", value: "2-4" },
-            { label: "🎒 Kids", value: "4-7" },
-          ].map(({ label, value }) => {
+            { label: "👶 Baby", range: "0–12m", value: "0-1" },
+            { label: "🐣 Toddler", range: "1–3", value: "1-2" },
+            { label: "🧒 Preschool", range: "3–5", value: "2-4" },
+            { label: "🎒 Kids", range: "5+", value: "4-7" },
+          ].map(({ label, range, value }) => {
             const active = ageFilter === value;
             return (
               <span key={value} onClick={() => { setAgeFilter(active ? "all" : value); setPage(1); }}
-                style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 15, fontWeight: active ? 700 : 500,
-                  padding: "5px 13px", borderRadius: 20, cursor: "pointer",
+                style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: 14, fontWeight: active ? 700 : 500,
+                  padding: "5px 10px", borderRadius: 20, cursor: "pointer",
                   background: active ? "#5B2D6E" : "transparent", color: active ? "white" : "#6B7280",
                   border: active ? "none" : "1px solid #E5E7EB", whiteSpace: "nowrap", flexShrink: 0,
                   transition: "all 0.15s ease" }}
-              >{label}</span>
+              >{label} <span style={{ fontSize: 12, opacity: active ? 0.85 : 0.6, fontWeight: 500 }}>{range}</span></span>
             );
           })}
         </div>
@@ -1668,17 +1660,17 @@ const BottomNav = () => (
             >{label}</span>
           ))}
         </div>
-        {(() => { const seed = Math.floor(Date.now() / (1000*60*60*24)); const n = 7+(seed%6); return <div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 700, marginBottom: 4 }}>🔥 {n} parents exploring today</div>; })()}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
+          <span style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 600 }}>{(() => { const seed = Math.floor(Date.now() / (1000*60*60*24)); const n = 7+(seed%6); return `🔥 ${n} parents exploring today`; })()}</span>
+          {dayFilter === "today" && (() => {
+            const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
+            const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
+            return <span style={{ fontSize: 13, color: "#C8C8C8", fontWeight: 600 }}>{localCount} around Ealing</span>;
+          })()}
+        </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div>
-            <span style={{ fontSize: 15, color: "#B0B0B0", fontWeight: 600 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "tomorrow" ? "things to do tomorrow" : dayFilter === "weekend" ? "activities this weekend" : "activities"} in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>
-            {dayFilter === "today" && (() => {
-              const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
-              const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
-              return <div style={{ fontSize: 14, color: "#C8C8C8", fontWeight: 600, marginTop: 1 }}>{localCount} things to do around Ealing</div>;
-            })()}
-          </div>
-          {(cityFilter !== "All" || dayFilter !== "today" || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
+          <span style={{ fontSize: 15, color: "#6B7280", fontWeight: 700 }}>{filtered.length} {dayFilter === "today" ? "things to do today" : dayFilter === "tomorrow" ? "things to do tomorrow" : dayFilter === "weekend" ? "this weekend" : "this week"}</span>
+          {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
           )}
         </div>
@@ -1706,7 +1698,11 @@ const BottomNav = () => (
           return (
             <div style={{ padding: "8px 20px 0" }}>
               <div onClick={() => openDetail(lvItem)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#FAFAFA", borderRadius: 10, border: "1px solid #F0F0F0", cursor: "pointer" }}>
-                <div style={{ width: 34, height: 34, borderRadius: 9, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 17, fontWeight: 1000, color: tc.color || "#666" }}>{(lvItem.type || "A").charAt(0)}</div>
+                <div style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0, overflow: "hidden", background: tc.bg }}>
+                  {(lvItem.images && lvItem.images[0]) ? <img src={lvItem.images[0]} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} /> :
+                   lvItem.logo ? <img src={lvItem.logo} style={{ width: "100%", height: "100%", objectFit: "contain", padding: 4 }} onError={e => e.target.style.display="none"} /> :
+                   <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{lvItem.emoji || "🎯"}</div>}
+                </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 13, color: "#B0B0B0", marginBottom: 1 }}>Continue exploring →</div>
                   <div style={{ fontSize: 17, fontWeight: 800, color: "#374151", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{lvItem.name}</div>
