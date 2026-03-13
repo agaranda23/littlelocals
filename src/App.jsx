@@ -1089,7 +1089,6 @@ function getSearchScore(item, query) {
 
   const areaListings = useMemo(() => areaFilter === "All Areas" ? listings : listings.filter(l => l.location && l.location.includes(areaFilter)), [listings, areaFilter]);
   const baseForCounts = useMemo(() => listings.filter(l => {
-    if (isExpiredEvent(l)) return false;
     if (showFavourites && !favourites.includes(l.id)) return false;
     if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
     if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
