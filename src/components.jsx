@@ -885,6 +885,15 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </video>
           </div>
         )}
+        {/* The Little Club video */}
+        {item.name && item.name.toLowerCase().includes("little club") && (
+          <div style={{ marginBottom: 20 }}>
+            <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>See the space in action</div>
+            <video controls preload="none" style={{ width: "100%", borderRadius: 12 }} poster="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/the-little-club:play-roleplay-firestation.jpeg">
+              <source src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/the-little-club:play-session.mp4" type="video/mp4" />
+            </video>
+          </div>
+        )}
         {/* Cook Stars video */}
         {item.name && item.name.toLowerCase().includes("cook stars") && (
           <div style={{ marginBottom: 20 }}>
