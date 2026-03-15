@@ -538,7 +538,6 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   // Seeded social proof — stable per listing per day, believably small
   const imgs = (item.images || []);
 
-  const imgs = (item.images || []);
   const qualifiedForBadge = imgs.filter(u => u && !u.endsWith('.mp4')).length >= 2 && (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 3 || imgs.some(u => u && u.endsWith('.mp4')));
 
   const socialProof = (() => {
