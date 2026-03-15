@@ -430,6 +430,7 @@ function VerifiedBadge({ size }) {
       </svg>
       <span style={{ fontSize: isDetail ? 12 : 11, fontWeight: 700, color: "#1D4ED8", letterSpacing: "0.01em", whiteSpace: "nowrap" }}>Verified</span>
       {isDetail && <span style={{ fontSize: 11, color: "#93C5FD", fontWeight: 400, marginLeft: 2 }}>· listing details checked by LITTLElocals</span>}
+      {isDetail && <span style={{ fontSize: 11, color: "#93C5FD", fontWeight: 400, marginLeft: 2 }}>· listing details checked by LITTLElocals</span>}
     </div>
   );
 }
