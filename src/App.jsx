@@ -1714,7 +1714,7 @@ const BottomNav = () => (
           {(() => {
             const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
             const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
-            return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} today • {localCount} around {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
+            return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} things happening today • {localCount} around {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
           })()}
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
@@ -1988,8 +1988,8 @@ const BottomNav = () => (
             loved.forEach(l => shownIds.add(l.id));
             return (
               <div style={{ marginTop: 40, padding: "0 20px" }}>
-                <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Ealing parents are loving these</div>
-                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local families right now</div>
+                <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Trending today</div>
+                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local parents right now</div>
                 {loved.map(item => (
                   <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />
                 ))}
@@ -2095,28 +2095,19 @@ const BottomNav = () => (
             const isNew = item.createdAt ? (Date.now() - new Date(item.createdAt).getTime()) < 14 * 24 * 60 * 60 * 1000 : false;
             return <React.Fragment key={item.id}>
               <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNew} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
-              {false && (
+              {page === 1 && idx === 2 && !showSuggest && (
                 <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
                   <span style={{ fontSize: 26 }}>✨</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
-                    <div style={{ fontSize: 15, color: "#6B7280" }}>Help other parents discover it.</div>
+                    <div style={{ fontSize: 15, color: "#6B7280" }}>Help other local parents discover it.</div>
                   </div>
                   <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
                 </div>
               )}
             </React.Fragment>;
           })}
-          {page === 1 && !showSuggest && (
-            <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
-              <span style={{ fontSize: 26 }}>✨</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
-                <div style={{ fontSize: 15, color: "#6B7280" }}>Help other parents discover it.</div>
-              </div>
-              <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
-            </div>
-          )}
+
           </>
         )}
       </div>

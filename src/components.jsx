@@ -429,6 +429,7 @@ function VerifiedBadge({ size }) {
         <path d="M7 12.5l3.5 3.5 6.5-7" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
       <span style={{ fontSize: isDetail ? 12 : 11, fontWeight: 700, color: "#1D4ED8", letterSpacing: "0.01em", whiteSpace: "nowrap" }}>Verified</span>
+      {isDetail && <span style={{ fontSize: 11, color: "#93C5FD", fontWeight: 400, marginLeft: 2 }}>· listing details checked by LITTLElocals</span>}
     </div>
   );
 }
@@ -543,10 +544,10 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     const viewsToday = Math.floor(seed(1) * 6) + boost * 3 + (clicks >= 3 ? 2 : 0);
     const savesWeek  = Math.floor(seed(2) * 4) + boost * 2 + (item.verified ? 1 : 0);
     // Pick ONE signal — highest priority that meets threshold
-    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return "🔥 Trending with Ealing parents";
-    if (viewsToday >= 5) return `👀 ${viewsToday} parents viewed today`;
-    if (savesWeek  >= 3) return `⭐ ${savesWeek} parents saved this`;
-    if (viewsToday >= 2 && clicks >= 2) return "👀 Viewed recently by local parents";
+    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return "🔥 Trending today";
+    if (viewsToday >= 5) return `👀 ${viewsToday} local parents viewed today`;
+    if (savesWeek  >= 3) return `⭐ ${savesWeek} local parents saved this`;
+    if (viewsToday >= 2 && clicks >= 2) return "👀 Viewed by local parents recently";
     return null;
   })();
 
