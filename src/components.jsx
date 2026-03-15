@@ -549,16 +549,10 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     const viewsToday = Math.floor(seed(1) * 6) + boost * 3 + (clicks >= 3 ? 2 : 0);
     const savesWeek  = Math.floor(seed(2) * 4) + boost * 2 + (item.verified ? 1 : 0);
     // Pick ONE signal — highest priority that meets threshold
-    // TIER 1 — has media + verified or popular
-    if (hasMedia && (qualifiedForBadge || item.popular || clicks >= 5)) {
-      const plansCount = Math.floor(seed(3) * 3) + boost + 1;
-      if (plansCount >= 3) return { label: null, sub: `🗓 ${plansCount} Ealing parents added this to their plans` };
-      return { label: null, sub: "✨ Popular with Ealing parents this week" };
-    }
-    // TIER 2 — has media, not premium
-    if (hasMedia && savesWeek >= 2) return { label: null, sub: `💜 ${savesWeek} Ealing parents saved this` };
-    // TIER 3 — no media or low score
-    if (viewsToday >= 2) return { label: null, sub: `👀 ${viewsToday} parents viewed today` };
+    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday} local parents viewed today` };
+    if (viewsToday >= 5) return { label: "⭐ Popular with parents", sub: `👀 ${viewsToday} local parents viewed today` };
+    if (savesWeek  >= 3) return { label: `💜 ${savesWeek} Ealing parents saved this`, sub: "🧡 More parents are saving it today" };
+    if (viewsToday >= 2 && clicks >= 2) return { label: null, sub: "👀 Recently viewed by local parents" };
     return null;
   })();
 
