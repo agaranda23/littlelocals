@@ -1823,6 +1823,17 @@ const BottomNav = () => (
         const todayList = todayListFull.slice(0, TODAY_LIMIT);
         todayListFull.forEach(a => shownIds.add(a.id));
 
+        // Pre-add quick ideas and nearby chips to shownIds so trending section skips them
+        const locRef2Pre = userLoc || areaCenters[areaFilter] || areaCenters["Ealing"];
+        const getDist2Pre = (a) => a.lat && locRef2Pre ? Math.sqrt(Math.pow((a.lat-locRef2Pre.lat)*111,2)+Math.pow((a.lng-locRef2Pre.lng)*111*Math.cos(locRef2Pre.lat*Math.PI/180),2)) : 999;
+        const sortedCandidatesPre = [...todayCandidates].sort((a,b) => { const sa=(a.popular?3:0)+(clickCounts[a.id]||0)+(a.verified?2:0); const sb=(b.popular?3:0)+(clickCounts[b.id]||0)+(b.verified?2:0); return sb-sa; });
+        const availablePre = sortedCandidatesPre.filter(a => !shownIds.has(a.id));
+        const popularPre = availablePre.find(a => a.popular || (clickCounts[a.id]||0) >= 5);
+        const nearbyPre = [...availablePre].sort((a,b) => getDist2Pre(a)-getDist2Pre(b)).find(a => a.id !== popularPre?.id);
+        const freePre = availablePre.find(a => a.free && a.id !== popularPre?.id && a.id !== nearbyPre?.id);
+        [popularPre, nearbyPre, freePre].filter(Boolean).forEach(a => shownIds.add(a.id));
+        [...todayCandidates].filter(a => a.lat && a.lng && !shownIds.has(a.id)).sort((a,b) => getDist2Pre(a)-getDist2Pre(b)).slice(0,2).forEach(a => shownIds.add(a.id));
+
         // Human-relevant signals — standardised 3 variants only
         const getTodaySignal = (item, idx, clicks) => {
           if (item.popular || item.featuredProvider || clicks >= 8) return "⭐ Popular with parents";
@@ -1860,9 +1871,10 @@ const BottomNav = () => (
           {(() => {
             const locRef2 = userLoc || areaCenters[areaFilter] || areaCenters["Ealing"];
             const getDist2 = (a) => a.lat && locRef2 ? Math.sqrt(Math.pow((a.lat-locRef2.lat)*111,2)+Math.pow((a.lng-locRef2.lng)*111*Math.cos(locRef2.lat*Math.PI/180),2)) : 999;
-            const popular = sortedTodayCandidates.find(a => a.popular || (clickCounts[a.id]||0) >= 5);
-            const nearby = [...sortedTodayCandidates].sort((a,b) => getDist2(a)-getDist2(b)).find(a => a.id !== popular?.id);
-            const free = sortedTodayCandidates.find(a => a.free && a.id !== popular?.id && a.id !== nearby?.id);
+            const available = sortedTodayCandidates.filter(a => !shownIds.has(a.id));
+            const popular = available.find(a => a.popular || (clickCounts[a.id]||0) >= 5);
+            const nearby = [...available].sort((a,b) => getDist2(a)-getDist2(b)).find(a => a.id !== popular?.id);
+            const free = available.find(a => a.free && a.id !== popular?.id && a.id !== nearby?.id);
             const ideas = [
               popular && { item: popular, label: "⭐ Popular today" },
               nearby && { item: nearby, label: "📍 Nearby" },
@@ -2000,7 +2012,7 @@ const BottomNav = () => (
           {/* Today near you — closest 1-2 activities */}
           {userLoc && (() => {
             const nearbyToday = [...todayCandidates]
-              .filter(a => a.lat && a.lng)
+              .filter(a => a.lat && a.lng && !shownIds.has(a.id))
               .sort((a, b) => getDist(a) - getDist(b))
               .slice(0, 2);
             nearbyToday.forEach(a => shownIds.add(a.id));
