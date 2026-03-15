@@ -678,7 +678,14 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
         {socialProof && (
           <div style={{ marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5" }}>
-            <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 600 }}>{socialProof}</div>
+            {typeof socialProof === "object" ? (
+              <>
+                {socialProof.label && <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700, marginBottom: 2 }}>{socialProof.label}</div>}
+                <div style={{ fontSize: 13, color: "#A0A4AD", fontWeight: 600 }}>{socialProof.sub}</div>
+              </>
+            ) : (
+              <div style={{ fontSize: 13, color: "#A0A4AD", fontWeight: 600 }}>{socialProof}</div>
+            )}
           </div>
         )}
         {(() => {
