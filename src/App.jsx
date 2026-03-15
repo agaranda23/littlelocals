@@ -2002,13 +2002,13 @@ const BottomNav = () => (
             <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
             {(() => {
               const totalViews = todayList.reduce((sum, a) => sum + (clickCounts[a.id] || 0), 0);
-              if (totalViews >= 5) return <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>🔥 {totalViews} Ealing parents viewed this today</div>;
+              if (totalViews >= 5) return <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>🔥 {totalViews} local parents viewed this today</div>;
               return <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Quick ideas parents are choosing today</div>;
             })()}
             {todayList.length === 0 ? (
               <div style={{ padding: "16px 0", textAlign: "center" }}>
                 <div style={{ fontSize: 18, color: "#6B7280", marginBottom: 6 }}>Nothing confirmed for today in {area}</div>
-                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 17, fontWeight: 800, color: "#D4732A", cursor: "pointer", marginBottom: 10 }}>Browse all activities →</div>
+                <div onClick={() => { setDayFilter("all"); setPage(1); }} style={{ fontSize: 17, fontWeight: 900, color: "#C2601E", cursor: "pointer", marginBottom: 10, letterSpacing: "-0.1px" }}>Browse all activities →</div>
                 {(() => { const upcoming = (listings||[]).filter(l => l.isEvent && l.eventDate && new Date(l.eventDate) > new Date()).sort((a,b) => new Date(a.eventDate)-new Date(b.eventDate)).slice(0,3); return upcoming.length > 0 ? (<div><div style={{ fontSize: 17, fontWeight: 900, color: "#111827", marginBottom: 8 }}>📅 Upcoming events</div>{upcoming.map(item => <ListingCard key={item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />)}</div>) : null; })()}
               </div>
             ) : todayList.map((item, idx) => {
@@ -2020,7 +2020,7 @@ const BottomNav = () => (
               );
             })}
             {todayListFull.length > TODAY_LIMIT && (
-              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 17, fontWeight: 800, color: "#D4732A", cursor: "pointer" }}>
+              <div onClick={() => document.getElementById("all-activities")?.scrollIntoView({ behavior: "smooth", block: "start" })} style={{ textAlign: "center", padding: "10px 0 4px", fontSize: 17, fontWeight: 900, color: "#C2601E", cursor: "pointer", letterSpacing: "-0.1px" }}>
                 Browse all activities →
               </div>
             )}

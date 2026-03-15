@@ -548,7 +548,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return "🔥 Trending today";
     if (viewsToday >= 5) return `👀 ${viewsToday} local parents viewed today`;
     if (savesWeek  >= 3) return `⭐ ${savesWeek} local parents saved this`;
-    if (viewsToday >= 2 && clicks >= 2) return "👀 Viewed by local parents recently";
+    if (viewsToday >= 2 && clicks >= 2) return "👀 Recently viewed by local parents";
     return null;
   })();
 
