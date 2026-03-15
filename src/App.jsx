@@ -1774,11 +1774,7 @@ const BottomNav = () => (
         const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
         const shownIds = new Set();
 
-        // Also add featured providers and continue-where-left-off to shown
-        const fp = listings.find(a => a.featuredProvider);
-        if (fp) shownIds.add(fp.id);
-        const hb = listings.find(a => a.name && a.name.toLowerCase().includes("hartbeeps"));
-        if (hb) shownIds.add(hb.id);
+        // No featured provider pre-exclusions — all listings surface via ranking
 
         // Helper: distance sort
         const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 }, "Ickenham": { lat: 51.5653, lng: -0.4457 }, "Hillingdon": { lat: 51.5341, lng: -0.4494 } };
@@ -1797,7 +1793,7 @@ const BottomNav = () => (
           if (a.description && a.description.length > 30) s += 2;
           if (a.time && a.time.length > 3) s += 1;
           if (a.website || a.trialLink) s += 1;
-          if (a.popular || a.featuredProvider) s += 1;
+          if (a.popular) s += 1;
           return s;
         };
         const sortedTodayCandidates = [...todayCandidates].sort((a, b) => getTodayScore(b) - getTodayScore(a));
@@ -1975,10 +1971,10 @@ const BottomNav = () => (
           {/* Ealing parents are loving these */}
           {(() => {
             const lovedRaw = listings
-              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || l.featuredProvider || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
+              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
               .sort((a, b) => {
-                const sa = (a.popular?3:0)+(a.featuredProvider?2:0)+(clickCounts[a.id]||0)+(a.verified?1:0);
-                const sb = (b.popular?3:0)+(b.featuredProvider?2:0)+(clickCounts[b.id]||0)+(b.verified?1:0);
+                const sa = (a.popular?3:0)+(clickCounts[a.id]||0)+(a.verified?2:0);
+                const sb = (b.popular?3:0)+(clickCounts[b.id]||0)+(b.verified?2:0);
                 return sb - sa;
               });
             const lovedSeen = new Set();
@@ -2030,89 +2026,6 @@ const BottomNav = () => (
             )}
           </div>
 
-
-          {/* Featured Providers — Hartbeeps (primary) + LGD (secondary) */}
-          {(() => {
-            const hartbeeps = listings.find(a => a.name && a.name.toLowerCase().includes("hartbeeps"));
-            const lgd = listings.find(a => a.featuredProvider);
-            const hDist = hartbeeps ? getDist(hartbeeps) : null;
-            const hWalk = hDist && hDist < 50 ? Math.round(hDist * 1.60934 * 12) : null;
-            const lDist = lgd ? getDist(lgd) : null;
-            const lWalk = lDist && lDist < 50 ? Math.round(lDist * 1.60934 * 12) : null;
-            return (<>
-              {/* Hartbeeps — Premium Featured */}
-              {hartbeeps && (
-              <div style={{ marginTop: 44, padding: "0 20px" }}>
-                <div style={{ fontSize: 15, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 10 }}>Featured provider</div>
-                <div onClick={() => openDetail(hartbeeps)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
-                  <div style={{ position: "relative" }}>
-                    <div style={{ display: "flex", overflowX: "auto", scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}>
-                      {[{src:"/hartbeeps-hero.png",focalY:22},{src:"/hartbeeps-bells.jpg",focalY:50},{src:"/hartbeeps-happy.png",focalY:45}].map((img, i) => (
-                        <img key={i} src={img.src} alt="Hartbeeps class" style={{ width: "100%", height: 180, objectFit: "cover", objectPosition: `center ${img.focalY}%`, flexShrink: 0, scrollSnapAlign: "start" }} />
-                      ))}
-                    </div>
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "4px 12px", borderRadius: 8, background: "#5B2D6E", color: "white", letterSpacing: 0.3, boxShadow: "0 2px 8px rgba(107,78,255,0.3)" }}>Featured baby classes</span>
-                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 50, background: "linear-gradient(transparent, rgba(0,0,0,0.25))", pointerEvents: "none" }} />
-                    <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 4 }}>
-                      {[0,1,2].map(i => <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: "rgba(255,255,255,0.85)" }} />)}
-                    </div>
-                  </div>
-                  <div style={{ padding: "14px 16px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-                      <span style={{ fontSize: 21, fontWeight: 1000, color: "#222" }}>Hartbeeps West & SW London</span>
-                    </div>
-                    <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 6 }}>Award-winning baby sensory and music classes loved by local parents.</div>
-                    <div style={{ fontSize: 17, color: "#4B5563", marginBottom: 3 }}>Baby Sensory · 0–4 yrs · Various days</div>
-                    <div style={{ fontSize: 17, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 6 }}>
-                      Haven Green Church, Ealing Broadway
-                      {hWalk !== null && hWalk < 60 && <span style={{ color: "#D4732A", fontWeight: 800 }}>· {hWalk < 2 ? "Nearby" : hWalk + " min walk"}</span>}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
-                      <span style={{ fontSize: 15, fontWeight: 800, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>
-                      
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <span style={{ fontSize: 16, fontWeight: 900, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>From £8/class</span>
-                      <span style={{ fontSize: 15, fontWeight: 900, color: "#5B2D6E" }}>View details →</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              )}
-
-              {/* LGD — Secondary Featured */}
-              {lgd && (
-              <div style={{ marginTop: 28, padding: "0 20px" }}>
-                <div onClick={() => openDetail(lgd)} style={{ background: "white", borderRadius: 16, padding: 0, cursor: "pointer", border: "1px solid rgba(124, 77, 255, 0.25)", overflow: "hidden", boxShadow: "0 4px 14px rgba(0,0,0,0.04)" }}>
-                  <div style={{ width: "100%", height: 140, overflow: "hidden", position: "relative" }}>
-                    <img src="/lgd-dance.png" alt={lgd.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    <span style={{ position: "absolute", top: 10, left: 10, fontSize: 14, fontWeight: 900, padding: "3px 10px", borderRadius: 6, background: "#5B2D6E", color: "white", letterSpacing: 0.3 }}>Featured local provider</span>
-                  </div>
-                  <div style={{ padding: "14px 16px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 2 }}>
-                      <span style={{ fontSize: 20, fontWeight: 900, color: "#222" }}>{lgd.name}</span>
-                      <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 4, background: "#D4732A", color: "white", letterSpacing: 0.3 }}>NEW</span>
-                    </div>
-                    <div style={{ fontSize: 16, color: "#6B7280", marginBottom: 4 }}>Fun, friendly dance classes in West Ealing</div>
-                    <div style={{ fontSize: 17, color: "#4B5563", marginBottom: 3 }}>{lgd.type} · {lgd.ages} · {lgd.day}</div>
-                    <div style={{ fontSize: 17, color: "#4B5563", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 4 }}>
-                      {lgd.venue.split(",")[0]}, {lgd.location}
-                      {lWalk !== null && lWalk < 60 && <span style={{ color: "#D4732A", fontWeight: 800 }}>· {lWalk < 2 ? "Nearby" : lWalk + " min walk"}</span>}
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 4 }}>
-                      {lgd.freeTrial && <span style={{ fontSize: 15, fontWeight: 800, color: "#15803D", padding: "2px 8px", background: "#ECFDF5", borderRadius: 6 }}>Free trial available</span>}
-                      
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                      <span style={{ fontSize: 16, fontWeight: 900, padding: "5px 10px", borderRadius: 8, background: "#FDF6EE", color: "#92400E" }}>{lgd.price}</span>
-                      <span style={{ fontSize: 15, fontWeight: 900, color: "#5B2D6E" }}>View details →</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              )}
-            </>);
-          })()}
 
           {/* 2. From your saved */}
           {savedList.length > 0 && (
