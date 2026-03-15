@@ -1856,37 +1856,6 @@ const BottomNav = () => (
         shownIdsRef.current = shownIds;
 
         return (<>
-          {/* Today near you — closest 1-2 activities */}
-          {userLoc && (() => {
-            const nearbyToday = [...todayCandidates]
-              .filter(a => a.lat && a.lng)
-              .sort((a, b) => getDist(a) - getDist(b))
-              .slice(0, 2);
-            if (nearbyToday.length === 0) return null;
-            return (
-              <div style={{ padding: "12px 20px 0" }}>
-                <div style={{ fontSize: 15, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 8 }}>📍 Near you today</div>
-                <div style={{ display: "flex", gap: 8, overflowX: "auto", scrollbarWidth: "none", paddingBottom: 4 }}>
-                  {nearbyToday.map(item => {
-                    const dist = getDist(item);
-                    const walkMin = dist < 50 ? Math.round(dist * 1.60934 * 12) : null;
-                    const tc = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
-                    return (
-                      <div key={"nearby-" + item.id} onClick={() => openDetail(item)} style={{ flexShrink: 0, width: 160, background: "white", borderRadius: 12, border: "1px solid #E5E7EB", padding: "10px 12px", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
-                        <div style={{ fontSize: 15, fontWeight: 900, color: "#1F2937", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
-                        <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 4 }}>{item.type}</div>
-                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                          {walkMin !== null && <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#D4732A" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
-                          <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#ECFDF5", color: "#166534" }}>Open today</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })()}
-
           {/* Quick ideas for today — always 3: popular, nearby, free */}
           {(() => {
             const locRef2 = userLoc || areaCenters[areaFilter] || areaCenters["Ealing"];
@@ -1899,6 +1868,7 @@ const BottomNav = () => (
               nearby && { item: nearby, label: "📍 Nearby" },
               free   && { item: free,   label: "💰 Free" },
             ].filter(Boolean).slice(0, 3);
+            ideas.forEach(({item}) => shownIds.add(item.id));
             if (ideas.length === 0) return null;
             return (
               <div style={{ marginTop: 16, padding: "0 20px" }}>
@@ -1968,35 +1938,6 @@ const BottomNav = () => (
             );
           })()}
 
-          {/* Ealing parents are loving these */}
-          {(() => {
-            const lovedRaw = listings
-              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
-              .sort((a, b) => {
-                const sa = (a.popular?3:0)+(clickCounts[a.id]||0)+(a.verified?2:0);
-                const sb = (b.popular?3:0)+(clickCounts[b.id]||0)+(b.verified?2:0);
-                return sb - sa;
-              });
-            const lovedSeen = new Set();
-            const loved = lovedRaw.filter(l => {
-              const key = (l.name || "").toLowerCase().split(/\s+/).slice(0,2).join(" ");
-              if (lovedSeen.has(key)) return false;
-              lovedSeen.add(key);
-              return true;
-            }).slice(0, 3);
-            if (loved.length < 2) return null;
-            loved.forEach(l => shownIds.add(l.id));
-            return (
-              <div style={{ marginTop: 40, padding: "0 20px" }}>
-                <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Trending today</div>
-                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local parents right now</div>
-                {loved.map(item => (
-                  <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />
-                ))}
-              </div>
-            );
-          })()}
-
           {/* 1. Top things to do today */}
           <div style={{ marginTop: 40, padding: "0 20px" }}>
             <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
@@ -2026,6 +1967,67 @@ const BottomNav = () => (
             )}
           </div>
 
+
+          {/* Ealing parents are loving these */}
+          {(() => {
+            const lovedRaw = listings
+              .filter(l => !l.isEvent && !shownIds.has(l.id) && (l.popular || (clickCounts[l.id]||0) >= 3 || l.verified) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
+              .sort((a, b) => {
+                const sa = (a.popular?3:0)+(clickCounts[a.id]||0)+(a.verified?2:0);
+                const sb = (b.popular?3:0)+(clickCounts[b.id]||0)+(b.verified?2:0);
+                return sb - sa;
+              });
+            const lovedSeen = new Set();
+            const loved = lovedRaw.filter(l => {
+              const key = (l.name || "").toLowerCase().split(/\s+/).slice(0,2).join(" ");
+              if (lovedSeen.has(key)) return false;
+              lovedSeen.add(key);
+              return true;
+            }).slice(0, 3);
+            if (loved.length < 2) return null;
+            loved.forEach(l => shownIds.add(l.id));
+            return (
+              <div style={{ marginTop: 40, padding: "0 20px" }}>
+                <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Trending today</div>
+                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local parents right now</div>
+                {loved.map(item => (
+                  <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />
+                ))}
+              </div>
+            );
+          })()}
+
+          {/* Today near you — closest 1-2 activities */}
+          {userLoc && (() => {
+            const nearbyToday = [...todayCandidates]
+              .filter(a => a.lat && a.lng)
+              .sort((a, b) => getDist(a) - getDist(b))
+              .slice(0, 2);
+            nearbyToday.forEach(a => shownIds.add(a.id));
+            if (nearbyToday.length === 0) return null;
+            return (
+              <div style={{ padding: "12px 20px 0" }}>
+                <div style={{ fontSize: 15, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.6px", marginBottom: 8 }}>📍 Near you today</div>
+                <div style={{ display: "flex", gap: 8, overflowX: "auto", scrollbarWidth: "none", paddingBottom: 4 }}>
+                  {nearbyToday.map(item => {
+                    const dist = getDist(item);
+                    const walkMin = dist < 50 ? Math.round(dist * 1.60934 * 12) : null;
+                    const tc = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
+                    return (
+                      <div key={"nearby-" + item.id} onClick={() => openDetail(item)} style={{ flexShrink: 0, width: 160, background: "white", borderRadius: 12, border: "1px solid #E5E7EB", padding: "10px 12px", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
+                        <div style={{ fontSize: 15, fontWeight: 900, color: "#1F2937", marginBottom: 3, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.name}</div>
+                        <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 4 }}>{item.type}</div>
+                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                          {walkMin !== null && <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#FFF7ED", color: "#D4732A" }}>{walkMin < 2 ? "Nearby" : walkMin + " min walk"}</span>}
+                          <span style={{ fontSize: 13, fontWeight: 900, padding: "2px 6px", borderRadius: 5, background: "#ECFDF5", color: "#166534" }}>Open today</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* 2. From your saved */}
           {savedList.length > 0 && (
