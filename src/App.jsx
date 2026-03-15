@@ -1695,7 +1695,7 @@ const BottomNav = () => (
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
-          <span style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 600 }}>{(() => { const seed = Math.floor(Date.now() / (1000*60*60*24)); const n = 7+(seed%6); return `🔥 ${n} parents exploring today`; })()}</span>
+          
           {dayFilter === "today" && (() => {
             const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
             const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
