@@ -253,20 +253,6 @@ function WestLondonListings() {
   const [ageFilter, setAgeFilter] = useState("all");
   const [page, setPage] = useState(1);
 
-  // Weather fetch for greeting
-  const [weather, setWeather] = React.useState({ temp: 14, desc: "today" });
-  React.useEffect(() => {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=51.513&longitude=-0.3&current=temperature_2m,weathercode&timezone=Europe/London")
-      .then(r => r.json())
-      .then(d => {
-        const temp = Math.round(d.current.temperature_2m);
-        const code = d.current.weathercode;
-        const desc = code <= 1 ? "and sunny" : code <= 3 ? "and cloudy" : code <= 67 ? "and rainy" : code <= 77 ? "and snowy" : "today";
-        setWeather({ temp, desc });
-      })
-      .catch(() => {});
-  }, []);
-
   const [showAllToday, setShowAllToday] = useState(false);
   const [tips, setTips] = useState({});
   const [mapView, setMapView] = useState(false);
@@ -1710,15 +1696,11 @@ const BottomNav = () => (
           ))}
         </div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 2 }}>
-          
-          {dayFilter === "today" && (() => {
+          {(() => {
             const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
             const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
             return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} today • {localCount} around {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
           })()}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
           )}
@@ -1912,8 +1894,8 @@ const BottomNav = () => (
                 {(() => {
                   const h = new Date().getHours();
                   const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
-                  if (h >= 5 && h < 12)  return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Good morning {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather.temp}°C {weather.desc} — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {Math.floor(Math.random() * 18) + 6} parents exploring today</div></>);
-                  if (h >= 12 && h < 18) return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>👋 Afternoon {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather.temp}°C {weather.desc} — still time for an adventure.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {Math.floor(Math.random() * 18) + 6} parents exploring today</div></>);
+                  if (h >= 5 && h < 12)  return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Good morning {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {Math.floor(Math.random() * 18) + 6} parents exploring today</div></>);
+                  if (h >= 12 && h < 18) return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>👋 Afternoon {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — still time for an adventure.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {Math.floor(Math.random() * 18) + 6} parents exploring today</div></>);
                   if (h >= 18)           return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather.temp}°C tomorrow — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {Math.floor(Math.random() * 18) + 6} parents exploring today</div></>);
                   return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Late night planning?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather.temp}°C tomorrow — save some ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {Math.floor(Math.random() * 18) + 6} parents exploring today</div></>);
                 })()}
