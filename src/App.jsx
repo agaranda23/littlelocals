@@ -1588,7 +1588,7 @@ const BottomNav = () => (
 
       {/* Time filter pills */}
       {!search && (
-        <div style={{ padding: "0 20px 8px", display: "flex", gap: 6 }}>
+        <div style={{ padding: "0 20px 8px", display: "flex", gap: 6, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingRight: 20 }}>
           {[
             { label: "Today", value: "today", count: todayCount },
             { label: "Tomorrow", value: "tomorrow", count: tomorrowCount },
