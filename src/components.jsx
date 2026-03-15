@@ -428,7 +428,7 @@ function VerifiedBadge({ size }) {
         <circle cx="12" cy="12" r="12" fill="#2563EB"/>
         <path d="M7 12.5l3.5 3.5 6.5-7" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
-      <span style={{ fontSize: isDetail ? 12 : 11, fontWeight: 700, color: "#1D4ED8", letterSpacing: "0.01em", whiteSpace: "nowrap" }}>Verified organiser</span>
+      <span style={{ fontSize: isDetail ? 12 : 11, fontWeight: 700, color: "#1D4ED8", letterSpacing: "0.01em", whiteSpace: "nowrap" }}>Verified</span>
     </div>
   );
 }
@@ -675,7 +675,13 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             {socialProof}
           </div>
         )}
-        {(item.verified || item.featuredProvider) && <VerifiedBadge size="card" />}
+        {(() => {
+          const imgs = (item.images || []);
+          const hasVideo = imgs.some(u => u && u.endsWith('.mp4'));
+          const photoCount = imgs.filter(u => u && !u.endsWith('.mp4')).length;
+          const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
+          return qualified && <VerifiedBadge size="card" />;
+        })()}
       </div>
     </div>
   );
@@ -789,7 +795,13 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         <div style={{ fontSize: 18, color: tc.color, fontWeight: 800, marginBottom: 14, display: "flex", alignItems: "center", gap: 4 }}>
           {item.location}{dist !== null && <span style={{ color: "#D4732A" }}>· {Math.round(dist * 20)} min walk</span>}
         </div>
-        {(item.verified || item.featuredProvider) && <VerifiedBadge size="detail" />}
+        {(() => {
+          const imgs = (item.images || []);
+          const hasVideo = imgs.some(u => u && u.endsWith('.mp4'));
+          const photoCount = imgs.filter(u => u && !u.endsWith('.mp4')).length;
+          const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
+          return qualified && <VerifiedBadge size="detail" />;
+        })()}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
           {[
             { icon: "📅", label: "When", value: item.day },
