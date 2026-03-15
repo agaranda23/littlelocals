@@ -2156,6 +2156,16 @@ const BottomNav = () => (
           </div>
         );
       })()}
+      {!showSuggest && (
+        <div onClick={openSuggest} style={{ margin: "16px 20px 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
+          <span style={{ fontSize: 26 }}>✨</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 17, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
+            <div style={{ fontSize: 14, color: "#6B7280" }}>Help other local parents discover it.</div>
+          </div>
+          <span style={{ fontSize: 15, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
+        </div>
+      )}
       </>}
 
       <div style={{ textAlign: "center", padding: "20px 20px 8px", fontSize: 15, color: "#C4C4C4" }}>
