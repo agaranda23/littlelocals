@@ -610,7 +610,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {hasLogo && (
             <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
               <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
-              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <span style={{ fontSize: 13, color: "#93C5FD", fontWeight: 700, marginLeft: 4 }}>✓</span>}</span>
+              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <span style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", width:16, height:16, borderRadius:"50%", background:"#2563EB", color:"white", fontSize:10, fontWeight:900, marginLeft:5, flexShrink:0, verticalAlign:"middle", lineHeight:1 }}>✓</span>}</span>
             </div>
           )}
           {/* Fav button */}
@@ -642,7 +642,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Info block ── */}
       <div style={{ padding: "12px 14px 13px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 5 }}>
-          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <span style={{ fontSize: 13, color: "#93C5FD", fontWeight: 700, marginLeft: 4 }}>✓</span>}</span>
+          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <span style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", width:16, height:16, borderRadius:"50%", background:"#2563EB", color:"white", fontSize:10, fontWeight:900, marginLeft:5, flexShrink:0, verticalAlign:"middle", lineHeight:1 }}>✓</span>}</span>
           <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
