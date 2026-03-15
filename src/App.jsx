@@ -1395,7 +1395,7 @@ const BottomNav = () => (
     setNapFilter("all");
     setAgeFilter("all");
   }
-}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 16, flex: 1, minWidth: 0, background: "transparent", fontFamily: "inherit" }} />
+}} placeholder="Search activities..." style={{ border: "none", outline: "none", fontSize: 16, flex: 1, minWidth: 0, background: "transparent", fontFamily: "inherit", display: "none" }} />
             </div>
             <div onClick={() => setShowMoreFilters(!showMoreFilters)} style={{ width: 32, height: 32, borderRadius: 8, border: "1px solid #E5E7EB", background: showMoreFilters ? "#1F2937" : "white", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={showMoreFilters ? "white" : "#374151"} strokeWidth="2.5" strokeLinecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="12" y2="18"/></svg>
@@ -1714,7 +1714,7 @@ const BottomNav = () => (
           {(() => {
             const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
             const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
-            return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} things happening today • {localCount} around {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
+            return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} things happening today in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
           })()}
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
@@ -1869,9 +1869,9 @@ const BottomNav = () => (
             const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
             return (
               <div style={{ padding: "16px 20px 0" }}>
-                {h >= 5 && h < 12 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Good morning {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
-                {h >= 12 && h < 18 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>👋 Afternoon {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — still time for an adventure.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
-                {h >= 18 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C" : ""} tomorrow — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+                {h >= 5 && h < 12 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Good morning {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 2 }}>👀 {exploringCount} parents exploring today</div><div style={{ fontSize: 11, color: "#C4C8CF", fontWeight: 400, marginBottom: 12 }}>📍 Showing activities near {area}</div></>}
+                {h >= 12 && h < 18 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>👋 Afternoon {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — still time for an adventure.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 2 }}>👀 {exploringCount} parents exploring today</div><div style={{ fontSize: 11, color: "#C4C8CF", fontWeight: 400, marginBottom: 12 }}>📍 Showing activities near {area}</div></>}
+                {h >= 18 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C" : ""} tomorrow — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 2 }}>👀 {exploringCount} parents exploring today</div><div style={{ fontSize: 11, color: "#C4C8CF", fontWeight: 400, marginBottom: 12 }}>📍 Showing activities near {area}</div></>}
               </div>
             );
           })()}
@@ -1924,7 +1924,7 @@ const BottomNav = () => (
           {/* Weather smart suggestions */}
           {weather && (weather.isRainy || weather.isClear) && (() => {
             const weatherListings = (listings || [])
-              .filter(l => !isExpiredEvent(l) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
+              .filter(l => !isExpiredEvent(l) && !shownIds.has(l.id) && ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))))
               .filter(l => weather.isRainy
                 ? (l.type && ['Baby Sensory','Soft Play','Music','Baking','Arts & Crafts','Dance','Drama','Swimming','Indoor'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('indoor'))))
                 : (l.type && ['Outdoor','Park','Nature','Sports','Playground'].some(t => l.type.includes(t) || (l.setting && l.setting.toLowerCase().includes('outdoor'))))
@@ -1952,7 +1952,7 @@ const BottomNav = () => (
 
           {/* 1. Top things to do today */}
           <div style={{ marginTop: 40, padding: "0 20px" }}>
-            <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>Top things to do today in {area}</div>
+            <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>⭐ Top picks today</div>
             {(() => {
               const totalViews = todayList.reduce((sum, a) => sum + (clickCounts[a.id] || 0), 0);
               if (totalViews >= 5) return <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>🔥 {totalViews} local parents viewed this today</div>;
@@ -2001,7 +2001,7 @@ const BottomNav = () => (
             return (
               <div style={{ marginTop: 40, padding: "0 20px" }}>
                 <div style={{ fontSize: 24, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px", marginBottom: 2 }}>🔥 Trending today</div>
-                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Popular with local parents right now</div>
+                <div style={{ fontSize: 16, color: "#B0B0B0", marginTop: 3, marginBottom: 14 }}>Activities parents are engaging with right now</div>
                 {loved.map(item => (
                   <ListingCard key={"loved-"+item.id} item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={false} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id]||0} startsSoon={getStartsSoonMins(item)} />
                 ))}
