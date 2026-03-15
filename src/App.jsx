@@ -326,7 +326,7 @@ function WestLondonListings() {
   // Load from Supabase on mount (localStorage fallback)
   useEffect(() => {
     // Fetch weather for Ealing (Open-Meteo, no API key needed)
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=51.513&longitude=-0.309&current=weather_code&timezone=Europe/London")
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=51.513&longitude=-0.309&current=weather_code,temperature_2m&timezone=Europe/London")
       .then(function(r) { return r.json(); })
       .then(function(d) {
         if (d && d.current && d.current.weather_code !== undefined) {
@@ -334,7 +334,7 @@ function WestLondonListings() {
           var sunny = code <= 3;
           var rainy = code >= 51 || (code >= 61 && code <= 99);
           setIsSunny(sunny);
-          setWeather({ code, isRainy: rainy, isClear: sunny });
+          setWeather({ code, isRainy: rainy, isClear: sunny, temp: Math.round(d.current.temperature_2m || 14), desc: sunny ? "and sunny" : rainy ? "and rainy" : "and cloudy" });
         }
       })
       .catch(function(e) { console.log("Weather fetch failed, defaulting to sunny"); });
