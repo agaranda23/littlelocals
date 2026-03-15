@@ -547,7 +547,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     // Pick ONE signal — highest priority that meets threshold
     if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday} local parents viewed today` };
     if (viewsToday >= 5) return { label: "✨ Popular with local parents", sub: `👀 ${viewsToday} local parents viewed today` };
-    if (savesWeek  >= 3) return { label: "🧡 Parents are saving this", sub: `💜 ${savesWeek} local parents saved this` };
+    if (savesWeek  >= 3) return { label: `💜 ${savesWeek} Ealing parents saved this`, sub: "🧡 More parents are saving it today" };
     if (viewsToday >= 2 && clicks >= 2) return { label: null, sub: "👀 Recently viewed by local parents" };
     return null;
   })();
