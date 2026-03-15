@@ -1714,7 +1714,7 @@ const BottomNav = () => (
           {(() => {
             const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
             const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
-            return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} things happening today in {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
+            return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{filtered.length} today · {localCount} around {areaFilter !== "All Areas" ? areaFilter : "Ealing"}</span>;
           })()}
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
             <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
