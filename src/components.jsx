@@ -536,6 +536,9 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   if (tags.length < 2 && item.freeTrial) tags.push({ type: "trial", text: "Free trial", color: "#166634", bg: "#ECFDF5" });
 
   // Seeded social proof — stable per listing per day, believably small
+  const imgs = (item.images || []);
+  const qualifiedForBadge = imgs.filter(u => u && !u.endsWith('.mp4')).length >= 2 && (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 3 || imgs.some(u => u && u.endsWith('.mp4')));
+
   const socialProof = (() => {
     const dayNum = Math.floor(Date.now() / 86400000);
     const seed = (n) => { let x = Math.sin(item.id * 9301 + dayNum * 49297 + n * 233) * 49297; return x - Math.floor(x); };
