@@ -992,21 +992,21 @@ function getSearchScore(item, query) {
       results = mixed;
     }
 
-    // Deduplicate by exact name on first page — same name = same provider
+    // Deduplicate by name — same name = same provider, keep highest ranked version
     if (!search) {
       const seenNames = new Set();
-      const firstPage = [];
-      const rest = [];
+      const deduped = [];
+      const dupes = [];
       for (const r of results) {
         const name = (r.name || "").toLowerCase().trim();
-        if (firstPage.length < 12 && !seenNames.has(name)) {
+        if (!seenNames.has(name)) {
           seenNames.add(name);
-          firstPage.push(r);
+          deduped.push(r);
         } else {
-          rest.push(r);
+          dupes.push(r);
         }
       }
-      results = [...firstPage, ...rest];
+      results = deduped;
     }
 
     // Limit repeated providers — match on first 2 words of name
