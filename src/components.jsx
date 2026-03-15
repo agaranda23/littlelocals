@@ -545,10 +545,10 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     const viewsToday = Math.floor(seed(1) * 6) + boost * 3 + (clicks >= 3 ? 2 : 0);
     const savesWeek  = Math.floor(seed(2) * 4) + boost * 2 + (item.verified ? 1 : 0);
     // Pick ONE signal — highest priority that meets threshold
-    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return "🔥 Trending today";
-    if (viewsToday >= 5) return `👀 ${viewsToday} local parents viewed today`;
-    if (savesWeek  >= 3) return `⭐ ${savesWeek} local parents saved this`;
-    if (viewsToday >= 2 && clicks >= 2) return "👀 Recently viewed by local parents";
+    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday} local parents viewed today` };
+    if (viewsToday >= 5) return { label: "✨ Popular with local parents", sub: `👀 ${viewsToday} local parents viewed today` };
+    if (savesWeek  >= 3) return { label: "🧡 Parents are saving this", sub: `💜 ${savesWeek} local parents saved this` };
+    if (viewsToday >= 2 && clicks >= 2) return { label: null, sub: "👀 Recently viewed by local parents" };
     return null;
   })();
 
@@ -673,8 +673,15 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         </div>
 
         {socialProof && (
-          <div style={{ fontSize: 19, color: "#8A8F98", marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5", fontWeight: 700 }}>
-            {socialProof}
+          <div style={{ marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5" }}>
+            {typeof socialProof === "object" ? (
+              <>
+                {socialProof.label && <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700, marginBottom: 2 }}>{socialProof.label}</div>}
+                <div style={{ fontSize: 13, color: "#A0A4AD", fontWeight: 600 }}>{socialProof.sub}</div>
+              </>
+            ) : (
+              <div style={{ fontSize: 13, color: "#A0A4AD", fontWeight: 600 }}>{socialProof}</div>
+            )}
           </div>
         )}
         {(() => {
