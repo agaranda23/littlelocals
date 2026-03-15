@@ -420,6 +420,19 @@ function getSuggestion(item) {
   return null;
 }
 
+function VerifiedBadge({ size }) {
+  const isDetail = size === "detail";
+  return (
+    <div style={{ display: "inline-flex", alignItems: "center", gap: isDetail ? 5 : 3, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 999, padding: isDetail ? "4px 10px" : "2px 7px", marginTop: isDetail ? 0 : 4, marginBottom: isDetail ? 12 : 0 }}>
+      <svg width={isDetail ? 13 : 10} height={isDetail ? 13 : 10} viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+        <circle cx="12" cy="12" r="12" fill="#2563EB"/>
+        <path d="M7 12.5l3.5 3.5 6.5-7" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      <span style={{ fontSize: isDetail ? 12 : 11, fontWeight: 700, color: "#1D4ED8", letterSpacing: "0.01em", whiteSpace: "nowrap" }}>Verified organiser</span>
+    </div>
+  );
+}
+
 export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, todaySignal, startsSoon }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 } };
@@ -662,6 +675,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             {socialProof}
           </div>
         )}
+        {(item.verified || item.featuredProvider) && <VerifiedBadge size="card" />}
       </div>
     </div>
   );
@@ -774,8 +788,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         </div>
         <div style={{ fontSize: 18, color: tc.color, fontWeight: 800, marginBottom: 14, display: "flex", alignItems: "center", gap: 4 }}>
           {item.location}{dist !== null && <span style={{ color: "#D4732A" }}>· {Math.round(dist * 20)} min walk</span>}
-          {item.verified && <span style={{ display: "inline-flex", width: 16, height: 16, background: "#166534", borderRadius: "50%", alignItems: "center", justifyContent: "center", color: "white", fontSize: 15, fontWeight: 900 }}>✓</span>}
         </div>
+        {(item.verified || item.featuredProvider) && <VerifiedBadge size="detail" />}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
           {[
             { icon: "📅", label: "When", value: item.day },
