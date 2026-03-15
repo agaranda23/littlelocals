@@ -608,7 +608,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {hasLogo && (
             <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
               <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
-              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <span style={{ display:"inline-block", width:17, height:17, marginLeft:5, flexShrink:0, verticalAlign:"middle", backgroundImage:"url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232563EB' d='M12 1l2.5 3.5 4-1.5-1 4.2L21 10l-3.5 2.3 1 4.2-4-1.5L12 18.5 9.5 15l-4 1.5 1-4.2L3 10l3.5-2.8-1-4.2 4 1.5z'/%3E%3Cpath fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M8.5 12l2.5 2.5 4.5-5'/%3E%3C/svg%3E")", backgroundSize:"contain", backgroundRepeat:"no-repeat" }} />}</span>
+              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <img src="/verified-badge.svg" width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
             </div>
           )}
           {/* Fav button */}
@@ -640,7 +640,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Info block ── */}
       <div style={{ padding: "12px 14px 13px" }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 5 }}>
-          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <span style={{ display:"inline-block", width:17, height:17, marginLeft:5, flexShrink:0, verticalAlign:"middle", backgroundImage:"url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232563EB' d='M12 1l2.5 3.5 4-1.5-1 4.2L21 10l-3.5 2.3 1 4.2-4-1.5L12 18.5 9.5 15l-4 1.5 1-4.2L3 10l3.5-2.8-1-4.2 4 1.5z'/%3E%3Cpath fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' d='M8.5 12l2.5 2.5 4.5-5'/%3E%3C/svg%3E")", backgroundSize:"contain", backgroundRepeat:"no-repeat" }} />}</span>
+          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <img src="/verified-badge.svg" width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
           <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
