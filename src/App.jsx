@@ -1867,6 +1867,19 @@ const BottomNav = () => (
         shownIdsRef.current = shownIds;
 
         return (<>
+          {/* Greeting — always renders */}
+          {(() => {
+            const h = new Date().getHours();
+            const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
+            return (
+              <div style={{ padding: "16px 20px 0" }}>
+                {h >= 5 && h < 12 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Good morning {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+                {h >= 12 && h < 18 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>👋 Afternoon {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — still time for an adventure.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+                {h >= 18 && <><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C" : ""} tomorrow — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+              </div>
+            );
+          })()}
+
           {/* Quick ideas for today — always 3: popular, nearby, free */}
           {(() => {
             const locRef2 = userLoc || areaCenters[areaFilter] || areaCenters["Ealing"];
@@ -1883,15 +1896,7 @@ const BottomNav = () => (
             ideas.forEach(({item}) => shownIds.add(item.id));
             if (ideas.length === 0) return null;
             return (
-              <div style={{ marginTop: 16, padding: "0 20px" }}>
-                {(() => {
-                  const h = new Date().getHours();
-                  const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
-                  if (h >= 5 && h < 12)  return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>☀️ Good morning {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>);
-                  if (h >= 12 && h < 18) return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>👋 Afternoon {area} parents</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""} — still time for an adventure.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>);
-                  if (h >= 18)           return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather.temp}°C tomorrow — here are a few ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>);
-                  return (<><div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", marginBottom: 2, letterSpacing: -0.2 }}>🌙 Late night planning?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather.temp}°C tomorrow — save some ideas.</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>);
-                })()}
+              <div style={{ padding: "0 20px" }}>
                 <div style={{ display: "flex", gap: 14, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingBottom: 8, marginLeft: -20, paddingLeft: 20, marginRight: -20, paddingRight: 20 }}>
                   {ideas.map(({ item, label }) => {
                     const tc2 = typeColors[item.type] || { bg: "#F3F4F6", color: "#374151" };
