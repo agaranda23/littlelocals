@@ -546,7 +546,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     const savesWeek  = Math.floor(seed(2) * 4) + boost * 2 + (item.verified ? 1 : 0);
     // Pick ONE signal — highest priority that meets threshold
     if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday} local parents viewed today` };
-    if (viewsToday >= 5) return { label: "✨ Popular with local parents", sub: `👀 ${viewsToday} local parents viewed today` };
+    if (viewsToday >= 5) return { label: "⭐ Popular with parents", sub: `👀 ${viewsToday} local parents viewed today` };
     if (savesWeek  >= 3) return { label: `💜 ${savesWeek} Ealing parents saved this`, sub: "🧡 More parents are saving it today" };
     if (viewsToday >= 2 && clicks >= 2) return { label: null, sub: "👀 Recently viewed by local parents" };
     return null;
@@ -689,7 +689,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           const hasVideo = imgs.some(u => u && u.endsWith('.mp4'));
           const photoCount = imgs.filter(u => u && !u.endsWith('.mp4')).length;
           const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
-          return qualified && <VerifiedBadge size="card" />;
+          return null;
         })()}
       </div>
     </div>
