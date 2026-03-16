@@ -944,29 +944,27 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         )}
 
         {/* Little Kickers cross-link */}
-        {item.name && item.name.toLowerCase().includes("little kickers") && (
-          <div style={{ marginBottom: 20, background: "#F0FDF4", borderRadius: 14, padding: "14px 16px", border: "1px solid #BBF7D0" }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: "#166534", marginBottom: 10 }}>⚽ Little Kickers also runs classes at:</div>
-            {item.id === 354 && (
-              <div onClick={() => { const other = (allListings||[]).find(l => l.id === 425); if (other && onSelectListing) onSelectListing(other); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
-                <div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>Ark Soane Academy</div>
-                  <div style={{ fontSize: 14, color: "#6B7280" }}>Gunnersbury Lane, Acton W3 8EA · Sundays</div>
+        {item.name && item.name.toLowerCase().includes("little kickers") && (() => {
+          const lkVenues = [
+            { id: 354, venue: "All Saints Church", area: "Ealing", postcode: "W5 3JJ", days: "Saturdays" },
+            { id: 425, venue: "Ark Soane Academy", area: "Acton", postcode: "W3 8EA", days: "Sundays" },
+            { id: 426, venue: "Drayton Manor High School", area: "Hanwell", postcode: "W7 1EU", days: "Sat & Sun" },
+          ].filter(v => v.id !== item.id);
+          return (
+            <div style={{ marginBottom: 20, background: "#F0FDF4", borderRadius: 14, padding: "14px 16px", border: "1px solid #BBF7D0" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#166534", marginBottom: 10 }}>⚽ Little Kickers also runs classes at:</div>
+              {lkVenues.map(v => (
+                <div key={v.id} onClick={() => { const other = (allListings||[]).find(l => l.id === v.id); if (other && onSelectListing) onSelectListing(other); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", paddingBottom: 10, marginBottom: 10, borderBottom: "1px solid #D1FAE5" }}>
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>{v.venue}</div>
+                    <div style={{ fontSize: 14, color: "#6B7280" }}>{v.area} · {v.postcode} · {v.days}</div>
+                  </div>
+                  <span style={{ fontSize: 22, color: "#166534" }}>→</span>
                 </div>
-                <span style={{ fontSize: 22 }}>→</span>
-              </div>
-            )}
-            {item.id === 425 && (
-              <div onClick={() => { const other = (allListings||[]).find(l => l.id === 354); if (other && onSelectListing) onSelectListing(other); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
-                <div>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>All Saints Church</div>
-                  <div style={{ fontSize: 14, color: "#6B7280" }}>Elm Grove Road, Ealing W5 3JJ · Saturdays</div>
-                </div>
-                <span style={{ fontSize: 22 }}>→</span>
-              </div>
-            )}
-          </div>
-        )}
+              ))}
+            </div>
+          );
+        })()}
 
         {/* Sing and Sign timetable */}
         {item.name && item.name.toLowerCase().includes("sing and sign") && (
