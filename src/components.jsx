@@ -948,21 +948,19 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           <div style={{ marginBottom: 20, background: "#F0FDF4", borderRadius: 14, padding: "14px 16px", border: "1px solid #BBF7D0" }}>
             <div style={{ fontSize: 15, fontWeight: 700, color: "#166534", marginBottom: 10 }}>⚽ Little Kickers also runs classes at:</div>
             {item.id === 354 && (
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div onClick={() => { const other = (allListings||[]).find(l => l.id === 425); if (other && onSelectListing) onSelectListing(other); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
                 <div>
                   <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>Ark Soane Academy</div>
-                  <div style={{ fontSize: 14, color: "#6B7280" }}>Gunnersbury Lane, Acton W3 8EA</div>
-                  <a href="tel:07879225815" style={{ fontSize: 14, color: "#2563EB", fontWeight: 700, textDecoration: "none" }}>📞 Call 07879225815</a>
+                  <div style={{ fontSize: 14, color: "#6B7280" }}>Gunnersbury Lane, Acton W3 8EA · Sundays</div>
                 </div>
                 <span style={{ fontSize: 22 }}>→</span>
               </div>
             )}
             {item.id === 425 && (
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div onClick={() => { const other = (allListings||[]).find(l => l.id === 354); if (other && onSelectListing) onSelectListing(other); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer" }}>
                 <div>
                   <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>All Saints Church</div>
-                  <div style={{ fontSize: 14, color: "#6B7280" }}>Elm Grove Road, Ealing W5 3JJ</div>
-                  <a href="tel:07919654359" style={{ fontSize: 14, color: "#2563EB", fontWeight: 700, textDecoration: "none" }}>📞 Call 07919654359</a>
+                  <div style={{ fontSize: 14, color: "#6B7280" }}>Elm Grove Road, Ealing W5 3JJ · Saturdays</div>
                 </div>
                 <span style={{ fontSize: 22 }}>→</span>
               </div>
@@ -1302,6 +1300,17 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Suggested by credit */}
         {item.suggestedBy && (
           <div style={{ marginTop: 10, fontSize: 15, color: "#9CA3AF", textAlign: "center" }}>Suggested by {item.suggestedBy || "a local parent"}</div>
+        )}
+
+        {/* Call button for Little Kickers */}
+        {item.name && item.name.toLowerCase().includes("little kickers") && (
+          <a href={item.id === 354 ? "tel:07919654359" : "tel:07879225815"} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, padding: "12px 16px", background: "#F0FDF4", borderRadius: 12, border: "1px solid #BBF7D0", marginBottom: 12, textDecoration: "none" }}>
+            <span style={{ fontSize: 22 }}>📞</span>
+            <div>
+              <div style={{ fontSize: 17, fontWeight: 900, color: "#166534" }}>Call to enquire</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#166534" }}>{item.id === 354 ? "07919 654359" : "07879 225815"}</div>
+            </div>
+          </a>
         )}
 
         {/* Provider share prompt */}
