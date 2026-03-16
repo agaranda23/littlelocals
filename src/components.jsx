@@ -943,6 +943,33 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         )}
 
+        {/* Little Kickers cross-link */}
+        {item.name && item.name.toLowerCase().includes("little kickers") && (
+          <div style={{ marginBottom: 20, background: "#F0FDF4", borderRadius: 14, padding: "14px 16px", border: "1px solid #BBF7D0" }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: "#166534", marginBottom: 10 }}>⚽ Little Kickers also runs classes at:</div>
+            {item.id === 354 && (
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>Ark Soane Academy</div>
+                  <div style={{ fontSize: 14, color: "#6B7280" }}>Gunnersbury Lane, Acton W3 8EA</div>
+                  <div style={{ fontSize: 14, color: "#6B7280" }}>Sundays · Ages 1.5–8 · Call 07879225815</div>
+                </div>
+                <span style={{ fontSize: 22 }}>→</span>
+              </div>
+            )}
+            {item.id === 425 && (
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>All Saints Church</div>
+                  <div style={{ fontSize: 14, color: "#6B7280" }}>Elm Grove Road, Ealing W5 3JJ</div>
+                  <div style={{ fontSize: 14, color: "#6B7280" }}>Saturdays · Ages 1.5–5 · Call 07919654359</div>
+                </div>
+                <span style={{ fontSize: 22 }}>→</span>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Sing and Sign timetable */}
         {item.name && item.name.toLowerCase().includes("sing and sign") && (
           <div style={{ marginBottom: 20 }}>
