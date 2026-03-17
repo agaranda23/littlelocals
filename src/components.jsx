@@ -968,9 +968,6 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-logo.png" alt="Sing and Sign" style={{ width: 80, height: 56, objectFit: "contain", borderRadius: 8 }} onError={(e) => { e.target.style.display = "none"; }} />
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-logo.png" alt="Sing and Sign" style={{ width: 80, height: 56, objectFit: "contain", borderRadius: 8 }} onError={(e) => { e.target.style.display = "none"; }} />
-            </div>
             <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Winter to Spring 2026 Timetable</div>
             <div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 8 }}>5 January – 27 March 2026 (half term break 9–20 Feb)</div>
             {(() => {
