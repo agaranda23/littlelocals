@@ -12,7 +12,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
   const score = (l) => {
     let s = 0;
-    if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 10;
+    if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 50;
     if (l.description && l.description.length > 30) s += 2;
     if (l.website || l.trialLink) s += 1;
     if (l.popular) s += 2;
@@ -967,7 +967,7 @@ function getSearchScore(item, query) {
       const FAVS = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
       const score = (l) => {
         let s = 0;
-        if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 10;
+        if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 50;
         if (l.description && l.description.length > 30) s += 2;
         if (l.time && l.time.length > 3) s += 1;
         if (l.website || l.trialLink) s += 1;
