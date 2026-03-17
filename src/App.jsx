@@ -2086,40 +2086,54 @@ const BottomNav = () => (
 
       {/* === GOOD IDEAS THIS WEEK — horizontal scroll, week view only === */}
       {page === 1 && !search && !showFavourites && dayFilter === "week" && (() => {
-        const hasImg = a => (a.images && a.images.length > 0) || (a.logo && a.logo.startsWith("http")) || (a.imageUrl && a.imageUrl.startsWith("http"));
+        const hasRealPhoto = a => (a.images && a.images.length > 0) || (a.imageUrl && a.imageUrl.startsWith("http"));
+        const hasImg = a => hasRealPhoto(a) || (a.logo && a.logo.startsWith("http"));
         const locRef = userLoc || { lat: 51.5139, lng: -0.3048 };
         const getDist = a => a.lat && locRef ? Math.sqrt(Math.pow((a.lat - locRef.lat) * 111, 2) + Math.pow((a.lng - locRef.lng) * 111 * Math.cos(locRef.lat * Math.PI / 180), 2)) : 999;
-        const weekPicks = filtered
-          .filter(a => hasImg(a))
-          .map(a => {
-            let s = 0;
-            if (isOnToday(a)) s += 30;
-            if (getDist(a) < 2) s += 20;
-            if (a.popular || a.verified) s += 15;
-            if (a.free || (a.price || "").toLowerCase().includes("free")) s += 10;
-            if (a.images && a.images.length >= 3) s += 10;
-            return { ...a, _score: s };
-          })
-          .sort((a, b) => b._score - a._score)
-          .slice(0, 8);
+        
+        // Build diverse carousel — one per category bucket
+        const bucketDefs = [
+          { key: "class", match: a => ["Baby Sensory","Music","Dance","Swimming","Sports & Fitness","Gymnastics","Drama","Baking","Arts & Crafts"].includes(a.type) },
+          { key: "indoor", match: a => ["Soft Play","Play","Indoor Play"].includes(a.type) || a.indoor === true },
+          { key: "outdoor", match: a => ["Park","Playground","Nature","Outdoor"].includes(a.type) || a.indoor === false },
+          { key: "free", match: a => a.free || a.isFree || (a.price || "").toLowerCase().includes("free") },
+          { key: "popular", match: a => a.popular || a.verified },
+          { key: "extra1", match: a => true },
+          { key: "extra2", match: a => true },
+          { key: "extra3", match: a => true },
+        ];
+        const usedIds = new Set();
+        const weekPicks = [];
+        for (const bucket of bucketDefs) {
+          if (weekPicks.length >= 8) break;
+          const candidate = filtered
+            .filter(a => hasImg(a) && !usedIds.has(a.id) && bucket.match(a))
+            .sort((a, b) => {
+              const score = x => (isOnToday(x) ? 20 : 0) + (getDist(x) < 2 ? 15 : 0) + (x.popular || x.verified ? 10 : 0) + (hasRealPhoto(x) ? 10 : 0);
+              return score(b) - score(a);
+            })[0];
+          if (candidate) { weekPicks.push(candidate); usedIds.add(candidate.id); }
+        }
         if (weekPicks.length < 2) return null;
         return (
-          <div style={{ padding: "0 0 4px" }}>
-            <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 10 }}>✨ Good ideas this week</div>
+          <div style={{ padding: "0 0 8px" }}>
+            <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 14 }}>✨ Good ideas this week</div>
             <div style={{ display: "flex", gap: 10, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingLeft: 20, paddingRight: 20, paddingBottom: 8 }}>
               {weekPicks.map(item => {
-                const img = (item.images && item.images[0]) || item.imageUrl || item.logo;
-                const tag = isOnToday(item) ? "Today" : getDist(item) < 1.5 ? "Nearby" : (item.free || (item.price || "").toLowerCase().includes("free")) ? "Free" : item.verified ? "Popular" : null;
+                const realPhoto = (item.images && item.images[0]) || item.imageUrl;
+                const img = realPhoto || item.logo;
+                const tag = isOnToday(item) ? "Today" : getDist(item) < 1.5 ? "Nearby" : (item.free || item.isFree || (item.price || "").toLowerCase().includes("free")) ? "Free" : item.verified ? "Popular" : null;
                 const tagBg = tag === "Today" ? "#FEF3C7" : tag === "Free" ? "#DCFCE7" : tag === "Nearby" ? "#EFF6FF" : "#F3E8FF";
                 const tagColor = tag === "Today" ? "#92400E" : tag === "Free" ? "#166534" : tag === "Nearby" ? "#1D4ED8" : "#5B2D6E";
                 return (
                   <div key={item.id} onClick={() => openDetail(item)} style={{ flexShrink: 0, width: 130, cursor: "pointer" }}>
                     <div style={{ width: 130, height: 90, borderRadius: 10, overflow: "hidden", background: "#F3F4F6", marginBottom: 6, position: "relative" }}>
                       {img
-                        ? <img src={img} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                        ? <img src={img} alt={item.name} style={{ width: "100%", height: "100%", objectFit: realPhoto ? "cover" : "contain", background: realPhoto ? "transparent" : "white", padding: realPhoto ? 0 : 8 }} onError={e => e.target.style.display="none"} />
                         : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32 }}>{item.emoji || "🎯"}</div>
                       }
-                      {tag && <span style={{ position: "absolute", bottom: 5, left: 5, fontSize: 10, fontWeight: 700, background: tagBg, color: tagColor, padding: "2px 6px", borderRadius: 6 }}>{tag}</span>}
+                      {item.logo && realPhoto && <div style={{ position: "absolute", bottom: 5, left: 5, background: "white", borderRadius: 6, padding: "2px 4px", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}><img src={item.logo} style={{ width: 18, height: 18, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} /></div>}
+                      {tag && <span style={{ position: "absolute", bottom: 5, right: 5, fontSize: 10, fontWeight: 700, background: tagBg, color: tagColor, padding: "2px 6px", borderRadius: 6 }}>{tag}</span>}
                     </div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: "#111827", lineHeight: 1.3, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.name}</div>
                   </div>
