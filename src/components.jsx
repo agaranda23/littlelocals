@@ -642,22 +642,23 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
-        <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 4, lineHeight: 1.4, fontWeight: 500 }}>
-          {item.type}{item.ages ? " · " + item.ages : ""}
-        </div>
-
-        {/* Next session — time on its own line */}
+        {/* Next session — time first for faster scanning */}
         {item.sessions && item.sessions.length > 0 && (() => {
           const next = getNextSession(item);
           if (!next) return null;
-          return <div style={{ fontSize: 13, color: next.isNow ? "#166634" : next.isToday ? "#92400E" : "#1F2937", fontWeight: 700, marginBottom: 4 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+          return <div style={{ fontSize: 14, color: next.isNow ? "#166634" : next.isToday ? "#92400E" : "#1F2937", fontWeight: 700, marginBottom: 3 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "🗓 "}{next.label}</div>;
         })()}
 
         {/* Day fallback if no sessions */}
         {!(item.sessions && item.sessions.length > 0) && item.day && (
-          <div style={{ fontSize: 13, color: "#1F2937", fontWeight: 700, marginBottom: 4 }}>📅 {item.day}{item.time ? " · " + item.time : ""}</div>
+          <div style={{ fontSize: 14, color: "#1F2937", fontWeight: 700, marginBottom: 3 }}>🗓 {item.day}{item.time ? " · " + item.time : ""}</div>
         )}
-        {getSuggestion(item) && <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500, marginTop: 2, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
+
+        {/* Category — downgraded below time */}
+        <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 4, lineHeight: 1.4, fontWeight: 500 }}>
+          {item.type}{item.ages ? " · " + item.ages : ""}
+        </div>
+        {getSuggestion(item) && <div style={{ fontSize: 11, color: "#C4C7CC", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
 
         {/* Event badge */}
         {item.listingType === "event" && (
@@ -669,21 +670,18 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {/* Distance + tags row — softer and smaller */}
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", marginTop: 2 }}>
           {distLabel && <span style={{ fontSize: 12, color: "#D4732A", fontWeight: 600 }}>{distLabel}</span>}
-          {tags.slice(0, 2).map((tag, i) => (
+          {tags.filter(t => ["Nearby","Popular with parents","Free trial","⭐ Popular","Free"].some(k => t.text && t.text.includes(k))).slice(0, 2).map((tag, i) => (
             <span key={i} style={{ fontSize: 12, fontWeight: 500, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 7px" : 0, borderRadius: 6, opacity: 0.9 }}>{tag.text}</span>
           ))}
         </div>
 
         {socialProof && (
-          <div style={{ marginTop: 8, paddingTop: 7, borderTop: "1px solid #F5F5F5" }}>
-            {typeof socialProof === "object" ? (
-              <>
-                {socialProof.label && <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 700, marginBottom: 2 }}>{socialProof.label}</div>}
-                <div style={{ fontSize: 13, color: "#A0A4AD", fontWeight: 600 }}>{socialProof.sub}</div>
-              </>
-            ) : (
-              <div style={{ fontSize: 13, color: "#A0A4AD", fontWeight: 600 }}>{socialProof}</div>
-            )}
+          <div style={{ marginTop: 7, paddingTop: 6, borderTop: "1px solid #F5F5F5" }}>
+            <div style={{ fontSize: 12, color: "#A0A4AD", fontWeight: 600 }}>
+              {typeof socialProof === "object"
+                ? [socialProof.label, socialProof.sub].filter(Boolean).join(" · ")
+                : socialProof}
+            </div>
           </div>
         )}
         {(() => {
