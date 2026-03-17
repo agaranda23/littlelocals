@@ -1374,7 +1374,7 @@ const BottomNav = () => (
               </div>
             </div>
             <div style={{ marginTop: 4, marginLeft: 58 }}>
-              <div style={{ fontSize: 26, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 0, letterSpacing: -0.5 }}>{new Date().getHours() >= 18 ? "Plan tomorrow with the kids" : "What should we do today?"}</div>
+              <div style={{ fontSize: 26, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 0, letterSpacing: -0.5 }}>{dayFilter === "today" ? "Plan today with the kids" : dayFilter === "tomorrow" ? "Plan tomorrow with the kids" : dayFilter === "weekend" ? "Plan your weekend with the kids" : "Things to do this week"}</div>
             </div>
           </>
         ) : (
@@ -2104,7 +2104,7 @@ const BottomNav = () => (
           <>
           {page === 1 && <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "16px 0 12px" }}>
             <div style={{ flex: 1, height: 1, background: "#E5E7EB" }} />
-            <span style={{ fontSize: 15, color: "#C0C0C0", fontWeight: 600 }}>Trusted by {areaFilter !== "All Areas" ? areaFilter : "Ealing"} parents</span>
+            <span style={{ fontSize: 14, color: "#C0C0C0", fontWeight: 500 }}>Trusted by {areaFilter !== "All Areas" ? areaFilter : "Ealing"} parents</span>
             <div style={{ flex: 1, height: 1, background: "#E5E7EB" }} />
           </div>}
           {displayList.map((item, idx) => {

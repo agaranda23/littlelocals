@@ -615,7 +615,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           </div>
           {/* Today badge */}
           {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 16, fontWeight: 1000, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#F0FDF4", color: "#166534", fontSize: 13, fontWeight: 600, padding: "2px 7px", borderRadius: 8, border: "1px solid #BBF7D0" }}>📅 Today</div>
           )}
         </div>
       ) : (
@@ -630,7 +630,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             {isFav ? "♥" : "♡"}
           </div>
           {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#166534", color: "white", fontSize: 16, fontWeight: 1000, padding: "3px 8px", borderRadius: 8 }}>Today ✓</div>
+            <div style={{ position: "absolute", top: 10, left: 10, background: "#F0FDF4", color: "#166534", fontSize: 13, fontWeight: 600, padding: "2px 7px", borderRadius: 8, border: "1px solid #BBF7D0" }}>📅 Today</div>
           )}
         </div>
       )}
@@ -650,12 +650,12 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {item.sessions && item.sessions.length > 0 && (() => {
           const next = getNextSession(item);
           if (!next) return null;
-          return <div style={{ fontSize: 13, color: next.isNow ? "#166534" : next.isToday ? "#92400E" : "#4B5563", fontWeight: 600, marginBottom: 4 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
+          return <div style={{ fontSize: 13, color: next.isNow ? "#166634" : next.isToday ? "#92400E" : "#1F2937", fontWeight: 700, marginBottom: 4 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "📅 "}{next.label}</div>;
         })()}
 
         {/* Day fallback if no sessions */}
         {!(item.sessions && item.sessions.length > 0) && item.day && (
-          <div style={{ fontSize: 13, color: "#4B5563", fontWeight: 500, marginBottom: 4 }}>📅 {item.day}{item.time ? " · " + item.time : ""}</div>
+          <div style={{ fontSize: 13, color: "#1F2937", fontWeight: 700, marginBottom: 4 }}>📅 {item.day}{item.time ? " · " + item.time : ""}</div>
         )}
         {getSuggestion(item) && <div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 500, marginTop: 2, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
 
