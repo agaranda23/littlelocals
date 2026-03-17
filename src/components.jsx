@@ -27,9 +27,7 @@ const DOW_SHORT = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]; // matches sessio
 
 // Types that are available any day — parks, zoos, soft play etc.
 const ALWAYS_AVAILABLE_TYPES = new Set([
-  "Park", "Playground", "Zoo", "Animals", "Soft Play", "Play",
-  "Library", "Museum", "Nature", "Outdoor", "Indoor Play", "Farm",
-  "Garden", "Swimming", "Leisure Centre",
+  "Park", "Playground", "Nature", "Garden", "Outdoor",
 ]);
 
 export function isAlwaysAvailable(item) {
