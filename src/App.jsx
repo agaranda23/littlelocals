@@ -247,7 +247,7 @@ function WestLondonListings() {
   const [locStatus, setLocStatus] = useState("idle");
   const [isSunny, setIsSunny] = useState(true);
   const [weather, setWeather] = useState(null);
-  const [dayFilter, setDayFilter] = useState(() => new Date().getHours() >= 18 ? "tomorrow" : "today");
+  const [dayFilter, setDayFilter] = useState("week");
   const [weatherMode, setWeatherMode] = useState("all");
   const [napFilter, setNapFilter] = useState("all");
   const [ageFilter, setAgeFilter] = useState("all");
@@ -1719,7 +1719,7 @@ const BottomNav = () => (
             return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{countText}</span>;
           })()}
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter(new Date().getHours() >= 18 ? "tomorrow" : "today"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter("week"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
           )}
         </div>
       </div>
