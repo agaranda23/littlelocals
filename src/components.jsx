@@ -526,7 +526,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
   const cardSignal = (() => {
     if (startsSoon !== null && startsSoon !== undefined) return { text: startsSoon === 0 ? "⏰ Starting now!" : `⏰ Starts in ${startsSoon} min`, color: "#fff", bg: "#EF4444" };
-    if (item.popular) return { text: "⭐ Popular today", color: "#9CA3AF", bg: "transparent" };
+    if (item.popular) return { text: "⭐ Popular with local parents", color: "#9CA3AF", bg: "transparent" };
     if (item.freeTrial) return { text: "🎁 Free trial", color: "#166634", bg: "#ECFDF5" };
     return null;
   })();
@@ -617,7 +617,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       )}
 
       {/* ── Info block ── */}
-      <div style={{ padding: "12px 14px 13px" }}>
+      <div style={{ padding: "10px 14px 13px", marginTop: 2 }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 5 }}>
           <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <img src="/verified-badge.svg" width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
           <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
@@ -632,7 +632,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             if (next.isToday) return <div style={{ fontSize: 13, color: "#92400E", fontWeight: 600, marginBottom: 3 }}>🗓 Today {next.session && next.session.startTime ? next.session.startTime : ""}</div>;
             return <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 500, marginBottom: 3 }}>🗓 {next.label}</div>;
           }
-          if (item.day) return <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 500, marginBottom: 3 }}>🗓 {item.day}{item.time ? " · " + item.time : ""}</div>;
+          if (item.day) { const shortDay = (item.day || "").split(/[,&]/)[0].trim().substring(0, 12); return <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 500, marginBottom: 3 }}>🗓 {shortDay}{item.time ? " · " + item.time.split("/")[0].trim() : ""}</div>; }
           return null;
         })()}
 
