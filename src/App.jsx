@@ -1849,7 +1849,7 @@ const BottomNav = () => (
           <div style={{ padding: "12px 20px 0" }}>
             {h >= 5 && h < 12 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy morning — easy indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Beautiful morning — good time to get outside" : "🌤️ Good morning, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
             {h >= 12 && h < 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy afternoon — indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Still time for an outdoor adventure" : "👋 Afternoon, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
-            {h >= 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.tomorrowIsRainy ? "🌧️ Rainy tomorrow — plan something indoor" : weather && weather.tomorrowIsSunny && weather.tomorrowTemp >= 14 ? "☀️ Looks nice tomorrow — good time to plan ahead" : "🌙 Planning ahead with the kids?"}</div>{weather && weather.tomorrowTemp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.tomorrowTemp}°C tomorrow {weather.tomorrowDesc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+            {h >= 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.tomorrowIsRainy ? "🌧️ Rainy tomorrow — plan something indoor" : weather && weather.tomorrowIsSunny && weather.tomorrowTemp >= 14 ? "☀️ Tomorrow's looking great — worth planning something" : "🌙 Planning ahead with the kids?"}</div>{weather && weather.tomorrowTemp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.tomorrowTemp}°C tomorrow {weather.tomorrowDesc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
           </div>
         );
       })()}
@@ -2189,7 +2189,7 @@ const BottomNav = () => (
         if (weekPicks.length < 2) return null;
         return (
           <div style={{ padding: "0 0 8px" }}>
-            <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 14 }}>✨ Good ideas this week</div>
+            <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 14 }}>✨ Smart picks for right now</div>
             <div style={{ display: "flex", gap: 10, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingLeft: 20, paddingRight: 20, paddingBottom: 8 }}>
               {weekPicks.map(item => {
                 const realPhoto = (item.images && item.images[0]) || item.imageUrl;

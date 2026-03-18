@@ -668,18 +668,15 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {/* Distance + tags row — softer and smaller */}
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", marginTop: 2 }}>
           {distLabel && <span style={{ fontSize: 12, color: "#D4732A", fontWeight: 600 }}>{distLabel}</span>}
-          {tags.filter(t => ["Nearby","Popular with parents","Free trial","⭐ Popular","Free"].some(k => t.text && t.text.includes(k))).slice(0, 2).map((tag, i) => (
+          {socialProof && socialProof.label && <span style={{ fontSize: 12, fontWeight: 600, color: "#6B7280" }}>{socialProof.label}</span>}
+          {tags.filter(t => ["Nearby","Free trial","⭐ Popular","Free"].some(k => t.text && t.text.includes(k))).slice(0, 1).map((tag, i) => (
             <span key={i} style={{ fontSize: 12, fontWeight: 500, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 7px" : 0, borderRadius: 6, opacity: 0.9 }}>{tag.text}</span>
           ))}
         </div>
 
-        {socialProof && (
+        {socialProof && socialProof.sub && (
           <div style={{ marginTop: 7, paddingTop: 6, borderTop: "1px solid #F5F5F5" }}>
-            <div style={{ fontSize: 12, color: "#A0A4AD", fontWeight: 600 }}>
-              {typeof socialProof === "object"
-                ? [socialProof.label, socialProof.sub].filter(Boolean).join(" · ")
-                : socialProof}
-            </div>
+            <div style={{ fontSize: 12, color: "#A0A4AD", fontWeight: 600 }}>{socialProof.sub}</div>
           </div>
         )}
         {(() => {
