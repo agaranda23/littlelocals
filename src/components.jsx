@@ -1358,8 +1358,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                   <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E", marginBottom: 8 }}>What's the issue?</div>
                   {["Closed / no longer running", "Incorrect information", "Other"].map(reason => (
                     <div key={reason} onClick={() => {
-                      window.open("mailto:littlelocalsuk@gmail.com?subject=Report: " + encodeURIComponent(item.name) + "&body=" + encodeURIComponent("Issue: " + reason + "
-Listing: " + item.name + " (ID: " + item.id + ")"), "_blank");
+                      window.open("mailto:littlelocalsuk@gmail.com?subject=Report: " + encodeURIComponent(item.name) + "&body=" + encodeURIComponent("Issue: " + reason + " | Listing: " + item.name + " (ID: " + item.id + ")"), "_blank");
                       setReportSent(true); setReportOpen(false);
                     }} style={{ fontSize: 13, color: "#92400E", padding: "6px 0", cursor: "pointer", borderBottom: "1px solid #FDE68A" }}>{reason}</div>
                   ))}
