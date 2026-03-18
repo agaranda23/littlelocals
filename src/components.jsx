@@ -539,20 +539,16 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const qualifiedForBadge = imgs.filter(u => u && !u.endsWith('.mp4')).length >= 2 && (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 3 || imgs.some(u => u && u.endsWith('.mp4')));
 
   const socialProof = (() => {
-    const dayNum = Math.floor(Date.now() / 86400000);
-    const seed = (n) => { let x = Math.sin(item.id * 9301 + dayNum * 49297 + n * 233) * 49297; return x - Math.floor(x); };
     const clicks = clickCount || 0;
-    // Popular/verified listings get higher baseline signals
-    const boost = (item.popular || item.featuredProvider) ? 1 : 0;
-    const baseMin = Math.floor(Math.abs(Math.sin(item.id || 1) * 13)) + 6;
     const realViews = viewCount || 0;
-    const viewsToday = Math.max(realViews, clicks, Math.floor(seed(1) * 6) + boost * 3 + (clicks >= 3 ? 2 : 0), baseMin);
-    const savesWeek  = Math.floor(seed(2) * 4) + boost * 2 + (item.verified ? 1 : 0);
-    // Pick ONE signal — highest priority that meets threshold
-    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday}+ parents viewed today` };
-    if (viewsToday >= 5) return { label: "⭐ Popular with parents", sub: `👀 ${viewsToday}+ parents viewed today` };
-    if (savesWeek  >= 3) return { label: `💜 ${savesWeek} Ealing parents saved this`, sub: "🧡 More parents are saving it today" };
-    if (viewsToday >= 2 && clicks >= 2) return { label: null, sub: "👀 Recently viewed by local parents" };
+    // Labels only — no fake numbers on every card
+    if (item.popular && item.verified) return { label: "🔥 Trending today", sub: null };
+    if (item.popular) return { label: "⭐ Popular with parents", sub: null };
+    if (realViews >= 5) return { label: "🔥 Trending today", sub: `👀 ${realViews}+ parents viewed today` };
+    if (item.verified && clicks >= 3) return { label: "⭐ Popular with parents", sub: null };
+    if (item.freeTrial) return { label: "🎁 Free trial available", sub: null };
+    if (item.verified) return { label: "✔️ Verified listing", sub: null };
+    if (clicks >= 5) return { label: "👀 Viewed by local parents", sub: null };
     return null;
   })();
 
