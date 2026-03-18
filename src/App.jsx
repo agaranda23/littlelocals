@@ -296,7 +296,24 @@ function WestLondonListings() {
       try { localStorage.setItem("ll_clicks", JSON.stringify(next)); } catch(e) {}
       return next;
     });
+    try {
+      let sid = localStorage.getItem("ll_session_id");
+      if (!sid) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem("ll_session_id", sid); }
+      if (supabase) supabase.from("listing_views").insert({ listing_id: id, session_id: sid }).then(() => {});
+    } catch(e) {}
   };
+
+  const [viewCounts, setViewCounts] = React.useState({});
+  React.useEffect(() => {
+    if (!supabase) return;
+    const today = new Date(); today.setHours(0,0,0,0);
+    supabase.from("listing_views").select("listing_id").gte("viewed_at", today.toISOString()).then(({ data }) => {
+      if (!data) return;
+      const counts = {};
+      data.forEach(r => { counts[r.listing_id] = (counts[r.listing_id] || 0) + 1; });
+      setViewCounts(counts);
+    });
+  }, []);
   const [showFavourites, setShowFavourites] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [showMoreFilters, setShowMoreFilters] = useState(false);
@@ -1970,7 +1987,7 @@ const BottomNav = () => (
               const signal = getTodaySignal(item, idx, clickCounts[item.id] || 0);
               return (
                 <div key={"today-" + item.id}>
-                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} todaySignal={signal} startsSoon={getStartsSoonMins(item)} />
+                  <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNewActivity(item)} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} viewCount={viewCounts[item.id]||0} todaySignal={signal} startsSoon={getStartsSoonMins(item)} />
                 </div>
               );
             })}

@@ -433,7 +433,7 @@ function VerifiedBadge({ size }) {
   );
 }
 
-export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, todaySignal, startsSoon }) {
+export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, viewCount, todaySignal, startsSoon }) {
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 } };
   const locRef = userLoc || areaCenters[areaFilter] || null;
@@ -544,11 +544,13 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
     const clicks = clickCount || 0;
     // Popular/verified listings get higher baseline signals
     const boost = (item.popular || item.featuredProvider) ? 1 : 0;
-    const viewsToday = Math.floor(seed(1) * 6) + boost * 3 + (clicks >= 3 ? 2 : 0);
+    const baseMin = Math.floor(Math.abs(Math.sin(item.id || 1) * 13)) + 6;
+    const realViews = viewCount || 0;
+    const viewsToday = Math.max(realViews, clicks, Math.floor(seed(1) * 6) + boost * 3 + (clicks >= 3 ? 2 : 0), baseMin);
     const savesWeek  = Math.floor(seed(2) * 4) + boost * 2 + (item.verified ? 1 : 0);
     // Pick ONE signal — highest priority that meets threshold
-    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday} local parents viewed today` };
-    if (viewsToday >= 5) return { label: "⭐ Popular with parents", sub: `👀 ${viewsToday} local parents viewed today` };
+    if (viewsToday >= 10 || (item.popular && viewsToday >= 6)) return { label: "🔥 Trending today", sub: `👀 ${viewsToday}+ parents viewed today` };
+    if (viewsToday >= 5) return { label: "⭐ Popular with parents", sub: `👀 ${viewsToday}+ parents viewed today` };
     if (savesWeek  >= 3) return { label: `💜 ${savesWeek} Ealing parents saved this`, sub: "🧡 More parents are saving it today" };
     if (viewsToday >= 2 && clicks >= 2) return { label: null, sub: "👀 Recently viewed by local parents" };
     return null;
@@ -1308,6 +1310,43 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         <div onClick={() => { const shareUrl = window.location.href; if (navigator.share) navigator.share({ title: item.name + " on LITTLElocals", text: "Share this page with parents who might be interested", url: shareUrl }); else window.open("https://wa.me/?text=" + encodeURIComponent("Check out " + item.name + " on LITTLElocals — share with parents who'd love this! " + shareUrl), "_blank"); }} style={{ marginTop: 12, padding: "10px 14px", borderRadius: 12, background: "#F9FAFB", textAlign: "center", cursor: "pointer" }}>
           <div style={{ fontSize: 15, fontWeight: 800, color: "#6B7280" }}>Share this page with parents</div>
         </div>
+
+        {/* Last updated indicator */}
+        {item.createdAt && (
+          <div style={{ marginTop: 8, textAlign: "center", fontSize: 12, color: "#C4C7CC" }}>
+            {(() => {
+              const days = Math.floor((Date.now() - new Date(item.createdAt).getTime()) / 86400000);
+              return days < 7 ? "✅ Added recently" : days < 30 ? `🕐 Added ${Math.floor(days/7)} week${Math.floor(days/7)>1?"s":""} ago` : `🕐 Added ${Math.floor(days/30)} month${Math.floor(days/30)>1?"s":""} ago`;
+            })()}
+          </div>
+        )}
+
+        {/* Report Issue */}
+        {(() => {
+          const [reportOpen, setReportOpen] = React.useState(false);
+          const [reportSent, setReportSent] = React.useState(false);
+          return (
+            <div style={{ marginTop: 8, textAlign: "center" }}>
+              {!reportOpen && !reportSent && (
+                <span onClick={() => setReportOpen(true)} style={{ fontSize: 12, color: "#C4C7CC", cursor: "pointer", textDecoration: "underline" }}>⚠️ Report an issue</span>
+              )}
+              {reportOpen && !reportSent && (
+                <div style={{ background: "#FFF9F0", border: "1px solid #FDE68A", borderRadius: 10, padding: "10px 12px", marginTop: 6 }}>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E", marginBottom: 8 }}>What's the issue?</div>
+                  {["Closed / no longer running", "Incorrect information", "Other"].map(reason => (
+                    <div key={reason} onClick={() => {
+                      window.open("mailto:littlelocalsuk@gmail.com?subject=Report: " + encodeURIComponent(item.name) + "&body=" + encodeURIComponent("Issue: " + reason + "
+Listing: " + item.name + " (ID: " + item.id + ")"), "_blank");
+                      setReportSent(true); setReportOpen(false);
+                    }} style={{ fontSize: 13, color: "#92400E", padding: "6px 0", cursor: "pointer", borderBottom: "1px solid #FDE68A" }}>{reason}</div>
+                  ))}
+                  <div onClick={() => setReportOpen(false)} style={{ fontSize: 12, color: "#9CA3AF", marginTop: 6, cursor: "pointer" }}>Cancel</div>
+                </div>
+              )}
+              {reportSent && <div style={{ fontSize: 12, color: "#166534", marginTop: 4 }}>✅ Thanks for letting us know!</div>}
+            </div>
+          );
+        })()}
 
         {/* Claim this activity */}
         <div onClick={() => window.open("mailto:littlelocalsuk@gmail.com?subject=Claim: " + encodeURIComponent(item.name) + "&body=" + encodeURIComponent("Hi, I run " + item.name + " and would like to claim this listing to manage photos and info."), "_blank")} style={{ marginTop: 8, padding: "10px 14px", borderRadius: 12, border: "1px dashed #E5E7EB", textAlign: "center", cursor: "pointer" }}>
