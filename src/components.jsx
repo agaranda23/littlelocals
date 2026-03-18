@@ -516,41 +516,29 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   };
   const statusObj = getStatus();
 
-  // Max TWO tags — priority order: status, trust, free trial
-  const getTrustLabel = () => {
-    if (todaySignal) return todaySignal;
-    const clicks = clickCount || 0;
-    if (item.popular || clicks >= 8) return "⭐ Popular with parents";
-    if (clicks >= 3 || item.verified) return "🔥 Trending today";
-    return null;
-  };
-  const trustLabel = getTrustLabel();
-
-  // Build tag slots: max 2, priority order
-  const tags = [];
-  if (startsSoon !== null && startsSoon !== undefined) tags.push({ type: "soon", text: startsSoon === 0 ? "⏰ Starting now!" : `⏰ Starts in ${startsSoon} min`, color: "#fff", bg: "#EF4444" });
-  if (tags.length < 2 && statusObj && statusObj.text !== "🔴 Closed today") tags.push({ type: "status", ...statusObj });
-  if (tags.length < 2 && trustLabel) tags.push({ type: "trust", text: trustLabel, color: "#9CA3AF", bg: "transparent" });
-  if (tags.length < 2 && item.freeTrial) tags.push({ type: "trial", text: "Free trial", color: "#166634", bg: "#ECFDF5" });
-
   // Seeded social proof — stable per listing per day, believably small
   const imgs = (item.images || []);
-
   const qualifiedForBadge = imgs.filter(u => u && !u.endsWith('.mp4')).length >= 2 && (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 3 || imgs.some(u => u && u.endsWith('.mp4')));
 
-  const socialProof = (() => {
-    const clicks = clickCount || 0;
-    const realViews = viewCount || 0;
-    // Labels only — no fake numbers on every card
-    if (item.popular && item.verified) return { label: "🔥 Trending today", sub: null };
-    if (item.popular) return { label: "⭐ Popular with parents", sub: null };
-    if (realViews >= 5) return { label: "🔥 Trending today", sub: `👀 ${realViews}+ parents viewed today` };
-    if (item.verified && clicks >= 3) return { label: "⭐ Popular with parents", sub: null };
-    if (item.freeTrial) return { label: "🎁 Free trial available", sub: null };
-    if (item.verified) return { label: "✔️ Verified listing", sub: null };
-    if (clicks >= 5) return { label: "👀 Viewed by local parents", sub: null };
+  // SINGLE signal system — max 1 signal, no duplicates
+  const clicks = clickCount || 0;
+  const realViews = viewCount || 0;
+
+  const cardSignal = (() => {
+    if (startsSoon !== null && startsSoon !== undefined) return { text: startsSoon === 0 ? "⏰ Starting now!" : `⏰ Starts in ${startsSoon} min`, color: "#fff", bg: "#EF4444" };
+    if (todaySignal) return { text: todaySignal, color: "#92400E", bg: "#FEF3C7" };
+    if (item.popular && item.verified) return { text: "🔥 Trending today", color: "#9CA3AF", bg: "transparent" };
+    if (item.popular) return { text: "⭐ Popular with parents", color: "#9CA3AF", bg: "transparent" };
+    if (realViews >= 5) return { text: `👀 ${realViews}+ viewed today`, color: "#9CA3AF", bg: "transparent" };
+    if (item.verified && clicks >= 3) return { text: "⭐ Popular with parents", color: "#9CA3AF", bg: "transparent" };
+    if (item.freeTrial) return { text: "🎁 Free trial", color: "#166634", bg: "#ECFDF5" };
+    if (statusObj && statusObj.text !== "🔴 Closed today") return { ...statusObj };
     return null;
   })();
+
+  // Keep tags for backwards compat but use cardSignal as source of truth
+  const tags = cardSignal ? [cardSignal] : [];
+  const socialProof = null;
 
   return (
     <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 12px 32px rgba(0,0,0,0.08)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease, box-shadow 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
@@ -668,8 +656,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {/* Distance + tags row — softer and smaller */}
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center", marginTop: 2 }}>
           {distLabel && <span style={{ fontSize: 12, color: "#D4732A", fontWeight: 600 }}>{distLabel}</span>}
-          {socialProof && socialProof.label && <span style={{ fontSize: 12, fontWeight: 600, color: "#6B7280" }}>{socialProof.label}</span>}
-          {tags.filter(t => ["Nearby","Free trial","⭐ Popular","Free"].some(k => t.text && t.text.includes(k))).slice(0, 1).map((tag, i) => (
+          {tags.slice(0, 1).map((tag, i) => (
             <span key={i} style={{ fontSize: 12, fontWeight: 500, color: tag.color, background: tag.bg, padding: tag.bg !== "transparent" ? "2px 7px" : 0, borderRadius: 6, opacity: 0.9 }}>{tag.text}</span>
           ))}
         </div>
