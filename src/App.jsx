@@ -2272,7 +2272,7 @@ const BottomNav = () => (
         if (allChips.length === 0) return null;
         return (
         <div style={{ padding: "0 0 6px" }}>
-          <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4, color: "#9CA3AF", paddingLeft: 20 }}>✨ New this week in Ealing</div>
+          <div style={{ fontSize: 14, fontWeight: 800, marginBottom: 4, color: "#9CA3AF", paddingLeft: 20 }}>✨ Just added near you</div>
           <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingLeft: 20, paddingRight: 20 }}>
             {allChips.slice(0, 10).map(c => (
               <div key={c.id} onClick={() => { if (c.match) openDetail(c.match); }} style={{ flexShrink: 0, padding: "5px 10px", background: "white", borderRadius: 8, border: "1px dashed #E5E7EB", cursor: c.match ? "pointer" : "default", maxWidth: 140 }}>
