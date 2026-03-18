@@ -1837,6 +1837,19 @@ const BottomNav = () => (
         } catch { return null; }
       })()}
 
+      {/* === GREETING — always shows on page 1 === */}
+      {page === 1 && !search && !showFavourites && (() => {
+        const h = new Date().getHours();
+        const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
+        return (
+          <div style={{ padding: "12px 20px 0" }}>
+            {h >= 5 && h < 12 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy morning — easy indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Beautiful morning — good time to get outside" : "🌤️ Good morning, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+            {h >= 12 && h < 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy afternoon — indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Still time for an outdoor adventure" : "👋 Afternoon, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+            {h >= 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>🌙 Planning ahead with the kids?</div><div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+          </div>
+        );
+      })()}
+
       {/* === CURATED HOMEPAGE SECTIONS (page 1, default view only) === */}
       {page === 1 && !search && !showFavourites && dayFilter === "today" && (() => {
         const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
@@ -1931,18 +1944,7 @@ const BottomNav = () => (
         shownIdsRef.current = shownIds;
 
         return (<>
-          {/* Greeting — always renders */}
-          {(() => {
-            const h = new Date().getHours();
-            const area = areaFilter !== "All Areas" ? areaFilter : "Ealing";
-            return (
-              <div style={{ padding: "16px 20px 0" }}>
-                {h >= 5 && h < 12 && <><div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy morning — easy indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Beautiful morning — good time to get outside" : "🌤️ Good morning, " + area + " parents"}</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""}</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>}
-                {h >= 12 && h < 18 && <><div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy afternoon — indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Still time for an outdoor adventure" : "👋 Afternoon, " + area + " parents"}</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C " + (weather.desc || "") : ""}</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>}
-                {h >= 18 && <><div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 2 }}>🌙 Planning tomorrow with the kids?</div><div style={{ fontSize: 13, color: "#9CA3AF", fontWeight: 400, marginBottom: 3 }}>{weather && weather.temp ? weather.temp + "°C tomorrow" : "Here are a few ideas for tomorrow"}</div><div style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400, marginBottom: 12 }}>👀 {exploringCount} parents exploring today</div></>}
-              </div>
-            );
-          })()}
+
 
           {/* Quick ideas for today — always 3: popular, nearby, free */}
           {(() => {
