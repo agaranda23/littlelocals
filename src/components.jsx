@@ -526,13 +526,8 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
   const cardSignal = (() => {
     if (startsSoon !== null && startsSoon !== undefined) return { text: startsSoon === 0 ? "⏰ Starting now!" : `⏰ Starts in ${startsSoon} min`, color: "#fff", bg: "#EF4444" };
-    if (todaySignal) return { text: todaySignal, color: "#92400E", bg: "#FEF3C7" };
-    if (item.popular && item.verified) return { text: "🔥 Trending today", color: "#9CA3AF", bg: "transparent" };
-    if (item.popular) return { text: "⭐ Popular with parents", color: "#9CA3AF", bg: "transparent" };
-    if (realViews >= 5) return { text: `👀 ${realViews}+ viewed today`, color: "#9CA3AF", bg: "transparent" };
-    if (item.verified && clicks >= 3) return { text: "⭐ Popular with parents", color: "#9CA3AF", bg: "transparent" };
+    if (item.popular) return { text: "⭐ Popular today", color: "#9CA3AF", bg: "transparent" };
     if (item.freeTrial) return { text: "🎁 Free trial", color: "#166634", bg: "#ECFDF5" };
-    if (statusObj && statusObj.text !== "🔴 Closed today") return { ...statusObj };
     return null;
   })();
 
@@ -628,17 +623,18 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
-        {/* Next session — time first for faster scanning */}
-        {item.sessions && item.sessions.length > 0 && (() => {
-          const next = getNextSession(item);
-          if (!next) return null;
-          return <div style={{ fontSize: 14, color: next.isNow ? "#166634" : next.isToday ? "#92400E" : "#1F2937", fontWeight: 700, marginBottom: 3 }}>{next.isNow ? "🟢 " : next.isToday ? "🟡 " : "🗓 "}{next.label}</div>;
+        {/* Time — short and scannable */}
+        {(startsSoon !== null && startsSoon !== undefined) ? null : (() => {
+          if (item.sessions && item.sessions.length > 0) {
+            const next = getNextSession(item);
+            if (!next) return null;
+            if (next.isNow) return <div style={{ fontSize: 13, color: "#166634", fontWeight: 600, marginBottom: 3 }}>🟢 Open now</div>;
+            if (next.isToday) return <div style={{ fontSize: 13, color: "#92400E", fontWeight: 600, marginBottom: 3 }}>🗓 Today {next.session && next.session.startTime ? next.session.startTime : ""}</div>;
+            return <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 500, marginBottom: 3 }}>🗓 {next.label}</div>;
+          }
+          if (item.day) return <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 500, marginBottom: 3 }}>🗓 {item.day}{item.time ? " · " + item.time : ""}</div>;
+          return null;
         })()}
-
-        {/* Day fallback if no sessions */}
-        {!(item.sessions && item.sessions.length > 0) && item.day && (
-          <div style={{ fontSize: 14, color: "#1F2937", fontWeight: 700, marginBottom: 3 }}>🗓 {item.day}{item.time ? " · " + item.time : ""}</div>
-        )}
 
         {/* Category — downgraded below time */}
         <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 4, lineHeight: 1.4, fontWeight: 500 }}>
@@ -661,11 +657,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           ))}
         </div>
 
-        {socialProof && socialProof.sub && (
-          <div style={{ marginTop: 7, paddingTop: 6, borderTop: "1px solid #F5F5F5" }}>
-            <div style={{ fontSize: 12, color: "#A0A4AD", fontWeight: 600 }}>{socialProof.sub}</div>
-          </div>
-        )}
+
         {(() => {
           const imgs = (item.images || []);
           const hasVideo = imgs.some(u => u && u.endsWith('.mp4'));
