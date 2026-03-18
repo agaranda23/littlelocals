@@ -2280,16 +2280,16 @@ const BottomNav = () => (
         if (totalPages <= 1) return null;
         return (
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, padding: "0 20px 16px" }}>
-            <button onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === 1} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === 1 ? "#F3F4F6" : "white", color: page === 1 ? "#9CA3AF" : "#1F2937", fontSize: 16, fontWeight: 800, cursor: page === 1 ? "default" : "pointer", fontFamily: "inherit" }}>← Prev</button>
+            <button onClick={() => { const np = Math.max(1, page - 1); setPage(np); window.history.pushState({ page: np }, "", np === 1 ? "/" : "/?page=" + np); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === 1} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === 1 ? "#F3F4F6" : "white", color: page === 1 ? "#9CA3AF" : "#1F2937", fontSize: 16, fontWeight: 800, cursor: page === 1 ? "default" : "pointer", fontFamily: "inherit" }}>← Prev</button>
             <div style={{ display: "flex", gap: 4 }}>
               {Array.from({ length: totalPages }, (_, i) => i + 1).filter(p => p === 1 || p === totalPages || Math.abs(p - page) <= 1).map((p, idx, arr) => (
                 <React.Fragment key={p}>
                   {idx > 0 && arr[idx - 1] < p - 1 && <span style={{ color: "#9CA3AF", fontSize: 16, padding: "0 2px" }}>...</span>}
-                  <button onClick={() => { setPage(p); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ width: 32, height: 32, borderRadius: 8, border: page === p ? "none" : "1px solid #E5E7EB", background: page === p ? "linear-gradient(135deg, #D4732A, #FB923C)" : "white", color: page === p ? "white" : "#6B7394", fontSize: 16, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
+                  <button onClick={() => { setPage(p); window.history.pushState({ page: p }, "", p === 1 ? "/" : "/?page=" + p); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ width: 32, height: 32, borderRadius: 8, border: page === p ? "none" : "1px solid #E5E7EB", background: page === p ? "linear-gradient(135deg, #D4732A, #FB923C)" : "white", color: page === p ? "white" : "#6B7394", fontSize: 16, fontWeight: 900, cursor: "pointer", fontFamily: "inherit" }}>{p}</button>
                 </React.Fragment>
               ))}
             </div>
-            <button onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === totalPages} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === totalPages ? "#F3F4F6" : "white", color: page === totalPages ? "#9CA3AF" : "#1F2937", fontSize: 16, fontWeight: 800, cursor: page === totalPages ? "default" : "pointer", fontFamily: "inherit" }}>Next →</button>
+            <button onClick={() => { const np = Math.min(totalPages, page + 1); setPage(np); window.history.pushState({ page: np }, "", np === 1 ? "/" : "/?page=" + np); window.scrollTo({ top: 0, behavior: "smooth" }); }} disabled={page === totalPages} style={{ padding: "8px 14px", borderRadius: 10, border: "1px solid #E5E7EB", background: page === totalPages ? "#F3F4F6" : "white", color: page === totalPages ? "#9CA3AF" : "#1F2937", fontSize: 16, fontWeight: 800, cursor: page === totalPages ? "default" : "pointer", fontFamily: "inherit" }}>Next →</button>
           </div>
         );
       })()}
