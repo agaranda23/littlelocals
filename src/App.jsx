@@ -979,21 +979,65 @@ function getSearchScore(item, query) {
         return pa - pb;
       });
     } else {
-      // Priority score — quality listings surface first
-      const BOOSTED = ["sing and sign", "hartbeeps", "little gym", "tumble tots"];
-      const FAVS = ["gunnersbury", "pitzhanger", "walpole", "hanwell zoo", "acton park", "nature play"];
-      const score = (l) => {
+      // ── Ranking constants ──────────────────────────────────────
+      const VERIFIED_BOOST     = 30;
+      const MULTI_IMAGE_BOOST  = 40;
+      const IMAGE_BOOST        = 25;
+      const LOGO_ONLY_PENALTY  = -15;
+      const TODAY_BOOST        = 35;
+      const STARTS_SOON_BOOST  = 20;
+      const VIEWS_WEIGHT       = 1.5;
+      const SAVES_WEIGHT       = 5;
+      const NEARBY_BOOST       = 15;
+      const FREE_BOOST         = 5;
+      const POPULAR_BOOST      = 12;
+
+      const locRef = userLoc || { lat: 51.5139, lng: -0.3048 };
+      const getDist = (l) => l.lat && locRef ? Math.sqrt(Math.pow((l.lat - locRef.lat) * 111, 2) + Math.pow((l.lng - locRef.lng) * 111 * Math.cos(locRef.lat * Math.PI / 180), 2)) : 999;
+
+      const scoreListing = (l) => {
         let s = 0;
-        if ((l.images && l.images.length > 0) || (l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http"))) s += 50;
-        if (l.description && l.description.length > 30) s += 2;
-        if (l.time && l.time.length > 3) s += 1;
-        if (l.website || l.trialLink) s += 1;
-        const n = (l.name || "").toLowerCase();
-        if (FAVS.some(f => n.includes(f))) s += 1;
-        if (BOOSTED.some(p => n.includes(p))) s += 1;
+
+        // A) QUALITY — imagery
+        const hasRealPhotos = l.images && l.images.length > 0;
+        const hasLogoOnly = !hasRealPhotos && ((l.logo && l.logo.startsWith("http")) || (l.imageUrl && l.imageUrl.startsWith("http")));
+        if (hasRealPhotos) {
+          s += IMAGE_BOOST;
+          if (l.images.length >= 3) s += MULTI_IMAGE_BOOST;
+          else if (l.images.length >= 2) s += MULTI_IMAGE_BOOST * 0.5;
+        } else if (hasLogoOnly) {
+          s += LOGO_ONLY_PENALTY;
+        }
+
+        // B) TRUST
+        if (l.verified) s += VERIFIED_BOOST;
+        if (l.description && l.description.length > 80) s += 5;
+        if (l.website || l.trialLink) s += 3;
+
+        // C) RELEVANCE — timing
+        if (isOnToday(l)) s += dayFilter === "today" ? TODAY_BOOST * 1.5 : TODAY_BOOST;
+        if (l.popular) s += POPULAR_BOOST;
+
+        // D) ENGAGEMENT
+        const views = viewCounts[l.id] || 0;
+        const clicks = clickCounts[l.id] || 0;
+        s += Math.min(views * VIEWS_WEIGHT, 30);
+        s += Math.min(clicks * SAVES_WEIGHT, 20);
+        if (favourites.includes(l.id)) s += SAVES_WEIGHT * 2;
+
+        // E) PROXIMITY
+        const dist = getDist(l);
+        if (dist < 1) s += NEARBY_BOOST;
+        else if (dist < 2) s += NEARBY_BOOST * 0.6;
+        else if (dist < 4) s += NEARBY_BOOST * 0.3;
+
+        // F) FREE
+        if (l.free || l.isFree || (l.price || "").toLowerCase().includes("free")) s += FREE_BOOST;
+
         return s;
       };
-      results.sort((a, b) => score(b) - score(a));
+
+      results.sort((a, b) => scoreListing(b) - scoreListing(a));
 
       // Mix by type for variety
       const types = [...new Set(results.map(r => r.type))];
