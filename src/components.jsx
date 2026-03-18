@@ -941,6 +941,29 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
         )}
 
+        {/* Hatha Mama cross-link */}
+        {item.name && item.name.toLowerCase().includes("hatha mama") && (() => {
+          const hathaCourses = [
+            { id: 432, label: "Pregnancy Yoga", venue: "Northfields Community Centre", days: "Saturdays 10am", postcode: "W13 9SS" },
+            { id: 433, label: "Baby Yoga & Massage", venue: "Garden Studio South Ealing", days: "Mondays 10am", postcode: "W5 4HX" },
+          ].filter(v => v.id !== item.id);
+          return (
+            <div style={{ marginBottom: 20, background: "#FAF5FF", borderRadius: 14, padding: "14px 16px", border: "1px solid #E9D5FF" }}>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#6B21A8", marginBottom: 10 }}>🧘 Hatha Mama also runs:</div>
+              {hathaCourses.map(v => (
+                <div key={v.id} onClick={() => { const other = (allListings||[]).find(l => l.id === v.id); if (other && onSelectListing) onSelectListing(other); }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", cursor: "pointer", paddingBottom: 8 }}>
+                  <div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "#1F2937" }}>{v.label}</div>
+                    <div style={{ fontSize: 14, color: "#6B7280" }}>{v.venue} · {v.postcode}</div>
+                    <div style={{ fontSize: 14, color: "#6B7280" }}>{v.days}</div>
+                  </div>
+                  <span style={{ fontSize: 22, color: "#6B21A8" }}>→</span>
+                </div>
+              ))}
+            </div>
+          );
+        })()}
+
         {/* Little Kickers cross-link */}
         {item.name && item.name.toLowerCase().includes("little kickers") && (() => {
           const lkVenues = [
