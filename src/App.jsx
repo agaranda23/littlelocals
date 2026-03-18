@@ -1039,18 +1039,23 @@ function getSearchScore(item, query) {
 
       results.sort((a, b) => scoreListing(b) - scoreListing(a));
 
-      // Mix by type for variety
-      const types = [...new Set(results.map(r => r.type))];
-      const buckets = {};
-      types.forEach(t => { buckets[t] = results.filter(r => r.type === t); });
-      const mixed = [];
-      let safety = results.length + 10;
-      while (mixed.length < results.length && safety-- > 0) {
-        for (const t of types) {
-          if (buckets[t].length > 0) mixed.push(buckets[t].shift());
+      // Light variety mix — only shuffle top 12 slots by type, rest stay score-ordered
+      if (results.length > 6) {
+        const topN = 12;
+        const top = results.slice(0, topN);
+        const rest = results.slice(topN);
+        const types = [...new Set(top.map(r => r.type))];
+        const buckets = {};
+        types.forEach(t => { buckets[t] = top.filter(r => r.type === t); });
+        const mixed = [];
+        let safety = top.length + 10;
+        while (mixed.length < top.length && safety-- > 0) {
+          for (const t of types) {
+            if (buckets[t].length > 0) mixed.push(buckets[t].shift());
+          }
         }
+        results = [...mixed, ...rest];
       }
-      results = mixed;
     }
 
     // Deduplicate by name — same name = same provider, keep highest ranked version
