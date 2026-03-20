@@ -1672,9 +1672,9 @@ const BottomNav = () => (
                 key={value}
                 onClick={() => { setDayFilter(value); setPage(1); }}
                 style={{
-                  display: "inline-flex", alignItems: "center", gap: 5,
-                  fontSize: 16, fontWeight: active ? 700 : 500,
-                  padding: "5px 14px", borderRadius: 20, cursor: "pointer",
+                  display: "inline-flex", alignItems: "center", gap: 4,
+                  fontSize: 14, fontWeight: active ? 700 : 500,
+                  padding: "5px 10px", borderRadius: 20, cursor: "pointer",
                   background: active ? "#5B2D6E" : "transparent",
                   color: active ? "white" : zero ? "#C0C0C0" : "#6B7280",
                   border: active ? "none" : "1px solid #E5E7EB",
