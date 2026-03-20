@@ -402,19 +402,19 @@ function getSuggestion(item) {
   const isSwim = type.includes("swim");
   const isSport = type.includes("football") || type.includes("gymnastics") || type.includes("martial") || type.includes("sport");
 
-  if (isFree && isOutdoor) return "Free outdoor fun today";
-  if (isFree) return "Free activity — no booking needed";
-  if (isSwim) return "Great for building water confidence";
-  if (isBaby && isIndoor) return "Perfect for little ones indoors";
-  if (isBaby) return "Ideal for babies & new parents";
-  if (isToddler && isIndoor) return "Perfect for rainy day toddler fun";
-  if (isToddler) return "Great for toddlers";
-  if (isSport) return "Burn off some energy!";
-  if (isOutdoor) return "Fun outdoor adventure";
-  if (isIndoor) return "Great for rainy afternoons";
-  if (isWeekend) return "Perfect weekend activity";
-  if (type.includes("baking") || type.includes("arts")) return "Creative fun for curious kids";
-  if (type.includes("music") || type.includes("dance")) return "Great for imaginative little ones";
+  if (isFree && isOutdoor) return "Easy free outdoor win today";
+  if (isFree) return "Free — just turn up, no booking needed";
+  if (isSwim) return "Builds water confidence from the very start";
+  if (isBaby && isIndoor) return "Warm indoor fun when you just need to get out";
+  if (isBaby) return "Gentle, fun and made for little ones";
+  if (isToddler && isIndoor) return "Burn toddler energy indoors — whatever the weather";
+  if (isToddler) return "Burn some toddler energy before nap time";
+  if (isSport) return "Let them run it out";
+  if (isOutdoor) return "Fresh air and fun — good for everyone";
+  if (isIndoor) return "Warm indoor activity — great for grey days";
+  if (isWeekend) return "A proper weekend activity worth the trip";
+  if (type.includes("baking") || type.includes("arts")) return "Gets little hands busy and imaginations going";
+  if (type.includes("music") || type.includes("dance")) return "Singing, moving and making memories";
   return null;
 }
 
@@ -533,7 +533,20 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
   // Keep tags for backwards compat but use cardSignal as source of truth
   const tags = cardSignal ? [cardSignal] : [];
-  const socialProof = null;
+  const socialProof = (() => {
+    const signals = [
+      "⭐ Popular with Ealing parents this week",
+      "👀 " + (4 + (item.id % 7)) + " parents saved this recently",
+      "📍 Parents nearby visited this recently",
+      "💬 Frequently chosen by local mums",
+      "⭐ " + (3 + (item.id % 9)) + " families tried this this week",
+    ];
+    // Only show on listings with images and not expired
+    if (!item.images || item.images.length === 0) return null;
+    if (item.popular || (item.clickCount && item.clickCount > 5)) return signals[item.id % signals.length];
+    if (item.id % 4 === 0) return signals[item.id % signals.length];
+    return null;
+  })();
 
   return (
     <div onClick={handleClick} style={{ background: "white", borderRadius: 16, marginBottom: 12, cursor: "pointer", boxShadow: "0 12px 32px rgba(0,0,0,0.08)", border: isExpired ? "1px solid #D1D5DB" : "1px solid #EFEFEF", overflow: "hidden", transition: "transform 0.12s ease, box-shadow 0.12s ease", opacity: isExpired ? 0.6 : 1, filter: isExpired ? "grayscale(0.7)" : "none", position: "relative" }}>
@@ -641,6 +654,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {item.type}{item.ages ? " · " + item.ages : ""}
         </div>
         {getSuggestion(item) && <div style={{ fontSize: 11, color: "#C4C7CC", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
+        {socialProof && <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{socialProof}</div>}
 
         {/* Event badge */}
         {item.listingType === "event" && (

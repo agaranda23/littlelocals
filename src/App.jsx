@@ -1445,6 +1445,7 @@ const BottomNav = () => (
             </div>
             <div style={{ marginTop: 4, marginLeft: 58 }}>
               <div style={{ fontSize: 26, fontWeight: 1000, color: "#1F2937", lineHeight: 1.2, marginBottom: 0, letterSpacing: -0.5 }}>{(() => { const h = new Date().getHours(); if (dayFilter === "today") return h < 12 ? "What shall we do this morning?" : h < 17 ? "What shall we do this afternoon?" : "What shall we do next?"; if (dayFilter === "tomorrow") return "Plan tomorrow with the kids"; if (dayFilter === "weekend") return "Plan your weekend with the kids"; return h < 12 ? "What shall we do this morning?" : h < 17 ? "What shall we do this afternoon?" : "What shall we do next?"; })()}</div>
+              <div style={{ fontSize: 14, color: "#9CA3AF", fontWeight: 400, marginTop: 6, marginBottom: 0 }}>Quick ideas around Ealing for babies, toddlers and kids</div>
             </div>
           </>
         ) : (
@@ -1505,7 +1506,7 @@ const BottomNav = () => (
       {showSuggest && (
         <div style={{ margin: "6px 20px 10px" }}>
           <div style={{ background: "white", borderRadius: 16, padding: 18, border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(92,75,107,0.06)" }}>
-            <div style={{ fontSize: 20, fontWeight: 1000, marginBottom: 2, color: "#1F2937" }}>Know a great activity we missed?</div>
+            <div style={{ fontSize: 20, fontWeight: 1000, marginBottom: 2, color: "#1F2937" }}>Help another tired parent discover something brilliant ✨</div>
             <div style={{ fontSize: 15, color: "#6B7280", marginBottom: 14 }}>Help other Ealing parents discover it. Free to add — built by local parents.</div>
             <div style={{ fontSize: 15, fontWeight: 800, color: "#4B5563", marginBottom: 4 }}>Activity Name *</div>
             <input value={suggestForm.name} onChange={e => setSuggestForm(p => ({...p, name: e.target.value}))} placeholder="e.g. Tiny Tots Music Class" style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: "1px solid #E5E7EB", fontSize: 17, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box", outline: "none" }} />
@@ -2247,8 +2248,8 @@ const BottomNav = () => (
                 <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
                   <span style={{ fontSize: 26 }}>✨</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
-                    <div style={{ fontSize: 15, color: "#6B7280" }}>Help other local parents discover it.</div>
+                    <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Help another tired parent discover something brilliant ✨</div>
+                    <div style={{ fontSize: 15, color: "#6B7280" }}>Share a hidden gem and make someone's day.</div>
                   </div>
                   <span style={{ fontSize: 16, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
                 </div>
@@ -2308,8 +2309,8 @@ const BottomNav = () => (
         <div onClick={openSuggest} style={{ margin: "16px 20px 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
           <span style={{ fontSize: 26 }}>✨</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 17, fontWeight: 1000, color: "#1F2937" }}>Know a great activity we missed?</div>
-            <div style={{ fontSize: 14, color: "#6B7280" }}>Help other local parents discover it.</div>
+            <div style={{ fontSize: 17, fontWeight: 1000, color: "#1F2937" }}>Help another tired parent discover something brilliant ✨</div>
+            <div style={{ fontSize: 14, color: "#6B7280" }}>Share a hidden gem and make someone's day.</div>
           </div>
           <span style={{ fontSize: 15, fontWeight: 1000, color: "white", padding: "6px 14px", background: "linear-gradient(135deg, #D4732A, #FB923C)", borderRadius: 10 }}>Add</span>
         </div>
