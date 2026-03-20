@@ -1663,7 +1663,7 @@ const BottomNav = () => (
             { label: "Today", value: "today", count: todayCount },
             { label: "Tomorrow", value: "tomorrow", count: tomorrowCount },
             { label: "Weekend", value: "weekend", count: weekendCount },
-            { label: "Week", value: "week", count: weekCount },
+            { label: "Week", value: "week", count: dayFilter === "week" ? filtered.length : weekCount },
           ].filter(({ value, count }) => value !== "tomorrow" || count > 0).map(({ label, value, count }) => {
             const active = dayFilter === value;
             const zero = count === 0;
