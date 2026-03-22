@@ -907,7 +907,7 @@ function getSearchScore(item, query) {
       if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
       if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
       if (areaFilter !== "All Areas") {
-        const ealingBorough = ["Ealing", "Hanwell", "West Ealing", "North Ealing", "South Ealing"];
+        const ealingBorough = ["Ealing", "Hanwell", "West Ealing", "North Ealing", "South Ealing", "Hanger Hill", "Northfields", "Pitshanger", "Perivale"];
         if (areaFilter === "Ealing") {
           if (!ealingBorough.some(a => l.location.includes(a))) return false;
         } else {
@@ -1180,7 +1180,7 @@ function getSearchScore(item, query) {
     if (cityFilter !== "All" && !cityGroups[cityFilter]?.some(a => l.location.includes(a))) return false;
     if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
     if (areaFilter !== "All Areas") {
-      const ealingBorough = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing"];
+      const ealingBorough = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Hanger Hill","Northfields","Pitshanger","Perivale"];
       if (areaFilter === "Ealing") { if (!ealingBorough.some(a => l.location.includes(a))) return false; }
       else { if (!l.location.includes(areaFilter)) return false; }
     }
