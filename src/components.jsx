@@ -1115,6 +1115,21 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           </div>
           <span style={{ fontSize: 15, color: "#D4732A", fontWeight: 800 }}>↗</span>
         </div>
+        {/* Generic collapsible timetable — set timetable_image in DB, no deploy needed */}
+        {item.timetableImage && (() => {
+          const [ttOpen, setTtOpen] = React.useState(false);
+          return (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>📅 Timetable</div>
+              <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
+                <img src={item.timetableImage} alt="Timetable" style={{ width: "100%", display: "block" }} onError={(e) => { e.target.style.display = "none"; }} />
+                {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
+              </div>
+              <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#5B2D6E" }}>{ttOpen ? "Collapse timetable ↑" : "Tap to expand timetable ↓"}</div>
+            </div>
+          );
+        })()}
+
         {item.bring.length > 0 && (
           <>
             <div style={{ fontSize: 18, fontWeight: 900, marginBottom: 8 }}>What to Bring</div>
