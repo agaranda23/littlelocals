@@ -799,6 +799,20 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
           return qualified && <VerifiedBadge size="detail" />;
         })()}
+        {item.isLocalFavourite && (
+          <div style={{ marginBottom: 12 }}>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: item.littlelocalsPrice ? 8 : 0 }}>
+              <span style={{ fontSize: 13, fontWeight: 800, color: "#5B2D6E", background: "#EDE9FE", padding: "4px 10px", borderRadius: 8 }}>⭐ Local favourite this week</span>
+              {item.littlelocalsPrice && <span style={{ fontSize: 13, fontWeight: 800, color: "#7C3AED", background: "#EDE9FE", padding: "4px 10px", borderRadius: 8 }}>💜 LittleLocals price</span>}
+            </div>
+            {item.littlelocalsPrice && (
+              <div style={{ background: "#F6F3FF", borderRadius: 12, padding: "10px 14px", marginTop: 4 }}>
+                <div style={{ fontSize: 16, fontWeight: 900, color: "#7C3AED" }}>💜 £{item.littlelocalsPrice} LittleLocals price</div>
+                {item.littlelocalsOfferText && <div style={{ fontSize: 14, color: "#6B7280", marginTop: 4 }}>{item.littlelocalsOfferText}</div>}
+              </div>
+            )}
+          </div>
+        )}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 18 }}>
           {[
             { icon: "📅", label: "When", value: item.day },

@@ -406,6 +406,10 @@ function WestLondonListings() {
             timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo, whatsappGroup: l.whatsapp_group_url,
             // Structured schedule fields (v2)
             timetableImage: l.timetable_image || null,    // collapsible timetable image URL
+            isLocalFavourite: l.is_local_favourite || false,
+            localFavouriteSubtitle: l.local_favourite_subtitle || null,
+            littlelocalsPrice: l.littlelocals_price || null,
+            littlelocalsOfferText: l.littlelocals_offer_text || null,
             daysOfWeek: l.days_of_week || null,          // e.g. ["mon","wed","fri"]
             isDaily: l.is_daily || false,                 // true = runs every day
             eventDates: l.event_dates || null,            // e.g. ["2026-03-14"]
@@ -1852,6 +1856,51 @@ const BottomNav = () => (
             {h >= 5 && h < 12 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy morning — easy indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Beautiful morning — good time to get outside" : "🌤️ Good morning, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
             {h >= 12 && h < 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.isRainy ? "🌧️ Rainy afternoon — indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Still time for an outdoor adventure" : "👋 Afternoon, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
             {h >= 18 && <><div style={{ fontSize: 15, fontWeight: 700, color: "#111827", marginBottom: 2 }}>{weather && weather.tomorrowIsRainy ? "🌧️ Rainy tomorrow — plan something indoor" : weather && weather.tomorrowIsSunny && weather.tomorrowTemp >= 14 ? "☀️ Tomorrow's looking great — worth planning something" : "🌙 Planning ahead with the kids?"}</div>{weather && weather.tomorrowTemp && <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 2 }}>{weather.tomorrowTemp}°C tomorrow {weather.tomorrowDesc || ""}</div>}<div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8 }}>👀 {exploringCount} parents exploring today</div></>}
+          </div>
+        );
+      })()}
+
+      {/* === LOCAL FAVOURITE SECTION === */}
+      {page === 1 && !search && !showFavourites && (() => {
+        const localFav = (listings || []).filter(l => l.isLocalFavourite && !isExpiredEvent(l))
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))[0];
+        if (!localFav) return null;
+        const tc = typeColors[localFav.type] || { bg: "#eee", color: "#333" };
+        return (
+          <div style={{ padding: "0 20px", marginBottom: 8 }}>
+            <div style={{ marginBottom: 8 }}>
+              <div style={{ fontSize: 18, fontWeight: 1000, color: "#111827", letterSpacing: "-0.3px" }}>⭐ Local favourite this week</div>
+              <div style={{ fontSize: 14, color: "#D4732A", fontWeight: 600, marginTop: 2 }}>{localFav.localFavouriteSubtitle || "Picked for Ealing parents right now 🧡"}</div>
+            </div>
+            <div style={{ background: "#F6F3FF", borderRadius: 16, padding: 12 }}>
+              <div style={{ display: "flex", gap: 6, marginBottom: 8 }}>
+                <span style={{ fontSize: 12, fontWeight: 800, color: "#5B2D6E", background: "#EDE9FE", padding: "3px 8px", borderRadius: 6 }}>⭐ Local favourite</span>
+                {localFav.littlelocalsPrice && <span style={{ fontSize: 12, fontWeight: 800, color: "#7C3AED", background: "#EDE9FE", padding: "3px 8px", borderRadius: 6 }}>💜 LittleLocals price</span>}
+              </div>
+              <div onClick={() => openDetail(localFav)} style={{ background: "white", borderRadius: 12, cursor: "pointer", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 4, marginBottom: 4 }}>
+                {(localFav.images && localFav.images.length > 0 || localFav.logo || localFav.imageUrl) && (
+                  <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
+                    <img src={localFav.images?.[0] || localFav.logo || localFav.imageUrl} alt={localFav.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                  </div>
+                )}
+                {!(localFav.images && localFav.images.length > 0 || localFav.logo || localFav.imageUrl) && (
+                  <div style={{ height: 180, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48 }}>{localFav.emoji || "⭐"}</div>
+                )}
+                <div style={{ padding: "12px 14px 14px" }}>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", marginBottom: 4 }}>{localFav.name}</div>
+                  <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6 }}>{localFav.type}{localFav.ages ? " · " + localFav.ages : ""}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                    {localFav.price && <span style={{ fontSize: 14, color: "#9CA3AF" }}>Standard price: {localFav.price}</span>}
+                    {localFav.littlelocalsPrice && (
+                      <div>
+                        <div style={{ fontSize: 15, fontWeight: 900, color: "#7C3AED" }}>💜 £{localFav.littlelocalsPrice} LittleLocals price</div>
+                        {localFav.littlelocalsOfferText && <div style={{ fontSize: 13, color: "#6B7280", marginTop: 2 }}>{localFav.littlelocalsOfferText}</div>}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         );
       })()}
