@@ -796,7 +796,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           const imgs = (item.images || []);
           const hasVideo = imgs.some(u => u && u.endsWith('.mp4'));
           const photoCount = imgs.filter(u => u && !u.endsWith('.mp4')).length;
-          const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
+          const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo) || item.verified;
           return qualified && <VerifiedBadge size="detail" />;
         })()}
         {item.isLocalFavourite && (
