@@ -1887,7 +1887,7 @@ const BottomNav = () => (
                   <div style={{ height: 180, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48 }}>{localFav.emoji || "⭐"}</div>
                 )}
                 <div style={{ padding: "12px 14px 14px" }}>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", marginBottom: 4 }}>{localFav.name}</div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", marginBottom: 4 }}>{localFav.name}{localFav.verified && <img src="/verified-badge.svg" width={17} height={17} style={{ marginLeft: 5, verticalAlign: "middle", display: "inline-block" }} alt="Verified" />}</div>
                   <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6 }}>{localFav.type}{localFav.ages ? " · " + localFav.ages : ""}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     {localFav.price && <span style={{ fontSize: 14, color: "#9CA3AF" }}>Standard price: {localFav.price}</span>}
