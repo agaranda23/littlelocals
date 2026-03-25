@@ -518,7 +518,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
   // Seeded social proof — stable per listing per day, believably small
   const imgs = (item.images || []);
-  const qualifiedForBadge = item.verified || (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 2 && (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 3 || imgs.some(u => u && u.endsWith('.mp4'))));
+  const qualifiedForBadge = imgs.filter(u => u && !u.endsWith('.mp4')).length >= 2 && (imgs.filter(u => u && !u.endsWith('.mp4')).length >= 3 || imgs.some(u => u && u.endsWith('.mp4')));
 
   // SINGLE signal system — max 1 signal, no duplicates
   const clicks = clickCount || 0;
@@ -796,7 +796,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           const imgs = (item.images || []);
           const hasVideo = imgs.some(u => u && u.endsWith('.mp4'));
           const photoCount = imgs.filter(u => u && !u.endsWith('.mp4')).length;
-          const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo) || item.verified;
+          const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
           return qualified && <VerifiedBadge size="detail" />;
         })()}
         {item.isLocalFavourite && (
