@@ -931,8 +931,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {/* Generic YouTube embed — set youtube_url in DB, no deploy needed */}
         {item.youtubeUrl && (() => {
           const getYouTubeId = (url) => {
-            const match = url.match(/(?:v=|youtu.be/|embed/)([a-zA-Z0-9_-]{11})/);
-            return match ? match[1] : null;
+            const idx = url.indexOf("v=") !== -1 ? url.indexOf("v=") + 2 : url.indexOf("youtu.be/") !== -1 ? url.indexOf("youtu.be/") + 9 : url.indexOf("embed/") !== -1 ? url.indexOf("embed/") + 6 : -1;
+            return idx !== -1 ? url.substring(idx, idx + 11) : null;
           };
           const videoId = getYouTubeId(item.youtubeUrl);
           if (!videoId) return null;
