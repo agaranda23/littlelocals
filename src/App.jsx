@@ -406,6 +406,7 @@ function WestLondonListings() {
             timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo, whatsappGroup: l.whatsapp_group_url,
             // Structured schedule fields (v2)
             timetableImage: l.timetable_image || null,    // collapsible timetable image URL
+            youtubeUrl: l.youtube_url || null,              // generic YouTube embed URL
             isLocalFavourite: l.is_local_favourite || false,
             localFavouriteSubtitle: l.local_favourite_subtitle || null,
             littlelocalsPrice: l.littlelocals_price || null,
