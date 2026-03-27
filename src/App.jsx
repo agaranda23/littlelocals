@@ -2229,7 +2229,7 @@ const BottomNav = () => (
         const usedIds = new Set();
         const weekPicks = [];
         for (const bucket of bucketDefs) {
-          if (weekPicks.length >= 8) break;
+          if (weekPicks.length >= 5) break;
           const candidate = filtered
             .filter(a => hasImg(a) && !usedIds.has(a.id) && bucket.match(a))
             .sort((a, b) => {
@@ -2241,7 +2241,7 @@ const BottomNav = () => (
         if (weekPicks.length < 2) return null;
         return (
           <div style={{ padding: "0 0 8px" }}>
-            <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 14 }}>✨ Smart picks for right now</div>
+            <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 14 }}>✨ Easy picks for right now</div>
             <div style={{ display: "flex", gap: 10, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingLeft: 20, paddingRight: 20, paddingBottom: 8 }}>
               {weekPicks.map(item => {
                 const realPhoto = (item.images && item.images[0]) || item.imageUrl;
