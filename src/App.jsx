@@ -270,6 +270,7 @@ function WestLondonListings() {
 
   const [showAllToday, setShowAllToday] = useState(false);
   const [tips, setTips] = useState({});
+  const [crossLinks, setCrossLinks] = useState([]);
   const [mapView, setMapView] = useState(false);
   const [sortBy, setSortBy] = useState("mixed");
   const [eventsOnly, setEventsOnly] = useState(false);
@@ -384,9 +385,11 @@ function WestLondonListings() {
           { data: rd0 },
           { data: sd0 },
           { data: tipsData0 },
+          { data: clData0 },
         ] = await Promise.all([
           supabase.from("listings").select("*").order("id", { ascending: true }).limit(500),
           supabase.from("listing_images").select("listing_id,url,sort_order").order("sort_order", { ascending: true }),
+          supabase.from("cross_links").select("*"),
           supabase.from("reviews").select("*").order("created_at", { ascending: false }),
           Promise.resolve({ data: [] }),
           Promise.resolve({ data: [] }),
@@ -453,6 +456,7 @@ function WestLondonListings() {
         const sd = sd0;
         if (sd) setSuggestedActivities(sd.map(s => ({ ...s, submitterName: s.submitter_name, submittedAt: new Date(s.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) })));
         const tipsData = tipsData0;
+        if (clData0) setCrossLinks(clData0);
         if (tipsData) {
           const tipsMap = {};
           tipsData.forEach(t => { if (!tipsMap[t.activity_id]) tipsMap[t.activity_id] = []; tipsMap[t.activity_id].push(t); });
@@ -1426,7 +1430,7 @@ const BottomNav = () => (
   if (selected) {
     return (
       <div style={{ maxWidth: 480, margin: "0 auto", background: "#F9FAFB", minHeight: "100vh", fontFamily: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif", color: "#1F2937", overflowX: "hidden", paddingBottom: 140 }}>
-        <DetailView item={selected} onBack={closeDetail} userLoc={userLoc} reviews={reviews} onAddReview={addReview} isFav={favourites.includes(selected.id)} onToggleFav={toggleFavourite} onAddToCalendar={addToCalendar} onRemoveFromCalendar={removeFromCalendar} calendarPlan={calendarPlan} isVisited={passport.includes(selected.id)} onToggleVisited={togglePassport} tips={tips[selected.id] || []} onAddTip={addTip} allListings={listings} onSelectListing={openDetail} />
+        <DetailView item={selected} onBack={closeDetail} userLoc={userLoc} reviews={reviews} onAddReview={addReview} isFav={favourites.includes(selected.id)} onToggleFav={toggleFavourite} onAddToCalendar={addToCalendar} onRemoveFromCalendar={removeFromCalendar} calendarPlan={calendarPlan} isVisited={passport.includes(selected.id)} onToggleVisited={togglePassport} tips={tips[selected.id] || []} onAddTip={addTip} allListings={listings} crossLinks={crossLinks} onSelectListing={openDetail} />
       </div>
     );
   }
