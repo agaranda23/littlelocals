@@ -434,9 +434,14 @@ function WestLondonListings() {
             if (!imgMap[img.listing_id]) imgMap[img.listing_id] = [];
             imgMap[img.listing_id].push(img.url);
           });
-          setListings(prev => prev.map(l => ({ ...l, images: imgMap[l.id] || [] })));
+          const withImages = prev => prev.map(l => ({ ...l, images: imgMap[l.id] || [] }));
+          setListings(withImages);
+          // Cache AFTER images are attached
+          try {
+            const cached = ld.map(l => ({ ...l, images: imgMap[l.id] || [] }));
+            localStorage.setItem("ll_listings_cache", JSON.stringify(cached));
+          } catch(e) {}
         }
-          try { localStorage.setItem("ll_listings_cache", JSON.stringify(ld)); } catch(e) {}
         }
         // Load reviews
         const rd = rd0;
