@@ -389,10 +389,10 @@ function WestLondonListings() {
         ] = await Promise.all([
           supabase.from("listings").select("*").order("id", { ascending: true }).limit(500),
           supabase.from("listing_images").select("listing_id,url,sort_order").order("sort_order", { ascending: true }),
-          supabase.from("cross_links").select("*"),
           supabase.from("reviews").select("*").order("created_at", { ascending: false }),
           Promise.resolve({ data: [] }),
           Promise.resolve({ data: [] }),
+          supabase.from("cross_links").select("*"),
         ]);
         console.log("All data loaded in parallel. Listings:", ld ? ld.length : 0, "error:", listErr);
         if (ld && ld.length > 0) {
