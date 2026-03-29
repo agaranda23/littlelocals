@@ -2314,7 +2314,7 @@ const BottomNav = () => (
             return <React.Fragment key={item.id}>
               <ListingCard item={item} onSelect={openDetail} userLoc={userLoc} isFav={favourites.includes(item.id)} onToggleFav={toggleFavourite} isNew={isNew} reviews={reviews} areaFilter={areaFilter} isSunny={isSunny} onTrackClick={trackClick} clickCount={clickCounts[item.id] || 0} />
               {page === 1 && idx === 2 && !showSuggest && (
-                <div onClick={openSuggest} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
+                <div onClick={() => { openSuggest(); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ margin: "6px 0 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
                   <span style={{ fontSize: 26 }}>✨</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 18, fontWeight: 1000, color: "#1F2937" }}>Help another tired parent discover something brilliant ✨</div>
@@ -2375,7 +2375,7 @@ const BottomNav = () => (
         );
       })()}
       {!showSuggest && (
-        <div onClick={openSuggest} style={{ margin: "16px 20px 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
+        <div onClick={() => { openSuggest(); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ margin: "16px 20px 8px", padding: "12px 16px", background: "linear-gradient(135deg, #F9FAFB, #FDDDE6)", borderRadius: 14, display: "flex", alignItems: "center", gap: 10, cursor: "pointer", border: "1.5px dashed #D4732A" }}>
           <span style={{ fontSize: 26 }}>✨</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 17, fontWeight: 1000, color: "#1F2937" }}>Help another tired parent discover something brilliant ✨</div>

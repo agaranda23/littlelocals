@@ -434,6 +434,16 @@ function VerifiedBadge({ size }) {
 }
 
 export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew, reviews, areaFilter, isSunny, onTrackClick, clickCount, viewCount, todaySignal, startsSoon }) {
+  const [savedToast, setSavedToast] = React.useState(false);
+  const handleFav = (e) => {
+    e.stopPropagation();
+    if (!isFav) {
+      if (navigator.vibrate) navigator.vibrate(60);
+      setSavedToast(true);
+      setTimeout(() => setSavedToast(false), 1500);
+    }
+    onToggleFav(item.id, item.name);
+  };
   const tc = typeColors[item.type] || { bg: "#eee", color: "#333" };
   const areaCenters = { "Ealing": { lat: 51.5139, lng: -0.3048 }, "Ruislip": { lat: 51.5714, lng: -0.4213 }, "Eastcote": { lat: 51.5762, lng: -0.3962 }, "Uxbridge": { lat: 51.5461, lng: -0.4761 } };
   const locRef = userLoc || areaCenters[areaFilter] || null;
@@ -604,8 +614,11 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             </div>
           )}
           {/* Fav button */}
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id, item.name); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: isFav ? "#5B2D6E" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
-            {isFav ? "♥" : "♡"}
+          <div style={{ position: "absolute", top: 10, right: 10" }}>
+            <div onClick={handleFav} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: isFav ? "#5B2D6E" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
+              {isFav ? "♥" : "♡"}
+            </div>
+            {savedToast && <div style={{ position: "absolute", top: 36, right: 0, background: "#5B2D6E", color: "white", fontSize: 13, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap", zIndex: 10 }}>Saved ✓</div>}
           </div>
           {/* Today badge */}
           {onToday && (
@@ -620,8 +633,11 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             ? <img src={item.logo} alt="" loading="lazy" style={{ height: 64, maxWidth: "70%", objectFit: "contain", position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.08))" }} onError={(e) => { e.target.style.display = "none"; }} />
             : <span style={{ fontSize: 42, fontWeight: 1000, color: tc.color || "#555", opacity: 0.35, position: "relative", zIndex: 2 }}>{(item.type || "A").charAt(0)}</span>
           }
-          <div onClick={(e) => { e.stopPropagation(); onToggleFav(item.id, item.name); }} style={{ position: "absolute", top: 10, right: 10, width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: isFav ? "#5B2D6E" : "#9CA3AF", cursor: "pointer" }}>
-            {isFav ? "♥" : "♡"}
+          <div style={{ position: "absolute", top: 10, right: 10 }}>
+            <div onClick={handleFav} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.85)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, color: isFav ? "#5B2D6E" : "#9CA3AF", cursor: "pointer" }}>
+              {isFav ? "♥" : "♡"}
+            </div>
+            {savedToast && <div style={{ position: "absolute", top: 36, right: 0, background: "#5B2D6E", color: "white", fontSize: 13, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap", zIndex: 10 }}>Saved ✓</div>}
           </div>
           {onToday && (
             <div style={{ position: "absolute", top: 10, left: 10, background: "#F0FDF4", color: "#166534", fontSize: 13, fontWeight: 600, padding: "2px 7px", borderRadius: 8, border: "1px solid #BBF7D0" }}>📅 Today</div>
