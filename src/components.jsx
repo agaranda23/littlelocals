@@ -1348,6 +1348,14 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </button>
           </div>
         )}
+        {item.instagram && (
+          <div style={{ marginTop: 8 }}>
+            <button onClick={(e) => { e.stopPropagation(); window.open("https://www.instagram.com/" + item.instagram, "_blank"); }} style={{ width: "100%", padding: 12, borderRadius: 12, border: "none", background: "linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)", color: "white", fontSize: 17, fontWeight: 900, cursor: "pointer", fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+              📸 View on Instagram
+            </button>
+          </div>
+        )}
+
         {/* Suggested by credit */}
         {item.suggestedBy && (
           <div style={{ marginTop: 10, fontSize: 15, color: "#9CA3AF", textAlign: "center" }}>Suggested by {item.suggestedBy || "a local parent"}</div>
