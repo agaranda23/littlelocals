@@ -2046,8 +2046,8 @@ const BottomNav = () => (
                             : <span style={{ fontSize: 32, fontWeight: 900, color: tc2.color || "#555", opacity: 0.4 }}>{(item.type || "A").charAt(0)}</span>
                           }
                           {item.logo && (item.images && item.images[0]) && (
-                            <div style={{ position: "absolute", bottom: 5, left: 5, background: "white", borderRadius: 6, padding: "2px 4px", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
-                              <img src={item.logo} style={{ width: 18, height: 18, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
+                            <div style={{ position: "absolute", bottom: 6, left: 6, background: "white", borderRadius: 8, padding: "3px 6px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}>
+                              <img src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
                             </div>
                           )}
                         </div>
@@ -2274,7 +2274,7 @@ const BottomNav = () => (
                         ? <img src={img} alt={item.name} style={{ width: "100%", height: "100%", objectFit: realPhoto ? "cover" : "contain", background: realPhoto ? "transparent" : "white", padding: realPhoto ? 0 : 8 }} onError={e => e.target.style.display="none"} />
                         : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32 }}>{item.emoji || "🎯"}</div>
                       }
-                      {item.logo && realPhoto && <div style={{ position: "absolute", bottom: 5, left: 5, background: "white", borderRadius: 6, padding: "2px 4px", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}><img src={item.logo} style={{ width: 18, height: 18, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} /></div>}
+                      {item.logo && realPhoto && <div style={{ position: "absolute", bottom: 5, left: 5, background: "white", borderRadius: 6, padding: "2px 4px", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}><img src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} /></div>}
                       {tag && <span style={{ position: "absolute", bottom: 5, right: 5, fontSize: 10, fontWeight: 700, background: tagBg, color: tagColor, padding: "2px 6px", borderRadius: 6 }}>{tag}</span>}
                     </div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: "#111827", lineHeight: 1.3, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.name}</div>
