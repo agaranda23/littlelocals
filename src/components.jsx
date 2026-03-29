@@ -614,7 +614,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             </div>
           )}
           {/* Fav button */}
-          <div style={{ position: "absolute", top: 10, right: 10" }}>
+          <div style={{ position: "absolute", top: 10, right: 10 }}>
             <div onClick={handleFav} style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: isFav ? "#5B2D6E" : "#9CA3AF", cursor: "pointer", boxShadow: "0 1px 4px rgba(0,0,0,0.12)" }}>
               {isFav ? "♥" : "♡"}
             </div>
