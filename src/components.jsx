@@ -757,7 +757,12 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
     <div style={{ flex: 1, overflowY: "auto" }}>
       {item.featuredProvider ? (
         <div style={{ height: 220, position: "relative", overflow: "hidden" }}>
-          <img src="/lgd-dance.png" alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={(item.images && item.images[0]) || item.logo || "/lgd-dance.png"} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          {item.logo && (item.images && item.images[0]) && (
+            <div style={{ position: "absolute", bottom: 44, left: 12, background: "white", borderRadius: 8, padding: "3px 6px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)", zIndex: 3 }}>
+              <img src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
+            </div>
+          )}
           <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 19, fontWeight: 900, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
           <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
             <div style={{ position: "relative" }}><div onClick={() => handleToggleFav(item.id)} style={{ width: 36, height: 36, background: "rgba(255,255,255,0.92)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 24, boxShadow: "0 2px 8px rgba(0,0,0,0.1)", color: isFav ? "#5B2D6E" : "#D1D5DB" }}>{isFav ? "♥" : "♡"}</div>{savedFeedback && <div style={{ position: "absolute", top: 40, right: 0, background: "#5B2D6E", color: "white", fontSize: 16, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap" }}>Saved ✓</div>}</div>
