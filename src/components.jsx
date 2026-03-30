@@ -620,10 +620,31 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             </div>
             {savedToast && <div style={{ position: "absolute", top: 36, right: 0, background: "#5B2D6E", color: "white", fontSize: 13, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap", zIndex: 10 }}>Saved ✓</div>}
           </div>
-          {/* Today badge */}
-          {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#F0FDF4", color: "#166534", fontSize: 13, fontWeight: 600, padding: "2px 7px", borderRadius: 8, border: "1px solid #BBF7D0" }}>📅 Today</div>
-          )}
+          {/* Today / Open now / Starts soon badge */}
+          {onToday && (() => {
+            const now = new Date();
+            const nowMins = now.getHours() * 60 + now.getMinutes();
+            const timeStr = (item.time || "").trim();
+            const startMatch = timeStr.match(/(d{1,2}):?(d{2})?s*(am|pm)?/i);
+            const endMatch = timeStr.match(/[-–]s*(d{1,2}):?(d{2})?s*(am|pm)?/i);
+            const parseMins = (h, m, ap) => {
+              let hrs = parseInt(h); const mins = parseInt(m) || 0;
+              if (ap && ap.toLowerCase() === "pm" && hrs !== 12) hrs += 12;
+              if (ap && ap.toLowerCase() === "am" && hrs === 12) hrs = 0;
+              return hrs * 60 + mins;
+            };
+            let badge = { text: "📅 Today", bg: "#F0FDF4", color: "#166534", border: "#BBF7D0" };
+            if (startMatch) {
+              const startMins = parseMins(startMatch[1], startMatch[2], startMatch[3]);
+              const endMins = endMatch ? parseMins(endMatch[1], endMatch[2], endMatch[3]) : null;
+              if (endMins !== null && nowMins >= startMins && nowMins < endMins) {
+                badge = { text: "🟢 Open now", bg: "#DCFCE7", color: "#166534", border: "#86EFAC" };
+              } else if (startMins > nowMins && startMins - nowMins <= 120) {
+                badge = { text: "⏰ Starts soon", bg: "#FEF3C7", color: "#92400E", border: "#FDE68A" };
+              }
+            }
+            return <div style={{ position: "absolute", top: 10, left: 10, background: badge.bg, color: badge.color, fontSize: 13, fontWeight: 700, padding: "2px 7px", borderRadius: 8, border: `1px solid ${badge.border}` }}>{badge.text}</div>;
+          })()}
         </div>
       ) : (
         /* No images — coloured banner with type initial + logo */
@@ -639,9 +660,30 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
             </div>
             {savedToast && <div style={{ position: "absolute", top: 36, right: 0, background: "#5B2D6E", color: "white", fontSize: 13, fontWeight: 900, padding: "3px 8px", borderRadius: 6, whiteSpace: "nowrap", zIndex: 10 }}>Saved ✓</div>}
           </div>
-          {onToday && (
-            <div style={{ position: "absolute", top: 10, left: 10, background: "#F0FDF4", color: "#166534", fontSize: 13, fontWeight: 600, padding: "2px 7px", borderRadius: 8, border: "1px solid #BBF7D0" }}>📅 Today</div>
-          )}
+          {onToday && (() => {
+            const now = new Date();
+            const nowMins = now.getHours() * 60 + now.getMinutes();
+            const timeStr = (item.time || "").trim();
+            const startMatch = timeStr.match(/(d{1,2}):?(d{2})?s*(am|pm)?/i);
+            const endMatch = timeStr.match(/[-–]s*(d{1,2}):?(d{2})?s*(am|pm)?/i);
+            const parseMins = (h, m, ap) => {
+              let hrs = parseInt(h); const mins = parseInt(m) || 0;
+              if (ap && ap.toLowerCase() === "pm" && hrs !== 12) hrs += 12;
+              if (ap && ap.toLowerCase() === "am" && hrs === 12) hrs = 0;
+              return hrs * 60 + mins;
+            };
+            let badge = { text: "📅 Today", bg: "#F0FDF4", color: "#166534", border: "#BBF7D0" };
+            if (startMatch) {
+              const startMins = parseMins(startMatch[1], startMatch[2], startMatch[3]);
+              const endMins = endMatch ? parseMins(endMatch[1], endMatch[2], endMatch[3]) : null;
+              if (endMins !== null && nowMins >= startMins && nowMins < endMins) {
+                badge = { text: "🟢 Open now", bg: "#DCFCE7", color: "#166534", border: "#86EFAC" };
+              } else if (startMins > nowMins && startMins - nowMins <= 120) {
+                badge = { text: "⏰ Starts soon", bg: "#FEF3C7", color: "#92400E", border: "#FDE68A" };
+              }
+            }
+            return <div style={{ position: "absolute", top: 10, left: 10, background: badge.bg, color: badge.color, fontSize: 13, fontWeight: 700, padding: "2px 7px", borderRadius: 8, border: `1px solid ${badge.border}` }}>{badge.text}</div>;
+          })()}
         </div>
       )}
 
