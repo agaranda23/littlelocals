@@ -1344,7 +1344,7 @@ const BottomNav = () => (
           {selectedActivities.length === 0 ? (
             <div style={{ padding: "20px", textAlign: "center", background: "white", borderRadius: 14, border: "1px solid #E5E7EB" }}>
               <div style={{ fontSize: 32, marginBottom: 6 }}>📅</div>
-              <div style={{ fontSize: 16, color: "#6B7280" }}>Nothing planned yet</div>
+              <div style={{ fontSize: 16, color: "#6B7280" }}>Nothing planned yet — want ideas for today?</div>
               <div onClick={closeCalendar} style={{ display: "inline-block", marginTop: 8, padding: "6px 16px", background: "linear-gradient(135deg, #D4732A, #FB923C)", color: "white", borderRadius: 10, fontSize: 15, fontWeight: 900, cursor: "pointer" }}>Browse Activities</div>
             </div>
           ) : (
