@@ -2556,7 +2556,7 @@ const BottomNav = () => (
           </div>
         </div>
       )}
-      {!selected && <BottomNav />}
+      <BottomNav />
       <PlanPrompt />
     </div>
   );
