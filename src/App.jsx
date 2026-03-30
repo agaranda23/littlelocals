@@ -514,7 +514,7 @@ const BottomNav = () => (
       return (
         <div key={tab.id} onClick={() => {
           setActiveTab(tab.id);
-          if (tab.id === "home") { setShowMoreFilters(false); setSortBy("mixed"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          if (tab.id === "home") { setShowMoreFilters(false); setSortBy("mixed"); setMapView(false); setDayFilter("week"); setSearch(""); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
           else if (tab.id === "nearby") { setDayFilter("today"); setSortBy("nearest"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
           else if (tab.id === "plans") { openCalendar(); }
           else if (tab.id === "browse") { setShowMoreFilters(true); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
@@ -1242,7 +1242,7 @@ const BottomNav = () => (
       return (
         <div key={tab.id} onClick={() => {
           setActiveTab(tab.id);
-          if (tab.id === "home") { setShowMoreFilters(false); setSortBy("mixed"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+          if (tab.id === "home") { setShowMoreFilters(false); setSortBy("mixed"); setMapView(false); setDayFilter("week"); setSearch(""); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
           else if (tab.id === "nearby") { setDayFilter("today"); setSortBy("nearest"); setMapView(false); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
           else if (tab.id === "plans") { openCalendar(); }
           else if (tab.id === "browse") { setShowMoreFilters(true); if (showCalendar) closeCalendar(); window.scrollTo({ top: 0, behavior: "smooth" }); }
