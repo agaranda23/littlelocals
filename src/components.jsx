@@ -711,6 +711,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 4, lineHeight: 1.4, fontWeight: 500 }}>
           {item.type}{item.ages ? " · " + item.ages : ""}
         </div>
+        {isNew && <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#5B2D6E", background: "#EDE9FE", padding: "2px 7px", borderRadius: 6, marginBottom: 4 }}>✨ Just added in Ealing</div>}
         {getSuggestion(item) && <div style={{ fontSize: 11, color: "#C4C7CC", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
         {socialProof && <div style={{ fontSize: 11, color: "#9CA3AF", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{socialProof}</div>}
 
