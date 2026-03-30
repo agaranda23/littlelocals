@@ -347,7 +347,7 @@ export function MapView({ filtered, userLoc, onSelect, areaFilter }) {
           L.marker([userLoc.lat, userLoc.lng], { icon: youIcon }).addTo(map).bindPopup("<b>You are here</b>");
         }
         var bounds = [];
-        filtered.forEach(function(item) {
+        filtered.forEach(function(item, idx) {
           if (!item.lat || !item.lng) return;
           var pinIcon = L.divIcon({ className: "", html: "<div style='width:24px;height:24px;border-radius:50%;background:#5B2D6E;color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)'>" + (idx + 1) + "</div>", iconSize: [24, 24], iconAnchor: [12, 24] });
           var marker = L.marker([item.lat, item.lng], { icon: pinIcon }).addTo(map);
