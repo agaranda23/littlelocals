@@ -503,7 +503,7 @@ function WestLondonListings() {
 
 
 const BottomNav = () => (
-  <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 480, height: 64, background: "white", borderTop: "1px solid #E5E7EB", display: "flex", zIndex: 1000, boxShadow: "0 -2px 12px rgba(0,0,0,0.06)" }}>
+  <div style={{ position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: 480, height: 64, background: "rgba(255,255,255,0.65)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)", borderTop: "1px solid rgba(0,0,0,0.06)", display: "flex", zIndex: 1000, boxShadow: "0 -2px 12px rgba(0,0,0,0.06)" }}>
     {[
       { id: "home", icon: "🏠", label: "Home" },
       { id: "nearby", icon: "📍", label: "Nearby" },
