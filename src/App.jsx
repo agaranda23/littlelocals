@@ -58,7 +58,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
           {(item.freeTrial || item.popular) && (
             <div style={{ display:"flex", gap:6, marginTop:6 }}>
               {item.freeTrial && <span style={{ fontSize: 14, fontWeight: 900, padding:"2px 7px", borderRadius:6, background:"#DCFCE7", color:"#166534" }}>Free trial</span>}
-              {item.popular && <span style={{ fontSize: 14, fontWeight: 900, padding:"2px 7px", borderRadius:6, background:"#FEF3C7", color:"#92400E" }}>⭐ Popular</span>}
+              {item.popular && <span style={{ fontSize: 14, fontWeight: 600, padding:"2px 7px", borderRadius:6, background:"#FFFBEB", color:"#78350F", border:"1px solid #F59E0B" }}>⭐ Popular with Ealing parents this week</span>}
             </div>
           )}
         </div>
@@ -153,7 +153,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
 
       <Section id="free" eyebrow="No budget needed" title="Free things to do with kids in Ealing 💰" desc="Great family activities that won't cost a penny — parks, play centres, toddler groups and more." items={free} />
 
-      <Section id="popular" eyebrow="Saved by local parents" title="Popular with Ealing parents ⭐" desc="Activities that Ealing parents keep coming back to — saved, reviewed and recommended by the community." items={popularFallback} />
+      <Section id="popular" eyebrow="Saved by local parents" title="Popular with Ealing parents ⭐" desc="Activities that Ealing parents have saved, visited and come back to — chosen by the community, not by us." items={popularFallback} />
 
       {/* FAQ */}
       <section id="faq" style={{ padding:"24px 20px" }}>
@@ -2019,9 +2019,9 @@ const BottomNav = () => (
 
         // Human-relevant signals — standardised 3 variants only
         const getTodaySignal = (item, idx, clicks) => {
-          if (item.popular || item.featuredProvider || clicks >= 8) return "⭐ Popular with parents";
+          if (item.popular || item.featuredProvider || clicks >= 8) return "⭐ Popular with Ealing parents this week";
           if (clicks >= 3) return "🔥 Trending today";
-          if (item.verified) return "❤️ Saved by parents";
+          if (item.verified) return "❤️ Saved recently by local parents";
           return null;
         };
 

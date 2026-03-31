@@ -536,7 +536,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
 
   const cardSignal = (() => {
     if (startsSoon !== null && startsSoon !== undefined) return { text: startsSoon === 0 ? "⏰ Starting now!" : `⏰ Starts in ${startsSoon} min`, color: "#fff", bg: "#EF4444", border: "#EF4444" };
-    if (item.popular) return { text: "⭐ Popular with local parents", color: "#92400E", bg: "#FEF3C7", border: "#FDE68A" };
+    if (item.popular) return { text: "⭐ Popular with Ealing parents this week", color: "#78350F", bg: "#FFFBEB", border: "#F59E0B" };
     if (item.freeTrial) return { text: "🎁 Free trial", color: "#166634", bg: "#DCFCE7", border: "#86EFAC" };
     return null;
   })();
@@ -546,9 +546,8 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const socialProof = (() => {
     const signals = [
       "⭐ Popular with Ealing parents this week",
-      "👀 " + (4 + (item.id % 7)) + " parents saved this recently",
       "📍 Parents nearby visited this recently",
-      "💬 Frequently chosen by local mums",
+      "💬 Frequently chosen by Ealing parents recently",
       "⭐ " + (3 + (item.id % 9)) + " families tried this this week",
     ];
     // Only show on listings with images and not expired
@@ -713,7 +712,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         </div>
         {isNew && <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#1D4ED8", background: "#EFF6FF", padding: "2px 7px", borderRadius: 6, marginBottom: 4, border: "1px solid #BFDBFE" }}>✨ Just added</div>}
         {getSuggestion(item) && <div style={{ fontSize: 11, color: "#C4C7CC", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
-        {socialProof && <div style={{ fontSize: 11, color: "#92400E", fontWeight: 600, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", background: "#FFFBEB", padding: "1px 6px", borderRadius: 5, display: "inline-block" }}>{socialProof}</div>}
+        {socialProof && <div style={{ fontSize: 11, color: "#78350F", fontWeight: 600, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", background: "#FFFBEB", padding: "1px 6px", borderRadius: 5, border: "1px solid #F59E0B", display: "inline-block" }}>{socialProof}</div>}
 
         {/* Event badge */}
         {item.listingType === "event" && (
@@ -859,7 +858,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
           {item.verified && <span style={{ fontSize: 12, fontWeight: 700, color: "#1D4ED8", background: "#EFF6FF", padding: "3px 8px", borderRadius: 20, border: "1px solid #BFDBFE" }}>✓ Verified</span>}
           {isOnToday(item) && <span style={{ fontSize: 12, fontWeight: 700, color: "#166534", background: "#DCFCE7", padding: "3px 8px", borderRadius: 20, border: "1px solid #86EFAC" }}>📅 On today</span>}
-          {(item.popular || item.verified) && <span style={{ fontSize: 12, fontWeight: 700, color: "#92400E", background: "#FEF3C7", padding: "3px 8px", borderRadius: 20, border: "1px solid #FDE68A" }}>⭐ Popular</span>}
+          {item.popular && <span style={{ fontSize: 12, fontWeight: 600, color: "#78350F", background: "#FFFBEB", padding: "3px 8px", borderRadius: 20, border: "1px solid #F59E0B" }}>⭐ Popular with Ealing parents this week</span>}
           {item.free && <span style={{ fontSize: 12, fontWeight: 700, color: "#166534", background: "#F0FDF4", padding: "3px 8px", borderRadius: 20, border: "1px solid #BBF7D0" }}>Free</span>}
           {dist !== null && dist < 1.5 && <span style={{ fontSize: 12, fontWeight: 700, color: "#5B2D6E", background: "#F5F3FF", padding: "3px 8px", borderRadius: 20, border: "1px solid #DDD6FE" }}>📍 Nearby</span>}
         </div>
@@ -1200,8 +1199,8 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         )}
         {(() => {
           const variants = [
-            "⭐ Popular with local parents",
-            "✨ A favourite with LittleLocals families",
+            "⭐ Popular with Ealing parents this week",
+            "✨ Frequently chosen by Ealing parents recently",
             "❤️ Often added to family plans nearby",
           ];
           const signal = variants[item.id % variants.length];
