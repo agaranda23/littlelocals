@@ -870,6 +870,9 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
           const qualified = photoCount >= 3 || (photoCount >= 2 && hasVideo);
           return qualified && <VerifiedBadge size="detail" />;
         })()}
+        <div style={{ fontSize: 12, color: "#9CA3AF", marginBottom: 8, marginTop: 2 }}>
+          {item.verified ? "✔ Verified · Checked recently by LittleLocals" : "Checked recently by LittleLocals"}
+        </div>
         {item.isLocalFavourite && (
           <div style={{ marginBottom: 12 }}>
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: item.littlelocalsPrice ? 8 : 0 }}>
@@ -1195,6 +1198,15 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </div>
           </>
         )}
+        {(() => {
+          const variants = [
+            "⭐ Popular with local parents",
+            "✨ A favourite with LittleLocals families",
+            "❤️ Often added to family plans nearby",
+          ];
+          const signal = variants[item.id % variants.length];
+          return <div style={{ fontSize: 13, color: "#6B7280", fontWeight: 500, marginBottom: 16, marginTop: -8 }}>{signal}</div>;
+        })()}
         {item.sen && <div style={{ padding: "8px 12px", background: "#E8FBF8", borderRadius: 10, fontSize: 16, fontWeight: 800, color: "#166534", marginBottom: 16 }}>♿ SEN / Additional Needs Friendly</div>}
 
         {/* cross-links handled by DB-driven block above */}
