@@ -917,7 +917,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ marginBottom: 20 }}>
               {photos.length > 0 && (
                 <>
-                  <div style={{ fontSize: 20, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>📸 Photos</div>
+                  <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937", marginBottom: 6 }}>📸 Photos</div>
                   <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
                     {photos.map((src, i) => (
                       <img key={i} src={src} alt="" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} onError={(e) => { e.target.style.display = "none"; }} />
@@ -1148,16 +1148,16 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {(() => {
           const sameVenue = (allListings || []).filter(l => l.id !== item.id && l.venue && item.venue && l.venue.trim().toLowerCase() === item.venue.trim().toLowerCase()).slice(0, 2);
           return sameVenue.length > 0 ? (
-            <div style={{ marginBottom: 16 }}>
-              <div style={{ fontSize: 16, fontWeight: 900, color: "#6B7280", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 8 }}>Also at this venue</div>
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 }}>Also at this venue</div>
               {sameVenue.map(rel => (
-                <div key={rel.id} onClick={() => onSelectListing && onSelectListing(rel)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#F9FAFB", borderRadius: 10, marginBottom: 6, cursor: "pointer", border: "1px solid #E5E7EB" }}>
-                  {rel.images?.[0]?.url && <img src={rel.images[0].url} alt={rel.name} loading="lazy" style={{ width: 40, height: 40, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />}
+                <div key={rel.id} onClick={() => onSelectListing && onSelectListing(rel)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: "white", borderRadius: 14, marginBottom: 8, cursor: "pointer", border: "1px solid #E5E7EB", boxShadow: "0 2px 8px rgba(0,0,0,0.05)" }}>
+                  {rel.images?.[0]?.url && <img src={rel.images[0].url} alt={rel.name} loading="lazy" style={{ width: 48, height: 48, borderRadius: 10, objectFit: "cover", flexShrink: 0 }} />}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 17, fontWeight: 800, color: "#111827", marginBottom: 1 }}>{rel.name}</div>
-                    <div style={{ fontSize: 16, color: "#6B7280" }}>{rel.type} · {rel.time}</div>
+                    <div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 2 }}>{rel.name}</div>
+                    <div style={{ fontSize: 13, color: "#6B7280" }}>{rel.type}{rel.time ? " · " + rel.time : ""}</div>
                   </div>
-                  <span style={{ fontSize: 16, color: "#5B2D6E", fontWeight: 800 }}>→</span>
+                  <span style={{ fontSize: 18, color: "#5B2D6E", fontWeight: 800 }}>→</span>
                 </div>
               ))}
             </div>
