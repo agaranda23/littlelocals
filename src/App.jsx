@@ -1485,7 +1485,7 @@ const BottomNav = () => (
         {!showScrollTop ? (
           <>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
+              <div onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setShowSuggest(false); setSelected(null); setSearch(""); setDayFilter("week"); setSortBy("mixed"); setShowMoreFilters(false); setActiveTab("home"); if (showCalendar) closeCalendar(); }} style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}>
                 <div style={{ width: 48, height: 48, overflow: "hidden", flexShrink: 0, borderRadius: 12, border: "2px solid #E5E7EB" }}><BrandBear size={48} /></div>
                 <div>
                   <div style={{ fontSize: 24, fontWeight: 1000, letterSpacing: -0.3 }}><span style={{ color: "#5B2D6E" }}>LITTLE</span><span style={{ color: "#D4732A" }}>locals</span></div>
