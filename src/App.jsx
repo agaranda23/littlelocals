@@ -1925,6 +1925,13 @@ const BottomNav = () => (
                 {(localFav.images && localFav.images.length > 0 || localFav.logo || localFav.imageUrl) && (
                   <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
                     <img src={localFav.images?.[0] || localFav.logo || localFav.imageUrl} alt={localFav.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                    {localFav.logo && (
+                      <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
+                        <img src={localFav.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
+                        <span style={{ fontSize: 12, fontWeight: 700, color: "#111827" }}>{localFav.name}</span>
+                        {localFav.verified && <img src={localFav.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={14} height={14} style={{ verticalAlign: "middle" }} alt="Verified" />}
+                      </div>
+                    )}
                   </div>
                 )}
                 {!(localFav.images && localFav.images.length > 0 || localFav.logo || localFav.imageUrl) && (
