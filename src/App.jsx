@@ -2431,10 +2431,10 @@ const BottomNav = () => (
         </div>
         <div style={{ fontSize: 14, color: "#9CA3AF", marginBottom: 8, lineHeight: 1.4 }}>Built by parents, for parents.</div>
         <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
-          <span onClick={() => setLegalPage("privacy")} style={{ fontSize: 14, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Privacy Policy</span>
-          <span onClick={() => setLegalPage("cookies")} style={{ fontSize: 14, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Cookie Policy</span>
-          <span onClick={() => setLegalPage("terms")} style={{ fontSize: 14, color: "#6B7280", cursor: "pointer", textDecoration: "underline" }}>Terms of Service</span>
-          <a href="mailto:littlelocalsuk@gmail.com" style={{ fontSize: 14, color: "#6B7280", textDecoration: "underline" }}>Contact</a>
+          <span onClick={() => setLegalPage("privacy")} style={{ fontSize: 12, color: "#9CA3AF", cursor: "pointer" }}>Privacy Policy</span>
+          <span onClick={() => setLegalPage("cookies")} style={{ fontSize: 12, color: "#9CA3AF", cursor: "pointer" }}>Cookie Policy</span>
+          <span onClick={() => setLegalPage("terms")} style={{ fontSize: 12, color: "#9CA3AF", cursor: "pointer" }}>Terms of Service</span>
+          <a href="mailto:littlelocalsuk@gmail.com" style={{ fontSize: 12, color: "#9CA3AF", textDecoration: "none" }}>Contact</a>
         </div>
         <div style={{ fontSize: 13, color: "#9CA3AF" }}>© 2026 LITTLElocals. All rights reserved.</div>
         {showInstallBanner && <div style={{ height: 44 }} />}
