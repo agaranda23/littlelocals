@@ -608,8 +608,8 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {/* Logo pill overlay — bottom left */}
           {hasLogo && (
             <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
-              <img loading="lazy" src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
-              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <img loading="lazy" src={item.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
+              <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
+              <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <img src={item.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
             </div>
           )}
           {/* Fav button */}
@@ -689,7 +689,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Info block ── */}
       <div style={{ padding: "10px 14px 13px", marginTop: 2 }}>
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 5 }}>
-          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <img loading="lazy" src={item.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
+          <span style={{ fontSize: 17, fontWeight: 700, color: "#111827", lineHeight: 1.3 }}>{item.name}{qualifiedForBadge && <img src={item.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
           <span style={{ fontSize: 13, fontWeight: 600, padding: "3px 8px", borderRadius: 8, background: item.free ? "#DCFCE7" : "#FFF7ED", color: item.free ? "#166534" : "#9A3412", whiteSpace: "nowrap", flexShrink: 0 }}>{item.price}</span>
         </div>
 
@@ -799,10 +799,10 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
     <div style={{ flex: 1, overflowY: "auto" }}>
       {item.featuredProvider ? (
         <div style={{ height: 220, position: "relative", overflow: "hidden" }}>
-          <img loading="lazy" src={(item.images && item.images[0]) || item.logo || "/lgd-dance.png"} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={(item.images && item.images[0]) || item.logo || "/lgd-dance.png"} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           {item.logo && (item.images && item.images[0]) && (
             <div style={{ position: "absolute", bottom: 44, left: 12, background: "white", borderRadius: 8, padding: "3px 6px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)", zIndex: 3 }}>
-              <img loading="lazy" src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
+              <img src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
             </div>
           )}
           <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 19, fontWeight: 900, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
@@ -821,7 +821,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         <SceneBg type={item.type} w={500} h={190} />
         <span style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.12))", fontSize: 40, fontWeight: 1000, color: "white" }}>{(item.type || "A").charAt(0)}</span>
         {(item.logo || item.imageUrl || (item.images && item.images[0])) && (
-        <img loading="lazy" src={item.logo || item.imageUrl || (item.images && item.images[0])} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: item.logo ? "contain" : "cover", borderRadius: item.logo ? 14 : "50%", background: item.logo ? "white" : "transparent", padding: item.logo ? 6 : 0, top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
+        <img src={item.logo || item.imageUrl || (item.images && item.images[0])} alt="" style={{ position: "absolute", zIndex: 3, width: 88, height: 88, objectFit: item.logo ? "contain" : "cover", borderRadius: item.logo ? 14 : "50%", background: item.logo ? "white" : "transparent", padding: item.logo ? 6 : 0, top: "50%", left: "50%", transform: "translate(-50%, -50%)", boxShadow: "0 4px 20px rgba(0,0,0,0.18), 0 0 0 3px white, 0 0 0 5px rgba(0,0,0,0.06)", border: "none" }} onError={(e) => { e.target.style.display = "none"; }} />
         )}
         <div onClick={onBack} style={{ position: "absolute", top: 12, left: 12, padding: "6px 12px", background: "rgba(255,255,255,0.95)", borderRadius: 20, display: "flex", alignItems: "center", gap: 4, cursor: "pointer", fontSize: 19, fontWeight: 900, color: "#1F2937", zIndex: 3, boxShadow: "0 2px 8px rgba(0,0,0,0.12)" }}>← Back</div>
         <div style={{ position: "absolute", top: 12, right: 12, display: "flex", gap: 8, zIndex: 3 }}>
@@ -922,7 +922,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                   <div style={{ fontSize: 17, fontWeight: 900, color: "#1F2937", marginBottom: 6 }}>📸 Photos</div>
                   <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
                     {photos.map((src, i) => (
-                      <img loading="lazy" key={i} src={src} alt="" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} onError={(e) => { e.target.style.display = "none"; }} />
+                      <img key={i} src={src} alt="" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} onError={(e) => { e.target.style.display = "none"; }} />
                     ))}
                   </div>
                   <div style={{ fontSize: 16, color: "#9CA3AF", marginTop: 4 }}>{photos.length} photo{photos.length > 1 ? "s" : ""}</div>
@@ -960,7 +960,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                 <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>Photos from class</div>
                 <div style={{ display: "flex", gap: 8, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
                   {["/hartbeeps-hero.png", "/hartbeeps-bells.jpg", "/hartbeeps-happy.png"].map((src, i) => (
-                    <img loading="lazy" key={i} src={src} alt="Hartbeeps class" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
+                    <img key={i} src={src} alt="Hartbeeps class" style={{ width: 200, height: 150, objectFit: "cover", borderRadius: 12, flexShrink: 0 }} />
                   ))}
                 </div>
               </div>
@@ -991,7 +991,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                     <div style={{ fontSize: 20, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Weekly class timetable</div>
                     <div style={{ fontSize: 17, color: "#9CA3AF", marginBottom: 8 }}>Other Hartbeeps locations across West London</div>
                     <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
-                      <img loading="lazy" src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
+                      <img src="/hartbeeps-timetable.png" alt="Hartbeeps Spring 2 Timetable" style={{ width: "100%", display: "block" }} />
                       {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                     </div>
                     <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 18, fontWeight: 800, color: "#5B2D6E" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
@@ -1082,7 +1082,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
         {item.name && item.name.toLowerCase().includes("sing and sign") && (
           <div style={{ marginBottom: 20 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <img loading="lazy" src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-logo.png" alt="Sing and Sign" style={{ width: 80, height: 56, objectFit: "contain", borderRadius: 8 }} onError={(e) => { e.target.style.display = "none"; }} />
+              <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-logo.png" alt="Sing and Sign" style={{ width: 80, height: 56, objectFit: "contain", borderRadius: 8 }} onError={(e) => { e.target.style.display = "none"; }} />
             </div>
             <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 4 }}>Winter to Spring 2026 Timetable</div>
             <div style={{ fontSize: 15, color: "#9CA3AF", marginBottom: 8 }}>5 January – 27 March 2026 (half term break 9–20 Feb)</div>
@@ -1091,7 +1091,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               return (
                 <div>
                   <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
-                    <img loading="lazy" src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-timetable-2026.png" alt="Sing and Sign Timetable" style={{ width: "100%", display: "block" }} />
+                    <img src="https://xjifxwvziwoepiioyitm.supabase.co/storage/v1/object/public/listing-images/sing-and-sign-timetable-2026.png" alt="Sing and Sign Timetable" style={{ width: "100%", display: "block" }} />
                     {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
                   </div>
                   <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#5B2D6E" }}>{ttOpen ? "Collapse timetable" : "Tap to expand timetable"}</div>
@@ -1181,7 +1181,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             <div style={{ marginBottom: 20 }}>
               <div style={{ fontSize: 18, fontWeight: 900, color: "#1F2937", marginBottom: 8 }}>📅 Timetable</div>
               <div style={{ position: "relative", maxHeight: ttOpen ? "none" : 200, overflow: "hidden", borderRadius: 12, border: "1px solid #E5E7EB" }}>
-                <img loading="lazy" src={item.timetableImage} alt="Timetable" style={{ width: "100%", display: "block" }} onError={(e) => { e.target.style.display = "none"; }} />
+                <img src={item.timetableImage} alt="Timetable" style={{ width: "100%", display: "block" }} onError={(e) => { e.target.style.display = "none"; }} />
                 {!ttOpen && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 60, background: "linear-gradient(transparent, white)" }} />}
               </div>
               <div onClick={() => setTtOpen(!ttOpen)} style={{ textAlign: "center", padding: "8px 0", cursor: "pointer", fontSize: 16, fontWeight: 800, color: "#5B2D6E" }}>{ttOpen ? "Collapse timetable ↑" : "Tap to expand timetable ↓"}</div>
@@ -1248,7 +1248,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
                   <div style={{ display: "flex", gap: 6, marginTop: 8, overflowX: "auto" }}>
                     {reviewImages.map((img, i) => (
                       <div key={i} style={{ position: "relative", flexShrink: 0 }}>
-                        <img loading="lazy" src={img} alt="" style={{ width: 60, height: 60, borderRadius: 8, objectFit: "cover" }} />
+                        <img src={img} alt="" style={{ width: 60, height: 60, borderRadius: 8, objectFit: "cover" }} />
                         <span onClick={() => setReviewImages(prev => prev.filter((_, idx) => idx !== i))} style={{ position: "absolute", top: -4, right: -4, width: 18, height: 18, background: "#D4732A", borderRadius: "50%", color: "white", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>✕</span>
                       </div>
                     ))}
@@ -1278,7 +1278,7 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
               <p style={{ fontSize: 16, lineHeight: 1.6, color: "#4B5563", margin: 0 }}>{r.text}</p>
               {((r.images && r.images.length > 0) || (r.photos && r.photos.length > 0)) && (
                 <div style={{ display: "flex", gap: 6, marginTop: 8, overflowX: "auto" }}>
-                  {(r.images || r.photos).map((img, i) => <img loading="lazy" key={i} src={img} alt="" style={{ width: 80, height: 80, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />)}
+                  {(r.images || r.photos).map((img, i) => <img key={i} src={img} alt="" style={{ width: 80, height: 80, borderRadius: 8, objectFit: "cover", flexShrink: 0 }} />)}
                 </div>
               )}
             </div>
