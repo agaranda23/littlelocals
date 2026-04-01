@@ -2,7 +2,7 @@
 // Image optimisation helper — appends Supabase transform params to storage URLs
 function imgUrl(url, width = 600, quality = 75) {
   if (!url || url.endsWith('.mp4') || url.endsWith('.svg') || !url.includes('supabase.co/storage')) return url;
-  return url + (url.includes('?') ? '&' : '?') + 'width=' + width + '&quality=' + quality;
+  return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + (url.includes('?') ? '&' : '?') + 'width=' + width + '&quality=' + quality;
 }
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
