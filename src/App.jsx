@@ -1,10 +1,3 @@
-
-// Image optimisation helper — appends Supabase transform params to storage URLs
-function imgUrl(url, width = 600, quality = 75) {
-  if (!url || url.endsWith('.mp4') || url.endsWith('.svg') || !url.includes('supabase.co/storage')) return url;
-  return url + (url.includes('?') ? '&' : '?') + 'width=' + width + '&quality=' + quality;
-}
-
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { FALLBACK_LISTINGS } from "./fallbackListings.jsx";
@@ -1931,7 +1924,7 @@ const BottomNav = () => (
               <div onClick={() => openDetail(localFav)} style={{ background: "white", borderRadius: 12, cursor: "pointer", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 4, marginBottom: 4 }}>
                 {(localFav.images && localFav.images.length > 0 || localFav.logo || localFav.imageUrl) && (
                   <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
-                    <img src={imgUrl(localFav.images?.[0] || localFav.logo || localFav.imageUrl)} alt={localFav.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                    <img src={localFav.images?.[0] || localFav.logo || localFav.imageUrl} alt={localFav.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
                     {localFav.logo && (
                       <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
                         <img src={localFav.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
@@ -2088,7 +2081,7 @@ const BottomNav = () => (
                       >
                         <div style={{ width: "100%", height: 100, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
                           {(item.images && item.images[0])
-                            ? <img src={imgUrl(item.images[0])} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                            ? <img src={item.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
                             : item.logo
                             ? <img src={item.logo} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", background: "white", padding: 8, boxSizing: "border-box" }} onError={e => e.target.style.display="none"} />
                             : <span style={{ fontSize: 32, fontWeight: 900, color: tc2.color || "#555", opacity: 0.4 }}>{(item.type || "A").charAt(0)}</span>
@@ -2310,8 +2303,8 @@ const BottomNav = () => (
             <div style={{ fontSize: 17, fontWeight: 900, color: "#111827", padding: "0 20px", marginBottom: 14 }}>✨ Easy picks for right now</div>
             <div style={{ display: "flex", gap: 10, overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingLeft: 20, paddingRight: 20, paddingBottom: 8 }}>
               {weekPicks.map(item => {
-                const realPhoto = imgUrl((item.images && item.images[0]) || item.imageUrl);
-                const img = realPhoto || imgUrl(item.logo);
+                const realPhoto = (item.images && item.images[0]) || item.imageUrl;
+                const img = realPhoto || item.logo;
                 const tag = isOnToday(item) ? "Today" : getDist(item) < 1.5 ? "Nearby" : (item.free || item.isFree || (item.price || "").toLowerCase().includes("free")) ? "Free" : item.verified ? "Popular" : null;
                 const tagBg = tag === "Today" ? "#FEF3C7" : tag === "Free" ? "#DCFCE7" : tag === "Nearby" ? "#EFF6FF" : "#F3E8FF";
                 const tagColor = tag === "Today" ? "#92400E" : tag === "Free" ? "#166534" : tag === "Nearby" ? "#1D4ED8" : "#5B2D6E";
