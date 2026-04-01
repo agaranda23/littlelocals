@@ -48,7 +48,7 @@ function EalingSEOPage({ listings, onActivityClick }) {
     return (
       <div onClick={() => onActivityClick(item)} style={{ background:"white", borderRadius:14, border:"1px solid #E5E7EB", padding:16, marginBottom:12, display:"flex", gap:14, cursor:"pointer", boxShadow:"0 1px 4px rgba(0,0,0,0.05)" }}>
         <div style={{ width:64, height:64, borderRadius:12, background:`linear-gradient(135deg,${bg},${bg}dd)`, flexShrink:0, position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-          {img && <img src={img} alt="" style={{ width:"78%", height:"78%", objectFit:"cover", position:"absolute", top:"11%", left:"11%", borderRadius:"50%" }} onError={e => e.target.style.display="none"} />}
+          {img && <img loading="lazy" src={img} alt="" style={{ width:"78%", height:"78%", objectFit:"cover", position:"absolute", top:"11%", left:"11%", borderRadius:"50%" }} onError={e => e.target.style.display="none"} />}
           <span style={{ fontSize: 26, fontWeight: 1000, color:col, position:"relative", zIndex:2 }}>{(item.type||"A").charAt(0)}</span>
         </div>
         <div style={{ flex:1, minWidth:0 }}>
@@ -1385,7 +1385,7 @@ const BottomNav = () => (
               return (
                 <div key={r.id} onClick={() => { closeCalendar(); setTimeout(() => openDetail(item), 50); }} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: "white", borderRadius: 14, border: "1px solid #E5E7EB", marginBottom: 6, cursor: "pointer" }}>
                   <div style={{ width: 44, height: 44, borderRadius: 10, overflow: "hidden", background: "#F3F4F6", flexShrink: 0 }}>
-                    {r.image ? <img src={r.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>{item.emoji || "🎯"}</div>}
+                    {r.image ? <img loading="lazy" src={r.image} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} /> : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>{item.emoji || "🎯"}</div>}
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: 15, fontWeight: 800, color: "#1F2937" }}>{r.name}</div>
@@ -1867,8 +1867,8 @@ const BottomNav = () => (
             <div style={{ padding: "8px 20px 0" }}>
               <div onClick={() => openDetail(lvItem)} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#FAFAFA", borderRadius: 10, border: "1px solid #F0F0F0", cursor: "pointer" }}>
                 <div style={{ width: 44, height: 44, borderRadius: 10, flexShrink: 0, overflow: "hidden", background: tc.bg }}>
-                  {(lvItem.images && lvItem.images[0]) ? <img src={lvItem.images[0]} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} /> :
-                   lvItem.logo ? <img src={lvItem.logo} style={{ width: "100%", height: "100%", objectFit: "contain", padding: 4 }} onError={e => e.target.style.display="none"} /> :
+                  {(lvItem.images && lvItem.images[0]) ? <img loading="lazy" src={lvItem.images[0]} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} /> :
+                   lvItem.logo ? <img loading="lazy" src={lvItem.logo} style={{ width: "100%", height: "100%", objectFit: "contain", padding: 4 }} onError={e => e.target.style.display="none"} /> :
                    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{lvItem.emoji || "🎯"}</div>}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
@@ -1924,12 +1924,12 @@ const BottomNav = () => (
               <div onClick={() => openDetail(localFav)} style={{ background: "white", borderRadius: 12, cursor: "pointer", boxShadow: "0 4px 14px rgba(0,0,0,0.08)", overflow: "hidden", marginTop: 4, marginBottom: 4 }}>
                 {(localFav.images && localFav.images.length > 0 || localFav.logo || localFav.imageUrl) && (
                   <div style={{ height: 180, overflow: "hidden", position: "relative" }}>
-                    <img src={localFav.images?.[0] || localFav.logo || localFav.imageUrl} alt={localFav.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                    <img loading="lazy" src={localFav.images?.[0] || localFav.logo || localFav.imageUrl} alt={localFav.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
                     {localFav.logo && (
                       <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
-                        <img src={localFav.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
+                        <img loading="lazy" src={localFav.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
                         <span style={{ fontSize: 12, fontWeight: 700, color: "#111827" }}>{localFav.name}</span>
-                        {localFav.verified && <img src={localFav.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={14} height={14} style={{ verticalAlign: "middle" }} alt="Verified" />}
+                        {localFav.verified && <img loading="lazy" src={localFav.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={14} height={14} style={{ verticalAlign: "middle" }} alt="Verified" />}
                       </div>
                     )}
                   </div>
@@ -1938,7 +1938,7 @@ const BottomNav = () => (
                   <div style={{ height: 180, background: `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48 }}>{localFav.emoji || "⭐"}</div>
                 )}
                 <div style={{ padding: "12px 14px 14px" }}>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", marginBottom: 4 }}>{localFav.name}{localFav.verified && <img src={localFav.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft: 5, verticalAlign: "middle", display: "inline-block" }} alt="Verified" />}</div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: "#111827", marginBottom: 4 }}>{localFav.name}{localFav.verified && <img loading="lazy" src={localFav.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft: 5, verticalAlign: "middle", display: "inline-block" }} alt="Verified" />}</div>
                   <div style={{ fontSize: 14, color: "#6B7280", marginBottom: 6 }}>{localFav.type}{localFav.ages ? " · " + localFav.ages : ""}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                     {localFav.price && <span style={{ fontSize: 14, color: "#9CA3AF" }}>Standard price: {localFav.price}</span>}
@@ -2081,14 +2081,14 @@ const BottomNav = () => (
                       >
                         <div style={{ width: "100%", height: 100, background: `linear-gradient(135deg, ${tc2.bg}, ${tc2.bg}cc)`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
                           {(item.images && item.images[0])
-                            ? <img src={item.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                            ? <img loading="lazy" src={item.images[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
                             : item.logo
-                            ? <img src={item.logo} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", background: "white", padding: 8, boxSizing: "border-box" }} onError={e => e.target.style.display="none"} />
+                            ? <img loading="lazy" src={item.logo} alt="" style={{ width: "100%", height: "100%", objectFit: "contain", background: "white", padding: 8, boxSizing: "border-box" }} onError={e => e.target.style.display="none"} />
                             : <span style={{ fontSize: 32, fontWeight: 900, color: tc2.color || "#555", opacity: 0.4 }}>{(item.type || "A").charAt(0)}</span>
                           }
                           {item.logo && (item.images && item.images[0]) && (
                             <div style={{ position: "absolute", bottom: 6, left: 6, background: "white", borderRadius: 8, padding: "3px 6px", boxShadow: "0 2px 6px rgba(0,0,0,0.2)" }}>
-                              <img src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
+                              <img loading="lazy" src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} />
                             </div>
                           )}
                         </div>
@@ -2312,10 +2312,10 @@ const BottomNav = () => (
                   <div key={item.id} onClick={() => openDetail(item)} style={{ flexShrink: 0, width: 130, cursor: "pointer" }}>
                     <div style={{ width: 130, height: 90, borderRadius: 10, overflow: "hidden", background: "#F3F4F6", marginBottom: 6, position: "relative" }}>
                       {img
-                        ? <img src={img} alt={item.name} style={{ width: "100%", height: "100%", objectFit: realPhoto ? "cover" : "contain", background: realPhoto ? "transparent" : "white", padding: realPhoto ? 0 : 8 }} onError={e => e.target.style.display="none"} />
+                        ? <img loading="lazy" src={img} alt={item.name} style={{ width: "100%", height: "100%", objectFit: realPhoto ? "cover" : "contain", background: realPhoto ? "transparent" : "white", padding: realPhoto ? 0 : 8 }} onError={e => e.target.style.display="none"} />
                         : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32 }}>{item.emoji || "🎯"}</div>
                       }
-                      {item.logo && realPhoto && <div style={{ position: "absolute", bottom: 5, left: 5, background: "white", borderRadius: 6, padding: "2px 4px", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}><img src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} /></div>}
+                      {item.logo && realPhoto && <div style={{ position: "absolute", bottom: 5, left: 5, background: "white", borderRadius: 6, padding: "2px 4px", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}><img loading="lazy" src={item.logo} style={{ width: 28, height: 28, objectFit: "contain", display: "block" }} onError={e => e.target.parentNode.style.display="none"} /></div>}
                       {tag && <span style={{ position: "absolute", bottom: 5, right: 5, fontSize: 10, fontWeight: 700, background: tagBg, color: tagColor, padding: "2px 6px", borderRadius: 6 }}>{tag}</span>}
                     </div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: "#111827", lineHeight: 1.3, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.name}</div>
