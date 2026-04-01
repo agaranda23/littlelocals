@@ -1,3 +1,10 @@
+
+// Image optimisation helper — appends Supabase transform params to storage URLs
+function imgUrl(url, width = 600, quality = 75) {
+  if (!url || url.endsWith('.mp4') || url.endsWith('.svg') || !url.includes('supabase.co/storage')) return url;
+  return url + (url.includes('?') ? '&' : '?') + 'width=' + width + '&quality=' + quality;
+}
+
 import React, { useState, useEffect, useRef } from "react";
 import { typeColors, dayMap } from "./typeColors.jsx";
 import { sceneIllustrations, getDistanceMiles } from "./utils.jsx";
@@ -464,8 +471,8 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const [imgIndex, setImgIndex] = useState(0);
   const swipeStartX = useRef(null);
   const allImages = [
-    ...(item.images && item.images.length > 0 ? item.images : []),
-    ...(item.imageUrl && !(item.images && item.images.includes(item.imageUrl)) ? [item.imageUrl] : [])
+    ...(item.images && item.images.length > 0 ? item.images.map(u => imgUrl(u)) : []),
+    ...(item.imageUrl && !(item.images && item.images.includes(item.imageUrl)) ? [imgUrl(item.imageUrl)] : [])
   ].filter(Boolean);
   const hasImages = allImages.length > 0;
   const hasLogo = !!item.logo;
@@ -608,7 +615,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
           {/* Logo pill overlay — bottom left */}
           {hasLogo && (
             <div style={{ position: "absolute", bottom: 10, left: 10, background: "white", borderRadius: 10, padding: "3px 8px 3px 4px", display: "flex", alignItems: "center", gap: 5, boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }}>
-              <img src={item.logo} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
+              <img src={imgUrl(item.logo, 80, 80)} alt="" style={{ width: 22, height: 22, borderRadius: 6, objectFit: "contain" }} onError={(e) => { e.target.parentNode.style.display = "none"; }} />
               <span style={{ fontSize: 17, fontWeight: 1000, color: "#111827" }}>{item.name}{qualifiedForBadge && <img src={item.isLocalFavourite ? "/verified-badge-gold.svg" : "/verified-badge.svg"} width={17} height={17} style={{ marginLeft:5, verticalAlign:"middle", display:"inline-block" }} alt="Verified" />}</span>
             </div>
           )}
