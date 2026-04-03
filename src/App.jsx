@@ -278,6 +278,7 @@ function WestLondonListings() {
   const [sortBy, setSortBy] = useState("mixed");
   const [eventsOnly, setEventsOnly] = useState(false);
   const [worthJourney, setWorthJourney] = useState(false);
+  const [nurseryFilter, setNurseryFilter] = useState(false);
   const [planPrompt, setPlanPrompt] = useState(null); // {id, name} of item just saved
   const [activeTab, setActiveTab] = useState("home");
   const ITEMS_PER_PAGE = 6;
@@ -631,7 +632,7 @@ const BottomNav = () => (
   }, [areaFilter]);
 
   // Reset to page 1 when any filter changes
-  useEffect(() => { setPage(1); }, [cityFilter, typeFilter, areaFilter, freeOnly, search, dayFilter, weatherMode, napFilter, ageFilter, worthJourney]);
+  useEffect(() => { setPage(1); }, [cityFilter, typeFilter, areaFilter, freeOnly, search, dayFilter, weatherMode, napFilter, ageFilter, worthJourney, nurseryFilter]);
 
   // Persist favourites
   useEffect(() => { try { localStorage.setItem("ll_favs", JSON.stringify(favourites)); } catch(e) {} }, [favourites]);
@@ -948,6 +949,7 @@ function getSearchScore(item, query) {
       if (!search && eventsOnly && !l.isEvent) return false;
       if (!search && eventsOnly) return true; // show all events bypassing other filters
       if (!search && worthJourney && !l.worthJourney) return false;
+      if (!search && nurseryFilter && (l.category || "").toLowerCase() !== "nursery") return false;
       if (!search && dayFilter === "today" && !isOnToday(l)) return false;
       if (!search && dayFilter === "tomorrow" && !isOnTomorrow(l)) return false;
       if (!search && dayFilter === "weekend" && !isOnWeekend(l)) return false;
@@ -1815,11 +1817,11 @@ const BottomNav = () => (
       <div style={{ padding: "0 20px 4px", borderTop: "1px solid #F3F4F6", paddingTop: 10 }}>
         <div style={{ display: "flex", gap: 7, marginBottom: 8, flexWrap: "nowrap", overflowX: "auto", scrollbarWidth: "none", msOverflowStyle: "none", paddingRight: 12 }}>
           {[
-            { label: "☀️ Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny", count: (filtered||[]).filter(l=>!l.indoor).length },
-            { label: "🌧️ Indoor",  action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy", count: (filtered||[]).filter(l=>l.indoor).length },
-            { label: "💰 Free",    action: () => { setFreeOnly(!freeOnly); setPage(1); }, active: freeOnly, count: (filtered||[]).filter(l=>l.free).length },
-            { label: "✨ Trending", action: () => { setSortBy(sortBy === "popular" ? "mixed" : "popular"); setPage(1); }, active: sortBy === "popular", count: (filtered||[]).filter(l=>l.popular).length },
+            { label: "Outdoor", action: () => { setWeatherMode(weatherMode === "sunny" ? "all" : "sunny"); setPage(1); }, active: weatherMode === "sunny", count: (filtered||[]).filter(l=>!l.indoor).length },
+            { label: "Indoor", action: () => { setWeatherMode(weatherMode === "rainy" ? "all" : "rainy"); setPage(1); }, active: weatherMode === "rainy", count: (filtered||[]).filter(l=>l.indoor).length },
+            { label: "Free", action: () => { setFreeOnly(!freeOnly); setPage(1); }, active: freeOnly, count: (filtered||[]).filter(l=>l.free).length },
             { label: "🚗 Adventure", action: () => { setWorthJourney(!worthJourney); setPage(1); }, active: worthJourney, count: (listings||[]).filter(l=>l.worthJourney).length },
+            { label: "🏫 Nurseries", action: () => { setNurseryFilter(!nurseryFilter); setPage(1); }, active: nurseryFilter, count: (listings||[]).filter(l=>(l.category||"").toLowerCase()==="nursery").length },
           ].map(({ label, action, active }) => (
             <span
               key={label}
@@ -1841,11 +1843,11 @@ const BottomNav = () => (
             const LOCAL_AREAS = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Acton","Northfields","Chiswick","Brentford","Greenford","Northolt","Southall","Ruislip","Eastcote","Uxbridge","Pitshanger","Wembley","Hounslow","Isleworth","Twickenham","Richmond","Hayes"];
             const localCount = listings.filter(l => LOCAL_AREAS.some(a => (l.location || "").includes(a))).length;
             const area2 = areaFilter !== "All Areas" ? areaFilter : "Ealing";
-            const countText = dayFilter === "tomorrow" ? filtered.length + " activities tomorrow in " + area2 : dayFilter === "weekend" ? filtered.length + " things happening this weekend in " + area2 : dayFilter === "week" ? filtered.length + " activities this week in " + area2 : filtered.length + " things happening today in " + area2;
+            const countText = nurseryFilter ? filtered.length + " nurseries nearby" : dayFilter === "tomorrow" ? filtered.length + " activities tomorrow in " + area2 : dayFilter === "weekend" ? filtered.length + " things happening this weekend in " + area2 : dayFilter === "week" ? filtered.length + " activities this week in " + area2 : filtered.length + " things happening today in " + area2;
             return <span style={{ fontSize: 12, color: "#9CA3AF", fontWeight: 400 }}>{countText}</span>;
           })()}
           {(cityFilter !== "All" || (dayFilter !== "today" && dayFilter !== "tomorrow") || weatherMode !== "all" || napFilter !== "all" || freeOnly || ageFilter !== "all" || typeFilter !== "All Types" || areaFilter !== "All Areas" || showFavourites) && (
-            <span onClick={() => { setCityFilter("All"); setDayFilter("week"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
+            <span onClick={() => { setCityFilter("All"); setDayFilter("week"); setWeatherMode("all"); setNapFilter("all"); setFreeOnly(false); setWorthJourney(false); setNurseryFilter(false); setAgeFilter("all"); setTypeFilter("All Types"); setAreaFilter("All Areas"); setSearch(""); setSortBy("mixed"); setPage(1); setShowFavourites(false); }} style={{ fontSize: 15, color: "#D4732A", fontWeight: 800, cursor: "pointer" }}>Clear filters</span>
           )}
         </div>
       </div>
