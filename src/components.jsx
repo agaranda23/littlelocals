@@ -713,6 +713,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
         {isNew && <div style={{ display: "inline-block", fontSize: 11, fontWeight: 700, color: "#1D4ED8", background: "#EFF6FF", padding: "2px 7px", borderRadius: 6, marginBottom: 4, border: "1px solid #BFDBFE" }}>✨ Just added</div>}
         {getSuggestion(item) && <div style={{ fontSize: 11, color: "#C4C7CC", fontWeight: 400, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{getSuggestion(item)}</div>}
         {socialProof && <div style={{ fontSize: 11, color: "#78350F", fontWeight: 600, marginTop: 1, marginBottom: 2, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", background: "#FFFBEB", padding: "1px 6px", borderRadius: 5, border: "1px solid #F59E0B", display: "inline-block" }}>{socialProof}</div>}
+        {item.worthJourney && <div style={{ fontSize: 11, color: "#1D4ED8", fontWeight: 700, marginTop: 1, marginBottom: 2, background: "#EFF6FF", padding: "1px 6px", borderRadius: 5, border: "1px solid #BFDBFE", display: "inline-block" }}>🚗 Worth the journey</div>}
 
         {/* Event badge */}
         {item.listingType === "event" && (

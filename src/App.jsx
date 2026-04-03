@@ -422,6 +422,7 @@ function WestLondonListings() {
             eventDates: l.event_dates || null,            // e.g. ["2026-03-14"]
             termTimeOnly: l.term_time_only || false,      // exclude during school holidays
             needsScheduleUpdate: l.needs_schedule_update || false, // Various — exclude from Today
+            worthJourney: l.worth_journey || false,
             // Sessions schema (v3)
             sessions: l.sessions || null,                 // [{day:"Mon",startTime:"10:00",endTime:"11:00"}]
             listingType: l.listing_type || "activity",   // "activity" | "event"
@@ -938,7 +939,7 @@ function getSearchScore(item, query) {
         if (areaFilter === "Ealing") {
           if (!ealingBorough.some(a => l.location.includes(a))) return false;
         } else {
-          if (!l.location.includes(areaFilter)) return false;
+          if (!l.location.includes(areaFilter) && !l.worthJourney) return false;
         }
       }
       if (!search && freeOnly && !l.free) return false;
@@ -1209,7 +1210,7 @@ function getSearchScore(item, query) {
     if (areaFilter !== "All Areas") {
       const ealingBorough = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Hanger Hill","Northfields","Pitshanger","Perivale","Acton","Chiswick","Greenford","Northolt","Southall","Yeading","Hayes"];
       if (areaFilter === "Ealing") { if (!ealingBorough.some(a => l.location.includes(a))) return false; }
-      else { if (!l.location.includes(areaFilter)) return false; }
+      else { if (!l.location.includes(areaFilter) && !l.worthJourney) return false; }
     }
     if (freeOnly && !l.free) return false;
     if (worthJourney && !l.worthJourney) return false;
