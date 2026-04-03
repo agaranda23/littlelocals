@@ -1018,6 +1018,7 @@ function getSearchScore(item, query) {
       const MULTI_IMAGE_BOOST  = 40;
       const IMAGE_BOOST        = 25;
       const LOGO_ONLY_PENALTY  = -15;
+      const NO_IMAGE_PENALTY   = -9999;
       const TODAY_BOOST        = 35;
       const STARTS_SOON_BOOST  = 20;
       const VIEWS_WEIGHT       = 1.5;
@@ -1041,6 +1042,8 @@ function getSearchScore(item, query) {
           else if (l.images.length >= 2) s += MULTI_IMAGE_BOOST * 0.5;
         } else if (hasLogoOnly) {
           s += LOGO_ONLY_PENALTY;
+        } else {
+          s += NO_IMAGE_PENALTY;
         }
 
         // B) TRUST
