@@ -1116,10 +1116,10 @@ function getSearchScore(item, query) {
     if (!search) {
       const recentProviders = [];
       results = results.filter(r => {
-        const words = (r.name || "").toLowerCase().trim().split(/\s+/).slice(0, 2).join(" ");
+        const words = (r.name || "").toLowerCase().trim().split(/\s+/).slice(0, 3).join(" ");
         if (recentProviders.includes(words)) return false;
         recentProviders.push(words);
-        if (recentProviders.length > 4) recentProviders.shift();
+        if (recentProviders.length > 8) recentProviders.shift();
         return true;
       });
     }
@@ -1906,6 +1906,125 @@ const BottomNav = () => (
             {h >= 5 && h < 12 && <><div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 3 }}>{weather && weather.isRainy ? "🌧️ Rainy morning — easy indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Beautiful morning — good time to get outside" : "🌤️ Good morning, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 13, color: "#6B7280", marginBottom: 4 }}>👀 {exploringCount} parents exploring today</div></>}
             {h >= 12 && h < 18 && <><div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 3 }}>{weather && weather.isRainy ? "🌧️ Rainy afternoon — indoor ideas below" : weather && weather.temp >= 18 ? "☀️ Still time for an outdoor adventure" : "👋 Afternoon, " + area + " parents"}</div>{weather && weather.temp && <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 2 }}>{weather.temp}°C {weather.desc || ""}</div>}<div style={{ fontSize: 13, color: "#6B7280", marginBottom: 4 }}>👀 {exploringCount} parents exploring today</div></>}
             {h >= 18 && <><div style={{ fontSize: 16, fontWeight: 800, color: "#111827", marginBottom: 3 }}>{weather && weather.tomorrowIsRainy ? "🌧️ Rainy tomorrow — plan something indoor" : weather && weather.tomorrowIsSunny && weather.tomorrowTemp >= 14 ? "☀️ Tomorrow's looking great — worth planning something" : "🌙 Planning ahead with the kids?"}</div>{weather && weather.tomorrowTemp && <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 2 }}>{weather.tomorrowTemp}°C tomorrow {weather.tomorrowDesc || ""}</div>}<div style={{ fontSize: 13, color: "#6B7280", marginBottom: 4 }}>👀 {exploringCount} parents exploring today</div></>}
+          </div>
+        );
+      })()}
+
+
+      {/* === YOUR WEEK WITH THE KIDS PLANNER STRIP === */}
+      {page === 1 && !search && !showFavourites && (() => {
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const in7Days = new Date(today); in7Days.setDate(today.getDate() + 7);
+        const dayLabels = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+        const isThisWeek = (l) => {
+          if (l.isEvent && l.eventStartDate) {
+            const start = new Date(l.eventStartDate);
+            const end = l.eventEndDate ? new Date(l.eventEndDate) : start;
+            return start <= in7Days && end >= today;
+          }
+          // Check if runs any day this week
+          for (let i = 0; i < 7; i++) {
+            const d = new Date(today); d.setDate(today.getDate() + i);
+            if (l.daysOfWeek && l.daysOfWeek.length > 0) {
+              const dow = ["sun","mon","tue","wed","thu","fri","sat"][d.getDay()];
+              if (l.daysOfWeek.includes(dow)) return true;
+            }
+          }
+          return false;
+        };
+
+        const getNextDayLabel = (l) => {
+          if (l.isEvent && l.eventStartDate) {
+            const start = new Date(l.eventStartDate);
+            return dayLabels[start.getDay()];
+          }
+          for (let i = 0; i < 7; i++) {
+            const d = new Date(today); d.setDate(today.getDate() + i);
+            const dow = ["sun","mon","tue","wed","thu","fri","sat"][d.getDay()];
+            if (l.daysOfWeek && l.daysOfWeek.includes(dow)) return dayLabels[d.getDay()];
+          }
+          return null;
+        };
+
+        const weekListings = (listings || []).filter(l => !isExpiredEvent(l) && isThisWeek(l) && l.images && l.images.length > 0);
+        const savedThisWeek = weekListings.filter(l => favourites.includes(l.id)).slice(0, 2);
+        const plansCount = savedThisWeek.length;
+
+        let strip = [...savedThisWeek];
+
+        // Fill with nearby this week
+        if (strip.length < 4) {
+          const locRef = userLoc || { lat: 51.5139, lng: -0.3048 };
+          const nearby = weekListings
+            .filter(l => !favourites.includes(l.id) && !l.worthJourney)
+            .filter(l => {
+              if (!l.lat || !l.lng) return false;
+              const dist = Math.sqrt(Math.pow((l.lat - locRef.lat) * 111, 2) + Math.pow((l.lng - locRef.lng) * 111 * Math.cos(locRef.lat * Math.PI / 180), 2));
+              return dist * 20 <= 20; // 20 min walk
+            })
+            .slice(0, 4 - strip.length);
+          strip = [...strip, ...nearby];
+        }
+
+        // Ensure one free if available
+        const hasFree = strip.some(l => l.free || (l.price || "").toLowerCase().includes("free"));
+        if (!hasFree && strip.length < 4) {
+          const freeOne = weekListings.find(l => (l.free || (l.price || "").toLowerCase().includes("free")) && !strip.find(s => s.id === l.id));
+          if (freeOne) strip.push(freeOne);
+        }
+
+        // Fill remaining with worth the journey
+        if (strip.length < 4) {
+          const adventure = weekListings.filter(l => l.worthJourney && !strip.find(s => s.id === l.id)).slice(0, 4 - strip.length);
+          strip = [...strip, ...adventure];
+        }
+
+        strip = strip.slice(0, 4);
+
+        return (
+          <div style={{ padding: "12px 20px 4px", marginBottom: 8 }}>
+            <div style={{ marginBottom: 8 }}>
+              <div style={{ fontSize: 16, fontWeight: 900, color: "#111827" }}>📅 Your week with the kids</div>
+              <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>Ideas nearby based on what's happening this week</div>
+              {plansCount > 0 && <div style={{ fontSize: 12, color: "#7C3AED", fontWeight: 700, marginTop: 3 }}>✅ {plansCount} saved {plansCount === 1 ? "activity" : "activities"} this week</div>}
+            </div>
+            {strip.length === 0 ? (
+              <div style={{ background: "#F9FAFB", borderRadius: 14, padding: "16px", textAlign: "center" }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#111827", marginBottom: 4 }}>Plan your week in seconds</div>
+                <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 10 }}>Save activities to build your family schedule</div>
+                <div onClick={() => { setDayFilter("week"); window.scrollTo({ top: 600, behavior: "smooth" }); }} style={{ display: "inline-block", background: "#5B2D6E", color: "white", fontSize: 13, fontWeight: 700, padding: "8px 16px", borderRadius: 10, cursor: "pointer" }}>Browse this week →</div>
+              </div>
+            ) : (
+              <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 8, scrollbarWidth: "none" }}>
+                {strip.map(item => {
+                  const dayLabel = getNextDayLabel(item);
+                  const isSaved = favourites.includes(item.id);
+                  const isFree = item.free || (item.price || "").toLowerCase().includes("free");
+                  const locRef = userLoc || { lat: 51.5139, lng: -0.3048 };
+                  const dist = item.lat && item.lng ? Math.round(Math.sqrt(Math.pow((item.lat - locRef.lat) * 111, 2) + Math.pow((item.lng - locRef.lng) * 111 * Math.cos(locRef.lat * Math.PI / 180), 2)) * (item.worthJourney ? 2.4 : 20)) : null;
+                  return (
+                    <div key={item.id} onClick={() => openDetail(item)} style={{ minWidth: 150, maxWidth: 150, background: "white", borderRadius: 14, overflow: "hidden", boxShadow: "0 2px 10px rgba(0,0,0,0.08)", cursor: "pointer", flexShrink: 0, border: isSaved ? "2px solid #7C3AED" : "1px solid #F3F4F6" }}>
+                      <div style={{ height: 90, overflow: "hidden", position: "relative" }}>
+                        <img src={item.images?.[0] || item.logo} alt={item.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} onError={e => e.target.style.display="none"} />
+                        {dayLabel && <div style={{ position: "absolute", top: 6, left: 6, background: "rgba(0,0,0,0.65)", color: "white", fontSize: 10, fontWeight: 800, padding: "2px 6px", borderRadius: 5 }}>{dayLabel}</div>}
+                        <div onClick={e => { e.stopPropagation(); toggleFavourite(item.id); }} style={{ position: "absolute", top: 6, right: 6, fontSize: 16, color: isSaved ? "#7C3AED" : "white", cursor: "pointer" }}>{isSaved ? "♥" : "♡"}</div>
+                      </div>
+                      <div style={{ padding: "8px 8px 6px" }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: "#111827", lineHeight: 1.3, marginBottom: 3, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{item.name}</div>
+                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                          {dist !== null && <span style={{ fontSize: 10, color: "#D4732A", fontWeight: 600 }}>{item.worthJourney ? "🚗" : "📍"} {dist} min</span>}
+                          {isFree && <span style={{ fontSize: 10, color: "#065F46", fontWeight: 700, background: "#D1FAE5", padding: "1px 5px", borderRadius: 4 }}>💰 Free</span>}
+                          {item.worthJourney && <span style={{ fontSize: 10, color: "#1D4ED8", fontWeight: 700, background: "#EFF6FF", padding: "1px 5px", borderRadius: 4 }}>🚗 Journey</span>}
+                          {item.price && !isFree && <span style={{ fontSize: 10, color: "#6B7280" }}>{item.price.length > 10 ? item.price.substring(0,10)+"…" : item.price}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
         );
       })()}
