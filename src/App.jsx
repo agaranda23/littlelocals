@@ -1221,6 +1221,7 @@ function getSearchScore(item, query) {
     }
     if (freeOnly && !l.free) return false;
     if (worthJourney && !l.worthJourney) return false;
+    if (nurseryFilter && (l.category || "").toLowerCase() !== "nursery") return false;
     if (weatherMode === "rainy" && !l.indoor) return false;
     if (weatherMode === "sunny" && l.indoor) return false;
     if (napFilter === "morning" && l.timeSlot !== "morning" && l.timeSlot !== "all-day") return false;
