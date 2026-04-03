@@ -1214,7 +1214,7 @@ function getSearchScore(item, query) {
     if (typeFilter !== "All Types" && l.type !== typeFilter) return false;
     if (areaFilter !== "All Areas") {
       const ealingBorough = ["Ealing","Hanwell","West Ealing","North Ealing","South Ealing","Hanger Hill","Northfields","Pitshanger","Perivale","Acton","Chiswick","Greenford","Northolt","Southall","Yeading","Hayes"];
-      if (areaFilter === "Ealing") { if (!ealingBorough.some(a => l.location.includes(a))) return false; }
+      if (areaFilter === "Ealing") { if (!ealingBorough.some(a => l.location.includes(a)) && !l.worthJourney) return false; }
       else { if (!l.location.includes(areaFilter) && !l.worthJourney) return false; }
     }
     if (freeOnly && !l.free) return false;
