@@ -595,6 +595,7 @@ const BottomNav = () => (
           cta: { type: l.cta_type, label: l.cta_label, url: l.cta_url },
           photos: l.photos, verified: l.verified, parking: l.parking,
           timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
+          worthJourney: l.worth_journey || false,
         };}));
       }
       // Refresh listing_images
