@@ -449,6 +449,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const locRef = userLoc || areaCenters[areaFilter] || null;
   const dist = locRef ? getDistanceMiles(locRef.lat, locRef.lng, item.lat, item.lng) : null;
   const walkMin = dist !== null ? Math.round(dist * 20) : null;
+  const driveMin = dist !== null ? Math.round(dist * 2.4) : null;
   const onToday = isOnToday(item);
   const isExpired = !!(item.isEvent && item.eventStartDate && new Date(item.eventEndDate || item.eventStartDate) < new Date(new Date().toDateString()));
   const eventDateLabel = item.isEvent && item.eventStartDate ? (() => {
@@ -486,7 +487,9 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
   const handleClick = () => { if (onTrackClick) onTrackClick(item.id); onSelect(item); };
 
   // Distance: <5 min = Nearby, else X min walk
-  const distLabel = walkMin !== null && walkMin < 60
+  const distLabel = item.worthJourney
+    ? (driveMin !== null ? `🚗 ${driveMin} min drive` : null)
+    : walkMin !== null && walkMin < 60
     ? (walkMin < 5 ? "📍 Nearby" : `📍 ${walkMin} min walk`)
     : null;
 
