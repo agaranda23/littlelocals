@@ -939,7 +939,7 @@ function getSearchScore(item, query) {
       if (areaFilter !== "All Areas") {
         const ealingBorough = ["Ealing", "Hanwell", "West Ealing", "North Ealing", "South Ealing", "Hanger Hill", "Northfields", "Pitshanger", "Perivale", "Acton", "Chiswick", "Greenford", "Northolt", "Southall", "Yeading", "Hayes"];
         if (areaFilter === "Ealing") {
-          if (!ealingBorough.some(a => l.location.includes(a))) return false;
+          if (!ealingBorough.some(a => l.location.includes(a)) && !l.worthJourney) return false;
         } else {
           if (!l.location.includes(areaFilter) && !l.worthJourney) return false;
         }
