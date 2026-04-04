@@ -1171,6 +1171,49 @@ export function DetailView({ item, onBack, userLoc, reviews, onAddReview, isFav,
             </div>
           ) : null;
         })()}
+
+        {/* === EXPIRED EVENTS SECTION === */}
+        {(() => {
+          const now = new Date(); now.setHours(0,0,0,0);
+          const expiredEvents = (allListings || []).filter(l => {
+            if (!l.isEvent && l.listingType !== 'event') return false;
+            if (l.id === item.id) return false;
+            // Must be same venue or same organiser (via cross-links)
+            const sameVenue = l.venue && item.venue && l.venue.trim().toLowerCase() === item.venue.trim().toLowerCase();
+            const crossLinked = (crossLinks || []).some(cl => 
+              (cl.listing_id_a === item.id && cl.listing_id_b === l.id) ||
+              (cl.listing_id_b === item.id && cl.listing_id_a === l.id)
+            );
+            if (!sameVenue && !crossLinked) return false;
+            // Must be expired
+            const end = l.eventEndDate ? new Date(l.eventEndDate) : (l.eventStartDate ? new Date(l.eventStartDate) : null);
+            if (!end) return false;
+            end.setHours(23,59,59,999);
+            return end < now;
+          }).sort((a, b) => {
+            const da = new Date(b.eventEndDate || b.eventStartDate);
+            const db = new Date(a.eventEndDate || a.eventStartDate);
+            return da - db;
+          }).slice(0, 2);
+
+          if (expiredEvents.length === 0) return null;
+
+          return (
+            <div style={{ marginBottom: 20 }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 10 }}>Expired events</div>
+              {expiredEvents.map(ev => (
+                <div key={ev.id} onClick={() => onSelectListing && onSelectListing(ev)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 14px", background: "#F9FAFB", borderRadius: 14, marginBottom: 8, cursor: "pointer", border: "1px solid #E5E7EB", opacity: 0.7 }}>
+                  {ev.images?.[0] && <img src={ev.images[0]} alt={ev.name} loading="lazy" style={{ width: 48, height: 48, borderRadius: 10, objectFit: "cover", flexShrink: 0, filter: "grayscale(40%)" }} />}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 15, fontWeight: 700, color: "#6B7280", marginBottom: 2 }}>{ev.name}</div>
+                    <div style={{ fontSize: 12, color: "#9CA3AF" }}>{ev.eventStartDate ? new Date(ev.eventStartDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }) : ""}</div>
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "#9CA3AF", background: "#F3F4F6", padding: "2px 8px", borderRadius: 6, border: "1px solid #E5E7EB", whiteSpace: "nowrap" }}>Expired</span>
+                </div>
+              ))}
+            </div>
+          );
+        })()}
                 <div onClick={() => { const addr = (item.venue || item.location || "").trim(); if (!addr) return; window.open("https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(addr), "_blank", "noopener,noreferrer"); }} style={{ background: "white", borderRadius: 10, padding: 12, display: "flex", alignItems: "center", gap: 10, border: "1px solid #E5E7EB", marginBottom: 16, cursor: "pointer" }}>
           <span style={{ fontSize: 17, fontWeight: 900, color: "#5B2D6E" }}>📍 Open in Maps</span>
           <div style={{ flex: 1 }}>
