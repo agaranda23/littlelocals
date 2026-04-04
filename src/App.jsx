@@ -415,6 +415,7 @@ function WestLondonListings() {
             timetableImage: l.timetable_image || null,    // collapsible timetable image URL
             youtubeUrl: l.youtube_url || null,              // generic YouTube embed URL
             isLocalFavourite: l.is_local_favourite || false,
+            category: l.category || null,
             localFavouriteSubtitle: l.local_favourite_subtitle || null,
             littlelocalsPrice: l.littlelocals_price || null,
             littlelocalsOfferText: l.littlelocals_offer_text || null,
@@ -487,6 +488,7 @@ function WestLondonListings() {
               worthJourney: l.worth_journey || false,
               isDaily: l.is_daily || false,
               daysOfWeek: l.days_of_week || null,
+              category: l.category || null,
             };}));
           }
         } catch(e2) {}
@@ -601,6 +603,7 @@ const BottomNav = () => (
           worthJourney: l.worth_journey || false,
           isDaily: l.is_daily || false,
           daysOfWeek: l.days_of_week || null,
+          category: l.category || null,
         };}));
       }
       // Refresh listing_images
