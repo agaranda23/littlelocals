@@ -485,6 +485,8 @@ function WestLondonListings() {
               photos: l.photos, verified: l.verified, parking: l.parking,
               timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by, logo: l.logo, whatsappGroup: l.whatsapp_group_url, instagram: l.instagram || null,
               worthJourney: l.worth_journey || false,
+              isDaily: l.is_daily || false,
+              daysOfWeek: l.days_of_week || null,
             };}));
           }
         } catch(e2) {}
@@ -597,6 +599,8 @@ const BottomNav = () => (
           photos: l.photos, verified: l.verified, parking: l.parking,
           timeSlot: l.time_slot, createdAt: l.created_at, popular: l.popular, featuredProvider: l.featured_provider, freeTrial: l.free_trial, trialLink: l.trial_link, website: l.website, imageUrl: l.image_url, suggestedBy: l.suggested_by,
           worthJourney: l.worth_journey || false,
+          isDaily: l.is_daily || false,
+          daysOfWeek: l.days_of_week || null,
         };}));
       }
       // Refresh listing_images
