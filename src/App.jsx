@@ -1151,7 +1151,7 @@ function getSearchScore(item, query) {
       });
     }
     return results;
-  }, [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, search, userLoc, dayFilter, weatherMode, napFilter, sortBy, eventsOnly, worthJourney]);
+  }, [listings, showFavourites, favourites, cityFilter, typeFilter, areaFilter, freeOnly, search, userLoc, dayFilter, weatherMode, napFilter, sortBy, eventsOnly, worthJourney, nurseryFilter]);
 
   const areaPreviewCounts = useMemo(() => {
     const counts = {};

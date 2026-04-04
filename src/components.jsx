@@ -571,7 +571,7 @@ export function ListingCard({ item, onSelect, userLoc, isFav, onToggleFav, isNew
       {/* ── Wide image header ── */}
       {hasImages ? (
         <div
-          style={{ position: "relative", height: 160, background: (item.logo && allImages[imgIndex] === item.logo) ? "white" : `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, overflow: (item.logo && allImages[imgIndex] === item.logo) ? "visible" : "hidden", userSelect: "none" }}
+          style={{ position: "relative", height: 190, background: (item.logo && allImages[imgIndex] === item.logo) ? "white" : `linear-gradient(135deg, ${tc.bg}, ${tc.bg}cc)`, overflow: (item.logo && allImages[imgIndex] === item.logo) ? "visible" : "hidden", userSelect: "none" }}
           onPointerDown={(e) => { e._startX = e.clientX; e.currentTarget._startX = e.clientX; e.currentTarget._dragging = false; }}
           onPointerMove={(e) => { if (Math.abs(e.clientX - e.currentTarget._startX) > 10) e.currentTarget._dragging = true; }}
           onPointerUp={(e) => { if (!e.currentTarget._dragging) { e.stopPropagation(); handleClick(); } e.currentTarget._dragging = false; }}
